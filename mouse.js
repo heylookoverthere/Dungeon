@@ -20,12 +20,12 @@ $(document).bind("contextmenu",function(e){
 		if(miles.getEquipped()==ObjectID.Bomb)
 		{
 			miles.placeBomb();
+			miles.removeItem(ObjectID.Bomb,1);
 		}else if (miles.getEquipped()==ObjectID.Poo)
 		{
 			//remove poop, make new poop object
 			miles.has[hasID.Poo]=false;
-			console.log("poop");
-			miles.removeItem(ObjectID.Poo); 
+			miles.removeItem(ObjectID.Poo,1); 
 			if(miles.dir==0)
 			{
 				var hio= makeObject(miles.x,miles.y-1,curDungeon.curRoom(),ObjectID.Poo);
@@ -40,6 +40,18 @@ $(document).bind("contextmenu",function(e){
 				var hio= makeObject(miles.x-1,miles.y,curDungeon.curRoom(),ObjectID.Poo);
 			}
 			hio.on=true;
+		}else if(miles.getEquipped()==ObjectID.RedPotion)
+		{
+			miles.heal(miles.maxHp);
+			miles.removeItem(ObjectID.RedPotion,1); 
+		}else if(miles.getEquipped()==ObjectID.GreenPotion)
+		{
+			miles.heal(60);
+			miles.removeItem(ObjectID.GreenPotion,1); 
+		}else if(miles.getEquipped()==ObjectID.BluePotion)
+		{
+			miles.heal(120);
+			miles.removeItem(ObjectID.BluePotion,1); 
 		}
 		return false; 
 	}

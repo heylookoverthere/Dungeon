@@ -226,15 +226,35 @@ function entity(croom)
 	this.walkSpeed=8;
 	this.going=false;
 	this.pathTrack=0;
+	this.healAmount=0;
+	this.healRate=6;
+	this.healCount=0;
 	this.gotHurt=0;
 	this.activebombs=new Array();
 	this.inventory=new Array();
 	this.inventoryAmounts=new Array();
+	var meeee=new Object;
+	meeee.type=ObjectID.PotStand;
+	meeee.sprite=nullSprite;
+	this.inventory.push(meeee);
+	this.inventoryAmounts.push(1);
 	this.has=new Array();
 	this.kill=function()
 	{
 		this.exists=false;
 		this.alive=false;
+	}
+	
+	this.heal=function(amt)
+	{
+		if(amt==0){ amt=this.maxHp;}
+		this.healAmount=amt;
+		/*playSound("heal");
+		this.hp+=amt;
+		if(this.hp>this.maxHp)
+		{
+			this.hp=this.maxHp;
+		}*/
 	}
 	
 	this.placeBomb=function()
@@ -258,38 +278,7 @@ function entity(croom)
 	
 	this.getUsableInventory=function()
 	{
-		var snart=new Array();
-		var tart=new object();
-		tart.type=ObjectID.PotStand;
-		tart.setup();
-		tart.sprites[0]=nullSprite;
-		snart.push(tart);//unequipped
-		/*if((this.has[hasID.Bomb]) && (this.bombs>0))
-		{
-			//console.log("has bombs");
-			var nart=new object();
-			nart.type=ObjectID.Bomb;
-			nart.usable=true;
-			nart.sprites=new Array();
-			nart.sprites.push(bombsprite);
-			snart.push(nart);
-		}if((this.has[hasID.Bow]) && (this.arrows>0))
-		{
-			var nart=new object();
-			nart.type=ObjectID.Bow;
-			nart.usable=true;
-			nart.sprites=new Array();
-			nart.sprites.push(objectSprites[ObjectID.Bow]);
-			snart.push(nart);
-		}*/
-		for(var i=0;i<this.inventory.length;i++)
-		{
-			if(true)//(this.inventory[i].usable)
-			{
-				snart.push(this.inventory[i]);
-			}
-		}
-		return snart;
+		return this.inventory;
 	}
 	
 	this.hasItem=function(id)
@@ -317,7 +306,7 @@ function entity(croom)
 			{
 				if(this.inventory[i].type==obj.type)
 				{
-					this.inventoryAmounts[i]++;
+					this.inventoryAmounts[i]+=amt;
 				}
 			}
 		}
@@ -474,6 +463,28 @@ function entity(croom)
 		if(this.gotHurt>0) //not so quick?
 		{
 			this.gotHurt--;
+		}
+		
+		if(this.healAmount>4)
+		{
+			this.healCount++;
+			if(this.healCount>this.healRate)
+			{
+				this.healCount=0;
+			
+				this.healAmount-=5;
+				if(this.healAmount<0)
+				{
+					this.healAmount=0;
+				}
+				this.hp+=5;
+				playSound("heal");
+				if(this.hp>this.maxHp)
+				{
+					this.hp=this.maxHp;
+					this.healAmount=0;
+				}
+			}
 		}
 		if(!OPTIONS.UpdateAllRooms)
 		{

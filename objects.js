@@ -1,4 +1,4 @@
-var numLoots=10;
+var numLoots=11;
 var LOAD_COUNT=0;
 
 var lootTable={};
@@ -12,6 +12,7 @@ lootTable.GreenPotion=6;
 lootTable.BluePotion=7;
 lootTable.Bombs=8;
 lootTable.Wallet=9;
+lootTable.Bow=10;
 
 var lootName=new Array();
 lootName.push("key");
@@ -24,6 +25,7 @@ lootName.push("green potion");
 lootName.push("blue potion");
 lootName.push("bombs");
 lootName.push("wallet");
+lootName.push("Bow & Arrows");
 
 var lootSprites=new Array();
 lootSprites.push(Sprite("key"));
@@ -36,6 +38,7 @@ lootSprites.push(Sprite("greenpotion"));
 lootSprites.push(Sprite("bluepotion"));
 lootSprites.push(Sprite("bombpickup"));
 lootSprites.push(Sprite("wallet"));
+lootSprites.push(Sprite("bow"));
 //last
 lootName.push("helmet4");
 lootSprites.push(Sprite("helmet4"));
@@ -292,6 +295,7 @@ object.prototype.setup=function(id,par)
 				btext="You got a a heart container!";
 				miles.maxHp+=20;
 				miles.hp+=20;
+				miles.heal(miles.maxHp);
 			}else if(this.loot==lootTable.GoldTen)
 			{
 				bConsoleBox.log("You got 10 rupees!");
@@ -356,6 +360,17 @@ object.prototype.setup=function(id,par)
 				shinex.type=ObjectID.Bomb;
 				shinex.setup();
 				miles.giveItem(shinex,3);
+			}else if(this.loot==lootTable.Bow)
+			{
+				bConsoleBox.log("You found the bow!");
+				btext="You found the bow!";
+				miles.has[hasID.Bow]=true;
+				miles.arrows+=10;
+				var shinex=new object();
+				shinex.usable=true;
+				shinex.type=ObjectID.Bow;
+				shinex.setup();
+				miles.giveItem(shinex,10);
 			}else if(this.loot==lootTable.Wallet)
 			{
 				bConsoleBox.log("You found a bigger wallet!");
@@ -882,6 +897,7 @@ object.prototype.setup=function(id,par)
 			this.exists=false;
 			miles.maxHp+=20;
 			miles.hp+=20;
+			miles.heal(miles.maxHp);
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Feather) {
@@ -911,12 +927,20 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
-			playSound("itemfanfare");
-			bConsoleBox.log("You found the Bow! It's totally useless for now!");
-			miles.holding=this.sprites[0];
+			if(!miles.has[hasID.Bow])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Bow! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another bow, but you'll take the arrows!");
+			}
 			this.exists=false;
 			miles.has[hasID.Bow]=true;
 			miles.giveItem(this,10);
+			miles.arrows+=10;
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Bomb) {

@@ -1403,6 +1403,11 @@ function drawGUI(can)
 			var nep=miles.getUsableInventory();
 			//console.log(nep[miles.equippedTrack]);
 			nep[miles.equippedTrack].sprites[0].draw(can,812,80);
+			can.fillStyle="white";
+			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
+			{
+				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack],849,100);
+			}
 		}
 	}
 }
