@@ -744,7 +744,7 @@ timy.doThings=function()
 		logControls();
 	}else
 	{
-		var blex="well, there not much actual gameplay yet. But you can use the arrow keys and page up/page down to navigate the dungeon. You'll be limited as a player would be, so you'll need an open door to change room and unhidden stairs to change floors";
+		var blex="Click where you want to go or what you want to use. Mousewheel to select an item once you have one. Right click to use your selected item. Some items like the hammer and lantern are used automatically when you click the appropriate object. Try to find the Triforce. " 
 		if(editMode)
 		{
 			if(editor.mode==editModes.Pen)
@@ -1021,6 +1021,7 @@ function resetMiles()
 {
 	miles.equippedTrack=0;
 	miles.inventory=new Array();
+	miles.inventoryAmounts=new Array();
 	miles.maxHp=100;
 	miles.hp=miles.maxHp;
 	miles.dir=0;

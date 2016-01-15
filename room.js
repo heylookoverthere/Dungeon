@@ -1534,7 +1534,6 @@ function room(I) { //room object
 					I.tiles[coor.x][coor.y].data=15;
 				}
 				I.exits[i].exists=false;
-				console.log(I.exits[i].exists);
 				I.exits.splice(i,1);
 				i--;
 			}
