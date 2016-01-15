@@ -594,12 +594,6 @@ object.prototype.setup=function(id,par)
 				{
 					if(miles.room.z>0)
 					{
-						Krugman.textBank.push("...I ate Edward. He was delicious. But I swear I didn't kill him! At best it was an assist.");
-						//Krugman.getOffChest=Krugman.textTrack+1;//Bank.length-1;
-						golp=function(){return true;};
-						Krugman.textConditions.push(golp);
-						Krugman.textBank.push("Phew I'm so glad that's all out in the open now. Lets keep going. And let me know if you get hungry I still have some Edward in my pack.");
-						Krugman.textConditions.push(golp);
 						return true;
 					}else
 					{
@@ -607,6 +601,12 @@ object.prototype.setup=function(id,par)
 					}
 				}
 				Krugman.textConditions.push(plo);
+				Krugman.textBank.push("...I ate Edward. He was delicious. But I swear I didn't kill him! At best it was an assist.");
+				//Krugman.getOffChest=Krugman.textTrack+1;//Bank.length-1;
+				golp=function(){return true;};
+				Krugman.textConditions.push(golp);
+				Krugman.textBank.push("Phew I'm so glad that's all out in the open now. Lets keep going. And let me know if you get hungry I still have some Edward in my pack.");
+				Krugman.textConditions.push(golp);
 				this.on=true;
 			}
 		}
