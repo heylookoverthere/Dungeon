@@ -1082,6 +1082,10 @@ Krugman.sprites.push(Sprite("krugman0"));
 Krugman.sprites.push(Sprite("krugman1"));
 Krugman.sprites.push(Sprite("krugman2"));
 Krugman.sprites.push(Sprite("krugman3"));
+Krugman.deadSprites=new Array();
+Krugman.deadSprites.push(Sprite("krugmandeath0"));
+Krugman.deadSprites.push(Sprite("krugmandeath1"));
+Krugman.deadSprites.push(Sprite("krugmandeath2"));
 Krugman.room=curDungeon.curRoom();
 entities.push(Krugman);
 
@@ -1683,6 +1687,7 @@ function startGame(goolp)
 		curDungeon.createRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
 		editMode=true;
 		curDungeon.lastSaved=null;
+		resetMiles();
 		actuallyStartGame();
 		//curDungeon.addFloor();
 	}else
@@ -1717,9 +1722,10 @@ function startGame(goolp)
 			}
 		}
 		checkLoadCount();*/
+		
 		countIndex=existingDungeons.indexOf(curDungeon.name);
 		curDungeon.load();
-		
+		resetMiles();
 		function checkIfLoaded() 
 		{ 
 			if (LOAD_COUNTS[countIndex] == 0)

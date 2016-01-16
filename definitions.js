@@ -123,7 +123,7 @@ function drawHearts(p,can) {
 		}
 	}
 	
-	if(p.hp%20==0)
+	if((p.hp%20==0) && (p.hp>0))
 	{
 		if(h<7)
 		{

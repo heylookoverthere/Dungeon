@@ -90,7 +90,7 @@ function bomb(croom)
 			{
 				blow=true;
 			}
-			if((blow) && ((this.room.objects[i].type==ObjectID.BlueOrb) || (this.room.objects[i].type==ObjectID.RedOrb)))
+			if((blow) && (this.room.objects[i].bombable))
 			{
 				this.room.objects[i].activate();
 			}
@@ -600,6 +600,9 @@ function entity(croom)
 							this.room.objects[i].playerActivate();
 						}
 					}
+				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
+				{
+					this.room.objects[i].playerActivate();
 				}
 			}
 		}

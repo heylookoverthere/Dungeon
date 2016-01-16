@@ -78,6 +78,11 @@ ObjectID.Statue=30;
 ObjectID.Bookcase=31;
 ObjectID.Bones=32;
 ObjectID.KeyBrick=33;
+ObjectID.Heart=50;
+ObjectID.BombRefill=53;
+ObjectID.Arrow=54;
+ObjectID.Gold=51;
+ObjectID.FiveGold=52;
 //ObjectID.HoldSwitch=3;
 //ObjectID.Pickup=4; //maybe instead of having one for each item there's one for pickup and then it get a .type?
 
@@ -90,6 +95,8 @@ function object(oroom) //not a tile, not an enemy
 	this.room=oroom;
 	this.pickupable=false;
 	this.type=0;
+	this.bombable=false;
+	this.blockArrows=false;
 	this.hidden=false;
 	this.active=false;
 	this.linkDescriptions=new Array();
@@ -673,6 +680,7 @@ object.prototype.setup=function(id,par)
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Pot) {
 		this.sprites=new Array();
+		this.bombable=true;
 		this.sprites.push(Sprite("pot"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -691,6 +699,25 @@ object.prototype.setup=function(id,par)
 				this.curSprite=1;
 				this.aniRate=3;
 				this.on=true;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=50+Math.floor(Math.random()*3);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
 			}
 		}
 		this.playerActivate=this.activate;
@@ -839,6 +866,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("blueorb"));
 	    this.name="Blue orb";
+		this.bombable=true;
 		this.activate=function()
 		{
 			playSound("orbhit");
@@ -855,6 +883,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("redorb"));
 	    this.name="Red orb";
+		this.bombable=true;
 		this.activate=function()
 		{
 			//this.on=!this.on; //is this even needed
@@ -1123,7 +1152,93 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
-	}else if (this.type==ObjectID.RumHam) {
+	}else if (this.type==ObjectID.BombRefill) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("bomb1"));
+	    this.name="Bombs";
+		this.pickupable=true;
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found a bomb.");
+			playSound("item");
+			this.exists=false;
+			var shinex=new object();
+			shinex.usable=true;
+			shinex.type=ObjectID.Bomb;
+			shinex.setup();
+			miles.giveItem(shinex,1);
+			miles.bombs+=1;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Arrow) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("arrow"));
+	    this.name="Arrow";
+		this.pickupable=true;
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found an Arrow.");
+			playSound("item");
+			this.exists=false;
+			var shinex=new object();
+			shinex.usable=true;
+			shinex.type=ObjectID.Bow;
+			shinex.setup();
+			miles.giveItem(shinex,1);
+			miles.arrows+=1;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Gold) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("rupee"));
+	    this.name="rupee";
+		this.pickupable=true;
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found a rupee.");
+			playSound("coin");
+			this.exists=false;
+			miles.money+=1;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.FiveGold) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("tenrupee"));
+	    this.name="rupee";
+		this.pickupable=true;
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found five rupees.");
+			playSound("coin");
+			this.exists=false;
+			miles.money+=5;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Heart) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("heartpickup"));
+	    this.name="heart";
+		this.pickupable=true;
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found a heart.");
+			//playSound("coin");
+			this.exists=false;
+			miles.heal(20);
+		}
+		this.playerActivate=this.activate;
+	}
+	else if (this.type==ObjectID.RumHam) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("rumham"));
