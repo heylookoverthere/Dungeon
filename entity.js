@@ -301,6 +301,7 @@ function entity(croom)
 		}
 		if(!amt) {amt=this.maxHp;}
 		this.alive=true;
+		bConsoleBox.log(this.name + " has returned to life!");
 		this.deathAniTrack=0;
 		this.hp=amt;
 		

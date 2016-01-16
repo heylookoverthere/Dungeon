@@ -2121,6 +2121,9 @@ function mainDraw() {
 			}else if(editor.doorType==4)
 			{
 				canvas.fillText("Bombed Door",18,96);
+			}else if(editor.doorType==5)
+			{
+				canvas.fillText("Curtain Door",18,96);
 			}
 			
 		}else if(editor.mode==editModes.Objects)
@@ -2491,15 +2494,35 @@ function mainUpdate()
 			if(editor.x==2) //left
 			{
 				curDungeon.smartAddDoor(1,editor.y,3,editor.doorType);
+				if(editor.doorType==doorType.Curtains)
+				{
+					var kurtrussel = makeObject(1,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+				}
 			}else if(editor.x==17) //right
 			{
 			    curDungeon.smartAddDoor(18,editor.y,1,editor.doorType);
+				if(editor.doorType==doorType.Curtains)
+				{
+					var kurtrussel = makeObject(18,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+				}
 			}else if(editor.y==2) //top
 			{
 				curDungeon.smartAddDoor(editor.x,1,0,editor.doorType);
+				if(editor.doorType==doorType.Curtains)
+				{
+					var kurtrussel = makeObject(editor.x,1,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+				}
 			}else if(editor.y==12) //bottom
 			{
 				curDungeon.smartAddDoor(editor.x,13,2,editor.doorType);
+				if(editor.doorType==doorType.Curtains)
+				{
+					var kurtrussel = makeObject(editor.x,1,13,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+				}
 			}else
 			{
 				bConsoleBox.log("Not the best spot for a door.");

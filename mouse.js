@@ -73,11 +73,14 @@ $(document).bind("contextmenu",function(e){
 		{
 			for(var i=0;i<entities.length;i++)
 			{
-				if((isOverTiled(entities[i])) && (!entities[i].isPlayer) && (!entities[i].alive))
+				if((entities[i].room.z==curDungeon.roomZ) && (entities[i].room.x==curDungeon.roomX)&& (entities[i].room.y==curDungeon.roomY))
 				{
-					entities[i].revive();
-					miles.removeItem(ObjectID.GreenPotion,1); 
-					return;
+					if((isOverTiled(entities[i],32)) && (!entities[i].isPlayer) && (!entities[i].alive))
+					{
+						entities[i].revive();
+						miles.removeItem(ObjectID.GreenPotion,1); 
+						return false;
+					}
 				}
 			}
 			playSound("error");
@@ -732,20 +735,41 @@ function mouseClick(e) {  //represents the mouse
 				if(editor.x==2) //left
 				{
 					curDungeon.smartAddDoor(1,editor.y,3,editor.doorType);
+					if(editor.doorType==doorType.Curtains)
+					{
+						var kurtrussel = makeObject(1,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+					}
 				}else if(editor.x==17) //right
 				{
 					curDungeon.smartAddDoor(18,editor.y,1,editor.doorType);
+					if(editor.doorType==doorType.Curtains)
+					{
+						var kurtrussel = makeObject(18,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+					}
 				}else if(editor.y==2) //top
 				{
 					curDungeon.smartAddDoor(editor.x,1,0,editor.doorType);
+					if(editor.doorType==doorType.Curtains)
+					{
+						var kurtrussel = makeObject(editor.x,1,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+					}
 				}else if(editor.y==12) //bottom
 				{
 					curDungeon.smartAddDoor(editor.x,13,2,editor.doorType);
+					if(editor.doorType==doorType.Curtains)
+					{
+						var kurtrussel = makeObject(editor.x,13,curDungeon.curRoom(),ObjectID.Curtains);
+						kurtrussel.hasSecret=true;
+					}
 				}else
 				{
 					bConsoleBox.log("Not the best spot for a door.");
 					return;
 				}
+				
 			}
 		}	
 		

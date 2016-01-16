@@ -9,7 +9,7 @@ var ROOM_HEIGHT=15;
 var ROOM_TILE_SIZE=32;
 var xOffset = 150;
 var yOffset= 150;
-var doorTypes=5;
+var doorTypes=6;
 
 function imageExists(url) 
 {
@@ -51,6 +51,10 @@ doorSprite[2][1]=Sprite("dungeontiles/lockeddoor1");
 doorSprite[2][2]=Sprite("dungeontiles/lockeddoor2");
 doorSprite[2][3]=Sprite("dungeontiles/lockeddoor3");
 
+doorSprite[5][0]=Sprite("dungeontiles/curtaindoor0");
+doorSprite[5][1]=Sprite("dungeontiles/curtaindoor1");
+doorSprite[5][2]=Sprite("dungeontiles/curtaindoor2");
+doorSprite[5][3]=Sprite("dungeontiles/curtaindoor3");
 
 function staircase(up,clone)
 {
@@ -79,6 +83,7 @@ doorType.Closed=1;
 doorType.Locked=2;
 doorType.Bombable=3;
 doorType.Bombed=4;
+doorType.Curtains=5;
 	
 function door(or,clone)
 {
@@ -198,7 +203,7 @@ function door(or,clone)
 	door.prototype.passable=function(p)
 	{
 		if(editMode) {return true;}
-		if((this.type==0) || (this.type==doorType.Bombed))
+		if((this.type==0) || (this.type==doorType.Bombed) || (this.type==doorType.Curtains)) //todo, if curtains are open. 
 		{
 			return true;
 		}
@@ -913,6 +918,12 @@ function room(I) { //room object
 				ffset=5;
 				mitly++;
 				higgins.setup();
+			}else if(higgins.type==ObjectID.Curtains)//chest
+			{
+				higgins.hasSecret=stringTrue(tempstring[i+4]);
+				ffset=5;
+				mitly++;
+				higgins.setup();
 			}else if((higgins.type==ObjectID.BlueBlocker) ||(higgins.type==ObjectID.RedBlocker))
 			{
 				var nerp=tempstring[i+4]
@@ -991,7 +1002,7 @@ function room(I) { //room object
 			for (j=0;j<ROOM_HEIGHT; j++)
 			{
 				I.tiles[i][j].data = Math.floor(tempstring[j+ROOM_HEIGHT*i]);
-				if((I.tiles[i][j].data>DungeonTileType.Door-1) && (I.tiles[i][j].data<DungeonTileType.Door+numDoorTypes)) //door
+				if((I.tiles[i][j].data>DungeonTileType.Door-1) && (I.tiles[i][j].data<DungeonTileType.Door+numDoorTypes+1)) //door
 				{
 					if((i==18))
 					{
@@ -1713,7 +1724,7 @@ function editCursor()
 	this.numObjectTypes=35;
 	this.numBrushTypes=57;
 	this.objectType=0;
-	this.numDoorTypes=4;
+	this.numDoorTypes=5;
 	this.clipBoard=new room();
 	this.clipBoard.active=false;
 	this.linkingTo=null;

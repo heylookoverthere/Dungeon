@@ -105,6 +105,7 @@ function object(oroom) //not a tile, not an enemy
 	this.blockArrows=false;
 	this.hidden=false;
 	this.active=false;
+	this.hasSecret=false;
 	this.linkDescriptions=new Array();
 	this.exists=true;
 	this.playerUsable=true;
@@ -772,13 +773,21 @@ object.prototype.setup=function(id,par)
 		this.name="curtains";
 		this.activate=function(){
 			this.on=!this.on
+
 			playSound("curtains");
 			if(this.on)
 			{
+				
 				this.curSprite= 1;
 			}else
 			{
 				this.curSprite= 0;
+			
+			}
+			if(this.hasSecret)
+			{
+				playSound("secret");
+				this.exists=false;
 			}
 		}
 		this.playerActivate=this.activate;
@@ -1485,6 +1494,10 @@ object.prototype.stringify=function()
 	{
 		tempstring+=";";
 		tempstring+=this.on;
+	}else if(this.type==ObjectID.Curtains)
+	{
+		tempstring+=";";
+		tempstring+=this.hasSecret;
 	}else if((this.type==ObjectID.BlueBlocker) || (this.type==ObjectID.RedBlocker))
 	{
 		tempstring+=";";

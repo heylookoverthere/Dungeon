@@ -12,7 +12,7 @@ var shiftdown=false;
 var graph=null;
 var MobileMode=false;
 var numSouns=0;
-var curVersion="0.3a";
+var curVersion="0.4a";
 var explosions=new Array();
 
 function party()
@@ -26,7 +26,7 @@ party.prototype.addToParty=function(bloke)
 	bloke.partyMember=true; 
 	if(!bloke.isPlayer)
 	{
-		bConsoleBox.log(bloke.name+ "joined the party!");
+		bConsoleBox.log(bloke.name+ " joined the party!");
 	}
 }
 
@@ -218,7 +218,7 @@ editModes.ChestLoot=10;
 var OPTIONS={};
 OPTIONS.EnableSwipes=true;
 OPTIONS.musicOn=false;
-OPTIONS.SFX=false;
+OPTIONS.SFX=true;//false;
 OPTIONS.showUnexploredRooms=false;
 OPTIONS.showCracks=false;
 OPTIONS.showUnexploredDoors=false;
@@ -647,7 +647,7 @@ TileType.Road=8;
 TileType.Bridge=18;
 TileType.Sand=9;
 
-var numDoorTypes=4;
+var numDoorTypes=5;
 
 var DungeonTileType={};
 DungeonTileType.GreenFloor=1;
@@ -673,8 +673,9 @@ DungeonTileType.ClosedDoor=39;
 DungeonTileType.LockedDoor=40;
 DungeonTileType.BombableDoor=41;
 DungeonTileType.BombedDoor=42;
+DungeonTileType.CurtainDoor=43;
 DungeonTileType.Unstable=7;
-DungeonTileType.ReallyUnstable=43;
+DungeonTileType.ReallyUnstable=44;
 DungeonTileType.Hole=8;
 DungeonTileType.GreenBrick=0;
 DungeonTileType.OrangeBrick=3;
@@ -873,6 +874,7 @@ dungeonTileSprite[DungeonTileType.LockedDoor] = Sprite("dungeontiles/doortile");
 dungeonTileSprite[DungeonTileType.ClosedDoor] = Sprite("dungeontiles/doortile");
 dungeonTileSprite[DungeonTileType.BombableDoor] = Sprite("dungeontiles/doortile");
 dungeonTileSprite[DungeonTileType.BombedDoor] = Sprite("dungeontiles/doortile");
+dungeonTileSprite[DungeonTileType.CurtainDoor] = Sprite("dungeontiles/doortile");
 dungeonTileSprite[DungeonTileType.Door] = Sprite("dungeontiles/doortile");
 dungeonTileSprite[DungeonTileType.UpStair]= Sprite("dungeontiles/stairsup");
 dungeonTileSprite[DungeonTileType.DownStair]= Sprite("dungeontiles/stairsdown");
