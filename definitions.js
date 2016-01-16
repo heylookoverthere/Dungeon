@@ -216,7 +216,8 @@ OPTIONS.HoldTime=2000;
 OPTIONS.UpdateAllRooms=true;
 OPTIONS.UnsafeWalking=true;
 OPTIONS.NPCPickup=true;
-
+OPTIONS.ChainingExplosions=false;
+OPTIONS.MirrorBreaks=false;
 var editHistory=[];
 
 //var snake=0;

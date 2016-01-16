@@ -1971,9 +1971,9 @@ function optionsDraw() {
 	var xFset=160;
 	var yFset=35;
 	canvas.fillStyle="white";
-	canvas.fillRect(xFset-8,yFset-28,548,754);
+	canvas.fillRect(xFset-8,yFset-28,558,754);
 	canvas.fillStyle="blue";
-	canvas.fillRect(xFset-4,yFset-24,538,744);
+	canvas.fillRect(xFset-4,yFset-24,548,744);
 	canvas.font = "20pt Calibri";
 	canvas.fillStyle="white";
 	canvas.fillText("OPTIONS: ",xFset+100,yFset+20-6);
@@ -1987,6 +1987,11 @@ function optionsDraw() {
 	canvas.fillText("8) Kid Friendly mode: "+OPTIONS.SafeMode,xFset+15,yFset+250-6);
 	canvas.fillText("9) Confirmation pop ups: "+OPTIONS.confirmationPopUps,xFset+15,yFset+275-6);
 	canvas.fillText("10) Walking breaks unstable ground: "+OPTIONS.UnsafeWalking,xFset+15,yFset+300-6);
+	canvas.fillText("11) NPC's collect items: "+OPTIONS.NPCPickup,xFset+15,yFset+325-6);
+	canvas.fillText("12) Mirror breaks on use: "+OPTIONS.MirrorBreaks,xFset+15,yFset+350-6);
+	//canvas.fillText("13) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+375-6);
+
+
 
 	
 }

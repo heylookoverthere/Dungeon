@@ -608,7 +608,7 @@ function entity(croom)
 					}
 				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
-					if((this.AI==0) ||(OPTIONS.NPCPickups))
+					if((this.AI==0) || (OPTIONS.NPCPickups))
 					{
 						this.room.objects[i].playerActivate();
 					}

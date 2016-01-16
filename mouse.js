@@ -41,6 +41,11 @@ $(document).bind("contextmenu",function(e){
 			miles.x=9;
 			miles.y=12;
 			miles.fallingY=0;
+			if(OPTIONS.MirrorBreaks)
+			{
+				miles.removeItem(ObjectID.Mirror,1); 
+				//miles.equippedTrack=0;
+			}
 		}else if (miles.getEquipped()==ObjectID.Poo)
 		{
 			//remove poop, make new poop object
@@ -414,7 +419,20 @@ function mouseClick(e) {  //represents the mouse
 		{
 			OPTIONS.UnsafeWalking=!OPTIONS.UnsafeWalking;
 		
+		}else if(bup==10)
+		{
+			OPTIONS.NPCPickup=!OPTIONS.NPCPickup;
+		
+		}else if(bup==11)
+		{
+			OPTIONS.ChainingExplosions=!OPTIONS.ChainingExplosions;
+		
+		}else if(bup==12)
+		{
+			OPTIONS.MirrorBreaks=!OPTIONS.MirrorBreaks;
+		
 		}
+
 		return;
 
 
