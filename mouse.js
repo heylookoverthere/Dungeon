@@ -71,8 +71,17 @@ $(document).bind("contextmenu",function(e){
 			miles.removeItem(ObjectID.RedPotion,1); 
 		}else if(miles.getEquipped()==ObjectID.GreenPotion)
 		{
-			miles.heal(60);
-			miles.removeItem(ObjectID.GreenPotion,1); 
+			for(var i=0;i<entities.length;i++)
+			{
+				if((isOverTiled(entities[i])) && (!entities[i].isPlayer) && (!entities[i].alive))
+				{
+					entities[i].revive();
+					miles.removeItem(ObjectID.GreenPotion,1); 
+					return;
+				}
+			}
+			playSound("error");
+			bConsoleBox.log("Nobody there to revive");
 		}else if(miles.getEquipped()==ObjectID.BluePotion)
 		{
 			miles.heal(120);

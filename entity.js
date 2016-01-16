@@ -182,6 +182,8 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.partyMember=false;
+	this.mapSprite=Sprite("profhead");
 	this.name="Waffles";
 	this.lastX=4;
 	this.maxBombs=10;

@@ -1022,7 +1022,10 @@ miles.deadSprites.push(Sprite("linkdead1"));
 miles.deadSprites.push(Sprite("linkdead2"));
 miles.deadSprites.push(Sprite("linkdead3"));
 miles.name="Miles";
+miles.mapSprite=Sprite("linkhead");
 entities.push(miles);
+theParty.addToParty(miles);
+
 
 function resetMiles()
 {
@@ -1101,6 +1104,9 @@ Krugman.deadSprites.push(Sprite("krugmandeath1"));
 Krugman.deadSprites.push(Sprite("krugmandeath2"));
 Krugman.room=curDungeon.curRoom();
 entities.push(Krugman);
+Krugman.mapSprite=Sprite("krughead");
+Krugman.mapSprite=Sprite("krughead");
+theParty.addToParty(Krugman);
 
 var nancy=Krugman;//new entity();
 /*nancy.AI=1;

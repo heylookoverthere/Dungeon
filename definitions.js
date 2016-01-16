@@ -15,6 +15,23 @@ var numSouns=0;
 var curVersion="0.3a";
 var explosions=new Array();
 
+function party()
+{
+	this.members=new Array();
+}
+
+party.prototype.addToParty=function(bloke)
+{
+	this.members.push(bloke);
+	bloke.partyMember=true; 
+	if(!bloke.isPlayer)
+	{
+		bConsoleBox.log(bloke.name+ "joined the party!");
+	}
+}
+
+var theParty=new party();
+
 var entities=new Array();
 
 function playSound(name){
@@ -201,7 +218,7 @@ editModes.ChestLoot=10;
 var OPTIONS={};
 OPTIONS.EnableSwipes=true;
 OPTIONS.musicOn=false;
-OPTIONS.SFX=true;
+OPTIONS.SFX=false;
 OPTIONS.showUnexploredRooms=false;
 OPTIONS.showCracks=false;
 OPTIONS.showUnexploredDoors=false;

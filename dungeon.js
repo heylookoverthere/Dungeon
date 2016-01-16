@@ -1563,7 +1563,7 @@ function dungeon(path)
 				suffix=String(zzTop)+"th Floor";
 			}
 			can.fillText(suffix,xFset,yFset-6);
-			can.globalAlpha=0.5;
+			can.globalAlpha=0.76;
 			   for(i=0;i<this.width[zzTop];i++)
 			   {
 					for (k=0;k<this.height[zzTop];k++)
@@ -1586,16 +1586,16 @@ function dungeon(path)
 								
 							}else 
 							{
-								if((!this.rooms[zzTop][i][k].hidden)&&(!OPTIONS.showUnexploredRooms))
-								{
+								//if((!this.rooms[zzTop][i][k].hidden)&&(!OPTIONS.showUnexploredRooms))
+								//{
 									can.fillStyle="black";
 									canvas.fillRect(xFset+size*i-1,yFset+size*k-1,size+2,size+2);
-								}else
-								{
+								//}else
+								//{
 									//can.fillStyle="grey";
 									//canvas.fillRect(xFset+size*i-1,yFset+size*k-1,size+2,size+2);
 									//canvas.fillRect(xFset+size*i-1,yFset+size*k-1,size+2,size+2);
-								}							
+								//}							
 								
 							}
 							
@@ -1603,9 +1603,16 @@ function dungeon(path)
 						}
 						if((i==this.roomX) && (k==this.roomY)&&(zzTop==this.roomZ)) //todo and right floor?
 						{
-							can.fillStyle="yellow";
+							canvas.fillStyle="yellow";
 							canvas.fillRect(xFset+size*i+3,yFset+size*k+3,size-6,size-6); //todo: scalig issues.
 						}	
+						for(var b=0;b<theParty.members.length;b++)
+						{
+							if((i==theParty.members[b].room.x) && (k==theParty.members[b].room.y)&&(zzTop==theParty.members[b].room.z))
+							{
+								theParty.members[b].mapSprite.draw(canvas,xFset+size*i-3,yFset+size*k-3)
+							}
+						}
 					}
 				}
 				for(i=0;i<this.width[zzTop];i++)
