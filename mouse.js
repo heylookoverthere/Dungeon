@@ -67,8 +67,14 @@ $(document).bind("contextmenu",function(e){
 			hio.on=true;
 		}else if(miles.getEquipped()==ObjectID.RedPotion)
 		{
-			miles.heal(miles.maxHp);
-			miles.removeItem(ObjectID.RedPotion,1); 
+			if(miles.hp<miles.maxHp)
+			{
+				miles.heal(miles.maxHp);
+				miles.removeItem(ObjectID.RedPotion,1); 
+			}else
+			{
+				bConsoleBox.log("You are not hurt.","yellow");
+			}
 		}else if(miles.getEquipped()==ObjectID.GreenPotion)
 		{
 			for(var i=0;i<entities.length;i++)

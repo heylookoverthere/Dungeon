@@ -20,7 +20,7 @@ function party()
 	this.members=new Array();
 }
 
-party.prototype.addToParty=function(bloke)
+party.prototype.add=function(bloke)
 {
 	this.members.push(bloke);
 	bloke.partyMember=true; 
@@ -675,7 +675,7 @@ DungeonTileType.BombableDoor=41;
 DungeonTileType.BombedDoor=42;
 DungeonTileType.CurtainDoor=43;
 DungeonTileType.Unstable=7;
-DungeonTileType.ReallyUnstable=44;
+DungeonTileType.ReallyUnstable=60;
 DungeonTileType.Hole=8;
 DungeonTileType.GreenBrick=0;
 DungeonTileType.OrangeBrick=3;

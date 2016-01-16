@@ -191,6 +191,7 @@ function entity(croom)
 	this.y=3;
 	this.width=32;
 	this.height=48;
+	this.autoJoin=false;
 	this.alignment=0; //friends 1==neutral, 2== enemy 
 	this.featherCount=0;
 	this.falling=false;
@@ -790,6 +791,10 @@ function entity(croom)
 					if((this.textTrack<this.getOffChest) && ($("#dialogBox").length < 1))//(!this.talkBox.exists))
 					{
 						//this.textSaid[this.textTrack]=true; penis
+						if((!this.partyMember) && (this.autoJoin))
+						{
+							theParty.add(this);
+						}
 						this.say();
 						//this.textBank.splice(0,1);
 					}
@@ -969,6 +974,10 @@ function entity(croom)
 							this.status="Arrived." 
 							
 							//if arrived at player, which we'll assume for now.
+							if((!this.partyMember) && (this.autoJoin))
+							{
+								theParty.add(this);
+							}
 							if((this.textTrack<this.getOffChest) && ($("#dialogBox").length < 1))//(!this.talkBox.exists))
 							{
 								this.say();

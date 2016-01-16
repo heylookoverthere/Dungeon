@@ -1024,7 +1024,7 @@ miles.deadSprites.push(Sprite("linkdead3"));
 miles.name="Miles";
 miles.mapSprite=Sprite("linkhead");
 entities.push(miles);
-theParty.addToParty(miles);
+theParty.add(miles);
 
 
 function resetMiles()
@@ -1106,30 +1106,48 @@ Krugman.room=curDungeon.curRoom();
 entities.push(Krugman);
 Krugman.mapSprite=Sprite("krughead");
 Krugman.mapSprite=Sprite("krughead");
-theParty.addToParty(Krugman);
+Krugman.autoJoin=true;
+//theParty.add(Krugman);
 
-var nancy=Krugman;//new entity();
-/*nancy.AI=1;
+/*var nancy=new entity();
+nancy.AI=1;
 nancy.x=3;
 nancy.y=11;
-nancy.walkSpeed=6;
+/*nancy.sprites=new Array();
+nancy.sprites.push(Sprite("oldman0"));
+nancy.sprites.push(Sprite("oldman1"));
+nancy.sprites.push(Sprite("oldman2"));
+nancy.sprites.push(Sprite("oldman3"));
+nancy.deadSprites=new Array();
+nancy.deadSprites.push(Sprite("oldmandeath0"));
+nancy.deadSprites.push(Sprite("oldmandeath1"));
+nancy.deadSprites.push(Sprite("oldmandeath2"));
+nancy.mapSprite=Sprite("oldmanhead");*/
+/*nancy.walkSpeed=6;
 nancy.tracking=miles;
-nancy.textBank.push("Oh thank god! I've been stuck down here for days! We have to find a way out!");
+nancy.autoJoin=true;
+nancy.textBank.push("Oh, somebody else unfortunate enough to have fallen down here. I suppose we should find a way out.");
+lop=function(){return true;}
+nancy.textConditions.push(lop);
 nancy.textSaid.push(false);
-nancy.textBank.push("My name is Nancy. I am a professor at the local university. Despite my vast knowledge I must say I find myself at something of a loss. I suppose I'll follow you!");
+nancy.textBank.push("My name is Nancy. I am a professor at the local university. Despite my vast knowledge I must say I find myself totally lost. I suppose I'll follow you!");
+lop=function(){return true;}
+nancy.textConditions.push(lop);
 nancy.textSaid.push(false);
-nancy.textBank.push("Let me know if you find a restroom. By the way I wouldn't recommend breaking that pot in the corner where I was trapped...");
-nancy.textSaid.push(false);
+//nancy.textBank.push("Let me know if you find a restroom. By the way I wouldn't recommend breaking that pot in the corner where I was trapped...");
+//nancy.textSaid.push(false);
 nancy.textBank.push("Lead on, I have no idea where to go.");
+lop=function(){return true;}
+nancy.textConditions.push(lop);
 nancy.textSaid.push(false);
 nancy.getOffChest=2;
 nancy.chatterBank.push("In my youth I was a popular children's aardvark. Then...there was some unpleasantness. I'd rather not talk about it.");
 nancy.chatterBank.push("Did you hear that!?");
-nancy.chatterBank.push("Let me know if you find a restroom. By the way I wouldn't recommend breaking that pot in the corner where I was trapped...");
+//nancy.chatterBank.push("Let me know if you find a restroom. By the way I wouldn't recommend breaking that pot in the corner where I was trapped...");
 nancy.chatterBank.push("It is said that in the far east there lives an elephant who never forgets...TO KILL.");
 nancy.chatterBank.push("Do you ever stop and wonder how many whales the ocean has?");
 nancy.chatterBank.push("Sometimes at night I look up at the stars and wonder about the nature of outer space. Surely there must be a poorly programmed adventure awaiting us up there, if only we could reach it.")
-nancy.chatterBank.push("My butt itches.");
+//nancy.chatterBank.push("My butt itches.");
 nancy.chatterBank.push("I came here because I heard this dungeon housed great treasure. ...Triforce? No, I never heard of that. I'm here for the legendary Arybs Horsey Sauce recipe.");
 nancy.chatterBank.push("It is said that at the far northern border of the known world, there exists a magnificent wall of ice."); 
 nancy.chatterBank.push("While serious historians question if the Asparagus Emperor ever truly existed, he is revered as a god-king to this day by the people of Beoropolis");
@@ -1145,7 +1163,7 @@ if(!OPTIONS.SafeMode)
 	nancy.chatterBank.push("I wrote a poem for you, would you like to hear it? Roses are red / Violets are blue / I'm wearing sweatpants / To conceal my erection.");
 	nancy.chatterBank.push("I'm the reason this game has a 'safe mode' option.");
 }
-nancy.room=curDungeon.curRoom();
+nancy.room=curDungeon.rooms[10][7][7];
 nancy.name="Nancy";
 
 entities.push(nancy);*/
@@ -3110,7 +3128,7 @@ function mainUpdate()
 	 if(debugkey.check())
 	 {
 		//drawingPath=!drawingPath;
-		showNancyInfo=!showNancyInfo;
+		//showNancyInfo=!showNancyInfo;
 		/*var mpu=curDungeon.curRoom().closestAdj(editor,miles);
 		if(mpu)
 		{

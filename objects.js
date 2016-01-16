@@ -516,9 +516,6 @@ object.prototype.setup=function(id,par)
 				}
 				Krugman.textConditions.push(loj);
 				this.on=true;
-			}else if((nancy) && (!this.on))
-			{
-				nancy.say("Eeeww!! You're touching it!!");
 			}
 			bConsoleBox.log("You've found... Krugman's leavings. Gross.");
 			btext="You've found... the professor's leavings. Gross.";
@@ -1125,9 +1122,9 @@ object.prototype.setup=function(id,par)
 		{
 			//change music
 			//temp!
-			nancy.textBank.push("Nice, you found a shiney triangle. We're still stuck down here you know.");
+			Krugman.textBank.push("Nice, you found a shiney triangle. We're still stuck down here you know.");
 			var hlop=function(){return true;}
-			nancy.textConditions.push(hlop);
+			Krugman.textConditions.push(hlop);
 			playSound("heartcontainer");
 			var now=new Date().getTime();
 			var timeTaken=now-curDungeon.timeStarted.getTime();

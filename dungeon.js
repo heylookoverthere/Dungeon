@@ -1601,7 +1601,7 @@ function dungeon(path)
 							
 								
 						}
-						if((i==this.roomX) && (k==this.roomY)&&(zzTop==this.roomZ)) //todo and right floor?
+						if((i==this.roomX) && (k==this.roomY)&&(zzTop==this.roomZ) && (editMode))
 						{
 							canvas.fillStyle="yellow";
 							canvas.fillRect(xFset+size*i+3,yFset+size*k+3,size-6,size-6); //todo: scalig issues.
