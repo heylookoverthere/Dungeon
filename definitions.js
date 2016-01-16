@@ -12,7 +12,7 @@ var shiftdown=false;
 var graph=null;
 var MobileMode=false;
 var numSouns=0;
-var curVersion="0.2a";
+var curVersion="0.3a";
 var explosions=new Array();
 
 var entities=new Array();
@@ -964,7 +964,7 @@ function explosionEffect(croom)
 	this.draw=function(can,xOffh,yOffh)
 	{
 		var bur=can.globalAlpha;
-		if((this.room.z==curDungeon.roomZ) &&(this.room.y==curDungeon.roomY) &&(this.room.y==curDungeon.roomY))
+		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
 		{
 			can.globalAlpha=0.5;
 			explosionsprite[this.aniTrack].draw(can,this.x*32+xOffh+16,this.y*32+yOffh+16);

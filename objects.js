@@ -364,12 +364,12 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("You found some bombs!");
 				btext="You found some bombs!";
 				miles.has[hasID.Bomb]=true;
-				miles.bombs+=3;
+				miles.bombs+=5;
 				var shinex=new object();
 				shinex.usable=true;
 				shinex.type=ObjectID.Bomb;
 				shinex.setup();
-				miles.giveItem(shinex,3);
+				miles.giveItem(shinex,5);
 			}else if(this.loot==lootTable.Bow)
 			{
 				bConsoleBox.log("You found the bow!");

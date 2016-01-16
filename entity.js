@@ -153,7 +153,7 @@ function bomb(croom)
 	}
 	this.draw=function(can,xoffh,yoffh)
 	{
-		if((this.room.z==curDungeon.roomZ) &&(this.room.y==curDungeon.roomY) &&(this.room.y==curDungeon.roomY))
+		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
 		{
 			var millip= new Date().getTime();
 			if((millip-this.timePlaced>this.fuse*800) && (this.armed))

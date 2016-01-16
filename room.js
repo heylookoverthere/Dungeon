@@ -977,7 +977,8 @@ function room(I) { //room object
 	I.buildMapFromLoadedTiles = function(name, hempstring) {
 		tempstring=hempstring.split(",");
 		I.lampLighting=stringTrue(tempstring[0]);
-		tempstring.splice(0,1);
+		I.hidden=stringTrue(tempstring[1]);
+		tempstring.splice(0,2);
 		if(name=="nowipe")
 		{
 		

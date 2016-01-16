@@ -1033,7 +1033,7 @@ function resetMiles()
 	miles.inventory.push(meeee);
 	miles.inventoryAmounts.push(1);
 	miles.maxHp=100;
-	miles.deathAniTrack=0
+	miles.deathAniTrack=0;
 	miles.aniCount=0;
 	miles.hp=miles.maxHp;
 	miles.dir=0;
