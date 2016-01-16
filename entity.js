@@ -187,6 +187,7 @@ function entity(croom)
 	this.y=3;
 	this.width=32;
 	this.height=48;
+	this.alignment=0; //friends 1==neutral, 2== enemy 
 	this.featherCount=0;
 	this.falling=false;
 	this.fallingY=0;
@@ -194,8 +195,9 @@ function entity(croom)
 	this.tracker=false;
 	this.tracking=null;
 	this.talkBox=new textbox();
-	this.getOffChest=0; //how many elemets of talkBank should be said without prompting him
+	this.getOffChest=0; //how many elements of talkBank should be said without prompting him
 	this.textBank=new Array();
+	this.textSaid=new Array();
 	this.textConditions=new Array();
 	this.textTrack=0;
 	this.chatterBank=new Array(); //random stuff said
@@ -248,6 +250,11 @@ function entity(croom)
 	this.inventory.push(meeee);
 	this.inventoryAmounts.push(1);
 	this.has=new Array();
+	
+	this.pushText=function()
+	{
+	 //todo - the forgotten dwarf. 
+	}
 	this.kill=function()
 	{
 		if(this.lastWords)
@@ -259,6 +266,22 @@ function entity(croom)
 		playSound("playerdying");
 		//this.exists=false;
 		this.alive=false;
+	}
+	
+	this.getScore=function()
+	{
+		var scar=0;
+		//rupees collected (current minus start? 
+		  //excess arrows and bombs? all items? converted to rupees if you have krugman alive 
+		//rooms explored - loop through all rooms and count those that are explored
+		//heart containers found- just compare maxhp to 120 / start maxhp
+		//special items found =check .has
+		//enemies killed? exp gained? 
+		//-1000 if you have the poop
+		//-500 if you don't, but you touched it. 
+		//5000 - 100% bonus - found all chests + special items (has) + rooms
+		return scar;
+	
 	}
 	
 	this.revive=function(amt)
@@ -425,7 +448,13 @@ function entity(croom)
 		
 		if(!this.alive)
 		{
-			this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
+			if(this.deathAniTrack<2)
+			{
+				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
+			}else
+			{
+				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
+			}
 			return;
 		}
 		if((this.isPlayer) && (this.holding))
@@ -488,7 +517,12 @@ function entity(croom)
 			{
 				//this.talkBox.log(this.name+": "+this.textBank[this.textTrack]);
 				$("<div id='dialogBox'>").text(this.name+": "+this.textBank[this.textTrack]).appendTo("body");
-				this.textTrack++;
+				if(!this.textSaid[this.textTrack])
+				{
+					this.textSaid[this.textTrack]=true;
+					this.textTrack++;
+					
+				}
 
 			}else
 			{
@@ -707,6 +741,7 @@ function entity(croom)
 					//if arrived at player, which we'll assume for now.
 					if((this.textTrack<this.getOffChest) && ($("#dialogBox").length < 1))//(!this.talkBox.exists))
 					{
+						//this.textSaid[this.textTrack]=true; penis
 						this.say();
 						//this.textBank.splice(0,1);
 					}

@@ -502,6 +502,7 @@ object.prototype.setup=function(id,par)
 			{
 				Krugman.say("Eeeww!! You're touching it!!");
 				Krugman.textBank.push("If we're going to keep travelling together, I feel I have a right to know why you're carrying my feces around in your bag." );
+				Krugman.textSaid.push(false);
 				var loj=function()
 				{
 					if(miles.has[hasID.Poo])
@@ -616,6 +617,7 @@ object.prototype.setup=function(id,par)
 				Krugman.say("Ah yes, poor Edward. He was my intern. He died of... non-suspicious causes shortly after we fell down here.");
 				Krugman.chatterBank.push("I'm starting to get hungry. Do you have any food? Well I hope we find something to eat soon. I'm not a doctor but I could tell Edward's fate was sealed when we ran out of rations.");
 				Krugman.textBank.push("I'm starting to sense some tension in the air, and I feel like I should just be honest. So here it goes. I'm putting it all on the line here, so you'll have to promise you won't  judge me...")
+				Krugman.textSaid.push(false);
 				var plo=function ()
 				{
 					if(miles.room.z>0)
@@ -628,10 +630,12 @@ object.prototype.setup=function(id,par)
 				}
 				Krugman.textConditions.push(plo);
 				Krugman.textBank.push("...I ate Edward. He was delicious. But I swear I didn't kill him! At best it was an assist.");
+				Krugman.textSaid.push(false);
 				//Krugman.getOffChest=Krugman.textTrack+1;//Bank.length-1;
 				golp=function(){return true;};
 				Krugman.textConditions.push(golp);
 				Krugman.textBank.push("Phew I'm so glad that's all out in the open now. Lets keep going. And let me know if you get hungry I still have some Edward in my pack.");
+				Krugman.textSaid.push(false);
 				Krugman.textConditions.push(golp);
 				this.on=true;
 			}

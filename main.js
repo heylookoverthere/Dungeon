@@ -1052,15 +1052,19 @@ Krugman.walkSpeed=6;
 Krugman.tracking=miles;
 Krugman.lastWords="Avenge...me...";
 Krugman.textBank.push("Oh thank god! I've been stuck down here for days! We have to find a way out!");
+Krugman.textSaid.push(false);
 var lop=function(){return true;}
 Krugman.textConditions.push(lop);
 Krugman.textBank.push("My name is Paul Krugman. I am a respected economist. I shat in that bucket over there.");
+Krugman.textSaid.push(false);
 lop=function(){return true;}
 Krugman.textConditions.push(lop);
 Krugman.textBank.push("Paul Ryan pushed me down a well and I found myself here.");
+Krugman.textSaid.push(false);
 lop=function(){return true;}
 Krugman.textConditions.push(lop);
 Krugman.textBank.push("Lead on, I have no idea where to go.");
+Krugman.textSaid.push(false);
 lop=function(){return true;}
 Krugman.textConditions.push(lop);
 Krugman.getOffChest=2;
@@ -1102,9 +1106,13 @@ nancy.y=11;
 nancy.walkSpeed=6;
 nancy.tracking=miles;
 nancy.textBank.push("Oh thank god! I've been stuck down here for days! We have to find a way out!");
+nancy.textSaid.push(false);
 nancy.textBank.push("My name is Nancy. I am a professor at the local university. Despite my vast knowledge I must say I find myself at something of a loss. I suppose I'll follow you!");
+nancy.textSaid.push(false);
 nancy.textBank.push("Let me know if you find a restroom. By the way I wouldn't recommend breaking that pot in the corner where I was trapped...");
+nancy.textSaid.push(false);
 nancy.textBank.push("Lead on, I have no idea where to go.");
+nancy.textSaid.push(false);
 nancy.getOffChest=2;
 nancy.chatterBank.push("In my youth I was a popular children's aardvark. Then...there was some unpleasantness. I'd rather not talk about it.");
 nancy.chatterBank.push("Did you hear that!?");
