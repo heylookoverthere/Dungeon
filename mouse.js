@@ -435,7 +435,7 @@ function mouseClick(e) {  //represents the mouse
 		{
 			OPTIONS.MirrorBreaks=!OPTIONS.MirrorBreaks;
 		
-		}else if(bup==12)
+		}else if(bup==13)
 		{
 			OPTIONS.DropsPersist=!OPTIONS.DropsPersist;
 		

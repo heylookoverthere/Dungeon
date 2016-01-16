@@ -920,6 +920,7 @@ object.prototype.setup=function(id,par)
 		this.activate=function()
 		{
 			//I dunno warp or something?
+			if(!this.active) {return;}
 			playSound("warp");
 		}
 		this.playerActivate=this.activate;
@@ -1203,7 +1204,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bomb1"));
 	    this.name="Bombs";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersists)
+		if(!OPTIONS.DropsPersist)
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1229,7 +1230,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("arrow"));
 	    this.name="Arrow";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersists)
+		if(!OPTIONS.DropsPersist)
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1255,7 +1256,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("rupee"));
 	    this.name="rupee";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersists)
+		if(!OPTIONS.DropsPersist)
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1275,7 +1276,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("tenrupee"));
 	    this.name="rupee";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersists)
+		if(!OPTIONS.DropsPersist)
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1294,7 +1295,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("heartpickup"));
 	    this.name="heart";
-		if(!OPTIONS.DropsPersists)
+		if(!OPTIONS.DropsPersist)
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
