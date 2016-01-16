@@ -28,7 +28,7 @@ function bomb(croom)
 	}
 	this.explode=function()
 	{
-		playSound("switchhit");
+		playSound("explosion");
 		this.exists=false;
 		//particles, sprites, trigger switches, destroy walls and cracked floors
 		var boop=new explosionEffect();
@@ -229,7 +229,16 @@ function entity(croom)
 	this.healAmount=0;
 	this.healRate=6;
 	this.healCount=0;
+	this.alive=true;
 	this.gotHurt=0;
+	this.deadSprites=new Array();
+	this.deadSprites.push(Sprite("profdeath0"));
+	this.deadSprites.push(Sprite("profdeath1"));
+	this.deadSprites.push(Sprite("profdeath2"));
+	this.deathAniTrack=0;
+	this.aniCount=0;
+	this.aniTrack=0;
+	this.aniRate=9;
 	this.activebombs=new Array();
 	this.inventory=new Array();
 	this.inventoryAmounts=new Array();
@@ -241,7 +250,14 @@ function entity(croom)
 	this.has=new Array();
 	this.kill=function()
 	{
-		this.exists=false;
+		if(this.lastWords)
+		{
+			this.say(this.lastWords);
+		}
+		bConsoleBox.log(this.name+" has died.");
+		//if(this.isPlayer)
+		playSound("playerdying");
+		//this.exists=false;
 		this.alive=false;
 	}
 	
@@ -366,6 +382,7 @@ function entity(croom)
 	}
 	this.hurt=function(dmg)
 	{
+		if(!this.alive) {return;}
 		if(this.gotHurt>0) {return;}
 		this.hp-=dmg;
 		playSound("playerhurt");
@@ -380,6 +397,11 @@ function entity(croom)
 	this.draw=function(can)
 	{
 		
+		if(!this.alive)
+		{
+			this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
+			return;
+		}
 		if((this.isPlayer) && (this.holding))
 		{
 			this.sprites[4].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
@@ -460,6 +482,18 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		if(!this.alive)
+		{
+			if(this.deathAniTrack>1) {return;}
+			this.aniCount++;
+			if(this.aniCount>this.aniRate)
+			{
+				this.aniCount=0;
+				this.aniTrack++;
+				this.deathAniTrack++;
+			}
+			return;
+		}
 		if(this.gotHurt>0) //not so quick?
 		{
 			this.gotHurt--;

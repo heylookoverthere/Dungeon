@@ -132,7 +132,7 @@ function drawHearts(p,can) {
 		{
 			heartsprite.draw(can,12+(h-8)*16+h*3, 39);
 		}
-	}else
+	}else if(p.hp>0)
     {
 		if(h<7)
 		{

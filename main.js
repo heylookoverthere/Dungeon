@@ -1014,15 +1014,22 @@ miles.sprites.push(Sprite("linkright"));
 miles.sprites.push(Sprite("linkdown"));
 miles.sprites.push(Sprite("linkleft"));
 miles.sprites.push(Sprite("linkholding"));
+miles.deadSprites=new Array();
+miles.deadSprites.push(Sprite("linkdead1"));
+miles.deadSprites.push(Sprite("linkdead2"));
+miles.deadSprites.push(Sprite("linkdead3"));
 miles.name="Miles";
 entities.push(miles);
 
 function resetMiles()
 {
+	miles.alive=true;
 	miles.equippedTrack=0;
 	miles.inventory=new Array();
 	miles.inventoryAmounts=new Array();
 	miles.maxHp=100;
+	miles.deathAniTrack=0
+	miles.aniCount=0;
 	miles.hp=miles.maxHp;
 	miles.dir=0;
 	miles.wallet=250;
@@ -1037,6 +1044,7 @@ Krugman.x=3;
 Krugman.y=10;
 Krugman.walkSpeed=6;
 Krugman.tracking=miles;
+Krugman.lastWords="Avenge...me...";
 Krugman.textBank.push("Oh thank god! I've been stuck down here for days! We have to find a way out!");
 var lop=function(){return true;}
 Krugman.textConditions.push(lop);
@@ -1632,6 +1640,7 @@ function actuallyStartGame()
 	if(OPTIONS.musicOn)
 	{
 		document.getElementById("mainSong").play();
+		document.getElementById("deadSong").pause();
 	}
 	
 	//curDungeon.loadFloor();
@@ -1643,6 +1652,7 @@ function actuallyStartGame()
 	if(OPTIONS.musicOn){
 		document.getElementById("mainSong").volume=OPTIONS.musicVolume;
 		document.getElementById("mainSong").play(); //starts music
+		document.getElementById("deadSong").pause();
 	}
 	starter();
 	for(var i=0;i<curDungeon.floors;i++)
@@ -1904,6 +1914,7 @@ function optionsUpdate()
 			}else
 			{
 				document.getElementById("mainSong").pause();
+				document.getElementById("deadSong").pause();
 			}
 		}
 		else if(numberkeys[2].check())
@@ -2187,28 +2198,23 @@ function mainDraw() {
 	}
 	//curDungeon.curRoom().drawPath(canvas,9,11,9,3);//curDungeon.curRoom().getOpenDoor(0).x,curDungeon.curRoom().getOpenDoor(0).y+2)
 	
-	if(gameOver)
+	if((!gameOver) && (!miles.alive))
 	{
-	 /*	canvas.fillStyle="white";
-		var wodth=78+gameOver.length*8;
-		var yex=Math.floor(CANVAS_WIDTH/2-wodth*0.5);
-
-		var yey=Math.floor(CANVAS_HEIGHT/2);
-		canvas.fillRect(yex,yey,wodth,100);	
-		canvas.fillStyle="blue";
-		canvas.fillRect(yex+12,yey+12,wodth-24,100-24);
-		canvas.fillStyle = "white";
-		canvas.font = "12pt Calibri";
-		//canvas.fillText("Press Enter",200,500);
-		canvas.fillText("Game Over",yex+wodth/2-32,yey+38);
-		canvas.fillText(gameOver,yex+wodth/6,yey+64);*/
+		gameOver=true;
+		if(OPTIONS.musicOn)
+		{
+			document.getElementById("mainSong").pause();
+			document.getElementById("deadSong").volume=OPTIONS.musicVolume;
+			document.getElementById("deadSong").play();
+		}
+		$("<div id='dialogBox'>").text("Sadly, no trace of them was ever found...").appendTo("body");
 	}
 };
 //------------MAIN LOOP-----------------------------------------
 function mainUpdate()
 {
 	if(!gamestart) return;
-	if(gameOver) return;
+	//if(gameOver) return;
 	//hack
 	controller.update();
 	//mel.x=miles.x;
@@ -2501,6 +2507,7 @@ function mainUpdate()
 		{
 			bConsoleBox.log("Music turned off.");
 			document.getElementById("mainSong").pause();
+			document.getElementById("deadSong").pause();
 		}
 		document.getElementById("titleAudio").pause();
 		//monsta.startOrbit(40000,Math.floor(Math.random()*CANVAS_WIDTH),Math.floor(Math.random()*CANVAS_HEIGHT),60);

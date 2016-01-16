@@ -766,6 +766,10 @@ function mouseClick(e) {  //represents the mouse
 		if ($("#dialogBox").length > 0) 
 		{
 			$("#dialogBox").remove();
+			if(gameOver)
+			{
+				mode=0;
+			}
 			return;
 		} else 
 		{
@@ -776,8 +780,12 @@ function mouseClick(e) {  //represents the mouse
 			if((entities[i].room.z==curDungeon.roomZ)&&(entities[i].room.x==curDungeon.roomX)&&(entities[i].room.y==curDungeon.roomY)&&(isOverTiled(entities[i],32)))
 			{//and next to player!
 				if(entities[i].isPlayer) {continue;}
-				entities[i].say();
-				return;
+				if(entities[i].alive)
+				{
+					entities[i].say();
+					return;
+				}
+				
 			}
 		}
 		if(miles.holding)
