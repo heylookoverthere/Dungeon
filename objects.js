@@ -78,6 +78,9 @@ ObjectID.Statue=30;
 ObjectID.Bookcase=31;
 ObjectID.Bones=32;
 ObjectID.KeyBrick=33;
+ObjectID.Mirror=35;
+ObjectID.Shovel=34;
+
 ObjectID.Heart=50;
 ObjectID.BombRefill=53;
 ObjectID.Arrow=54;
@@ -942,6 +945,38 @@ object.prototype.setup=function(id,par)
 			miles.holding=this.sprites[0];
 			this.exists=false;
 			miles.has[hasID.Feather]=true;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Mirror) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("mirror"));
+	    this.name="Magic mirror";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a magic mirror. Use it to return to the start of the dungeon.");
+			miles.holding=this.sprites[0];
+			this.exists=false;
+			//miles.has[hasID.Feather]=true;
+			miles.giveItem(this,1);
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Shovel) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("shovel"));
+	    this.name="Ed's Shovel";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a shovel! Look for soft ground!");
+			miles.holding=this.sprites[0];
+			this.exists=false;
+			//miles.has[hasID.Shovel]=true;
+			miles.giveItem(this,1);
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Brick) {

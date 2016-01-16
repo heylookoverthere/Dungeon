@@ -21,6 +21,26 @@ $(document).bind("contextmenu",function(e){
 		{
 			miles.placeBomb();
 			miles.removeItem(ObjectID.Bomb,1);
+		}else if(miles.getEquipped()==ObjectID.Shovel)
+		{
+			if(miles.shovel())
+			{
+			
+			}else
+			{
+				bConsoleBox.log("You can't dig here.","yellow");
+			}
+
+		}else if(miles.getEquipped()==ObjectID.Mirror)
+		{
+			playSound("warp");
+			curDungeon.roomZ=curDungeon.startFloor;
+			curDungeon.roomX=curDungeon.startX;
+			curDungeon.roomY=curDungeon.startY;
+			miles.room=curDungeon.curRoom();
+			miles.x=9;
+			miles.y=12;
+			miles.fallingY=0;
 		}else if (miles.getEquipped()==ObjectID.Poo)
 		{
 			//remove poop, make new poop object

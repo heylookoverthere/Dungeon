@@ -1027,6 +1027,11 @@ function resetMiles()
 	miles.equippedTrack=0;
 	miles.inventory=new Array();
 	miles.inventoryAmounts=new Array();
+	var meeee=new Object;
+	meeee.type=ObjectID.PotStand;
+	meeee.sprite=nullSprite;
+	miles.inventory.push(meeee);
+	miles.inventoryAmounts.push(1);
 	miles.maxHp=100;
 	miles.deathAniTrack=0
 	miles.aniCount=0;

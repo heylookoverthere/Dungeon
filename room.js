@@ -853,6 +853,8 @@ function room(I) { //room object
 		var tempstring= "";
 		tempstring+=I.lampLighting;
 		tempstring+=","
+		tempstring+=I.hidden;
+		tempstring+=","
 		for (i=0;i<ROOM_WIDTH; i++){
 			for (j=0;j<ROOM_HEIGHT; j++){
 			tempstring = tempstring +I.tiles[i][j].data;
@@ -1694,7 +1696,7 @@ function editCursor()
 	this.confirmingWhat=null;
 	this.mode=0;
 	this.numModes=4;
-	this.numObjectTypes=33;
+	this.numObjectTypes=35;
 	this.numBrushTypes=54;
 	this.objectType=0;
 	this.numDoorTypes=4;

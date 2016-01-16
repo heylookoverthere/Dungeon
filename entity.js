@@ -289,7 +289,7 @@ function entity(croom)
 	this.getEquipped=function()
 	{
 		
-		return this.getUsableInventory()[this.equippedTrack].type;//==ObjectID.Bomb
+		return this.inventory[this.equippedTrack].type;//==ObjectID.Bomb
 	}
 	
 	this.getUsableInventory=function()
@@ -355,6 +355,12 @@ function entity(croom)
 			}
 		}
 
+	}
+	
+	this.shovel=function()
+	{
+		return false;
+		playSound("shovel")
 	}
 	
 	this.cycleEquipped=function(up)
@@ -602,7 +608,10 @@ function entity(croom)
 					}
 				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
-					this.room.objects[i].playerActivate();
+					if((this.AI==0) ||(OPTIONS.NPCPickups))
+					{
+						this.room.objects[i].playerActivate();
+					}
 				}
 			}
 		}

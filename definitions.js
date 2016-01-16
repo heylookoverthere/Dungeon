@@ -183,6 +183,8 @@ objectSprites.push(Sprite("statue"));
 objectSprites.push(Sprite("bookcasesmall"));
 objectSprites.push(Sprite("bones"));
 objectSprites.push(Sprite("keybrick"));
+objectSprites.push(Sprite("shovel"));
+objectSprites.push(Sprite("mirror"));
 
 var nullSprite=new Sprite("blank");
 
@@ -213,7 +215,7 @@ OPTIONS.DoubleTapThreshold=400;
 OPTIONS.HoldTime=2000;
 OPTIONS.UpdateAllRooms=true;
 OPTIONS.UnsafeWalking=true;
-
+OPTIONS.NPCPickup=true;
 
 var editHistory=[];
 
