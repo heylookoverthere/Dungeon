@@ -114,6 +114,7 @@ function dungeon(path)
 						{	
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.room=curDungeon.curRoom();
 						}
 					}else
 					{
@@ -178,6 +179,7 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.room=curDungeon.curRoom();
 						}
 					}else
 					{
@@ -242,6 +244,8 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.room=curDungeon.curRoom();
+	
 						}
 					}else
 					{
@@ -308,6 +312,8 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.room=curDungeon.curRoom();
+	
 						}
 					}else
 					{
@@ -325,10 +331,7 @@ function dungeon(path)
 				playSound("error");
 			}
 		}
-		if(limited)
-		{
-			miles.room=curDungeon.curRoom();
-		}
+	
 	}
 	
 	this.useDoor=function(which) //link to other doors

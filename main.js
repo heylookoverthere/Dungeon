@@ -482,6 +482,9 @@ timy.doThings=function()
 	}else
 	{
 		this.text="Edit";
+		curDungeon.roomZ=miles.room.z;
+		curDungeon.roomY=miles.room.y;
+		curDungeon.roomX=miles.room.x;
 	}
 }
 
@@ -3018,6 +3021,11 @@ function mainUpdate()
 		if(editMode){
 			curDungeon.hasEdited=true;
 			bConsoleBox.log("Welcome to edit mode. Hit H for help.");
+		}else
+		{
+			curDungeon.roomZ=miles.room.z;
+			curDungeon.roomY=miles.room.y;
+			curDungeon.roomX=miles.room.x;
 		}
 	}
 		

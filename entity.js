@@ -184,6 +184,8 @@ function entity(croom)
 	this.y=3;
 	this.name="Waffles";
 	this.lastX=4;
+	this.maxBombs=10;
+	this.maxArrows=20;
 	this.y=3;
 	this.width=32;
 	this.height=48;
@@ -358,6 +360,24 @@ function entity(croom)
 		if(!this.hasItem(obj.type))
 		{
 			this.inventory.push(obj);
+			
+			if(obj.type==ObjectID.Bomb)
+			{
+				if(amt>this.maxBombs)
+				{
+					amt=this.maxBombs;
+					this.bombs=this.maxBombs;
+				}
+				
+			}else if(obj.type==ObjectID.Bow)
+			{
+				if(amt>this.maxArrows)
+				{
+					amt=this.maxArrows;
+					this.arrows=this.maxArrows
+				}
+				
+			}
 			this.inventoryAmounts.push(amt); 
 		}else
 		{
@@ -366,8 +386,33 @@ function entity(croom)
 				if(this.inventory[i].type==obj.type)
 				{
 					this.inventoryAmounts[i]+=amt;
+					if(obj.type==ObjectID.Bomb)
+					{
+						if(this.inventoryAmounts[i]>this.maxBombs)
+						{
+							this.inventoryAmounts[i]=this.maxBombs;
+							this.bombs=this.maxBombs;
+						}
+						
+					}else if(obj.type==ObjectID.Bow)
+					{
+						if(this.inventoryAmounts[i]>this.maxArrows)
+						{
+							this.inventoryAmounts[i]=this.maxArrows;
+							this.arrows=this.maxArrows
+						}
+						
+					}
 				}
 			}
+		}
+		if(obj.type==ObjectID.Bomb)
+		{
+			if(this.inventoryAmounts[i]>this.maxBombs)
+			{
+				this.inventoryAmounts[i]=this.maxBombs;
+			}
+			
 		}
 	}
 	
@@ -448,7 +493,7 @@ function entity(croom)
 		
 		if(!this.alive)
 		{
-			if(this.deathAniTrack<2)
+			if((this.deathAniTrack<2) || (this.isPlayer))//hack
 			{
 				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
 			}else

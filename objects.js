@@ -1008,8 +1008,9 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Bow]=true;
-			miles.giveItem(this,10);
 			miles.arrows+=10;
+			miles.giveItem(this,10);
+			
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Bomb) {
@@ -1033,8 +1034,9 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Bomb]=true;
-			miles.giveItem(this,5);
 			miles.bombs+=5;
+			miles.giveItem(this,5);
+			
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Lantern) {
@@ -1208,8 +1210,9 @@ object.prototype.setup=function(id,par)
 			shinex.usable=true;
 			shinex.type=ObjectID.Bomb;
 			shinex.setup();
-			miles.giveItem(shinex,1);
 			miles.bombs+=1;
+			miles.giveItem(shinex,1);
+			
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Arrow) {
@@ -1228,8 +1231,9 @@ object.prototype.setup=function(id,par)
 			shinex.usable=true;
 			shinex.type=ObjectID.Bow;
 			shinex.setup();
-			miles.giveItem(shinex,1);
 			miles.arrows+=1;
+			miles.giveItem(shinex,1);
+			
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Gold) {
