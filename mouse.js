@@ -371,7 +371,11 @@ function mouseClick(e) {  //represents the mouse
 	}else if(mode==3)
 	{
 		var bup=Math.floor((mY-75)/25);
-	
+		if((mX<160) || (mX>558))
+		{
+			mode=1;
+			return;
+		}
 		if(bup==0)
 		{
 			OPTIONS.musicOn=!OPTIONS.musicOn;
@@ -430,6 +434,10 @@ function mouseClick(e) {  //represents the mouse
 		}else if(bup==12)
 		{
 			OPTIONS.MirrorBreaks=!OPTIONS.MirrorBreaks;
+		
+		}else if(bup==12)
+		{
+			OPTIONS.DropsPersist=!OPTIONS.DropsPersist;
 		
 		}
 

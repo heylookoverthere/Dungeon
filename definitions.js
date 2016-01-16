@@ -218,6 +218,7 @@ OPTIONS.UnsafeWalking=true;
 OPTIONS.NPCPickup=true;
 OPTIONS.ChainingExplosions=false;
 OPTIONS.MirrorBreaks=false;
+OPTIONS.DropsPersist=false; 
 var editHistory=[];
 
 //var snake=0;

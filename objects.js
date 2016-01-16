@@ -98,6 +98,9 @@ function object(oroom) //not a tile, not an enemy
 	this.room=oroom;
 	this.pickupable=false;
 	this.type=0;
+	this.persistTime=30;
+	this.timed=false;
+	this.createdTime=0;
 	this.bombable=false;
 	this.blockArrows=false;
 	this.hidden=false;
@@ -1200,6 +1203,11 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bomb1"));
 	    this.name="Bombs";
 		this.pickupable=true;
+		if(!OPTIONS.DropsPersists)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
 		this.activate=function()
 		{
 				
@@ -1221,6 +1229,11 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("arrow"));
 	    this.name="Arrow";
 		this.pickupable=true;
+		if(!OPTIONS.DropsPersists)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
 		this.activate=function()
 		{
 				
@@ -1242,6 +1255,11 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("rupee"));
 	    this.name="rupee";
 		this.pickupable=true;
+		if(!OPTIONS.DropsPersists)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
 		this.activate=function()
 		{
 				
@@ -1257,6 +1275,11 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("tenrupee"));
 	    this.name="rupee";
 		this.pickupable=true;
+		if(!OPTIONS.DropsPersists)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
 		this.activate=function()
 		{
 				
@@ -1271,6 +1294,11 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("heartpickup"));
 	    this.name="heart";
+		if(!OPTIONS.DropsPersists)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -1358,10 +1386,30 @@ object.prototype.update=function()
 			}
 		}
 	}
+	if(this.timed)
+	{
+		var knuc=new Date().getTime();
+		if(knuc-this.createdTime>this.persistTime*1000)
+		{
+			this.exists=false;
+		}
+	}
 }
 
 object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 {
+	
+	if(this.timed)
+	{
+		var knuc=new Date().getTime();
+		if(knuc-this.createdTime>(this.persistTime-3)*1000)
+		{
+			if(knuc%2==0)
+			{
+				return;
+			}
+		}
+	}
 	if((editMode) && (this.hidden))
 	{
 		can.globalAlpha=0.5;
@@ -1373,6 +1421,18 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 }
 object.prototype.draw=function(can,cam,xOffh,yOffh)
 {
+	
+	if(this.timed)
+	{
+		var knuc=new Date().getTime();
+		if(knuc-this.createdTime>(this.persistTime-5)*1000)
+		{
+			if(knuc%2==0)
+			{
+				return;
+			}
+		}
+	}
 	if((editMode) && (this.hidden))
 	{
 		can.globalAlpha=0.5;
