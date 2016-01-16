@@ -110,7 +110,11 @@ function dungeon(path)
 							miles.dir=0;
 						}
 						this.roomY--;
-						if(limited){this.curRoom().explored=true;}
+						if(limited)
+						{	
+							this.curRoom().explored=true;
+							this.curRoom().hidden=false;
+						}
 					}else
 					{
 						bConsoleBox.log("No path to door!");
@@ -170,7 +174,11 @@ function dungeon(path)
 							miles.dir=2;
 						}
 						this.roomY++;
-						if(limited){this.curRoom().explored=true;}
+						if(limited)
+						{
+							this.curRoom().explored=true;
+							this.curRoom().hidden=false;
+						}
 					}else
 					{
 						bConsoleBox.log("No path to door!");
@@ -230,7 +238,11 @@ function dungeon(path)
 							miles.dir=1;
 						}
 						this.roomX++;
-						if(limited){this.curRoom().explored=true;}
+						if(limited)
+						{
+							this.curRoom().explored=true;
+							this.curRoom().hidden=false;
+						}
 					}else
 					{
 						bConsoleBox.log("No path to door!");
@@ -292,7 +304,11 @@ function dungeon(path)
 							miles.dir=3;
 						}
 						this.roomX--;
-						if(limited){this.curRoom().explored=true;}
+						if(limited)
+						{
+							this.curRoom().explored=true;
+							this.curRoom().hidden=false;
+						}
 					}else
 					{
 						bConsoleBox.log("No path to door!");
@@ -862,6 +878,7 @@ function dungeon(path)
 					miles.room=curDungeon.curRoom();
 				}
 				this.rooms[this.roomZ][this.roomX][this.roomY].explored=true;
+				this.rooms[this.roomZ][this.roomX][this.roomY].hidden=false;
 			}else
 			{
 				bConsoleBox.log("No stairs going up.");
@@ -899,7 +916,11 @@ function dungeon(path)
 					playSound("stairsdown");
 					miles.room=curDungeon.curRoom();
 				}
-				if(limited){this.rooms[this.roomZ][this.roomX][this.roomY].explored=true;}
+				if(limited)
+				{
+					this.rooms[this.roomZ][this.roomX][this.roomY].explored=true;
+					this.rooms[this.roomZ][this.roomX][this.roomY].hidden=false
+				}
 			}else
 			{
 				bConsoleBox.log("No stairs going down.");

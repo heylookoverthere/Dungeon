@@ -656,6 +656,7 @@ function entity(croom)
 						curDungeon.roomZ--;
 						this.room=curDungeon.curRoom();
 						this.room.explored=true;
+						this.room.hidden=false;
 					}
 				}else if (this.roomZ>0)
 				{
