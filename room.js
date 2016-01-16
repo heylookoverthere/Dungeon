@@ -1286,32 +1286,45 @@ function room(I) { //room object
 		}
 		can.globalAlpha=I.lightLevel;
 		can.fillStyle="black"; //maybe an RGB slight lighter than black? 
-		for(var i=0;i<I.width;i++)
+		if(miles.deathAniTrack<2)
 		{
-			for(var j=0;j<I.height;j++)
+			for(var i=0;i<I.width;i++)
 			{
-				if((i>x-4) && (i<x+4) && (j>y-4) &&(j<y+4))
+				for(var j=0;j<I.height;j++)
 				{
-					//don't draw!
-				}else
-				{			
-					can.fillRect(i*32+xOffset,j*32+yOffset,32,32);
+					if((i>x-4) && (i<x+4) && (j>y-4) &&(j<y+4))
+					{
+						//don't draw!
+					}else
+					{			
+						can.fillRect(i*32+xOffset,j*32+yOffset,32,32);
+					}
+				}
+			}
+			lightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
+			can.globalAlpha=I.lightLevel-0.30;
+			if(I.lightLevel-0.30<0)
+			{
+				can.globalAlpha=0;
+			}
+			middlelightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
+			can.globalAlpha=I.lightLevel-0.50;
+			if(I.lightLevel-0.50<0)
+			{
+				can.globalAlpha=0;
+			}
+			innerlightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
+		}else if((!miles.alive) && (miles.deadAniTrack==2))
+		{
+			for(var i=0;i<I.width;i++)
+			{
+				for(var j=0;j<I.height;j++)
+				{
+					
+						can.fillRect(i*32+xOffset,j*32+yOffset,32,32);
 				}
 			}
 		}
-		lightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
-		can.globalAlpha=I.lightLevel-0.30;
-		if(I.lightLevel-0.30<0)
-		{
-			can.globalAlpha=0;
-		}
-		middlelightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
-		can.globalAlpha=I.lightLevel-0.50;
-		if(I.lightLevel-0.50<0)
-		{
-			can.globalAlpha=0;
-		}
-		innerlightcirclesprite.draw(can,(x-3)*32+xOffset,(y-3)*32+yOffset);
 	}
 	  
     I.clear =function(){

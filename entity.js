@@ -238,7 +238,7 @@ function entity(croom)
 	this.deathAniTrack=0;
 	this.aniCount=0;
 	this.aniTrack=0;
-	this.aniRate=9;
+	this.aniRate=19;
 	this.activebombs=new Array();
 	this.inventory=new Array();
 	this.inventoryAmounts=new Array();
@@ -260,6 +260,26 @@ function entity(croom)
 		//this.exists=false;
 		this.alive=false;
 	}
+	
+	this.revive=function(amt)
+	{
+		playSound("chant");
+		if(this.isPlayer)
+		{
+			if(gameOver)
+			{
+				$("#dialogBox").remove();
+				gameOver=false;
+			}
+		}
+		if(!amt) {amt=this.maxHp;}
+		this.alive=true;
+		this.deathAniTrack=0;
+		this.hp=amt;
+		
+		
+	}
+	
 	
 	this.heal=function(amt)
 	{
@@ -608,7 +628,7 @@ function entity(croom)
 					}
 				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
-					if((this.AI==0) || (OPTIONS.NPCPickups))
+					if((this.AI==0) || (OPTIONS.NPCPickup))
 					{
 						this.room.objects[i].playerActivate();
 					}

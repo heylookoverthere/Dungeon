@@ -329,6 +329,7 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("You found the map! Hit G to use it.");
 				btext="You found the map! Hit G to use it.";
 				miles.hasMap=true;
+				miles.has[hasID.Map]=true;
 			}else if(this.loot==lootTable.RedPotion)
 			{
 				bConsoleBox.log("You found a red potion!");

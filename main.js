@@ -1023,6 +1023,7 @@ entities.push(miles);
 
 function resetMiles()
 {
+	gameOver=false;
 	miles.alive=true;
 	miles.equippedTrack=0;
 	miles.inventory=new Array();
@@ -2553,9 +2554,17 @@ function mainUpdate()
 	if(mapkey.check())
 	{
 		//console.log("look");
-		curDungeon.mapFloor=curDungeon.roomZ;
-		mode=2;
-		playSound("map");
+		if((editMode) || (miles.has[hasID.Map])) 
+		{
+			curDungeon.mapFloor=curDungeon.roomZ;
+			mode=2;
+			playSound("map");
+		}else
+		{
+			playSound("error");
+			bConsoleBox.log("You don't have a map of this dungeon!", "yellow");
+		
+		}
 	}
 		
 	if(editMode)
