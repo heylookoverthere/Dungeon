@@ -48,6 +48,21 @@ function bomb(croom)
 		explosions.push(boop);
 		for(var i=0;i<this.room.exits.length;i++)
 		{
+			var otherX=this.room.exits[i].x
+			var otherY=this.room.exits[i].y
+			if(this.room.exits[i].orientation==0)
+			{
+				otherX=this.room.exits[i].x+1
+			}else if(this.room.exits[i].orientation==1)
+			{
+				otherY=this.room.exits[i].y+1
+			}else if(this.room.exits[i].orientation==2)
+			{
+				otherX=this.room.exits[i].x+1
+			}else if(this.room.exits[i].orientation==3)
+			{
+				otherY=this.room.exits[i].y+1
+			}
 			var blow=false;
 			if((this.room.exits[i].x==this.x) && (this.room.exits[i].y==this.y))
 			{
@@ -62,6 +77,21 @@ function bomb(croom)
 			{
 				blow=true;
 			}else if((this.room.exits[i].x==this.x) && (this.room.exits[i].y+1==this.y))
+			{
+				blow=true;
+			}else if((otherX==this.x) && (otherY==this.y)) // other
+			{
+				blow=true;
+			}else if((otherX+1==this.x) && (otherY==this.y))
+			{
+				blow=true;
+			}else if((otherX-1==this.x) && (otherY==this.y))
+			{
+				blow=true;
+			}else if((otherX==this.x) && (otherY-1==this.y))
+			{
+				blow=true;
+			}else if((otherX==this.x) && (otherY+1==this.y))
 			{
 				blow=true;
 			}
@@ -182,6 +212,7 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.deathOffset=0;
 	this.partyMember=false;
 	this.mapSprite=Sprite("profhead");
 	this.name="Waffles";
@@ -497,13 +528,13 @@ function entity(croom)
 		
 		if(!this.alive)
 		{
-			if((this.deathAniTrack<2) || (this.isPlayer))//hack
-			{
+			//if((this.deathAniTrack<2) || (this.isPlayer))//hack
+			//{
 				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
-			}else
-			{
-				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
-			}
+			//}else
+			//{
+			//	this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
+			//}
 			return;
 		}
 		if((this.isPlayer) && (this.holding))

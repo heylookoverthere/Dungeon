@@ -1109,11 +1109,11 @@ Krugman.mapSprite=Sprite("krughead");
 Krugman.autoJoin=true;
 //theParty.add(Krugman);
 
-/*var nancy=new entity();
+var nancy=new entity();
 nancy.AI=1;
 nancy.x=3;
 nancy.y=11;
-/*nancy.sprites=new Array();
+nancy.sprites=new Array();
 nancy.sprites.push(Sprite("oldman0"));
 nancy.sprites.push(Sprite("oldman1"));
 nancy.sprites.push(Sprite("oldman2"));
@@ -1122,8 +1122,8 @@ nancy.deadSprites=new Array();
 nancy.deadSprites.push(Sprite("oldmandeath0"));
 nancy.deadSprites.push(Sprite("oldmandeath1"));
 nancy.deadSprites.push(Sprite("oldmandeath2"));
-nancy.mapSprite=Sprite("oldmanhead");*/
-/*nancy.walkSpeed=6;
+nancy.mapSprite=Sprite("oldmanhead");
+nancy.walkSpeed=6;
 nancy.tracking=miles;
 nancy.autoJoin=true;
 nancy.textBank.push("Oh, somebody else unfortunate enough to have fallen down here. I suppose we should find a way out.");
@@ -1166,7 +1166,7 @@ if(!OPTIONS.SafeMode)
 nancy.room=curDungeon.rooms[10][7][7];
 nancy.name="Nancy";
 
-entities.push(nancy);*/
+entities.push(nancy);
 
 
 miles.x=9;

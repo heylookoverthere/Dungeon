@@ -81,11 +81,11 @@ ObjectID.KeyBrick=33;
 ObjectID.Mirror=35;
 ObjectID.Shovel=34;
 
-ObjectID.Heart=50;
+ObjectID.Heart=52;
 ObjectID.BombRefill=53;
 ObjectID.Arrow=54;
 ObjectID.Gold=51;
-ObjectID.FiveGold=52;
+ObjectID.FiveGold=51;
 //ObjectID.HoldSwitch=3;
 //ObjectID.Pickup=4; //maybe instead of having one for each item there's one for pickup and then it get a .type?
 
@@ -675,7 +675,13 @@ object.prototype.setup=function(id,par)
 				$("<div id='dialogBox'>").text("Books on various subjects.").appendTo("body");
 			}else
 			{
-				$("<div id='dialogBox'>").text("Books on various subjects. You scan for pornography but find none.").appendTo("body");
+				if(Math.random()*2000<2)
+				{
+					$("<div id='dialogBox'>").text("Books on various subjects. You scan for pornography but find ..wait. What's that?! You found the pornography! Lucky!").appendTo("body");
+				}else
+				{
+					$("<div id='dialogBox'>").text("Books on various subjects. You scan for pornography but find none.").appendTo("body");
+				}
 			}
 		};
 	}else if (this.type==ObjectID.Statue) {
@@ -714,6 +720,11 @@ object.prototype.setup=function(id,par)
 				}else if(Math.random()*10>4)
 				{
 					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
 					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
@@ -724,7 +735,7 @@ object.prototype.setup=function(id,par)
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
 					}
-					var pojk=50+Math.floor(Math.random()*3);
+					var pojk=50+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
 				}
 			}
