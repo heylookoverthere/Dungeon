@@ -18,11 +18,16 @@ var explosions=new Array();
 function party()
 {
 	this.members=new Array();
+	this.track=0;
+	this.posTrack=0; 
 }
 
 party.prototype.add=function(bloke)
 {
 	this.members.push(bloke);
+	bloke.partyPos=this.posTrack;
+	bloke.party=this;
+	this.posTrack++;
 	bloke.partyMember=true; 
 	if(!bloke.isPlayer)
 	{

@@ -1048,12 +1048,18 @@ function resetMiles()
 	miles.money=0;
 	miles.bombs=0;
 	miles.arrows=0;
+	miles.x=9;
+	miles.y=12;
+	miles.enteredX=miles.x;
+	miles.enteredY=miles.y;
 }
 
 var Krugman=new entity();
 Krugman.AI=1;
 Krugman.x=3;
 Krugman.y=10;
+Krugman.enteredX=Krugman.x;
+Krugman.enteredY=Krugman.y;
 Krugman.walkSpeed=6;
 Krugman.tracking=miles;
 Krugman.lastWords="Avenge...me...";
@@ -1073,11 +1079,25 @@ Krugman.textBank.push("Lead on, I have no idea where to go.");
 Krugman.textSaid.push(false);
 lop=function(){return true;}
 Krugman.textConditions.push(lop);
+
+Krugman.textBank.push("Now that it's no longer just you and me, I feel like we should establish some clear protocols regarding cannibalism. Namely that we eat the other guy first. Whenever you're ready. I skipped lunch. ");
+Krugman.textSaid.push(false);
+lop=function()
+{
+	if(theParty.members.length>2)
+	{
+		return true;
+	}
+	return false;	
+}
+Krugman.textConditions.push(lop);
+
 Krugman.getOffChest=2;
 Krugman.chatterBank.push("Supply side economics, and so forth.");
 Krugman.chatterBank.push("I was in a movie! Do you have movies in this world?");
 Krugman.chatterBank.push("I'll get that Paul Ryan if it's the last thing I do!");
 Krugman.chatterBank.push("Beware the foe who uses Voodo-Economics.");
+Krugman.chatterBank.push("I've been stuck in this world for over a month now. I really hope I can get back to Earth by July 19th. That's when my album is dropping");
 Krugman.chatterBank.push("We're going to need to find at least 240 rupees to cover our losses on this expedition. Most of that will go towards buying a new intern. But if we find a little extra maybe we can get hats!");
 if(!OPTIONS.SafeMode)
 {
@@ -1113,6 +1133,8 @@ var nancy=new entity();
 nancy.AI=1;
 nancy.x=3;
 nancy.y=11;
+nancy.enteredX=nancy.x;
+nancy.enteredY=nancy.y;
 nancy.sprites=new Array();
 nancy.sprites.push(Sprite("oldman0"));
 nancy.sprites.push(Sprite("oldman1"));
@@ -3128,7 +3150,7 @@ function mainUpdate()
 	 if(debugkey.check())
 	 {
 		//drawingPath=!drawingPath;
-		//showNancyInfo=!showNancyInfo;
+		showNancyInfo=!showNancyInfo;
 		/*var mpu=curDungeon.curRoom().closestAdj(editor,miles);
 		if(mpu)
 		{

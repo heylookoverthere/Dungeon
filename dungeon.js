@@ -331,7 +331,8 @@ function dungeon(path)
 				playSound("error");
 			}
 		}
-	
+		this.enteredX=this.x;
+		this.enteredY=this.y;
 	}
 	
 	this.useDoor=function(which) //link to other doors
@@ -875,6 +876,8 @@ function dungeon(path)
 			if((this.curRoom().hasStairs(true)) || (!limited))
 			{
 				this.roomZ++;
+				this.enteredX=this.x;
+				this.enteredY=this.y;
 				if(limited)
 				{
 					playSound("stairsup");
@@ -914,6 +917,8 @@ function dungeon(path)
 			if((this.curRoom().hasStairs(false)) || (!limited))
 			{
 				this.roomZ--;
+				this.enteredX=this.x;
+				this.enteredY=this.y;
 				if(limited)
 				{
 					playSound("stairsdown");
@@ -929,9 +934,8 @@ function dungeon(path)
 				bConsoleBox.log("No stairs going down.");
 				playSound("error");
 			}
-
-	
 		}
+
 	}
 	
 	dungeon.prototype.smartAddDoor=function(x,y,dir,type,croom)
