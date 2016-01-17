@@ -14,6 +14,8 @@ var MobileMode=false;
 var numSouns=0;
 var curVersion="0.4a";
 var explosions=new Array();
+var dugsprite=Sprite("shovelhole");
+
 
 function party()
 {

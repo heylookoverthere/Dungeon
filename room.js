@@ -260,6 +260,8 @@ function door(or,clone)
 function Tile() { //the Map is made of a 2D array of tiles.
     this.x = 0;
     this.y = 0;
+	//this.digable=false;
+	this.dug=false;
     this.data =  0;
 }
 Tile.prototype.width = ROOM_TILE_SIZE;
@@ -708,6 +710,16 @@ function room(I) { //room object
 			return false;
 		//}
 	}
+	
+	I.digable=function(x,y)
+	{
+		if( (this.tiles[x][y].data==DungeonTileType.Sand) || (this.tiles[x][y].data==DungeonTileType.FloorEleven)||(this.tiles[x][y].data==DungeonTileType.Grass) ||(this.tiles[x][y].data==DungeonTileType.FloorThirteen))
+		{
+			return true;
+		}//if eds shovel? 
+		return false; 
+	} 
+	
 	
 	I.setStairs=function()
 	{
@@ -1161,6 +1173,10 @@ function room(I) { //room object
 					}else //for now draw still lava if problem
 					{
 							dungeonTileSprite[DungeonTileType.Lava].draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
+					}
+					if(I.tiles[i][j].dug)
+					{
+						dugsprite.draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
 					}
 				}else
 				{

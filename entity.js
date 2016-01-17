@@ -485,8 +485,17 @@ function entity(croom)
 	
 	this.shovel=function()
 	{
-		return false;
-		playSound("shovel")
+		
+		if((this.room.tiles[this.x][this.y].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
+		{
+			playSound("error");
+			return false;
+		}else
+		{
+			//playSound("shovel")
+			this.room.tiles[this.x][this.y].dug=true
+			return true;
+		}
 	}
 	
 	this.cycleEquipped=function(up)
