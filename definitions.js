@@ -864,7 +864,7 @@ tileSprite[TileType.Plains] = Sprite("dirt");
 tileSprite[TileType.Road] = Sprite("road");
 tileSprite[TileType.Sand] = Sprite("sand");
 
-var dungeonTileSprite=new Array(49);
+var dungeonTileSprite=new Array(69);
 dungeonTileSprite[DungeonTileType.Grass] = Sprite("dungeontiles/grass");
 dungeonTileSprite[DungeonTileType.GreenBrick] = Sprite("dungeontiles/brick2"); 
 //dungeonTileSprite[DungeonTileType.Snow] = Sprite("snow"); 

@@ -492,7 +492,7 @@ function entity(croom)
 			return false;
 		}else
 		{
-			//playSound("shovel")
+			playSound("shovel")
 			this.room.tiles[this.x][this.y].dug=true
 			return true;
 		}
