@@ -1052,6 +1052,10 @@ function resetMiles()
 	miles.y=12;
 	miles.enteredX=miles.x;
 	miles.enteredY=miles.y;
+	for(var i=0;i<miles.has.length;i++)
+	{
+		miles.has[i]=false;
+	}
 }
 
 var Krugman=new entity();
@@ -1185,7 +1189,7 @@ if(!OPTIONS.SafeMode)
 	nancy.chatterBank.push("I wrote a poem for you, would you like to hear it? Roses are red / Violets are blue / I'm wearing sweatpants / To conceal my erection.");
 	nancy.chatterBank.push("I'm the reason this game has a 'safe mode' option.");
 }
-nancy.room=curDungeon.rooms[10][7][7];
+nancy.room=curDungeon.rooms[5][8][4];
 nancy.name="Nancy";
 
 entities.push(nancy);
@@ -2470,11 +2474,7 @@ function mainUpdate()
 			}
 		}else if(editor.mode==editModes.Objects)
 		{
-			editor.objectType++;
-			if(editor.objectType>editor.numObjectTypes)
-			{
-				editor.objectType=0;
-			}
+			editor.cycleObjects();
 		}else
 		{
 			editor.brushType++;

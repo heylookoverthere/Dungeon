@@ -455,7 +455,7 @@ function entity(croom)
 		if(!this.has[hasID.Bomb]) {return;}
 		if(this.bombs<1) {return;}
 		this.bombs--;
-		var edsbomb=new bomb(this.room,this.has[hasID.SuperBombs]);
+		var edsbomb=new bomb(this.room,this.has[hasID.SuperBomb]);
 		edsbomb.x=this.x;
 		edsbomb.y=this.y;
 		edsbomb.exists=true;
@@ -689,13 +689,13 @@ function entity(croom)
 			{
 				if(this.fallingY>100)
 				{
-					shadowSprite[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+					shadowSprite[0].draw(can,this.x*32+xOffset,this.y*32+yOffset);
 				}else if(this.fallingY>50)
 				{
-					shadowSprite[1].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+					shadowSprite[1].draw(can,this.x*32+xOffset,this.y*32+yOffset);
 				}else 
 				{
-					shadowSprite[2].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+					shadowSprite[2].draw(can,this.x*32+xOffset,this.y*32+yOffset);
 				}
 			}
 		}

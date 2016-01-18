@@ -90,7 +90,7 @@ hasID.Flippers=14;
 hasID.Lens=15;
 hasID.Boots=16;
 hasID.Glove=17;
-hasID.SuperBombs=18;
+hasID.SuperBomb=18;
 
 
 var LightLevels=new Array();
@@ -241,13 +241,14 @@ objectSprites[301]=Sprite("triforce");
 objectSprites[400]=Sprite("bombbag");
 objectSprites[401]=Sprite("quiver");
 objectSprites[402]=Sprite("heartcontainer");
+objectSprites[403]=Sprite("superbomb");
 
 //drops
-objectSprites[500]=Sprite("heartpickup");
-objectSprites[501]=Sprite("bomb1");
+objectSprites[500]=Sprite("rupee");
+objectSprites[501]=Sprite("tenrupee");
 objectSprites[502]=Sprite("arrow");
-objectSprites[503]=Sprite("rupee");
-objectSprites[504]=Sprite("tenrupee");
+objectSprites[503]=Sprite("heartpickup");
+objectSprites[504]=Sprite("bomb1");
 objectSprites[505]=Sprite("shell");
 objectSprites[506]=Sprite("apple");
 

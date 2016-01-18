@@ -912,25 +912,25 @@ function room(I) { //room object
 			higgins.type=Math.floor(tempstring[i+2]);
 			higgins.hidden=stringTrue(tempstring[i+3]);
 			higgins.room=I;
-			if(higgins.type==1)//sign
+			if(higgins.type==ObjectID.Sign)
 			{
 				higgins.text=tempstring[i+4];
 				ffset=5;
 				mitly++;
 				higgins.setup(1,higgins.text);
-			}else if(higgins.type==2)//chest
+			}else if(higgins.type==ObjectID.Chest)
 			{
 				higgins.loot=Math.floor(tempstring[i+4]);
 				ffset=5;
 				mitly++;
 				higgins.setup();
-			}else if(higgins.type==ObjectID.Lamp)//chest
+			}else if(higgins.type==ObjectID.Lamp)
 			{
 				higgins.on=!stringTrue(tempstring[i+4]);
 				ffset=5;
 				mitly++;
 				higgins.setup();
-			}else if(higgins.type==ObjectID.Curtains)//chest
+			}else if(higgins.type==ObjectID.Curtains)
 			{
 				higgins.hasSecret=stringTrue(tempstring[i+4]);
 				ffset=5;
@@ -1757,7 +1757,7 @@ editCursor.prototype.cycleObjects=function(up)
 		if(this.objectType>506)
 		{
 			this.objectType=0;
-		}else if((this.objectType>402) && (this.objectType<500))
+		}else if((this.objectType>403) && (this.objectType<500))
 		{
 			this.objectType=500;
 		}else if((this.objectType>301) && (this.objectType<400))

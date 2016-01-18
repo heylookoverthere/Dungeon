@@ -106,13 +106,14 @@ ObjectID.Triforce=301;
 ObjectID.BombBag=400;
 ObjectID.Quiver=401;
 ObjectID.HeartContainer=402;
+ObjectID.SuperBomb=403; 
 
 //drops
-ObjectID.Heart=500;
-ObjectID.BombRefill=501;
+ObjectID.Gold=500;
+ObjectID.FiveGold=501;
 ObjectID.Arrow=502;
-ObjectID.Gold=503;
-ObjectID.FiveGold=504;
+ObjectID.Heart=503;
+ObjectID.BombRefill=504;
 ObjectID.Shell=505;
 ObjectID.Apple=506; //no  good 56ing motherfucker.
 
@@ -423,7 +424,6 @@ object.prototype.setup=function(id,par)
 				shinex.type=ObjectID.GreenPotion;
 				shinex.setup();
 				miles.giveItem(shinex);
-				
 			}else if(this.loot==lootTable.BluePotion)
 			{
 				bConsoleBox.log("You found a blue potion!");
@@ -489,6 +489,23 @@ object.prototype.setup=function(id,par)
 			editor.mode=editModes.ChestLoot;
 			editor.lootFor=this;
 		}
+	}else if(this.type==ObjectID.SuperBomb)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("superbomb"));
+		this.name="Super Bomb";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You the super bombs!");
+			btext="You the super bombs!";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.SuperBomb]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.RedPotion)
 	{
 		this.sprites=new Array();
@@ -1908,7 +1925,7 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 	if(!yOffh) {yOffh=0;}
 	this.sprites[this.curSprite].draw(can, this.x*32+xOffh, this.y*32+yOffh);
 	//this.sprite.draw(can, this.x*32+xOffset, this.y*32+yOffset);
-	if((this.type==0) && (this.on))
+	if((this.type==ObjectID.Lamp) && (this.on))
 	{
 		if((this.room.x==curDungeon.roomX)&& (this.room.y==curDungeon.roomY))
 		{
@@ -1939,11 +1956,11 @@ object.prototype.stringify=function()
 	tempstring+=this.type;
 	tempstring+=";";
 	tempstring+=this.hidden;
-	if(this.type==1)
+	if(this.type==ObjectID.Sign)
 	{
 		tempstring+=";";
 		tempstring+=this.text;
-	}else if(this.type==2)
+	}else if(this.type==ObjectID.Chest)
 	{
 		tempstring+=";";
 		tempstring+=this.loot;
