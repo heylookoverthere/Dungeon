@@ -215,11 +215,7 @@ function mouseWheel(e){
 						}
 					}else if(editor.mode==editModes.Objects)
 					{
-						editor.objectType++;
-						if(editor.objectType>editor.numObjectTypes)
-						{
-							editor.objectType=0;
-						}
+						editor.cycleObjects(true);
 					}else if(editor.mode==editModes.ChestLoot)
 					{
 						editor.lootType++;
@@ -263,11 +259,7 @@ function mouseWheel(e){
 						}
 					}else if(editor.mode==editModes.Objects)
 					{
-						editor.objectType--;
-						if(editor.objectType<0)
-						{
-							editor.objectType=editor.numObjectTypes;
-						}
+						editor.cycleObjects(false);
 					}else if(editor.mode==editModes.ChestLoot)
 					{
 						editor.lootType--;

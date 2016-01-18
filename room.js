@@ -1749,6 +1749,57 @@ function editCursor()
 	this.warpOpen=null;
 }
 
+editCursor.prototype.cycleObjects=function(up)
+{
+	if(up)
+	{
+		this.objectType++;
+		if(this.objectType>506)
+		{
+			this.objectType=0;
+		}else if((this.objectType>402) && (this.objectType<500))
+		{
+			this.objectType=500;
+		}else if((this.objectType>301) && (this.objectType<400))
+		{
+			this.objectType=400;
+		}else if((this.objectType>210) && (this.objectType<300))
+		{
+			this.objectType=300;
+		}else if((this.objectType>116) && (this.objectType<200))
+		{
+			this.objectType=200;
+		}else if((this.objectType>16) && (this.objectType<100))
+		{
+			this.objectType=100;
+		}
+	}else
+	{
+		this.objectType--;
+		if(this.objectType<0)
+		{
+			this.objectType=506;
+		}else if(this.objectType==499)
+		{
+			this.objectType=402;
+		}else if(this.objectType==399)
+		{
+			this.objectType=301;
+		}else if(this.objectType==299)
+		{
+			this.objectType=210;
+		}else if(this.objectType==199)
+		{
+			this.objectType=116;
+		}else if(this.objectType==99)
+		{
+			this.objectType=16;
+		}
+		
+	
+	}
+}
+
 editCursor.prototype.clearConfirm=function()
 {
 	if(this.confirming)

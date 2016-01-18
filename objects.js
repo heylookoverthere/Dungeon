@@ -44,68 +44,78 @@ lootName.push("helmet4");
 lootSprites.push(Sprite("helmet4"));
 
 var ObjectID={};
-ObjectID.Lamp=0;
-ObjectID.Sign=1;
-ObjectID.Chest=2;
-ObjectID.Key=3;
-ObjectID.ToggleSwitch=4;
-ObjectID.PotStand=5;
-ObjectID.Pot=6;
-ObjectID.Curtains=7;
-ObjectID.BlueBlocker=8;
-ObjectID.RedBlocker=9;
-ObjectID.BlueOrb=10;
-ObjectID.RedOrb=11;
-ObjectID.Warp=12;
-ObjectID.HeartContainer=13;
-ObjectID.Feather=14;
-ObjectID.Brick=15;
-ObjectID.Bomb=16;
-ObjectID.Bow=17;
-ObjectID.Lantern=18;
-ObjectID.Spikes=19;
-ObjectID.Triforce=20;
-ObjectID.Peg=21;
-ObjectID.Hammer=22;
-ObjectID.RedPotion=23;
-ObjectID.BluePotion=24;
-ObjectID.GreenPotion=25;
-ObjectID.Poo=27;
-ObjectID.Table=26;
-ObjectID.TallLamp=28;
-ObjectID.StumpSeat=29;
-ObjectID.Statue=30;
-ObjectID.Bookcase=31;
-ObjectID.Bones=32;
-ObjectID.KeyBrick=33;
-ObjectID.Shovel=34;
-ObjectID.Mirror=35;
 
-ObjectID.Boomarang=36;
-ObjectID.BombBag=37;
-ObjectID.Quiver=38;
-ObjectID.Hookshot=39;
-ObjectID.Flippers=40;
-ObjectID.Lens=41;
-ObjectID.Rock=42;
-ObjectID.Bush=43;
-ObjectID.SpikeyThing=44;
-ObjectID.Boots=45;
-ObjectID.Candle=46;
-ObjectID.WallShield=47;
-ObjectID.Crystal=48;
-ObjectID.Glove=49;
 
-ObjectID.Heart=52;
-ObjectID.BombRefill=53;
-ObjectID.Arrow=54;
-ObjectID.Gold=50;
-ObjectID.FiveGold=51;
-ObjectID.Shell=55;
-ObjectID.Apple=56; //no  good 56ing motherfucker.
+//tools
+ObjectID.Feather=0;
+ObjectID.Bomb=1;
+ObjectID.Bow=2;
+ObjectID.Lantern=3;
+ObjectID.Hammer=4;
+ObjectID.RedPotion=5;
+ObjectID.BluePotion=6;
+ObjectID.GreenPotion=7;
+ObjectID.Shovel=8;
+ObjectID.Mirror=9;
+ObjectID.Boomarang=10;
+ObjectID.Hookshot=11;
+ObjectID.Flippers=12;
+ObjectID.Lens=13;
+ObjectID.Boots=14;
+ObjectID.Glove=15;
+ObjectID.Poo=16;
 
-//ObjectID.HoldSwitch=3;
-//ObjectID.Pickup=4; //maybe instead of having one for each item there's one for pickup and then it get a .type?
+//furniture
+ObjectID.Lamp=100;
+ObjectID.Sign=101;
+ObjectID.Candle=102;
+ObjectID.TallLamp=103;
+ObjectID.ToggleSwitch=104;
+ObjectID.PotStand=105;
+ObjectID.Pot=106;
+ObjectID.Curtains=107;
+ObjectID.Warp=108;
+ObjectID.WallShield=109;
+ObjectID.Table=110;
+ObjectID.Chest=111;
+ObjectID.StumpSeat=112;
+ObjectID.Statue=113;
+ObjectID.Bookcase=114;
+ObjectID.Bones=115;
+ObjectID.SpikeyThing=116;
+
+//obstacle
+ObjectID.Bush=200;
+ObjectID.Peg=201;
+ObjectID.BlueBlocker=202;
+ObjectID.RedBlocker=203;
+ObjectID.BlueOrb=204;
+ObjectID.RedOrb=205;
+ObjectID.Spikes=206;
+ObjectID.Brick=207;
+ObjectID.KeyBrick=208;
+ObjectID.Rock=209;
+
+ObjectID.Crystal=210;
+
+//pickups
+ObjectID.Key=300;
+ObjectID.Triforce=301;
+
+//upgrades
+ObjectID.BombBag=400;
+ObjectID.Quiver=401;
+ObjectID.HeartContainer=402;
+
+//drops
+ObjectID.Heart=500;
+ObjectID.BombRefill=501;
+ObjectID.Arrow=502;
+ObjectID.Gold=503;
+ObjectID.FiveGold=504;
+ObjectID.Shell=505;
+ObjectID.Apple=506; //no  good 56ing motherfucker.
+
 
 function object(oroom) //not a tile, not an enemy
 {
@@ -865,7 +875,7 @@ object.prototype.setup=function(id,par)
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
 					}
-					var pojk=50+Math.floor(Math.random()*2);
+					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
 				}
 			}
@@ -914,7 +924,7 @@ object.prototype.setup=function(id,par)
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
 					}
-					var pojk=50+Math.floor(Math.random()*2);
+					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
 				}
 			}
@@ -955,7 +965,7 @@ object.prototype.setup=function(id,par)
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
 					}
-					var pojk=50+Math.floor(Math.random()*2);
+					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
 				}
 			}
@@ -1369,7 +1379,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
-			if(!miles.has[hasID.Boomarang])
+			if(!miles.has[hasID.Boots])
 			{
 				playSound("itemfanfare");
 				bConsoleBox.log("You found some boots! they're totally useless for now!");
@@ -1380,7 +1390,7 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("This pair of boots is actually slightly nicer than the pear you've been wearing. You swap them out.");
 			}
 			this.exists=false;
-			miles.has[hasID.Boomarang]=true;
+			miles.has[hasID.Boots]=true;
 			miles.giveItem(this,1);
 			
 		}
@@ -1620,7 +1630,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bomb1"));
 	    this.name="Bombs";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist) && (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1646,7 +1656,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("arrow"));
 	    this.name="Arrow";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist) && (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1672,7 +1682,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("shell"));
 	    this.name="sea shell";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			//this.timed=true;
 			//this.createdTime=new Date().getTime();
@@ -1692,7 +1702,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("rupee"));
 	    this.name="rupee";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1712,7 +1722,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("apple"));
 	    this.name="apple";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1732,7 +1742,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("tenrupee"));
 	    this.name="rupee";
 		this.pickupable=true;
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
@@ -1751,7 +1761,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("heartpickup"));
 	    this.name="heart";
-		if(!OPTIONS.DropsPersist)
+		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
 			this.createdTime=new Date().getTime();
