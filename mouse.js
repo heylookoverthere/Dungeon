@@ -23,7 +23,7 @@ $(document).bind("contextmenu",function(e){
 			miles.removeItem(ObjectID.Bomb,1);
 		}else if(miles.getEquipped()==ObjectID.Shovel)
 		{
-			if(miles.shovel())
+			if(miles.dig())
 			{
 			
 			}else

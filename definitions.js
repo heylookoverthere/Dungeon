@@ -233,6 +233,11 @@ objectSprites.push(Sprite("glove"));
 
 var nullSprite=new Sprite("blank");
 
+var shadowSprite=new Array();
+shadowSprite.push(Sprite("shadow0"));
+shadowSprite.push(Sprite("shadow1"));
+shadowSprite.push(Sprite("shadow2"));
+
 var editModes={};
 editModes.Pen=0;
 editModes.Stamp=1;

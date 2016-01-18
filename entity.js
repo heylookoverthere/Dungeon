@@ -483,7 +483,7 @@ function entity(croom)
 
 	}
 	
-	this.shovel=function()
+	this.dig=function() //fuck you, it's dig now. It shoulda been dig to begin with! the verb of shovel is dig!
 	{
 		
 		if((this.room.tiles[this.x][this.y].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
@@ -587,6 +587,19 @@ function entity(croom)
 			if(this.gotHurt%2==0)
 			{
 				this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+			}
+			if((this.fallingY>0) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.Hole))
+			{
+				if(this.fallingY>100)
+				{
+					shadowSprite[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+				}else if(this.fallingY>50)
+				{
+					shadowSprite[1].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+				}else 
+				{
+					shadowSprite[2].draw(can,this.x*32+xOffset,this.y*32+yOffset-14);
+				}
 			}
 		}
 		for(var i=0;i<this.activebombs.length;i++)
