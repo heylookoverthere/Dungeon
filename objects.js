@@ -78,14 +78,32 @@ ObjectID.Statue=30;
 ObjectID.Bookcase=31;
 ObjectID.Bones=32;
 ObjectID.KeyBrick=33;
-ObjectID.Mirror=35;
 ObjectID.Shovel=34;
+ObjectID.Mirror=35;
+
+ObjectID.Boomarang=36;
+ObjectID.BombBag=37;
+ObjectID.Quiver=38;
+ObjectID.Hookshot=39;
+ObjectID.Flippers=40;
+ObjectID.Lens=41;
+ObjectID.Rock=42;
+ObjectID.Bush=43;
+ObjectID.SpikeyThing=44;
+ObjectID.Boots=45;
+ObjectID.Candle=46;
+ObjectID.WallShield=47;
+ObjectID.Crystal=48;
+ObjectID.Glove=49;
 
 ObjectID.Heart=52;
 ObjectID.BombRefill=53;
 ObjectID.Arrow=54;
 ObjectID.Gold=50;
 ObjectID.FiveGold=51;
+ObjectID.Shell=55;
+ObjectID.Apple=56; //no  good 56ing motherfucker.
+
 //ObjectID.HoldSwitch=3;
 //ObjectID.Pickup=4; //maybe instead of having one for each item there's one for pickup and then it get a .type?
 
@@ -96,6 +114,7 @@ function object(oroom) //not a tile, not an enemy
 	this.on=false;
 	this.ctype=0;
 	this.room=oroom;
+	this.hurty=false; 
 	this.pickupable=false;
 	this.type=0;
 	this.persistTime=30;
@@ -130,7 +149,7 @@ function object(oroom) //not a tile, not an enemy
 		{
 			return true;
 		}
-		if((this.type==ObjectID.BlueBlocker) || (this.type==ObjectID.RedBlocker)|| (this.type==ObjectID.Peg))//||(this.type==ObjectID.Spikes))
+		if((this.type==ObjectID.BlueBlocker) || (this.type==ObjectID.RedBlocker)|| (this.type==ObjectID.Peg) ||(this.type==ObjectID.Bush)||(this.type==ObjectID.Rock))
 		{
 			if(!this.on) {
 				return true;
@@ -216,6 +235,47 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("lamp"));
 	    this.name="lamp";
+		this.flame=new flame(this.room.lights);
+		this.flame.x=this.x*32+xOffset+2;
+		this.flame.y=this.y*32+yOffset-15;
+		this.flame.type=0;
+		this.playerUsable=true;
+		this.flame.alive=false;
+		this.room.fires.push(this.flame);
+		
+		this.playerActivate=function()
+		{
+			if((!this.on)&&(!miles.has[hasID.Lantern]))
+			{
+				bConsoleBox.log("Need the lantern!","yellow");
+				playSound("error");
+				return;
+			}
+			this.activate();
+		}
+		this.activate=function()
+		{
+			this.on=!this.on;
+			
+			if(!this.on)
+			{
+				this.flame.flare.alive=false;
+				this.flame.alive=false;
+				
+			}else{
+				this.flame=new flame(this.room.lights);
+				this.flame.x=this.x*32+xOffset;//miles.x;
+				this.flame.y=this.y*32+yOffset-16;//miles.y;
+				this.flame.type=0;
+				playSound("lamp");
+			}
+		}
+		this.activate(); //oooh that's why it's backwards. 
+		
+	}else if (this.type==ObjectID.Candle) {
+	    this.sprites=new Array();
+		this.sprites.push(Sprite("candle"));
+	    this.name="candle";
 		this.flame=new flame(this.room.lights);
 		this.flame.x=this.x*32+xOffset+2;
 		this.flame.y=this.y*32+yOffset-15;
@@ -489,7 +549,62 @@ object.prototype.setup=function(id,par)
 			miles.keys++;
 		}
 		this.playerActivate=this.activate;
-	}else if(this.type==ObjectID.Poo)
+	}else if(this.type==ObjectID.Wallet)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("wallet"));
+		this.name="Wallet";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=false;
+		this.activate=function()
+		{
+			bConsoleBox.log("You found a bigger wallet!");
+			btext="You found a bigger wallet!";
+			miles.wallet=miles.wallet*2;
+			if(miles.wallet>999)
+			{
+				miles.wallet=999;
+			}
+		}
+	}else if(this.type==ObjectID.Quiver)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("quiver"));
+		this.name="Quiver";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=false;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a bigger quiver!");
+			btext="You found a bigger quiver!";
+			miles.maxArrows+=10;
+			this.exists=false;
+			miles.holding=this.sprites[0];
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.BombBag)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("bombbag"));
+		this.name="bomb bag";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=false;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a bigger bomb bag!");
+			btext="You found a bigger bomb bag!";
+			miles.maxBombs=miles.maxBombs+10;
+			this.exists=false;
+			miles.holding=this.sprites[0];
+		}
+		this.playerActivate=this.activate;
+	}
+	else if(this.type==ObjectID.Poo)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("poo"));
@@ -579,6 +694,21 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=false;
 		this.sprites.push(Sprite("potstand"));
 		this.name="Pot stand";
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.SpikeyThing) {
+		this.sprites=new Array();
+		this.alwaysWalkable=false;
+		this.hurty=true; 
+		this.playerUsable=false;
+		this.sprites.push(Sprite("spikey"));
+		this.name="Spikey thing";
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Crystal) {
+		this.sprites=new Array();
+		this.alwaysWalkable=false;
+		this.playerUsable=false;
+		this.sprites.push(Sprite("crystal"));
+		this.name="strange crystal";
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.KeyBrick) {
 		this.sprites=new Array();
@@ -741,6 +871,96 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Rock) {
+		this.sprites=new Array();
+		this.bombable=false;//true;
+		this.sprites.push(Sprite("rock"));
+		this.sprites.push(Sprite("shatter0"));
+		this.sprites.push(Sprite("shatter1"));
+		this.sprites.push(Sprite("shatter2"));
+		this.sprites.push(Sprite("shatter3"));
+		this.sprites.push(Sprite("shatter4"));
+		this.sprites.push(Sprite("shatter5"));
+		this.sprites.push(Sprite("shatter6"));
+		this.sprites.push(Sprite("shatter7"));
+		this.name="rock";
+		this.activate=function()
+		{
+			return false; //need glvoes
+			if(!this.on)
+			{
+				playSound("shatter");
+				this.curSprite=1;
+				this.aniRate=3;
+				this.on=true;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=50+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Bush) {
+		this.sprites=new Array();
+		this.bombable=true;
+		this.sprites.push(Sprite("bush"));
+		this.sprites.push(Sprite("bushcut")); //todo!
+		this.name="bush";
+		this.activate=function()
+		{
+			if(!this.on)
+			{
+				playSound("curtains");
+				this.curSprite=1;
+				//this.aniRate=3;
+				this.on=true;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=50+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Curtains) {
 		this.sprites=new Array();
 		this.curSprite=1;
@@ -797,6 +1017,41 @@ object.prototype.setup=function(id,par)
 				playSound("secret");
 				this.exists=false;
 			}
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.WallShield) {
+		this.sprites=new Array();
+		this.curSprite=0;
+		this.alwaysWalkable=true;
+		if(this.y==1)
+		{
+			this.sprites.push(Sprite("wallshield0"));
+			this.width=32;
+			this.height=42;
+		}else if(this.x==18)
+		{
+			this.sprites.push(Sprite("wallshield1"));
+			this.width=42;
+			this.height=32;
+		}else if(this.y==13)
+		{
+			this.sprites.push(Sprite("wallshield2"));
+			this.width=32;
+			this.height=42;
+		}else if(this.x==1)
+		{
+			this.sprites.push(Sprite("wallshield3"));
+			this.width=42;
+			this.height=32;
+		}else
+		{
+			this.sprites.push(Sprite("wallshield0"));
+		}
+		
+	
+		this.name="Decorative shield";
+		this.activate=function(){
+			
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Peg) { //blue blocker
@@ -1034,6 +1289,150 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Glove) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("glove"));
+	    this.name="Power Glove";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Glove])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Power Glove! It can be used to play a small number of NES games!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another glove. Oh wait, yeah you do! You have two hands! ");
+			}
+			this.exists=false;
+			miles.has[hasID.Glove]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Boomarang) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("boomarang"));
+	    this.name="Boomarang";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Boomarang])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Boomarang! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another boomarang.");
+			}
+			this.exists=false;
+			miles.has[hasID.Boomarang]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Flippers) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("flippers"));
+	    this.name="Flippers";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Flippers])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Flippers! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another pair of flippers.");
+			}
+			this.exists=false;
+			miles.has[hasID.Flippers]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Boots) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("boots"));
+	    this.name="boots";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Boomarang])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found some boots! they're totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("This pair of boots is actually slightly nicer than the pear you've been wearing. You swap them out.");
+			}
+			this.exists=false;
+			miles.has[hasID.Boomarang]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Hookshot) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("hookshot"));
+	    this.name="Hookshot";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Hookshot])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Hookshot! Don't get excited.");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another useless hookshot.");
+			}
+			this.exists=false;
+			miles.has[hasID.Hookshot]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Lens) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("lens"));
+	    this.name="Creepy magnifying glass";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Lens])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found ..some weird magnifying glass! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another priceless ancient artifact.");
+			}
+			this.exists=false;
+			miles.has[hasID.Lens]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Bomb) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
@@ -1267,6 +1666,26 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Shell) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("shell"));
+	    this.name="sea shell";
+		this.pickupable=true;
+		if(!OPTIONS.DropsPersist)
+		{
+			//this.timed=true;
+			//this.createdTime=new Date().getTime();
+		}
+		this.activate=function()
+		{
+			miles.holding=this.sprites[0];
+			bConsoleBox.log("You found a secret seashell! If you collect enough of these, something good is bound to happen!");
+			playSound("itemfanfare");
+			this.exists=false;
+			miles.shells++;
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Gold) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
@@ -1285,6 +1704,26 @@ object.prototype.setup=function(id,par)
 			playSound("coin");
 			this.exists=false;
 			miles.money+=1;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Apple) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("apple"));
+	    this.name="apple";
+		this.pickupable=true;
+		if(!OPTIONS.DropsPersist)
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found an apple.");
+			playSound("item");
+			this.exists=false;
+			miles.health+=20;
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.FiveGold) {

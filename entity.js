@@ -215,7 +215,6 @@ function entity(croom)
 	this.enteredX=this.x;
 	this.enteredY=this.y;
 	this.partyPos=0;
-	this.deathOffset=0;
 	this.partyMember=false;
 	this.mapSprite=Sprite("profhead");
 	this.name="Waffles";
@@ -233,6 +232,7 @@ function entity(croom)
 	this.room=null;
 	this.tracker=false;
 	this.tracking=null;
+	this.shells=0;
 	this.talkBox=new textbox();
 	this.getOffChest=0; //how many elements of talkBank should be said without prompting him
 	this.textBank=new Array();
@@ -493,7 +493,36 @@ function entity(croom)
 		}else
 		{
 			playSound("shovel")
-			this.room.tiles[this.x][this.y].dug=true
+			this.room.tiles[this.x][this.y].dug=true;
+			if(false)//specifically buried loot somehow
+			{
+				
+			}else if(Math.random()*10>4)
+			{
+				var bmoke=3;
+				if(Math.random()*10>8)
+				{
+					makeObject(this.x,this.y,this.room,ObjectID.Shell);
+					return;
+				}
+				if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+				{
+					makeObject(this.x,this.y,this.room,ObjectID.Heart);
+					return;
+				}
+				if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+				{
+					makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+					return;
+				}
+				if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+				{
+					makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+					return;
+				}
+				var pojk=50+Math.floor(Math.random()*2);
+				makeObject(this.x,this.y,this.room,pojk);
+			}
 			return true;
 		}
 	}

@@ -69,7 +69,7 @@ randomPhrases.push("I dunno much about computers other than the one I got at my 
 randomPhrases.push("You know those guitars that are like....double guitars?");
 randomPhrases.push("Sometimes, cats can be afraid of cucumbers. But sometimes not.");
 
-var numHas=12;
+var numHas=18;
 
 var hasID={};
 hasID.Map=0;
@@ -84,6 +84,12 @@ hasID.Boots=8;
 hasID.Compass=9;
 hasID.MasterKey=10;
 hasID.Poo=11;
+hasID.Boomarang=12;
+hasID.Hookshot=13;
+hasID.Flippers=14;
+hasID.Lens=15;
+hasID.Boots=16;
+hasID.Glove=17;
 
 
 var LightLevels=new Array();
@@ -209,6 +215,21 @@ objectSprites.push(Sprite("bones"));
 objectSprites.push(Sprite("keybrick"));
 objectSprites.push(Sprite("shovel"));
 objectSprites.push(Sprite("mirror"));
+
+objectSprites.push(Sprite("boomarang"));
+objectSprites.push(Sprite("bombbag"));
+objectSprites.push(Sprite("quiver"));
+objectSprites.push(Sprite("hookshot"));
+objectSprites.push(Sprite("flippers"));
+objectSprites.push(Sprite("lens"));
+objectSprites.push(Sprite("rock"));
+objectSprites.push(Sprite("bush"));
+objectSprites.push(Sprite("spikey"));
+objectSprites.push(Sprite("boots"));
+objectSprites.push(Sprite("candle"));
+objectSprites.push(Sprite("wallshield0"));
+objectSprites.push(Sprite("crystal"));
+objectSprites.push(Sprite("glove"));
 
 var nullSprite=new Sprite("blank");
 

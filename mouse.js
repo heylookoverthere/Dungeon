@@ -687,7 +687,7 @@ function mouseClick(e) {  //represents the mouse
 				}else
 				{
 					var text=randomPhrases[Math.floor(Math.random()*randomPhrases.length)]
-					if(editor.objectType==7)//curtains
+					if((editor.objectType==ObjectID.Curtains)||(editor.objectType==ObjectID.WallShield))//curtains
 					{
 						if(editor.x==2) //left
 						{
@@ -707,7 +707,7 @@ function mouseClick(e) {  //represents the mouse
 							return;
 						}else
 						{
-							bConsoleBox.log("Not the best spot for curtains");
+							bConsoleBox.log("Not the best spot for that.");
 							return;
 						}
 					}else if(editor.objectType==ObjectID.Warp)
