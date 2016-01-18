@@ -672,6 +672,10 @@ DungeonTileType.FloorEleven=54;
 DungeonTileType.FloorTwelve=55;
 DungeonTileType.FloorThirteen=56;
 DungeonTileType.FloorFourteen=57;
+DungeonTileType.FloorFifteen=58;
+DungeonTileType.FloorSixteen=59;
+DungeonTileType.FloorSeventeen=60;
+DungeonTileType.FloorEighteen=61;
 DungeonTileType.Ice=2;
 DungeonTileType.Water=20;
 DungeonTileType.Lava=24; 
@@ -682,7 +686,7 @@ DungeonTileType.BombableDoor=41;
 DungeonTileType.BombedDoor=42;
 DungeonTileType.CurtainDoor=43;
 DungeonTileType.Unstable=7;
-DungeonTileType.ReallyUnstable=60;
+DungeonTileType.ReallyUnstable=70;
 DungeonTileType.Hole=8;
 DungeonTileType.GreenBrick=0;
 DungeonTileType.OrangeBrick=3;
@@ -926,7 +930,10 @@ dungeonTileSprite[DungeonTileType.FloorEleven] = Sprite("dungeontiles/sand2");
 dungeonTileSprite[DungeonTileType.FloorTwelve] = Sprite("dungeontiles/floor11");
 dungeonTileSprite[DungeonTileType.FloorThirteen] = Sprite("dungeontiles/floor12");
 dungeonTileSprite[DungeonTileType.FloorFourteen] = Sprite("dungeontiles/floor13");
-
+dungeonTileSprite[DungeonTileType.FloorFifteen] = Sprite("dungeontiles/floor15");
+dungeonTileSprite[DungeonTileType.FloorSixteen] = Sprite("dungeontiles/floor16");
+dungeonTileSprite[DungeonTileType.FloorSeventeen] = Sprite("dungeontiles/floor17");
+dungeonTileSprite[DungeonTileType.FloorEighteen] = Sprite("dungeontiles/dirt");
 var reverseBird = Sprite("dungeontiles/dungeonthing1");
 
 

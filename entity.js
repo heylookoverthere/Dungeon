@@ -222,7 +222,7 @@ function entity(croom)
 	this.lastX=4;
 	this.maxBombs=10;
 	this.maxArrows=20;
-	this.y=3;
+	this.lastY=3;
 	this.width=32;
 	this.height=48;
 	this.autoJoin=false;
@@ -772,8 +772,8 @@ function entity(croom)
 				{
 					this.room.tiles[this.x][this.y].data=DungeonTileType.ReallyUnstable;
 					playSound("unstable");
-				
-					
+					this.lastX=this.x;
+					this.lastY=this.y;
 				}
 			}else if((this.room.tiles[this.x][this.y].data==DungeonTileType.ReallyUnstable)&& (OPTIONS.UnsafeWalking))
 			{
@@ -1024,6 +1024,7 @@ function entity(croom)
 				}
 				
 			}	
+
 		}
 		if(this.going)
 		{
@@ -1060,6 +1061,8 @@ function entity(croom)
 					this.going=false;
 					this.walkTrack=0;
 					this.pathTrack=0;
+					//this.lastX=this.x;
+					//this.lastY=this.y;
 					this.path=null;
 					if((this.AI>0) && (this.tracking))
 					{
@@ -1108,7 +1111,6 @@ function entity(croom)
 				}
 			}
 		}
-
 	}
 
 	for(var i=0;i<numHas;i++)
