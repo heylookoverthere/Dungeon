@@ -5,9 +5,10 @@ equippedID.Boomerang=3;
 
 var numEquippable=2;
 
-function bomb(croom)
+function bomb(croom,isSuper)
 {
-
+	if(!isSuper) {isSuper=false;}
+	this.isSuper=isSuper;
 	this.x=0;
 	this.y=0;
 	this.exists=false;
@@ -18,6 +19,8 @@ function bomb(croom)
 	this.sprites=new Array();
 	this.sprites.push(Sprite("bomb1"));
 	this.sprites.push(Sprite("bomb2"));
+	this.sprites.push(Sprite("superbomb"));
+	this.sprites.push(Sprite("superbomb1"));
 	this.update=function()
 	{
 		var millip=new Date().getTime();
@@ -30,6 +33,92 @@ function bomb(croom)
 	{
 		playSound("explosion");
 		this.exists=false;
+		if(this.isSuper)
+		{
+			for (var n=this.x-2;n<this.x+3;n++)
+			{
+				for (var m=this.y-2;m<this.y+3;m++)
+				{
+					//particles, sprites, trigger switches, destroy walls and cracked floors
+					if((n<this.x+2) && (m<this.y+2))
+					{
+						var boop=new explosionEffect();
+						boop.setup(n,m,this.room);
+						explosions.push(boop);
+					}
+					for(var i=0;i<this.room.exits.length;i++)
+					{
+						var otherX=this.room.exits[i].x
+						var otherY=this.room.exits[i].y
+						if(this.room.exits[i].orientation==0)
+						{
+							otherX=this.room.exits[i].x+1
+						}else if(this.room.exits[i].orientation==1)
+						{
+							otherY=this.room.exits[i].y+1
+						}else if(this.room.exits[i].orientation==2)
+						{
+							otherX=this.room.exits[i].x+1
+						}else if(this.room.exits[i].orientation==3)
+						{
+							otherY=this.room.exits[i].y+1
+						}
+						var blow=false;
+						if((this.room.exits[i].x==n) && (this.room.exits[i].y==m))
+						{
+							blow=true;
+						}else if((otherX==n) && (otherY==m)) // other
+						{
+							blow=true;
+						}
+						if((blow) && (this.room.exits[i].type==3))
+						{
+							playSound("secret");
+							this.room.exits[i].open();
+						}
+					}
+					for(var i=0;i<this.room.objects.length;i++)
+					{
+						var blow=false;
+						if((this.room.objects[i].x==n) && (this.room.objects[i].y==m))
+						{
+							blow=true;
+						}
+						if((blow) && (this.room.objects[i].bombable))
+						{
+							this.room.objects[i].activate();
+						}
+						
+					}
+					for(var i=0;i<entities.length;i++)
+					{
+						var blow=false;
+						if((entities[i].x==n) && (entities[i].y==m))
+						{
+							blow=true;
+						}
+						if((blow) && (entities[i].room.z==this.room.z)&&(entities[i].room.x==this.room.x)&&(entities[i].room.y==this.room.y))
+						{
+							entities[i].hurt(20);
+						}
+					}
+					var blow=false;
+					if((this.room.tiles[n][m].data==DungeonTileType.Unstable) || (this.room.tiles[n][m].data==DungeonTileType.ReallyUnstable))
+					{
+						blow=true;
+						this.room.tiles[n][m].data=DungeonTileType.Hole;
+					}
+					if(blow)
+					{
+						playSound("secret");
+					}
+				}
+				
+			}
+			return;
+		}
+		
+		
 		//particles, sprites, trigger switches, destroy walls and cracked floors
 		var boop=new explosionEffect();
 		boop.setup(this.x-1,this.y-1,this.room);
@@ -186,18 +275,23 @@ function bomb(croom)
 		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
 		{
 			var millip= new Date().getTime();
+			var dex=0;
+			if(this.isSuper)
+			{
+				dex=2;
+			}
 			if((millip-this.timePlaced>this.fuse*800) && (this.armed))
 			{
 				if(millip%2==0)
 				{
-					this.sprites[1].draw(can,this.x*32+xoffh,this.y*32+yoffh);
+					this.sprites[dex+1].draw(can,this.x*32+xoffh,this.y*32+yoffh);
 				}else
 				{
-					this.sprites[0].draw(can,this.x*32+xoffh,this.y*32+yoffh);
+					this.sprites[dex+0].draw(can,this.x*32+xoffh,this.y*32+yoffh);
 				}
 			}else
 			{
-				this.sprites[0].draw(can,this.x*32+xoffh,this.y*32+yoffh);
+				this.sprites[dex+0].draw(can,this.x*32+xoffh,this.y*32+yoffh);
 			}
 		}
 	}
@@ -361,7 +455,7 @@ function entity(croom)
 		if(!this.has[hasID.Bomb]) {return;}
 		if(this.bombs<1) {return;}
 		this.bombs--;
-		var edsbomb=new bomb(this.room);
+		var edsbomb=new bomb(this.room,this.has[hasID.SuperBombs]);
 		edsbomb.x=this.x;
 		edsbomb.y=this.y;
 		edsbomb.exists=true;
@@ -486,14 +580,17 @@ function entity(croom)
 	this.dig=function() //fuck you, it's dig now. It shoulda been dig to begin with! the verb of shovel is dig!
 	{
 		
-		if((this.room.tiles[this.x][this.y].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
+		var spotX=this.x;
+		var spotY=this.y;
+		
+		if((this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
 		{
 			playSound("error");
 			return false;
 		}else
 		{
 			playSound("shovel")
-			this.room.tiles[this.x][this.y].dug=true;
+			this.room.tiles[spotX][spotY].dug=true;
 			if(false)//specifically buried loot somehow
 			{
 				
@@ -502,26 +599,26 @@ function entity(croom)
 				var bmoke=3;
 				if(Math.random()*10>8)
 				{
-					makeObject(this.x,this.y,this.room,ObjectID.Shell);
+					makeObject(spotX,spotY,this.room,ObjectID.Shell);
 					return;
 				}
-				if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+				if((this.hp<miles.maxHp) && (Math.random()*10<3))
 				{
-					makeObject(this.x,this.y,this.room,ObjectID.Heart);
+					makeObject(spotX,spotY,this.room,ObjectID.Heart);
 					return;
 				}
-				if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+				if((this.has[hasID.Bow]) && (Math.random()*10<3))
 				{
-					makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+					makeObject(spotX,spotY,this.room,ObjectID.Arrow);
 					return;
 				}
-				if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+				if((this.has[hasID.Bomb]) && (Math.random()*10<3))
 				{
-					makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+					makeObject(spotX,spotY,this.room,ObjectID.BombRefill);
 					return;
 				}
 				var pojk=50+Math.floor(Math.random()*2);
-				makeObject(this.x,this.y,this.room,pojk);
+				makeObject(spotX,spotY,this.room,pojk);
 			}
 			return true;
 		}
