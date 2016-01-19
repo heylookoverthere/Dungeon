@@ -1377,9 +1377,10 @@ controller= new virtualGamePad();
 var savekey=new akey("i"); //define the different keys
 var loadkey=new akey("t");
 var optionskey=new akey("o");
+var inventorykey=new akey("v");
 var shiftkey=new akey("shift");
 
- var LOAD_COUNTS=new Array();
+var LOAD_COUNTS=new Array();
 var gamestart=false;
 var radar=true;
 //var sortedExistingDungeons=new Array();
@@ -1557,6 +1558,9 @@ FPS=countFPS();
 	}else if(mode==3){
 		optionsUpdate();
 		optionsDraw();
+	}else if(mode==4){
+		inventoryUpdate();
+		inventoryDraw();
 	}
 	//canvas.beginPath();
 	//osCanvas.drawImage(canvasElement,0,0);
@@ -1618,18 +1622,178 @@ function mainMenuDraw(){
 	//canvas.fillText("Particles: "+ monsta.particles.length,460,550);
 };
 
-function inventoryScreenDraw(){
+function inventoryUpdate()
+{
+	if((escapekey.check()))
+	{
+		mode=1;
+	}
+	if(inventorykey.check())
+	{
+		mode=1;
+	}
+	if(upkey.check())
+	{
+		
+	}
+	if(downkey.check())
+	{
+		
+	}
+		
+}
+function inventoryDraw() {
+	//SHOULDN'T
 	canvas.fillStyle = "black";
 	canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-	troopScreensprite.draw(canvas,0,0);
-	canvas.fillStyle = "black";
-	canvas.font = "12pt Calibri";
-	//canvas.fillText("Press Enter",200,500);
-	canvas.fillText("0",71,757);
-	monsta.draw(canvas,camera);
-	//canvas.fillText("Particles: "+ monsta.particles.length,460,550);
-};
 
+	curDungeon.draw(canvas,camera);
+	var xFset=160;
+	var yFset=35;
+	canvas.fillStyle="white";
+	canvas.fillRect(xFset-8,yFset-28,558,754);
+	canvas.fillStyle="blue";
+	canvas.fillRect(xFset-4,yFset-24,548,744);
+	canvas.font = "20pt Calibri";
+	canvas.fillStyle="white";
+	canvas.fillText("Inventory ",xFset+200,yFset+20-6);
+	var thelist=new Array();
+	if(miles.has[hasID.Bomb])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Bomb;
+		if(miles.has[hasID.SuperBomb])
+		{
+			shinex.type=ObjectID.SuperBomb;
+		}
+		shinex.setup();
+		thelist.push(shinex);
+		
+	}if(miles.has[hasID.Bow])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Bow;
+		shinex.setup();
+		thelist.push(shinex);
+		
+	}if(miles.has[hasID.Feather])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Feather;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Lantern])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Lantern;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Hammer])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Hammer;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Flippers])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Flippers;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Lens])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Lens;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Boots])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Boots;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Glove])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Glove;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Sword])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Sword;
+		if(miles.has[hasID.MasterSword])
+		{
+			shinex.type=ObjectID.MasterSword;
+		}
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.has[hasID.Map])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Map;
+		shinex.setup();
+		thelist.push(shinex);
+	}
+	if(miles.has[hasID.Compass])
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Compass;
+		shinex.setup();
+		thelist.push(shinex);
+	}
+	
+	for(var i=0;i<thelist.length;i++)
+	{
+		if(i%2==0)
+		{
+			objectSprites[thelist[i].type].draw(canvas,xFset+70,yFset+75*((i+1)/2)-6+50);
+			canvas.fillText(thelist[i].name,xFset+50,yFset+75*((i+1)/2)-6+104);
+			if((thelist[i].type==ObjectID.Bomb) ||(thelist[i].type==ObjectID.SuperBomb))
+			{
+				canvas.font = "12pt Calibri";
+				canvas.fillText(miles.bombs+"/"+miles.maxBombs,xFset+102,yFset+75*((i+1)/2)-6+84);
+				canvas.font = "20pt Calibri";
+			}
+			if(thelist[i].type==ObjectID.Bow)
+			{
+				canvas.font = "12pt Calibri";
+				canvas.fillText(miles.arrows+"/"+miles.maxArrows,xFset+102,yFset+75*((i)/2)-6+84);
+				canvas.font = "20pt Calibri";
+			}
+		}else
+		{
+			objectSprites[thelist[i].type].draw(canvas,xFset+320,yFset+75*((i)/2)-6+50);
+			canvas.fillText(thelist[i].name,xFset+300,yFset+75*((i)/2)-6+104);
+			if((thelist[i].type==ObjectID.Bomb) ||(thelist[i].type==ObjectID.SuperBomb))
+			{
+				canvas.font = "12pt Calibri";
+				canvas.fillText(miles.bombs+"/"+miles.maxBombs,xFset+352,yFset+75*((i+1)/2)-6+84);
+				canvas.font = "20pt Calibri";
+			}
+			if(thelist[i].type==ObjectID.Bow)
+			{
+				canvas.font = "12pt Calibri";
+				canvas.fillText(miles.arrows+"/"+miles.maxArrows,xFset+352,yFset+75*((i)/2)-6+84);
+				canvas.font = "20pt Calibri";
+			}
+		}
+	}
+
+	if(miles.shells>0)
+	{
+		objectSprites[ObjectID.Shell].draw(canvas,xFset+320,yFset+670);
+		canvas.font = "12pt Calibri";
+		canvas.fillText("x"+miles.shells,xFset+352,yFset+700);
+		canvas.font = "20pt Calibri";
+	}
+
+	//canvas.fillText("14) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+400-6);
+
+
+
+	
+}
 var bannedchars=new Array();
 bannedchars.push("/");
 //bannedchars.push();
@@ -1824,53 +1988,7 @@ function starter()
 	bConsoleBox.log("Hit E for Edit Mode");
 }
 
-function inventoryScreenUpdate(){
 
-	var tick=0;
-	lasttime=milliseconds;
-    timestamp = new Date();
-    milliseconds = timestamp.getTime();
-    tick++;
-	monsta.update();
-	if(soundkey.check())
-	{
-		OPTIONS.SFX=!OPTIONS.SFX;
-		if(OPTIONS.SFX)
-		{
-			bConsoleBox.log("Sound effects turned on.");
-		}else
-		{
-			bConsoleBox.log("Sound effects turned off.");
-		}
-	}
-	 if(mutekey.check()) {
-		OPTIONS.musicOn=!OPTIONS.musicOn;
-		
-		if(OPTIONS.musicOn)
-		{
-			bConsoleBox.log("Music turned on.");
-		}else
-		{
-			bConsoleBox.log("Music turned off.");
-		}
-		document.getElementById("titleAudio").pause();
-		//monsta.startOrbit(40000,Math.floor(Math.random()*CANVAS_WIDTH),Math.floor(Math.random()*CANVAS_HEIGHT),60);
-	 }
-	
-	
-	
-	gamepad = navigator.getGamepads && navigator.getGamepads()[0];
-	if(controller.buttons[7].check())
-	{
-		mode=1;
-	}
-		
-	if(escapekey.check()){
-		mode=1;
-	}
-
-	//TODO HERE
-};
 
 function mainMenuUpdate()
 {
@@ -2310,6 +2428,10 @@ function mainUpdate()
 	if(optionskey.check())
 	{
 		mode=3;
+	}
+	if(inventorykey.check())
+	{
+		mode=4;
 	}
 	if((editMode) && (savekey.check()))
 	{

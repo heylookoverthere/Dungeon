@@ -371,6 +371,14 @@ function mouseClick(e) {  //represents the mouse
 			}
 		}
 		return;
+	}else if(mode==4)
+	{
+		var bup=Math.floor((mY-75)/25);
+		if((mX<160) || (mX>558))
+		{
+			mode=1;
+			return;
+		}
 	}else if(mode==3)
 	{
 		var bup=Math.floor((mY-75)/25);
@@ -845,6 +853,12 @@ function mouseClick(e) {  //represents the mouse
 		{
 		
 		} 
+		if((mX>812) && (mY>80) && (mX<844) && (mY<112))
+		{
+			mode=4;
+			return;
+		
+		}
 		for(var i=0;i<entities.length;i++)//don't include miles
 		{
 			if((entities[i].room.z==curDungeon.roomZ)&&(entities[i].room.x==curDungeon.roomX)&&(entities[i].room.y==curDungeon.roomY)&&(isOverTiled(entities[i],32)))

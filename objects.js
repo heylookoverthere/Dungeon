@@ -537,6 +537,7 @@ object.prototype.setup=function(id,par)
 			btext="You the super bombs!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.SuperBomb]=true;
+			objectSprites[ObjectID.Bomb]=superbombsprite;
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
@@ -1592,7 +1593,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("lens"));
-	    this.name="Creepy magnifying glass";
+	    this.name="Creepy lens";
 		this.pickupable=true;
 		this.activate=function()
 		{

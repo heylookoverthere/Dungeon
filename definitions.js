@@ -61,6 +61,7 @@ var uparrowsprite=Sprite("uparrow");
 var moneysprite=Sprite("rupee");
 var bombsprite=Sprite("bomb1");
 var arrowsprite=Sprite("arrow");
+var superbombsprite=Sprite("superbomb");
 
 var Darkness=14;
 
