@@ -2183,9 +2183,9 @@ function mainDraw() {
 		}else if(editor.mode==editModes.ChestLoot)
 		{
 			canvas.fillText("Selected: ",18,96);
-			if(lootSprites[editor.lootType])
+			if(objectSprites[editor.lootType])
 			{
-				lootSprites[editor.lootType].draw(canvas,110,73);
+				objectSprites[editor.lootType].draw(canvas,110,73);
 			}else
 			{
 				console.log("no sprite for "+editor.lootType);

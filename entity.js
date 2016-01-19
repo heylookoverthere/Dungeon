@@ -440,6 +440,7 @@ function entity(croom)
 	
 	this.heal=function(amt)
 	{
+		if(this.hp>this.maxHp-1) {return;}
 		if(amt==0){ amt=this.maxHp;}
 		this.healAmount=amt;
 		/*playSound("heal");
@@ -545,6 +546,11 @@ function entity(croom)
 				this.inventoryAmounts[i]=this.maxBombs;
 			}
 			
+		}
+		if(this.isPlayer)
+		{
+
+		
 		}
 	}
 	

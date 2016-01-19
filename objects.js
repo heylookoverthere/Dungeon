@@ -1,50 +1,87 @@
 var numLoots=11;
 var LOAD_COUNT=0;
 
-var lootTable={};
-lootTable.Key=ObjectID.Key;
-lootTable.HeartContainer=ObjectID.HeartContainer;
-lootTable.GoldTen=ObjectID.;
-lootTable.FiftyGold=ObjectID.FiftyGold;
-lootTable.Map=ObjectID.Map;
-lootTable.RedPotion=ObjectID.RedPotion;
-lootTable.GreenPotion=6;
-lootTable.BluePotion=7;
-lootTable.Bombs=8;
-lootTable.Wallet=9;
-lootTable.Bow=10;
-
-var lootName=new Array();
-lootName.push("key");
-lootName.push("heart container");
-lootName.push("ten rupees");
-lootName.push("hundred rupees");
-lootName.push("map");
-lootName.push("red potion");
-lootName.push("green potion");
-lootName.push("blue potion");
-lootName.push("bombs");
-lootName.push("wallet");
-lootName.push("Bow & Arrows");
-
-var lootSprites=new Array();
-lootSprites.push(Sprite("key"));
-lootSprites.push(Sprite("heartcontainer"));
-lootSprites.push(Sprite("tenrupee"));
-lootSprites.push(Sprite("hundredrupee"));
-lootSprites.push(Sprite("map"));
-lootSprites.push(Sprite("redpotion"));
-lootSprites.push(Sprite("greenpotion"));
-lootSprites.push(Sprite("bluepotion"));
-lootSprites.push(Sprite("bombpickup"));
-lootSprites.push(Sprite("wallet"));
-lootSprites.push(Sprite("bow"));
-//last
-lootName.push("helmet4");
-lootSprites.push(Sprite("helmet4"));
 
 var ObjectID={};
+var objectName=new Array()
 
+for(var i=0;i<600;i++)
+{
+	objectName.push("ERROR!");
+}
+
+objectName[0]="Roc's Feather";
+objectName[1]="Bombs";
+objectName[2]="Bow";
+objectName[3]="Lantern";
+objectName[4]="Hammer";
+objectName[5]="Red Potion";
+objectName[6]="Blue Potion";
+objectName[7]="Green Potion";
+objectName[8]="Shovel";
+objectName[9]="Mirror";
+objectName[10]="Boomarang";
+objectName[11]="Hookshot";
+objectName[12]="Flippers";
+objectName[13]="Lens of something or other";
+objectName[14]="Pegasus Boots";
+objectName[15]="Power Glove";
+objectName[16]="Feces";
+objectName[17]="Half-decent sword";
+objectName[18]="Mushroom";
+
+objectName[100]="Lamp";
+objectName[101]="Sign";
+objectName[102]="Candle";
+objectName[103]="Tall Lamp";
+objectName[104]="Toggle Switch";
+objectName[105]="Pot stand";
+objectName[106]="Pot";
+objectName[107]="Curtains";
+objectName[108]="Warp";
+objectName[109]="Wall shield";
+objectName[110]="Wood table";
+objectName[111]="Chest";
+objectName[112]="Stump seat";
+objectName[113]="Statue";
+objectName[114]="Bookcase";
+objectName[115]="Bones";
+objectName[116]="Spikey thing";
+
+objectName[200]="Bush";
+objectName[201]="Peg";
+objectName[202]="Blue Blocker";
+objectName[203]="Red Blocker";
+objectName[204]="Blue Orb";
+objectName[205]="Red Orb";
+objectName[206]="Spikes";
+objectName[207]="Brick";
+objectName[208]="Keyhole brick";
+objectName[209]="Rock";
+objectName[210]="Crystal";
+
+objectName[300]="Small key";
+objectName[301]="Triforce";
+
+objectName[400]="larger bomb bag";
+objectName[401]="larger quiver";
+objectName[402]="heart container";
+objectName[403]="super bombs";
+objectName[404]="Map";
+objectName[405]="Compass";
+objectName[406]="Master Sword";
+objectName[407]="silver arrow";
+
+objectName[500]="a rupee";
+objectName[501]="five rupees";
+objectName[502]="arrow";
+objectName[503]="heart";
+objectName[504]="bombs";
+objectName[505]="Secret Seashell";
+objectName[506]="apple";
+objectName[507]="fifty rupees";
+
+//var howManyOfEach={18,16,10,1,7,7} //use this eventually. 
 
 //tools
 ObjectID.Feather=0;
@@ -116,11 +153,13 @@ ObjectID.SilverArrow=407;
 //random drops
 ObjectID.Gold=500;
 ObjectID.FiveGold=501;
+ObjectID.FiftyGold=507;
 ObjectID.Arrow=502;
 ObjectID.Heart=503;
 ObjectID.BombRefill=504;
 ObjectID.Shell=505;
 ObjectID.Apple=506; 
+
 
 
 function object(oroom) //not a tile, not an enemy
@@ -374,103 +413,63 @@ object.prototype.setup=function(id,par)
 			this.curSprite=1;
 			//give item!
 			var btext="You...found a severed pig's head."
-			if(this.loot==lootTable.Key)
+			if(this.loot==ObjectID.Key)
 			{
 				bConsoleBox.log("You got a key!");
-				btext="You got a a key!";
 				miles.keys++;
-			}else if(this.loot==lootTable.HeartContainer)
+				btext = "You have found a small key! ";
+			}else if(this.loot==ObjectID.Gold)
 			{
-				bConsoleBox.log("You got a heart container!");
-				btext="You got a a heart container!";
-				miles.maxHp+=20;
-				miles.hp+=20;
-				miles.heal(miles.maxHp);
-			}else if(this.loot==lootTable.GoldTen)
+				bConsoleBox.log("You got a rupee.");
+				btext="You got a a rupee.";
+				miles.money++;
+			}else if(this.loot==ObjectID.TenGold)
 			{
-				bConsoleBox.log("You got 10 rupees!");
-				btext="You got 10 rupees!";
-				miles.money+=10;
-				if(miles.money>miles.wallet)
-				{
-					miles.money=miles.wallet;
-				}
-			}else if(this.loot==lootTable.GoldHundred)
+				bConsoleBox.log("You got five rupees!");
+				btext="You got five rupees!";
+				miles.money+=5;
+			}else if(this.loot==ObjectID.FiftyGold)
 			{
-				bConsoleBox.log("You got 100 rupees! Lucky!");
-				btext="You got 100 rupees! Lucky!";
-				miles.money+=100;
-				if(miles.money>miles.wallet)
-				{
-					miles.money=miles.wallet;
-				}
-			}else if(this.loot==lootTable.Map)
+				bConsoleBox.log("You got fifty rupees! Nice!");
+				btext="You got fifty rupees! Nice!";
+				miles.money+=50;
+			}else if(this.loot==ObjectID.Bow)
 			{
-				bConsoleBox.log("You found the map! Hit G to use it.");
-				btext="You found the map! Hit G to use it.";
-				miles.hasMap=true;
-				miles.has[hasID.Map]=true;
-			}else if(this.loot==lootTable.RedPotion)
-			{
-				bConsoleBox.log("You found a red potion!");
-				btext="You found a red potion!";
 				var shinex=new object();
-				shinex.usable=true;
-				shinex.type=ObjectID.RedPotion;
+				//shinex.usable=true;
+				shinex.type=this.loot;
 				shinex.setup();
-				miles.giveItem(shinex);
+				shinex.activate();
+				/*miles.giveItem(shinex,10);
+				miles.arrows+=10;*/
+				btext = "You have found the "+objectName[this.loot];
 				
-			}else if(this.loot==lootTable.GreenPotion)
+			}else if(this.loot==ObjectID.Bomb)
 			{
-				bConsoleBox.log("You found a green potion!");
-				btext="You found a green potion!";
 				var shinex=new object();
-				shinex.usable=true;
-				shinex.type=ObjectID.GreenPotion;
+				//shinex.usable=true;
+				shinex.type=this.loot;
 				shinex.setup();
-				miles.giveItem(shinex);
-			}else if(this.loot==lootTable.BluePotion)
+				/*miles.giveItem(shinex,5);
+				//miles.has[hasID.Bomb]=true;
+				miles.bombs+=5;*/
+				shinex.activate();
+				btext = "You have found the "+objectName[this.loot];
+			}else
 			{
-				bConsoleBox.log("You found a blue potion!");
-				btext="You found a blue potion!";
 				var shinex=new object();
-				shinex.usable=true;
-				shinex.type=ObjectID.BluePotion;
+				//shinex.usable=true;
+				shinex.type=this.loot;
 				shinex.setup();
-				miles.giveItem(shinex);
-				
-			}else if(this.loot==lootTable.Bombs)
-			{
-				bConsoleBox.log("You found some bombs!");
-				btext="You found some bombs!";
-				miles.has[hasID.Bomb]=true;
-				miles.bombs+=5;
-				var shinex=new object();
-				shinex.usable=true;
-				shinex.type=ObjectID.Bomb;
-				shinex.setup();
-				miles.giveItem(shinex,5);
-			}else if(this.loot==lootTable.Bow)
-			{
-				bConsoleBox.log("You found the bow!");
-				btext="You found the bow!";
-				miles.has[hasID.Bow]=true;
-				miles.arrows+=10;
-				var shinex=new object();
-				shinex.usable=true;
-				shinex.type=ObjectID.Bow;
-				shinex.setup();
-				miles.giveItem(shinex,10);
-			}else if(this.loot==lootTable.Wallet)
-			{
-				bConsoleBox.log("You found a bigger wallet!");
-				btext="You found a bigger wallet!";
-				miles.wallet=miles.wallet*2;
-				if(miles.wallet>999)
+				shinex.activate();
+				/*if(shinex.usable)
 				{
-					miles.wallet=999;
-				}
+					miles.giveItem(shinex,1);
+				}*/
+				btext = "You have found the "+objectName[this.loot];
 			}
+			
+	
 			var mancy=new textbox();
 			mancy.setup();
 			mancy.x=340;
@@ -652,8 +651,43 @@ object.prototype.setup=function(id,par)
 			miles.holding=this.sprites[0];
 		}
 		this.playerActivate=this.activate;
-	}
-	else if(this.type==ObjectID.Poo)
+	}else if(this.type==ObjectID.Map)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("map"));
+		this.name="map";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=false;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a map of this dungeon! hit G to use it");
+			btext="You found a map of this dungeon! hit G to use it"
+			miles.has[hasID.Map]=true;
+			this.exists=false;
+			miles.holding=this.sprites[0];
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.Compass)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("compass"));
+		this.name="compass";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=false;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a compass! It will eventually reveal the location of things.");
+			btext="You found the compass"
+			miles.has[hasID.Compass]=true;
+			this.exists=false;
+			miles.holding=this.sprites[0];
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.Poo)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("poo"));
@@ -1283,6 +1317,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("mirror"));
 	    this.name="Magic mirror";
 		this.pickupable=true;
+		this.usable=true;
 		this.activate=function()
 		{
 			playSound("itemfanfare");
@@ -1297,8 +1332,9 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("shovel"));
-	    this.name="Ed's Shovel";
+	    this.name="Shovel";
 		this.pickupable=true;
+		this.usable=true;
 		this.activate=function()
 		{
 			playSound("itemfanfare");
@@ -1313,7 +1349,8 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("brick2"));
 	    this.name="Moveable brick";
-	}else if (this.type==ObjectID.MasterSword) {
+	}else if (this.type==ObjectID.MasterSword)
+	{
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("mastersword"));
@@ -1321,7 +1358,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
-			if(!miles.has[hasID.Sword])
+			if(!miles.has[hasID.MasterSword])
 			{
 				playSound("itemfanfare");
 				bConsoleBox.log("You found the Master Sword!! It's totally useless for now!");
@@ -1333,31 +1370,36 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.MasterSword]=true;
-		}else if (this.type==ObjectID.Sword) {
-	    this.sprites=new Array();
-		this.alwaysWalkable=true;
-		this.sprites.push(Sprite("sword"));
-	    this.name="Half-decent sword";
-		this.pickupable=true;
-		this.activate=function()
-		{
-			if(!miles.has[hasID.Sword])
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Sword) {
+			this.sprites=new Array();
+			this.alwaysWalkable=true;
+			this.sprites.push(Sprite("sword"));
+			this.name="Half-decent sword";
+			this.pickupable=true;
+			this.activate=function()
 			{
-				playSound("itemfanfare");
-				bConsoleBox.log("You found a half-decent sword! It's totally useless for now!");
-				miles.holding=this.sprites[0];
-			}else
-			{
-				playSound("item");
-				bConsoleBox.log("You don't really need another half-decent sword.");
+				if(!miles.has[hasID.Sword])
+				{
+					playSound("itemfanfare");
+					bConsoleBox.log("You found a half-decent sword! It's totally useless for now!");
+					miles.holding=this.sprites[0];
+				}else
+				{
+					playSound("item");
+					bConsoleBox.log("You don't really need another half-decent sword.");
+				}
+				this.exists=false;
+				miles.has[hasID.Sword]=true;
 			}
-			this.exists=false;
-			miles.has[hasID.Sword]=true;
-		}else if (this.type==ObjectID.Bow) {
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Bow) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("bow"));
 	    this.name="Bow and Arrows";
+		this.usable=true;
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -1450,6 +1492,23 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Mushroom) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("mushroom"));
+	    this.name="mushroom";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a mushroom!");
+			miles.holding=this.sprites[0];
+			this.exists=false;
+			miles.has[hasID.Mushroom]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Boots) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
@@ -1528,6 +1587,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bombpickup"));
 	    this.name="Bombs";
 		this.pickupable=true;
+		this.usable=true;
 		this.activate=function()
 		{
 				
@@ -2020,9 +2080,9 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 	}else if(this.type==ObjectID.Chest)
 	{
 		can.globalAlpha=1;
-		if ((this.messagebox) && (this.messagebox.exists))
+		if ((this.messagebox) && (this.messagebox.exists) && (this.loot>19) && (this.loot!=505) && ((this.loot<400) || (this.loot>407)) )
 		{
-			lootSprites[this.loot].draw(can, this.x*32+xOffh, this.y*32+yOffh-20);
+			objectSprites[this.loot].draw(can, this.x*32+xOffh, this.y*32+yOffh-20);
 		}
 	}
 	can.globalAlpha=1;

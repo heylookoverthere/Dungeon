@@ -206,6 +206,8 @@ objectSprites[13]=Sprite("lens");
 objectSprites[14]=Sprite("boots");
 objectSprites[15]=Sprite("glove");
 objectSprites[16]=Sprite("poo");
+objectSprites[17]=Sprite("sword");
+objectSprites[18]=Sprite("mushroom");
 
 //furniture
 objectSprites[100]=Sprite("lamp");
@@ -248,7 +250,10 @@ objectSprites[400]=Sprite("bombbag");
 objectSprites[401]=Sprite("quiver");
 objectSprites[402]=Sprite("heartcontainer");
 objectSprites[403]=Sprite("superbomb");
-
+objectSprites[404]=Sprite("map");
+objectSprites[405]=Sprite("compass");
+objectSprites[406]=Sprite("mastersword");
+objectSprites[407]=Sprite("silverarrow");
 //drops
 objectSprites[500]=Sprite("rupee");
 objectSprites[501]=Sprite("tenrupee");
@@ -257,6 +262,7 @@ objectSprites[503]=Sprite("heartpickup");
 objectSprites[504]=Sprite("bomb1");
 objectSprites[505]=Sprite("shell");
 objectSprites[506]=Sprite("apple");
+objectSprites[507]=Sprite("fiftyrupee");
 
 var nullSprite=new Sprite("blank");
 

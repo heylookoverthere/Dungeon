@@ -1749,12 +1749,49 @@ function editCursor()
 	this.warpOpen=null;
 }
 
+editCursor.prototype.cycleLoot=function(up)
+{
+	if(up)
+	{
+		this.lootType++;
+		if(this.lootType>507)
+		{
+			this.lootType=0;
+		}else if((this.lootType>407) && (this.lootType<500))
+		{
+			this.lootType=500;
+		}else if((this.lootType>300) && (this.lootType<400))
+		{
+			this.lootType=400;
+		}else if((this.lootType>18) && (this.lootType<100))
+		{
+			this.lootType=300;
+		}
+	}else
+	{
+		this.lootType--;
+		if(this.lootType<0)
+		{
+			this.lootType=507;
+		}else if(this.lootType==499)
+		{
+			this.lootType=407;
+		}else if(this.lootType==399)
+		{
+			this.lootType=300;
+		}else if(this.lootType==299)
+		{
+			this.lootType=18;
+		}
+	}
+}
+
 editCursor.prototype.cycleObjects=function(up)
 {
 	if(up)
 	{
 		this.objectType++;
-		if(this.objectType>506)
+		if(this.objectType>507)
 		{
 			this.objectType=0;
 		}else if((this.objectType>407) && (this.objectType<500))
@@ -1778,7 +1815,7 @@ editCursor.prototype.cycleObjects=function(up)
 		this.objectType--;
 		if(this.objectType<0)
 		{
-			this.objectType=506;
+			this.objectType=507;
 		}else if(this.objectType==499)
 		{
 			this.objectType=407;
@@ -1796,7 +1833,6 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=18;
 		}
 		
-	
 	}
 }
 

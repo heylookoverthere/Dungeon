@@ -19,6 +19,7 @@ $(document).bind("contextmenu",function(e){
 	{
 		if(miles.getEquipped()==ObjectID.Bomb)
 		{
+			console.log("bombed");
 			miles.placeBomb();
 			miles.removeItem(ObjectID.Bomb,1);
 		}else if(miles.getEquipped()==ObjectID.Shovel)
@@ -218,11 +219,7 @@ function mouseWheel(e){
 						editor.cycleObjects(true);
 					}else if(editor.mode==editModes.ChestLoot)
 					{
-						editor.lootType++;
-						if(editor.lootType>numLoots-1)
-						{
-							editor.lootType=0;
-						}
+						editor.cycleLoot(true);
 					}else
 					{
 						editor.brushType++;
@@ -262,11 +259,7 @@ function mouseWheel(e){
 						editor.cycleObjects(false);
 					}else if(editor.mode==editModes.ChestLoot)
 					{
-						editor.lootType--;
-						if(editor.lootType<0)
-						{
-							editor.lootType=numLoots-1;
-						}
+						editor.cycleLoot(false);
 					}else
 					{
 						editor.brushType--;
@@ -644,7 +637,7 @@ function mouseClick(e) {  //represents the mouse
 				if((meg)&&(meg.type==ObjectID.Chest))
 				{
 					meg.loot=editor.lootType;
-					bConsoleBox.log("Filled chest at "+meg.x+","+meg.y+" with "+lootName[editor.lootType]);
+					bConsoleBox.log("Filled chest at "+meg.x+","+meg.y+" with "+objectName[editor.lootType]);
 				}
 			}else if(editor.mode==editModes.Stamp)
 			{
