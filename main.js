@@ -1780,11 +1780,16 @@ function inventoryDraw() {
 		}
 	}
 
+	objectSprites[ObjectID.Gold].draw(canvas,xFset+120,yFset+670);
+		canvas.font = "12pt Calibri";
+		canvas.fillText("x"+miles.money+"/"+miles.wallet,xFset+152,yFset+695);
+		canvas.font = "20pt Calibri";
+	
 	if(miles.shells>0)
 	{
 		objectSprites[ObjectID.Shell].draw(canvas,xFset+320,yFset+670);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.shells,xFset+352,yFset+700);
+		canvas.fillText("x"+miles.shells,xFset+352,yFset+695);
 		canvas.font = "20pt Calibri";
 	}
 

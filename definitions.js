@@ -255,6 +255,8 @@ objectSprites[404]=Sprite("map");
 objectSprites[405]=Sprite("compass");
 objectSprites[406]=Sprite("mastersword");
 objectSprites[407]=Sprite("silverarrow");
+objectSprites[408]=Sprite("wallet");
+
 //drops
 objectSprites[500]=Sprite("rupee");
 objectSprites[501]=Sprite("tenrupee");

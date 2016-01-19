@@ -71,6 +71,7 @@ objectName[404]="Map";
 objectName[405]="Compass";
 objectName[406]="Master Sword";
 objectName[407]="silver arrow";
+objectName[408]="larger wallet";
 
 objectName[500]="a rupee";
 objectName[501]="five rupees";
@@ -149,6 +150,7 @@ ObjectID.Map=404;
 ObjectID.Compass=405;
 ObjectID.MasterSword=406; 
 ObjectID.SilverArrow=407;
+ObjectID.Wallet=408;
 
 //random drops
 ObjectID.Gold=500;
@@ -255,7 +257,7 @@ object.prototype.setup=function(id,par)
 
 		this.playerActivate=function()
 		{
-			return;//for now
+			//return;//for now
 			if((!this.on)&&(!miles.has[hasID.Lantern]))
 			{
 				bConsoleBox.log("Need the lantern!","yellow");
@@ -266,7 +268,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-			return;//for now
+			//return;//for now
 			this.on=!this.on;
 			
 			if(!this.on)
@@ -284,7 +286,7 @@ object.prototype.setup=function(id,par)
 				playSound("lamp");
 			}
 		}
-		
+		this.activateEdit=this.activate;
 		
 	}else if (this.type==ObjectID.Lamp) {
 	    this.sprites=new Array();
@@ -325,6 +327,7 @@ object.prototype.setup=function(id,par)
 				playSound("lamp");
 			}
 		}
+		this.activateEdit=this.activate;
 		this.activate(); //oooh that's why it's backwards. 
 		
 	}else if (this.type==ObjectID.Candle) {
@@ -366,6 +369,7 @@ object.prototype.setup=function(id,par)
 				playSound("lamp");
 			}
 		}
+		this.activateEdit=this.activate;
 		this.activate(); //oooh that's why it's backwards. 
 		
 	}else if (this.type==ObjectID.Sign) {
@@ -640,12 +644,14 @@ object.prototype.setup=function(id,par)
 		{
 			bConsoleBox.log("You found a bigger wallet!");
 			btext="You found a bigger wallet!";
+			this.exists=false;
 			miles.wallet=miles.wallet*2;
 			if(miles.wallet>999)
 			{
 				miles.wallet=999;
 			}
 		}
+		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.Quiver)
 	{
 		this.sprites=new Array();
@@ -1233,6 +1239,7 @@ object.prototype.setup=function(id,par)
 				this.curSprite=1;
 			}
 		}
+		this.activateEdit=this.activate;
 		curDungeon.blueBlockers.push(this);
 	}else if (this.type==ObjectID.RedBlocker) { //red blocker
 	    this.sprites=new Array();
@@ -1258,6 +1265,7 @@ object.prototype.setup=function(id,par)
 				this.curSprite=1;
 			}
 		}
+		this.activateEdit=this.activate;
 		curDungeon.redBlockers.push(this);
 	}else if (this.type==ObjectID.BlueOrb) { //blue orb
 	    this.sprites=new Array();
@@ -1692,6 +1700,7 @@ object.prototype.setup=function(id,par)
 			//miles.hurt(5);
 			
 		}
+		this.activateEdit=this.activate;
 		this.playerActivate=function()
 		{
 			//do nothing.
@@ -1987,7 +1996,7 @@ object.prototype.activate=function()
 
 object.prototype.activateEdit=function()
 {
-	this.activate();
+	//this.activate();
 }
 /*object.prototype.tileX=function()
 {

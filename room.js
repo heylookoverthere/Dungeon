@@ -1794,7 +1794,7 @@ editCursor.prototype.cycleObjects=function(up)
 		if(this.objectType>507)
 		{
 			this.objectType=0;
-		}else if((this.objectType>407) && (this.objectType<500))
+		}else if((this.objectType>408) && (this.objectType<500))
 		{
 			this.objectType=500;
 		}else if((this.objectType>301) && (this.objectType<400))
@@ -1818,7 +1818,7 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=507;
 		}else if(this.objectType==499)
 		{
-			this.objectType=407;
+			this.objectType=408;
 		}else if(this.objectType==399)
 		{
 			this.objectType=301;
