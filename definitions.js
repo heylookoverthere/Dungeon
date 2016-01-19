@@ -12,7 +12,7 @@ var shiftdown=false;
 var graph=null;
 var MobileMode=false;
 var numSouns=0;
-var curVersion="0.4a";
+var curVersion="0.5a";
 var explosions=new Array();
 var dugsprite=Sprite("shovelhole");
 
@@ -91,6 +91,12 @@ hasID.Lens=15;
 hasID.Boots=16;
 hasID.Glove=17;
 hasID.SuperBomb=18;
+hasID.Sword=19;
+hasID.MasterSword=20;
+hasID.Mushroom=21;
+hasID.SilverArrows=22;
+hasID.Mushroom=23;
+
 
 
 var LightLevels=new Array();

@@ -583,7 +583,7 @@ function entity(croom)
 		var spotX=this.x;
 		var spotY=this.y;
 		
-		if((this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
+		if((spotX<0) || (spotY<0) || (spotX>ROOM_WIDTH-2)|| (spotY>ROOM_HEIGHT-2)|| (this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
 		{
 			playSound("error");
 			return false;

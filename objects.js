@@ -2,12 +2,12 @@ var numLoots=11;
 var LOAD_COUNT=0;
 
 var lootTable={};
-lootTable.Key=0;
-lootTable.HeartContainer=1;
-lootTable.GoldTen=2;
-lootTable.GoldHundred=3;
-lootTable.Map=4;
-lootTable.RedPotion=5;
+lootTable.Key=ObjectID.Key;
+lootTable.HeartContainer=ObjectID.HeartContainer;
+lootTable.GoldTen=ObjectID.;
+lootTable.FiftyGold=ObjectID.FiftyGold;
+lootTable.Map=ObjectID.Map;
+lootTable.RedPotion=ObjectID.RedPotion;
 lootTable.GreenPotion=6;
 lootTable.BluePotion=7;
 lootTable.Bombs=8;
@@ -64,6 +64,8 @@ ObjectID.Lens=13;
 ObjectID.Boots=14;
 ObjectID.Glove=15;
 ObjectID.Poo=16;
+ObjectID.Sword=17;
+ObjectID.Mushroom=18;
 
 //furniture
 ObjectID.Lamp=100;
@@ -95,27 +97,30 @@ ObjectID.Spikes=206;
 ObjectID.Brick=207;
 ObjectID.KeyBrick=208;
 ObjectID.Rock=209;
-
 ObjectID.Crystal=210;
 
 //pickups
 ObjectID.Key=300;
 ObjectID.Triforce=301;
 
-//upgrades
+//upgrades/unlocks
 ObjectID.BombBag=400;
 ObjectID.Quiver=401;
 ObjectID.HeartContainer=402;
 ObjectID.SuperBomb=403; 
+ObjectID.Map=404;
+ObjectID.Compass=405;
+ObjectID.MasterSword=406; 
+ObjectID.SilverArrow=407;
 
-//drops
+//random drops
 ObjectID.Gold=500;
 ObjectID.FiveGold=501;
 ObjectID.Arrow=502;
 ObjectID.Heart=503;
 ObjectID.BombRefill=504;
 ObjectID.Shell=505;
-ObjectID.Apple=506; //no  good 56ing motherfucker.
+ObjectID.Apple=506; 
 
 
 function object(oroom) //not a tile, not an enemy
@@ -503,6 +508,23 @@ object.prototype.setup=function(id,par)
 			btext="You the super bombs!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.SuperBomb]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.SilverArrow)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("silverarrow"));
+		this.name="Silver Arrow";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You the silver arrows!");
+			btext="You the silver arrows!";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.SilverArrows]=true;
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
@@ -1291,7 +1313,47 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("brick2"));
 	    this.name="Moveable brick";
-	}else if (this.type==ObjectID.Bow) {
+	}else if (this.type==ObjectID.MasterSword) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("mastersword"));
+	    this.name="Master sword";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Sword])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Master Sword!! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("Uhh, there's only one Master sword. this must be a forgery.");
+			}
+			this.exists=false;
+			miles.has[hasID.MasterSword]=true;
+		}else if (this.type==ObjectID.Sword) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("sword"));
+	    this.name="Half-decent sword";
+		this.pickupable=true;
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Sword])
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found a half-decent sword! It's totally useless for now!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another half-decent sword.");
+			}
+			this.exists=false;
+			miles.has[hasID.Sword]=true;
+		}else if (this.type==ObjectID.Bow) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("bow"));
@@ -1771,6 +1833,26 @@ object.prototype.setup=function(id,par)
 			playSound("coin");
 			this.exists=false;
 			miles.money+=5;
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.FiftyGold) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("fiftyrupee"));
+	    this.name="rupee";
+		this.pickupable=true;
+		if((!OPTIONS.DropsPersist)&& (!editMode))
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
+		this.activate=function()
+		{
+				
+			bConsoleBox.log("You found fifty rupees!");
+			playSound("coin");
+			this.exists=false;
+			miles.money+=50;
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Heart) {

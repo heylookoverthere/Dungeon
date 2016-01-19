@@ -917,7 +917,7 @@ function room(I) { //room object
 				higgins.text=tempstring[i+4];
 				ffset=5;
 				mitly++;
-				higgins.setup(1,higgins.text);
+				higgins.setup(ObjectID.Sign,higgins.text);
 			}else if(higgins.type==ObjectID.Chest)
 			{
 				higgins.loot=Math.floor(tempstring[i+4]);
@@ -1757,7 +1757,7 @@ editCursor.prototype.cycleObjects=function(up)
 		if(this.objectType>506)
 		{
 			this.objectType=0;
-		}else if((this.objectType>403) && (this.objectType<500))
+		}else if((this.objectType>407) && (this.objectType<500))
 		{
 			this.objectType=500;
 		}else if((this.objectType>301) && (this.objectType<400))
@@ -1769,7 +1769,7 @@ editCursor.prototype.cycleObjects=function(up)
 		}else if((this.objectType>116) && (this.objectType<200))
 		{
 			this.objectType=200;
-		}else if((this.objectType>16) && (this.objectType<100))
+		}else if((this.objectType>18) && (this.objectType<100))
 		{
 			this.objectType=100;
 		}
@@ -1781,7 +1781,7 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=506;
 		}else if(this.objectType==499)
 		{
-			this.objectType=402;
+			this.objectType=407;
 		}else if(this.objectType==399)
 		{
 			this.objectType=301;
@@ -1793,7 +1793,7 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=116;
 		}else if(this.objectType==99)
 		{
-			this.objectType=16;
+			this.objectType=18;
 		}
 		
 	
