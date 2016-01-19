@@ -455,6 +455,36 @@ object.prototype.setup=function(id,par)
 				miles.bombs+=5;*/
 				shinex.activate();
 				btext = "You have found the "+objectName[this.loot];
+			}else if(this.loot==ObjectID.BombRefill)
+			{
+				if(!miles.has[hasID.Bomb])
+				{
+					this.loot=ObjectID.Gold;
+				}
+				var shinex=new object()
+				//shinex.usable=true;
+				shinex.type=this.loot;
+				shinex.setup();
+				/*miles.giveItem(shinex,5);
+				//miles.has[hasID.Bomb]=true;
+				miles.bombs+=5;*/
+				shinex.activate();
+				btext = "You have found the "+objectName[this.loot];
+			}else if(this.loot==ObjectID.Arrow)
+			{
+				if(!miles.has[hasID.Bow])
+				{
+					this.loot=ObjectID.Gold;
+				}
+				var shinex=new object()
+				//shinex.usable=true;
+				shinex.type=this.loot;
+				shinex.setup();
+				/*miles.giveItem(shinex,5);
+				//miles.has[hasID.Bomb]=true;
+				miles.bombs+=5;*/
+				shinex.activate();
+				btext = "You have found the "+objectName[this.loot];
 			}else
 			{
 				var shinex=new object();
@@ -1440,7 +1470,7 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Glove]=true;
-			miles.giveItem(this,1);
+			//miles.giveItem(this,1);
 			
 		}
 		this.playerActivate=this.activate;
@@ -1450,6 +1480,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("boomarang"));
 	    this.name="Boomarang";
 		this.pickupable=true;
+		this.usable=true;
 		this.activate=function()
 		{
 			if(!miles.has[hasID.Boomarang])
@@ -1488,7 +1519,7 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Flippers]=true;
-			miles.giveItem(this,1);
+			//miles.giveItem(this,1);
 			
 		}
 		this.playerActivate=this.activate;
@@ -1529,7 +1560,7 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Boots]=true;
-			miles.giveItem(this,1);
+			//miles.giveItem(this,1);
 			
 		}
 		this.playerActivate=this.activate;
@@ -1577,7 +1608,7 @@ object.prototype.setup=function(id,par)
 			}
 			this.exists=false;
 			miles.has[hasID.Lens]=true;
-			miles.giveItem(this,1);
+			//miles.giveItem(this,1);
 			
 		}
 		this.playerActivate=this.activate;

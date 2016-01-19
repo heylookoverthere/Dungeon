@@ -1448,7 +1448,7 @@ function drawGUI(can)
 	}else
 	{	can.globalAlpha=1;
 		drawHearts(miles,can);
-		objectSprites[3].draw(can,-6,58);
+		objectSprites[ObjectID.Key].draw(can,-6,58);
 		can.fillText("x"+miles.keys,18,85);
 		moneysprite.draw(can,84,58);
 		can.fillText("x"+miles.money,84+24,85);
