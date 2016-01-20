@@ -316,9 +316,12 @@ function entity(croom)
 	this.maxBombs=10;
 	this.maxArrows=20;
 	this.swimming=false;
+	this.diving=false;
 	this.lastY=3;
 	this.width=32;
 	this.height=48;
+	this.holdBreath=2;
+	this.tookBreath=0;
 	this.canSwim=false;
 	this.autoJoin=false;
 	this.alignment=0; //friends 1==neutral, 2== enemy 
@@ -406,6 +409,20 @@ function entity(croom)
 		playSound("playerdying");
 		//this.exists=false;
 		this.alive=false;
+	}
+	
+	this.dive=function()
+	{
+		if(!this.diving)
+		{
+			this.diving=true;
+			this.firstBreath=new Date().getTime();
+		}else
+		{
+			this.diving=false;
+			//todo sound?
+		}
+		
 	}
 	
 	this.getScore=function()
@@ -696,7 +713,10 @@ function entity(croom)
 		{
 			if(this.gotHurt%2==0)
 			{
-				if(this.swimming)
+				if(this.diving)
+				{
+					divesprite.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+				}else if(this.swimming)
 				{
 					this.swimSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 				}else
@@ -793,6 +813,16 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		if(this.diving)
+		{
+			//check for underwater shit
+			var sunt=new Date().getTime();
+			if(sunt-this.firstBreath>this.holdBreath*1000)
+			{
+				this.diving=false; 
+			}
+		
+		}
 		this.swimming=false;
 		if(!this.alive)
 		{

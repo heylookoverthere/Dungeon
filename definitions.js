@@ -15,6 +15,7 @@ var numSouns=0;
 var curVersion="0.5a";
 var explosions=new Array();
 var dugsprite=Sprite("shovelhole");
+var divesprite=Sprite("dive");
 
 
 function party()
