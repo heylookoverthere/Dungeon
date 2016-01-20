@@ -315,6 +315,7 @@ function entity(croom)
 	this.lastX=4;
 	this.maxBombs=10;
 	this.maxArrows=20;
+	this.swimming=false;
 	this.lastY=3;
 	this.width=32;
 	this.height=48;
@@ -347,6 +348,11 @@ function entity(croom)
 	this.sprites.push(Sprite("prof1"));
 	this.sprites.push(Sprite("prof2"));
 	this.sprites.push(Sprite("prof3"));
+	this.swimSprites=new Array();
+	this.swimSprites.push(Sprite("swim0"));
+	this.swimSprites.push(Sprite("swim1"));
+	this.swimSprites.push(Sprite("swim2"));
+	this.swimSprites.push(Sprite("swim3"));
 	this.isPlayer=false;
 	this.money=0;
 	this.bombs=0;
@@ -690,7 +696,14 @@ function entity(croom)
 		{
 			if(this.gotHurt%2==0)
 			{
-				this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+				if(this.swimming)
+				{
+					this.swimSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+				}else
+				{
+					this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+				}
+				
 			}
 			if((this.fallingY>0) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.Hole))
 			{
@@ -780,6 +793,7 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		this.swimming=false;
 		if(!this.alive)
 		{
 			if(this.deathAniTrack>1) {return;}
@@ -983,6 +997,9 @@ function entity(croom)
 					this.y=this.enteredY;
 				}
 				//this.room=curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY];
+			}else if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+			{
+				this.swimming=true;
 			}
 		}
 		
