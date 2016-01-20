@@ -1537,7 +1537,7 @@ object.prototype.setup=function(id,par)
 			this.exists=false;
 			miles.canSwim=true; 
 			miles.has[hasID.Flippers]=true;
-			//miles.giveItem(this,1);
+			miles.giveItem(this,1);
 			
 		}
 		this.playerActivate=this.activate;

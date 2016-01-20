@@ -413,10 +413,17 @@ function entity(croom)
 	
 	this.dive=function()
 	{
+		if((this.room.tiles[this.x][this.y].data<20) || (this.room.tiles[this.x][this.y].data>24))
+		{
+			return false
+			bConsoleBox.log("Can't dive here.");
+			playSound("error");
+		}
 		if(!this.diving)
 		{
 			this.diving=true;
 			this.firstBreath=new Date().getTime();
+			return true;
 		}else
 		{
 			this.diving=false;
@@ -715,7 +722,10 @@ function entity(croom)
 			{
 				if(this.diving)
 				{
+					var jerry=can.globalAlpha;
+					can.globalAlpha=0.75;
 					divesprite.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					can.globalAlpha=jerry; 
 				}else if(this.swimming)
 				{
 					this.swimSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
@@ -1303,6 +1313,10 @@ function entity(croom)
 					}
 				}
 			}
+		}
+		if(!this.swimming)
+		{
+			this.diving=false;
 		}
 	}
 

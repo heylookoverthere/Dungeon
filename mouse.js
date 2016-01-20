@@ -32,6 +32,16 @@ $(document).bind("contextmenu",function(e){
 				bConsoleBox.log("You can't dig here.","yellow");
 			}
 
+		}else if(miles.getEquipped()==ObjectID.Flippers)
+		{
+			if(miles.dive())
+			{
+			
+			}else
+			{
+				bConsoleBox.log("You can't dive here. I really shouldn't have had to explain that to you.","yellow");
+			}
+
 		}else if(miles.getEquipped()==ObjectID.Mirror)
 		{
 			playSound("warp");
