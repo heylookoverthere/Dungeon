@@ -1006,7 +1006,17 @@ object.prototype.setup=function(id,par)
 		this.name="rock";
 		this.activate=function()
 		{
-			return false; //need glvoes
+			if(!miles.has[hasID.Glove]) //need glvoes
+			{
+				if(OPTIONS.SafeMode)
+				{
+					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
+				}else
+				{
+					bConsoleBox.log("No glove no love!", "yellow"); 
+				}
+				return false;
+			} 
 			if(!this.on)
 			{
 				playSound("shatter");
