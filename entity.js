@@ -777,7 +777,7 @@ function entity(croom)
 		this.destY=y;
 		this.path=this.room.getPath(this.x,this.y,x,y,this,true);
 		this.pathTrack=0;
-		if(obj)
+		if((obj)) //&& (!obj.underWater))
 		{
 			this.destObj=obj;
 		}
@@ -956,9 +956,19 @@ function entity(croom)
 					}
 				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
-					if((this.AI==0) || (OPTIONS.NPCPickup))
+					if(!this.room.objects[i].underWater)
 					{
-						this.room.objects[i].playerActivate();
+						if((this.AI==0) || (OPTIONS.NPCPickup))
+						{
+							this.room.objects[i].playerActivate();
+						}
+					}else if(this.diving)
+					{
+						console.log("it thinks you're diving");
+						if((this.AI==0) || (OPTIONS.NPCPickup))
+						{
+							this.room.objects[i].playerActivate();
+						}
 					}
 				}
 			}
@@ -1286,7 +1296,7 @@ function entity(croom)
 							}
 						}
 					}
-					if(this.destObj)
+					if((this.destObj) && ((!this.destObj.underWater) || (this.diving)))
 					{
 						if(this.destObj.x>this.x)
 						{
@@ -1303,7 +1313,10 @@ function entity(croom)
 						}
 						if(this.destObj.playerUsable)
 						{
-							this.destObj.playerActivate();
+							//if((!this.destObj.underWater) || (this.diving))
+							//{
+								this.destObj.playerActivate();
+							//}
 						}
 						this.destObj=null;
 					}

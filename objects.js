@@ -453,6 +453,7 @@ object.prototype.setup=function(id,par)
 				var shinex=new object();
 				//shinex.usable=true;
 				shinex.type=this.loot;
+				shinex.room=this.room;
 				shinex.setup();
 				shinex.activate();
 				/*miles.giveItem(shinex,10);
@@ -464,6 +465,7 @@ object.prototype.setup=function(id,par)
 				var shinex=new object();
 				//shinex.usable=true;
 				shinex.type=this.loot;
+				shinex.room=this.room;
 				shinex.setup();
 				/*miles.giveItem(shinex,5);
 				//miles.has[hasID.Bomb]=true;
@@ -479,6 +481,7 @@ object.prototype.setup=function(id,par)
 				var shinex=new object()
 				//shinex.usable=true;
 				shinex.type=this.loot;
+				shinex.room=this.room;
 				shinex.setup();
 				/*miles.giveItem(shinex,5);
 				//miles.has[hasID.Bomb]=true;
@@ -494,6 +497,7 @@ object.prototype.setup=function(id,par)
 				var shinex=new object()
 				//shinex.usable=true;
 				shinex.type=this.loot;
+				shinex.room=this.room;
 				shinex.setup();
 				/*miles.giveItem(shinex,5);
 				//miles.has[hasID.Bomb]=true;
@@ -505,6 +509,7 @@ object.prototype.setup=function(id,par)
 				var shinex=new object();
 				//shinex.usable=true;
 				shinex.type=this.loot;
+				shinex.room=this.room;
 				shinex.setup();
 				shinex.activate();
 				/*if(shinex.usable)

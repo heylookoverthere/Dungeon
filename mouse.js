@@ -897,7 +897,7 @@ function mouseClick(e) {  //represents the mouse
 				
 		}
 		var meg=isOverTiledList(curDungeon.curRoom().objects,32,true);
-		if(meg)
+		if((meg) && (!meg.underWater))
 		{	
 			var nard=new Array();
 			if(meg.y<curDungeon.curRoom().height-3)
