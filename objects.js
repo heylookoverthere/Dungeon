@@ -176,6 +176,8 @@ function object(oroom) //not a tile, not an enemy
 	this.type=0;
 	this.persistTime=30;
 	this.timed=false;
+	this.underWater=false;
+	this.buried=false; 
 	this.createdTime=0;
 	this.bombable=false;
 	this.blockArrows=false;
@@ -225,6 +227,11 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 {
 	this.x=x;
 	this.y=y;
+	this.underWater=false;
+	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	{
+		this.underWater=true;
+	}
 	if(this.flame)
 	{
 		this.flame.x=this.x*32+xOffset;
@@ -237,6 +244,10 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 object.prototype.setup=function(id,par)
 {
 	if(id) {this.type=id;}
+	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	{
+		this.underWater=true;
+	}
 	if (this.type==ObjectID.TallLamp) {
 		this.aniRate=5;
 	    this.sprites=new Array();
@@ -2097,10 +2108,10 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 			}
 		}
 	}
-	if((editMode) && (this.hidden))
+	if((editMode) && ((this.hidden) ||(this.underWater)||(this.buried)))
 	{
 		can.globalAlpha=0.5;
-	}else if(this.hidden) {return;}
+	}else if((this.hidden) ||(this.underWater)||(this.buried)){return;}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh, (this.y-1)*32+1+yOffh);
@@ -2120,10 +2131,10 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 			}
 		}
 	}
-	if((editMode) && (this.hidden))
+	if((editMode) && ((this.hidden) ||(this.underWater)||(this.buried)))
 	{
 		can.globalAlpha=0.5;
-	}else if(this.hidden) {return;}
+	}else if((this.hidden) ||(this.underWater)||(this.buried)){return;}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	this.sprites[this.curSprite].draw(can, this.x*32+xOffh, this.y*32+yOffh);
