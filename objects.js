@@ -1031,6 +1031,7 @@ object.prototype.setup=function(id,par)
 				}else
 				{
 					bConsoleBox.log("No glove no love!", "yellow"); 
+					playSound("error");
 				}
 				return false;
 			} 

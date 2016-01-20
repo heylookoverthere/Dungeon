@@ -1052,6 +1052,7 @@ function resetMiles()
 	miles.y=12;
 	miles.enteredX=miles.x;
 	miles.enteredY=miles.y;
+	miles.canSwim=false;
 	for(var i=0;i<miles.has.length;i++)
 	{
 		miles.has[i]=false;
