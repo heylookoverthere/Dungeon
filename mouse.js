@@ -19,7 +19,6 @@ $(document).bind("contextmenu",function(e){
 	{
 		if(miles.getEquipped()==ObjectID.Bomb)
 		{
-			console.log("bombed");
 			miles.placeBomb();
 			miles.removeItem(ObjectID.Bomb,1);
 		}else if(miles.getEquipped()==ObjectID.Shovel)
@@ -877,6 +876,10 @@ function mouseClick(e) {  //represents the mouse
 				if(entities[i].alive)
 				{
 					entities[i].say();
+					if((!entities[i].partyMember) && (entities[i].autoJoin))
+					{
+						theParty.add(entities[i]);
+					}
 					return;
 				}
 				

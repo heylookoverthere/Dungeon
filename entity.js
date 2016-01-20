@@ -964,7 +964,6 @@ function entity(croom)
 						}
 					}else if(this.diving)
 					{
-						console.log("it thinks you're diving");
 						if((this.AI==0) || (OPTIONS.NPCPickup))
 						{
 							this.room.objects[i].playerActivate();

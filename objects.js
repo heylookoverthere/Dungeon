@@ -244,7 +244,7 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 object.prototype.setup=function(id,par)
 {
 	if(id) {this.type=id;}
-	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.room)&&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 	{
 		this.underWater=true;
 	}

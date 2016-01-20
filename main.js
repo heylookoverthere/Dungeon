@@ -1062,7 +1062,7 @@ function resetMiles()
 var Krugman=new entity();
 Krugman.AI=1;
 Krugman.x=3;
-Krugman.y=10;
+Krugman.y=11;
 Krugman.enteredX=Krugman.x;
 Krugman.enteredY=Krugman.y;
 Krugman.walkSpeed=6;
@@ -1135,9 +1135,10 @@ Krugman.autoJoin=true;
 //theParty.add(Krugman);
 
 var nancy=new entity();
-nancy.AI=1;
-nancy.x=3;
-nancy.y=11;
+nancy.AI=0;
+nancy.x=5;
+nancy.y=6;
+nancy.dir=2;
 nancy.enteredX=nancy.x;
 nancy.enteredY=nancy.y;
 nancy.sprites=new Array();
@@ -1190,7 +1191,7 @@ if(!OPTIONS.SafeMode)
 	nancy.chatterBank.push("I wrote a poem for you, would you like to hear it? Roses are red / Violets are blue / I'm wearing sweatpants / To conceal my erection.");
 	nancy.chatterBank.push("I'm the reason this game has a 'safe mode' option.");
 }
-nancy.room=curDungeon.rooms[5][8][4];
+nancy.room=curDungeon.rooms[7][7][7];
 nancy.name="Nancy";
 
 entities.push(nancy);

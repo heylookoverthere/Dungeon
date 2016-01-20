@@ -35,6 +35,7 @@ party.prototype.add=function(bloke)
 	if(!bloke.isPlayer)
 	{
 		bConsoleBox.log(bloke.name+ " joined the party!");
+		bloke.AI=1;//follow, set target also. 
 	}
 }
 
