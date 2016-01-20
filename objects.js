@@ -994,6 +994,7 @@ object.prototype.setup=function(id,par)
 	}else if (this.type==ObjectID.Rock) {
 		this.sprites=new Array();
 		this.bombable=false;//true;
+		this.on=true;
 		this.sprites.push(Sprite("rock"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1017,12 +1018,12 @@ object.prototype.setup=function(id,par)
 				}
 				return false;
 			} 
-			if(!this.on)
+			if(this.on)
 			{
 				playSound("shatter");
 				this.curSprite=1;
 				this.aniRate=3;
-				this.on=true;
+				this.on=false;
 				if(false)//(this.loot)
 				{
 				
@@ -2058,7 +2059,7 @@ object.prototype.update=function()
 			//console.log(this.curTopSprite);
 		}
 	}
-	if((this.type==ObjectID.Pot)&&(this.curSprite>0))
+	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock))&&(this.curSprite>0))
 	{
 		this.ani++;
 		if(this.ani>this.aniRate)

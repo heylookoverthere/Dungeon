@@ -654,7 +654,7 @@ function entity(croom)
 					makeObject(spotX,spotY,this.room,ObjectID.BombRefill);
 					return;
 				}
-				var pojk=50+Math.floor(Math.random()*2);
+				var pojk=500+Math.floor(Math.random()*2);
 				makeObject(spotX,spotY,this.room,pojk);
 			}
 			return true;

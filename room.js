@@ -1246,7 +1246,7 @@ function room(I) { //room object
 			var litLamps=0;
 			for(var l=0;l<I.objects.length;l++)
 			{
-				if(I.objects[l].type==ObjectID.Lamp)
+				if((I.objects[l].type==ObjectID.Lamp) || (I.objects[l].type==ObjectID.TallLamp)||(I.objects[l].type==ObjectID.Candle))
 				{
 					lamps++;
 					if(I.objects[l].on)
@@ -1292,7 +1292,7 @@ function room(I) { //room object
 			var litLamps=0;
 			for(var l=0;l<I.objects.length;l++)
 			{
-				if(I.objects[l].type==ObjectID.Lamp)
+				if((I.objects[l].type==ObjectID.Lamp)  || (I.objects[l].type==ObjectID.TallLamp)||(I.objects[l].type==ObjectID.Candle))
 				{
 					lamps++;
 					if(I.objects[l].on)
