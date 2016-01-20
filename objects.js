@@ -1046,6 +1046,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bush"));
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
+		this.on=true;
 		this.activate=function()
 		{
 			if(!miles.has[hasID.Sword])
