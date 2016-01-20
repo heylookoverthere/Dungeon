@@ -92,7 +92,7 @@ function dungeon(path)
 					
 					if(limited)
 					{
-						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,3,false,true);
+						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,3,miles,true);
 						
 						if((miles.x==purd.x) && (miles.y==3))
 						{
@@ -158,7 +158,7 @@ function dungeon(path)
 					
 					if(limited)
 					{
-						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,12,false,true);
+						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,12,miles,true);
 						
 						if((miles.x==purd.x) && (miles.y==12))
 						{
@@ -222,7 +222,7 @@ function dungeon(path)
 					
 					if(limited)
 					{
-						var nard=this.curRoom().getPath(miles.x,miles.y,17,purd.y,false,true);
+						var nard=this.curRoom().getPath(miles.x,miles.y,17,purd.y,miles,true);
 						
 						if((miles.y==purd.y) && (miles.x==17))
 						{
@@ -290,7 +290,7 @@ function dungeon(path)
 					
 					if(limited)
 					{
-						var nard=this.curRoom().getPath(miles.x,miles.y,3,purd.y,false,true);					
+						var nard=this.curRoom().getPath(miles.x,miles.y,3,purd.y,miles,true);					
 						if((miles.y==purd.y) && (miles.x==3))
 						{
 							nard.push(0);

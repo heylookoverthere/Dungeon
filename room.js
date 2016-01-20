@@ -334,9 +334,9 @@ function tileToCost(data, canSwim) {
 	}
 };
 
-function getCost(map,x,y,avoidHoles)
+function getCost(map,x,y,aPlayer,avoidHoles)
 {
-	if(map.walkable(x,y,avoidHoles))
+	if(map.walkable(x,y,avoidHoles,aPlayer))
 	{
 		return 1;
 	}else
@@ -345,13 +345,13 @@ function getCost(map,x,y,avoidHoles)
 	}
 }
 
-function mapToGraph(map, avoidHoles) { 
+function mapToGraph(map,aPlayer, avoidHoles) { 
     var tilesArray = [];
     for( var i=0; i<map.width; ++i ) {
         var rowArray = [];
         for( var j=0; j<map.height; ++j ) {
             var tile = map.tiles[i][j];
-            var data = getCost(map,i,j,avoidHoles);
+            var data = getCost(map,i,j,aPlayer,avoidHoles);
             /*for( var ii=-1; ii<2; ++ii ) {
                 for( var jj=-1; jj<2; ++jj) {
                     if( i+ii < 0 || i+ii >= ROOM_WIDTH || j+jj < 0 || j+jj >= ROOM_WIDTH ) {
@@ -504,7 +504,7 @@ function room(I) { //room object
 		I.copyStairs(clone);
 	}
 	
-    I.getPath = function(startX, startY, endX, endY,booat,avoidHoles) {
+    I.getPath = function(startX, startY, endX, endY,aPlayer,avoidHoles) {
 		//if(avoidHoles==null){avoidHoles=true;}
 		if((startX==endX) && (startY==endY))
 		{
@@ -516,7 +516,7 @@ function room(I) { //room object
 			return crap;
 		}
 		//var snerd=I.getSubMap(0,0,ROOM_WIDTH,ROOM_HEIGHT);//(startX,startY,endX,endY);
-		var graph = mapToGraph(I,avoidHoles);
+		var graph = mapToGraph(I,aPlayer,avoidHoles);
 		
 		return astar.search(graph.nodes, graph.nodes[startX][startY], graph.nodes[endX][endY]);
 	};
@@ -657,7 +657,7 @@ function room(I) { //room object
 		return false;
 	}
 	
-	I.walkable=function(x,y,avoidHoles,aplayer){
+	I.walkable=function(x,y,avoidHoles,aPlayer){
 		/*if((aplayer) && (aplayer.has[hasID.Feather]))
 		{
 			if(I.tiles[x][y].data==DungeonTileType.Hole)
@@ -691,6 +691,10 @@ function room(I) { //room object
 			return false;
 		}else
 		{*/
+		if((aPlayer.canSwim) && ((I.tiles[x][y].data>19) && (I.tiles[x][y].data<24)))
+		{
+			return true;
+		}
 			//Serously wtf was I thinking with this. This is insane. 
 			if(((I.tiles[x][y].data==DungeonTileType.FloorEighteen) ||I.tiles[x][y].data==DungeonTileType.FloorFifteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSixteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeventeen)||(I.tiles[x][y].data==DungeonTileType.FloorTwelve) ||(I.tiles[x][y].data==DungeonTileType.FloorThirteen) ||(I.tiles[x][y].data==DungeonTileType.FloorFourteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeven) ||(I.tiles[x][y].data==DungeonTileType.FloorEight) ||(I.tiles[x][y].data==DungeonTileType.FloorNine) ||(I.tiles[x][y].data==DungeonTileType.FloorTen) ||(I.tiles[x][y].data==DungeonTileType.FloorEleven)|| (I.tiles[x][y].data==DungeonTileType.FloorFour) ||(I.tiles[x][y].data==DungeonTileType.FloorFive) ||(I.tiles[x][y].data==DungeonTileType.FloorSix) ||(I.tiles[x][y].data==DungeonTileType.FloorThree) ||(I.tiles[x][y].data==DungeonTileType.FloorTwo) ||(I.tiles[x][y].data==DungeonTileType.FloorOne) ||(I.tiles[x][y].data==DungeonTileType.GreenFloor) ||(I.tiles[x][y].data==DungeonTileType.UpStair)||(I.tiles[x][y].data==DungeonTileType.DownStair) ||(I.tiles[x][y].data==DungeonTileType.Unstable) ||(I.tiles[x][y].data==DungeonTileType.ReallyUnstable)||((I.tiles[x][y].data==DungeonTileType.Hole) && (!avoidHoles)) ||(I.tiles[x][y].data==DungeonTileType.Grass)||(I.tiles[x][y].data==DungeonTileType.Sand) ||(I.tiles[x][y].data==DungeonTileType.Ice))
 			{
@@ -766,51 +770,51 @@ function room(I) { //room object
 		
 	}
 	
-	I.closestWalkable=function(x,y)
+	I.closestWalkable=function(x,y,aPlayer)
 	{
 		var ned={};
 		ned.x=x;
 		ned.y=y;
 		if((x<0) || (x>I.width)||(y<0)||(y>I.height)) {return null;}
-		if(I.walkable(x,y)) {return ned;}
-		ned=I.closestWalkable(x-1,y);
+		if(I.walkable(x,y,true,aPlayer)) {return ned;}
+		ned=I.closestWalkable(x-1,y,aPlayer);
 		if(ned){return ned;}
-		ned=I.closestWalkable(x+1,y);
+		ned=I.closestWalkable(x+1,y,aPlayer);
 		if(ned){return ned;}
-		ned=I.closestWalkable(x,y-1);
+		ned=I.closestWalkable(x,y-1,aPlayer);
 		if(ned){return ned;}
-		ned=I.closestWalkable(x,y+1);
+		ned=I.closestWalkable(x,y+1,aPlayer);
 		if(ned){return ned;}
 		return null;
 	}
 
 	
-	I.closestAdj=function(you,it)
+	I.closestAdj=function(you,it,aPlayer)
 	{
 		//todo! return closest walkable tile that is not the tile. make list of walkable ajacents, then sort by distance to it?
 		var alist=new Array();
-		if(I.walkable(you.x-1,you.y))
+		if(I.walkable(you.x-1,you.y,true,aPlayer))
 		{
 			var gurp={};
 			gurp.x=you.x+1;
 			gurp.y=you.y;
 			alist.push(gurp);
 		}
-		if(I.walkable(you.x-1,you.y))
+		if(I.walkable(you.x-1,you.y,true,aPlayer))
 		{
 			var gurp={};
 			gurp.x=you.x-1;
 			gurp.y=you.y;
 			alist.push(gurp);
 		}
-		if(I.walkable(you.x,you.y+1))
+		if(I.walkable(you.x,you.y+1,true,aPlayer))
 		{
 			var gurp={};
 			gurp.x=you.x;
 			gurp.y=you.y+1;
 			alist.push(gurp);
 		}
-		if(I.walkable(you.x,you.y-1))
+		if(I.walkable(you.x,you.y-1,true,aPlayer))
 		{
 			var gurp={};
 			gurp.x=you.x;
@@ -1088,8 +1092,8 @@ function room(I) { //room object
 		I.copyTiles(buup,true);
 	}
     
-    I.drawPath = function(can,x,y,xx,yy) {
-        var path = I.getPath(x, y, xx, yy,false);
+    I.drawPath = function(can,x,y,xx,yy,aPlayer) {
+        var path = I.getPath(x, y, xx, yy,aPlayer,false);
 		//console.log(path);
 		var snarp=can.fillStyle;
 		var parp=can.globalAlpha;

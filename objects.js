@@ -1048,12 +1048,18 @@ object.prototype.setup=function(id,par)
 		this.name="bush";
 		this.activate=function()
 		{
-			if(!this.on)
+			if(!miles.has[hasID.Sword])
+			{	
+				bConsoleBox.log("Can't cut bushes with out a sword.");
+				playSound("error");
+				return;
+			}
+			if(this.on)
 			{
 				playSound("curtains");
 				this.curSprite=1;
 				//this.aniRate=3;
-				this.on=true;
+				this.on=false;
 				if(false)//(this.loot)
 				{
 				
@@ -1408,6 +1414,7 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("Uhh, there's only one Master sword. this must be a forgery.");
 			}
 			this.exists=false;
+			miles.has[hasID.Sword]=true;
 			miles.has[hasID.MasterSword]=true;
 		}
 		this.playerActivate=this.activate;
@@ -1527,6 +1534,7 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("You don't really need another pair of flippers.");
 			}
 			this.exists=false;
+			miles.canSwim=true; 
 			miles.has[hasID.Flippers]=true;
 			//miles.giveItem(this,1);
 			

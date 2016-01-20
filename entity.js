@@ -318,6 +318,7 @@ function entity(croom)
 	this.lastY=3;
 	this.width=32;
 	this.height=48;
+	this.canSwim=false;
 	this.autoJoin=false;
 	this.alignment=0; //friends 1==neutral, 2== enemy 
 	this.featherCount=0;
@@ -719,7 +720,7 @@ function entity(croom)
 	{
 		this.destX=x;
 		this.destY=y;
-		this.path=this.room.getPath(this.x,this.y,x,y,false,false);
+		this.path=this.room.getPath(this.x,this.y,x,y,this,false);
 		this.pathTrack=0;
 		if(obj)
 		{
@@ -731,7 +732,7 @@ function entity(croom)
 	{
 		this.destX=x;
 		this.destY=y;
-		this.path=this.room.getPath(this.x,this.y,x,y,false,true);
+		this.path=this.room.getPath(this.x,this.y,x,y,this,true);
 		this.pathTrack=0;
 		if(obj)
 		{
@@ -1076,7 +1077,7 @@ function entity(croom)
 				{
 					this.status="he's to the north and there is an open door!";
 					var peg=this.room.getOpenDoor(0,this);
-					nard=this.room.getPath(this.x,this.y,peg.x,peg.y+1,false,true);
+					nard=this.room.getPath(this.x,this.y,peg.x,peg.y+1,this,true);
 					if((this.x==peg.x) &&  (this.y==peg.y+1))
 					{
 						nard.push(0);
@@ -1085,7 +1086,7 @@ function entity(croom)
 				{
 					this.status="he's to the east and there is an open door!";
 					var peg=this.room.getOpenDoor(1,this);
-					nard=this.room.getPath(this.x,this.y,peg.x-1,peg.y,false,true);
+					nard=this.room.getPath(this.x,this.y,peg.x-1,peg.y,this,true);
 					if((this.x==peg.x-1) &&  (this.y==peg.y))
 					{
 						nard.push(0);
@@ -1094,7 +1095,7 @@ function entity(croom)
 				{
 					this.status="he's to the south and there is an open door!";
 					var peg=this.room.getOpenDoor(2,this);
-					nard=this.room.getPath(this.x,this.y,peg.x,peg.y-1,false,true);
+					nard=this.room.getPath(this.x,this.y,peg.x,peg.y-1,this,true);
 					if((this.x==peg.x) &&  (this.y==peg.y-1))
 					{
 						nard.push(0);
@@ -1103,7 +1104,7 @@ function entity(croom)
 				{
 					this.status="he's to the west and there is an open door!";
 					var peg=this.room.getOpenDoor(3,this);
-					nard=this.room.getPath(this.x,this.y,peg.x+1,peg.y,false,true);
+					nard=this.room.getPath(this.x,this.y,peg.x+1,peg.y,this,true);
 					if((this.x==peg.x+1) &&  (this.y==peg.y))
 					{
 						nard.push(0);
@@ -1211,7 +1212,7 @@ function entity(croom)
 					this.path=null;
 					if((this.AI>0) && (this.tracking))
 					{
-						var bup=this.room.closestAdj(this.tracking,this);
+						var bup=this.room.closestAdj(this.tracking,this,this);
 						if((bup)&&(this.x==bup.x) && (this.y==bup.y))
 						{
 							this.status="Arrived." 

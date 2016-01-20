@@ -1887,8 +1887,8 @@ function actuallyStartGame()
 	curDungeon.curRoom().explored=true;
 	curDungeon.hasEdited=false;
 	miles.room=curDungeon.curRoom();
-	graphboat = mapToGraph(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY],true);
-	graph = mapToGraph(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY],false);
+	//graphboat = mapToGraph(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY],true);
+	//graph = mapToGraph(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY],miles,false);
 	if(OPTIONS.musicOn){
 		document.getElementById("mainSong").volume=OPTIONS.musicVolume;
 		document.getElementById("mainSong").play(); //starts music
@@ -2399,7 +2399,7 @@ function mainDraw() {
 	
 	if(drawingPath)
 	{
-		curDungeon.curRoom().drawPath(canvas,miles.x,miles.y,editor.x,editor.y);
+		curDungeon.curRoom().drawPath(canvas,miles.x,miles.y,editor.x,editor.y,miles);
 	}
 	//curDungeon.curRoom().drawPath(canvas,9,11,9,3);//curDungeon.curRoom().getOpenDoor(0).x,curDungeon.curRoom().getOpenDoor(0).y+2)
 	
@@ -2429,7 +2429,7 @@ function mainUpdate()
     timestamp = new Date();
     milliseconds = timestamp.getTime();
     tick++;
-	thyme.update();
+//	thyme.update(); //cause wtf is this even doing anymore?
 	if(optionskey.check())
 	{
 		mode=3;
