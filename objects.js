@@ -1088,6 +1088,11 @@ object.prototype.setup=function(id,par)
 				playSound("curtains");
 				this.curSprite=1;
 				//this.aniRate=3;
+				var bumj= new explosionEffect(this.room);
+				bumj.setup(this.x-2,this.y-2,this.room);
+				bumj.numFrames=7;
+				bumj.type=1;
+				explosions.push(bumj);
 				this.on=false;
 				if(false)//(this.loot)
 				{
@@ -2176,6 +2181,19 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 		}
 	}
 	can.globalAlpha=1;
+}
+
+object.prototype.linkToAllSpikes=function()
+{
+	this.dest=new Array();
+	for(i=0;i<this.room.objects.length;i++)
+	{
+		if(this.room.objects[i].type==ObjectID.Spikes)
+		{
+			this.dest.push(this.room.objects[i]);
+		}
+	}
+	
 }
 
 object.prototype.stringify=function()

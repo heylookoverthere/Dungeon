@@ -687,6 +687,7 @@ function entity(croom)
 	this.hurt=function(dmg)
 	{
 		if(!this.alive) {return;}
+		if(this.diving) {return;}
 		if(this.gotHurt>0) {return;}
 		this.hp-=dmg;
 		playSound("playerhurt");

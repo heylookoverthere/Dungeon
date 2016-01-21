@@ -1033,16 +1033,28 @@ explosionsprite[1] =Sprite("explosion1");
 explosionsprite[2] =Sprite("explosion2");
 explosionsprite[3] =Sprite("explosion3");
 
+var leafssprite=new Array(8);
+leafssprite[0] =Sprite("leaves0");
+leafssprite[1] =Sprite("leaves1");
+leafssprite[2] =Sprite("leaves2");
+leafssprite[3] =Sprite("leaves3");
+leafssprite[4] =Sprite("leaves4");
+leafssprite[5] =Sprite("leaves5");
+leafssprite[6] =Sprite("leaves6");
+leafssprite[7] =Sprite("leaves7");
+
 function explosionEffect(croom)
 {
 	this.x=0;
 	this.y=0;
 	this.room=croom;
 	this.timeStarted=0;
+	this.type=0;
 	this.aniTrack=0;
 	this.aniCount=0;
 	this.exists=false;
 	this.aniRate=6;
+	this.numFrames=3;
 	this.setup=function(x,y,croom)
 	{
 		this.x=x;
@@ -1058,7 +1070,7 @@ function explosionEffect(croom)
 		{
 			this.aniCount=0;
 			this.aniTrack++;
-			if(this.aniTrack>3)
+			if(this.aniTrack>this.numFrames)
 			{
 				this.aniTrack=0;
 				this.aniCount=0;
@@ -1071,8 +1083,14 @@ function explosionEffect(croom)
 		var bur=can.globalAlpha;
 		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
 		{
-			can.globalAlpha=0.5;
-			explosionsprite[this.aniTrack].draw(can,this.x*32+xOffh+16,this.y*32+yOffh+16);
+			if(this.type==0)
+			{
+				can.globalAlpha=0.5;
+				explosionsprite[this.aniTrack].draw(can,this.x*32+xOffh+16,this.y*32+yOffh+16);
+			}else if(this.type==1)
+			{
+				leafssprite[this.aniTrack].draw(can,(this.x+1)*32+xOffh,this.y*32+yOffh);
+			}
 			
 		}
 		can.globalAlpha=bur;
