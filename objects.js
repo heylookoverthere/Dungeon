@@ -1555,7 +1555,7 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.Flippers])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found the Flippers! It's totally useless for now!");
+				bConsoleBox.log("You found the Flippers!");
 				miles.holding=this.sprites[0];
 			}else
 			{
@@ -2114,10 +2114,16 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 			}
 		}
 	}
-	if((editMode) && ((this.hidden) ||(this.underWater)||(this.buried)))
+	if((this.hidden) ||(this.underWater)||(this.buried))
 	{
-		can.globalAlpha=0.5;
-	}else if((this.hidden) ||(this.underWater)||(this.buried)){return;}
+		if((miles.has[hasID.Lens]) || (editMode))
+		{
+			can.globalAlpha=0.5;
+		}else
+		{
+			return;
+		}
+	}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh, (this.y-1)*32+1+yOffh);
@@ -2137,10 +2143,16 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 			}
 		}
 	}
-	if((editMode) && ((this.hidden) ||(this.underWater)||(this.buried)))
+	if((this.hidden) ||(this.underWater)||(this.buried))
 	{
-		can.globalAlpha=0.5;
-	}else if((this.hidden) ||(this.underWater)||(this.buried)){return;}
+		if((miles.has[hasID.Lens]) || (editMode))
+		{
+			can.globalAlpha=0.5;
+		}else
+		{
+			return;
+		}
+	}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	this.sprites[this.curSprite].draw(can, this.x*32+xOffh, this.y*32+yOffh);

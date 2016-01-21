@@ -352,10 +352,10 @@ function entity(croom)
 	this.sprites.push(Sprite("prof2"));
 	this.sprites.push(Sprite("prof3"));
 	this.swimSprites=new Array();
-	this.swimSprites.push(Sprite("swim0"));
-	this.swimSprites.push(Sprite("swim1"));
-	this.swimSprites.push(Sprite("swim2"));
-	this.swimSprites.push(Sprite("swim3"));
+	this.swimSprites.push(Sprite("profswim0"));
+	this.swimSprites.push(Sprite("profswim1"));
+	this.swimSprites.push(Sprite("profswim2"));
+	this.swimSprites.push(Sprite("profswim3"));
 	this.isPlayer=false;
 	this.money=0;
 	this.bombs=0;
@@ -832,6 +832,13 @@ function entity(croom)
 				this.diving=false; 
 			}
 		
+		}
+		if(this.holding)
+		{
+			this.going=false;
+			this.path=null; 
+			this.onArrival=function(){};
+			this.destObj=null;
 		}
 		this.swimming=false;
 		if(!this.alive)

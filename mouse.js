@@ -47,10 +47,13 @@ $(document).bind("contextmenu",function(e){
 			curDungeon.roomZ=curDungeon.startFloor;
 			curDungeon.roomX=curDungeon.startX;
 			curDungeon.roomY=curDungeon.startY;
-			miles.room=curDungeon.curRoom();
-			miles.x=9;
-			miles.y=12;
-			miles.fallingY=0;
+			for(var i=0;i<theParty.members.length;i++)
+			{
+				theParty.members[i].room=curDungeon.curRoom();
+				theParty.members[i].x=9;
+				theParty.members[i].y=12;
+				theParty.members[i].fallingY=0;
+			}
 			if(OPTIONS.MirrorBreaks)
 			{
 				miles.removeItem(ObjectID.Mirror,1); 
@@ -888,6 +891,7 @@ function mouseClick(e) {  //represents the mouse
 		if(miles.holding)
 		{
 			miles.holding=false;
+			return;
 		}
 		if(miles.going)
 		{
