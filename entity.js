@@ -733,7 +733,22 @@ function entity(croom)
 					this.swimSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 				}else
 				{
+					if((this.has[hasID.Shield]) && (this.dir==0))
+					{
+						shieldSprites[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					}
 					this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					if((this.has[hasID.Shield]) && (this.dir>0))
+					{
+						if(this.dir==3)
+						{
+							shieldSprites[this.dir].draw(can,this.x*32+xOffset-5,this.y*32+yOffset-14-this.fallingY*2);
+						}else
+						{
+							shieldSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+						}
+					
+					}
 				}
 				
 			}

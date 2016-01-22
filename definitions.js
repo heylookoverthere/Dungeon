@@ -64,6 +64,11 @@ var moneysprite=Sprite("rupee");
 var bombsprite=Sprite("bomb1");
 var arrowsprite=Sprite("arrow");
 var superbombsprite=Sprite("superbomb");
+var shieldSprites=new Array();
+shieldSprites.push(Sprite("shield0"));
+shieldSprites.push(Sprite("shield1"));
+shieldSprites.push(Sprite("shield2"));
+shieldSprites.push(Sprite("shield3"));
 
 var Darkness=14;
 
@@ -72,7 +77,7 @@ randomPhrases.push("I dunno much about computers other than the one I got at my 
 randomPhrases.push("You know those guitars that are like....double guitars?");
 randomPhrases.push("Sometimes, cats can be afraid of cucumbers. But sometimes not.");
 
-var numHas=19;
+var numHas=24;
 
 var hasID={};
 hasID.Map=0;
@@ -99,7 +104,7 @@ hasID.MasterSword=20;
 hasID.Mushroom=21;
 hasID.SilverArrows=22;
 hasID.Mushroom=23;
-
+hasID.Shield=24;
 
 
 var LightLevels=new Array();
@@ -211,6 +216,7 @@ objectSprites[15]=Sprite("glove");
 objectSprites[16]=Sprite("poo");
 objectSprites[17]=Sprite("sword");
 objectSprites[18]=Sprite("mushroom");
+objectSprites[19]=Sprite("shield");
 
 //furniture
 objectSprites[100]=Sprite("lamp");

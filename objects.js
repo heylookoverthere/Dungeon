@@ -29,6 +29,7 @@ objectName[15]="Power Glove";
 objectName[16]="Feces";
 objectName[17]="Half-decent sword";
 objectName[18]="Mushroom";
+objectName[19]="Shield";
 
 objectName[100]="Lamp";
 objectName[101]="Sign";
@@ -104,6 +105,7 @@ ObjectID.Glove=15;
 ObjectID.Poo=16;
 ObjectID.Sword=17;
 ObjectID.Mushroom=18;
+ObjectID.Shield=19;
 
 //furniture
 ObjectID.Lamp=100;
@@ -543,6 +545,23 @@ object.prototype.setup=function(id,par)
 			editor.mode=editModes.ChestLoot;
 			editor.lootFor=this;
 		}
+	}else if(this.type==ObjectID.Shield)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("shield"));
+		this.name="Shield";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a shield!");
+			btext="You found a shield!";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.Shield]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.SuperBomb)
 	{
 		this.sprites=new Array();
@@ -553,7 +572,7 @@ object.prototype.setup=function(id,par)
 		this.activate=function()
 		{
 			playSound("itemfanfare");
-			bConsoleBox.log("You the super bombs!");
+			bConsoleBox.log("You got the super bombs!");
 			btext="You the super bombs!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.SuperBomb]=true;
