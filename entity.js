@@ -5,6 +5,7 @@ equippedID.Boomerang=3;
 
 var numEquippable=2;
 
+
 function bomb(croom,isSuper)
 {
 	if(!isSuper) {isSuper=false;}
