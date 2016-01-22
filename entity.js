@@ -298,6 +298,12 @@ function bomb(croom,isSuper)
 	}
 }
 
+var actionID={};
+actionID.Boomarang=0;
+actionID.Bow=1;
+actionID.Hookshot=2;
+actionID.Sword=3; //for holding sword out/ pegasus dash
+
 function entity(croom)
 {
 	this.dir=0;
@@ -322,6 +328,22 @@ function entity(croom)
 	this.width=32;
 	this.height=48;
 	this.holdBreath=2;
+	this.acting=false;
+	this.action=0;
+	this.actingSprites=new Array();
+	this.actingSprites.push(new Array());
+	this.actingSprites.push(new Array());
+	this.actingSprites.push(new Array());
+	this.actingSprites.push(new Array());
+	this.actingSprites[0].push(Sprite("linkupbooma"));
+	this.actingSprites[1].push(Sprite("linkrightbooma"));
+	this.actingSprites[2].push(Sprite("linkdownbooma"));
+	this.actingSprites[3].push(Sprite("linkleftbooma"));
+	this.actingSprites[0].push(Sprite("linkbow0"));
+	this.actingSprites[1].push(Sprite("linkbow1"));
+	this.actingSprites[2].push(Sprite("linkbow2"));
+	this.actingSprites[3].push(Sprite("linkbow3"));
+				
 	this.tookBreath=0;
 	this.canSwim=false;
 	this.autoJoin=false;
@@ -737,7 +759,22 @@ function entity(croom)
 					{
 						shieldSprites[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 					}
-					this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					
+				
+					if(this.acting)
+					{
+							if((this.dir==0) || (this.dir==1))
+							{
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+xOffset-12,this.y*32+yOffset-14-this.fallingY*2);
+							}else
+							{
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+							}
+					}else
+					{
+						this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					}
+					
 					if((this.has[hasID.Shield]) && (this.dir>0))
 					{
 						if(this.dir==3)
