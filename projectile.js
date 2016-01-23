@@ -77,7 +77,7 @@ projectile.prototype.draw=function(can)
 	}else if(this.type==1)
 	{
 		can.save();
-		can.translate(this.x+16+xOffset,this.y+16+yOffset);
+		can.translate(this.x+xOffset,this.y+yOffset);
 		can.rotate((this.counter)* (Math.PI / 180));
 		this.sprites[0].draw(can, 0,0);//this.x+xOffset, this.y+yOffset);
 		//can.scale(1,1);
@@ -119,6 +119,10 @@ projectile.prototype.kill=function()
 		bep.armed=true;
 		bep.timePlaced=new Date().getTime();
 		this.player.activebombs.push(bep);
+	}
+	if(this.type==1)
+	{
+		this.player.busyrang=false;
 	}
 }
 
@@ -171,6 +175,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 		if(this.hit(this.player))
 		{
 			this.exists=false;
+			this.player.busyrang=false;
 			return;
 		}
 			

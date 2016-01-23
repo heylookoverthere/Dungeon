@@ -325,6 +325,7 @@ function entity(croom)
 	this.maxArrows=20;
 	this.swimming=false;
 	this.diving=false;
+	this.busyrang=false;
 	this.lastY=3;
 	this.width=32;
 	this.height=48;
@@ -735,9 +736,12 @@ function entity(croom)
 	}
 	this.tossBoomarang=function(ang)
 	{
+		if(!this.busyrang)
+		{
 		this.acting=true;
 		this.action=actionID.Boomarang;
 		this.actfor=100; 
+		this.busyrang=true;
 		this.actStart=new Date().getTime();
 		var poot=new projectile(this);
 		poot.exists=true; 
@@ -747,6 +751,7 @@ function entity(croom)
 		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
 		poot.setup(1);
 		this.projectiles.push(poot);
+		}
 	}
 	
 	this.shootArrowAt=function(targ)
