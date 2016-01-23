@@ -56,6 +56,22 @@ $(document).bind("contextmenu",function(e){
 				playSound("error");
 			}
 
+		}else if(miles.getEquipped()==ObjectID.Boomarang)
+		{
+			if(miles.dir==0)
+			{
+				miles.tossBoomarang(90);
+			}else if(miles.dir==1)
+			{
+				miles.tossBoomarang(180);
+			}else if(miles.dir==2)
+			{
+				miles.tossBoomarang(270);
+			}else if(miles.dir==3)
+			{
+				miles.tossBoomarang(0);
+			}
+			
 		}else if(miles.getEquipped()==ObjectID.Flippers)
 		{
 			if(miles.dive())

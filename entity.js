@@ -727,11 +727,11 @@ function entity(croom)
 	
 	this.getScreenX=function()
 	{
-		return this.x*32+16;
+		return this.x*32;
 	}
 	this.getScreenY=function()
 	{
-		return this.y*32+16;
+		return this.y*32;
 	}
 	this.tossBoomarang=function(ang)
 	{

@@ -16,6 +16,7 @@ function projectile(aPlayer)
 	this.x=aPlayer.x*32-16;
 	this.y=aPlayer.y*32-16;
 	this.player=aPlayer;
+	this.room=aPlayer.room;
 	this.team=aPlayer.team;
 	this.xv=0;
 	this.yv=0; 
@@ -80,6 +81,18 @@ projectile.prototype.draw=function(can)
 
 projectile.prototype.hit=function(obj)
 {
+	if(this.room.z!=obj.room.z)
+	{
+		return false;
+	}
+	if(this.room.x!=obj.room.x)
+	{
+		return false;
+	}
+	if(this.room.y!=obj.room.y)
+	{
+		return false;
+	}
 	if((this.x < obj.getScreenX()+obj.width) && (this.x+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
 	{
 		return true;
@@ -179,9 +192,40 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			}
 			if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
 			{
-				entities[i].hurt(this.damage);
+				if((this.player.isPlayer) && (entities[i].isPlayer))
+				{
+					this.exists=true;
+				}else
+				{
+					entities[i].hurt(this.damage);
+				}
 			}
 		}
+	}
+	
+	for(var i=0;i<this.room.objects.length;i++)
+	{
+		if(this.hit(this.room.objects[i])) 
+		{ 
+			if(this.type==0)
+			{
+				if(this.room.objects[i].arrowsActivate)
+				{
+					this.room.objects[i].playerActivate();
+				}
+				if(this.room.objects[i].blockArrows)
+				{
+					playSound("arrowhit");
+					this.exists=false; //todo, link it to target so it moves with him stuck in him for  abit?
+				}
+			}
+		}
+	}
+	
+	if((this.x/32<2) || (this.x/32>18) || (this.y/32<2)|| (this.y/32>12))
+	{
+		playSound("arrowhit");
+		this.exists=false; //todo, link it to target so it moves with him stuck in him for  abit?
 	}
 	
 	//check collision with all objects. some may block, some may activate

@@ -183,6 +183,7 @@ function object(oroom) //not a tile, not an enemy
 	this.createdTime=0;
 	this.bombable=false;
 	this.blockArrows=false;
+	this.arrowsActivate=false;
 	this.hidden=false;
 	this.active=false;
 	this.hasSecret=false;
@@ -223,6 +224,15 @@ function object(oroom) //not a tile, not an enemy
 	this.dest=new Array(); //i.e. door to be opened on activate
 	this.flame=null;
 	//this.setup();
+}
+
+object.prototype.getScreenX=function()
+{
+	return this.x*32;
+}
+object.prototype.getScreenY=function()
+{
+	return this.y*32;
 }
 
 object.prototype.move=function(x,y) //brings along what is needed (like the flame of the lamp)
