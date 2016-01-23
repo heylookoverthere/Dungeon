@@ -31,6 +31,31 @@ $(document).bind("contextmenu",function(e){
 				bConsoleBox.log("You can't dig here.","yellow");
 			}
 
+		}else if(miles.getEquipped()==ObjectID.Bow)
+		{
+			if(miles.arrows>0)
+			{
+				miles.arrows--;
+				miles.removeItem(ObjectID.Bow,1);
+				if(miles.dir==0)
+				{
+					miles.shootArrow(90);
+				}else if(miles.dir==1)
+				{
+					miles.shootArrow(180);
+				}else if(miles.dir==2)
+				{
+					miles.shootArrow(270);
+				}else if(miles.dir==3)
+				{
+					miles.shootArrow(0);
+				}
+			}else
+			{
+				bConsoleBox.log("Out of arrows.","yellow");
+				playSound("error");
+			}
+
 		}else if(miles.getEquipped()==ObjectID.Flippers)
 		{
 			if(miles.dive())

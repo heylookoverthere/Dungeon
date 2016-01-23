@@ -329,6 +329,7 @@ function entity(croom)
 	this.height=48;
 	this.holdBreath=2;
 	this.acting=false;
+	this.actfor=0;
 	this.action=0;
 	this.actingSprites=new Array();
 	this.actingSprites.push(new Array());
@@ -416,7 +417,7 @@ function entity(croom)
 	this.inventory.push(meeee);
 	this.inventoryAmounts.push(1);
 	this.has=new Array();
-	
+	this.projectiles=new Array();
 	this.pushText=function()
 	{
 	 //todo - the forgotten dwarf. 
@@ -722,9 +723,54 @@ function entity(croom)
 			this.gotHurt=60;
 		}
 	}
+	this.tossBoomarang=function(ang)
+	{
+		this.acting=true;
+		this.action=actionID.Boomarang;
+		this.actfor=500; 
+		this.actStart=new Date().getTime();
+	}
+	
+	this.shootArrowAt=function(targ)
+	{
+		var beta=Math.atan2(this.targ.y-this.y,this.targ.x-this.x)* (180 / Math.PI);
+			if (beta < 0.0)
+				beta += 360.0;
+			else if (beta > 360.0)
+				beta -= 360;
+		this.shootArrow(beta);
+	}
+	
+	this.shootArrow=function(ang)
+	{
+		playSound("shoot");
+		this.acting=true;
+		this.action=actionID.Bow;
+		this.actfor=750;
+		this.actStart=new Date().getTime();
+
+		var poot=new projectile(this);
+		poot.exists=true; 
+		poot.angle=ang;
+		if(ang==270) //hack
+		{
+			poot.x+=32;
+		}
+		if(ang==0)
+		{
+			poot.y+=28;
+		}
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(0);
+		this.projectiles.push(poot);
+	}
 	this.draw=function(can)
 	{
-		
+		for(var i=0;i<this.projectiles.length;i++)
+		{
+			this.projectiles[i].draw(can,xOffset,yOffset);
+		}
 		if(!this.alive)
 		{
 			//if((this.deathAniTrack<2) || (this.isPlayer))//hack
@@ -877,6 +923,15 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		for(var i=0;i<this.projectiles.length;i++)
+		{
+			this.projectiles[i].update();
+			if(!this.projectiles[i].exists)
+			{
+				this.projectiles.splice(i,1);
+				i--;
+			}
+		}
 		if(this.diving)
 		{
 			//check for underwater shit
@@ -886,6 +941,14 @@ function entity(croom)
 				this.diving=false; 
 			}
 		
+		}
+		if((this.acting) && (this.actfor>0))
+		{
+			var hupp=new Date().getTime();
+			if(hupp-this.actStart>this.actfor)
+			{
+				this.acting=false;
+			}
 		}
 		if(this.holding)
 		{
