@@ -1492,7 +1492,7 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.MasterSword])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found the Master Sword!! It's totally useless for now!");
+				bConsoleBox.log("You found the Master Sword!!");
 				miles.holding=this.sprites[0];
 			}else
 			{
@@ -1515,7 +1515,7 @@ object.prototype.setup=function(id,par)
 				if(!miles.has[hasID.Sword])
 				{
 					playSound("itemfanfare");
-					bConsoleBox.log("You found a half-decent sword! It's totally useless for now!");
+					bConsoleBox.log("You found a half-decent sword!");
 					miles.holding=this.sprites[0];
 				}else
 				{
@@ -1538,7 +1538,7 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.Bow])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found the Bow! It's totally useless for now!");
+				bConsoleBox.log("You found the Bow!");
 				miles.holding=this.sprites[0];
 			}else
 			{
@@ -1580,7 +1580,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("boomarang"));
-	    this.name="Boomarang";
+	    this.name="Boomerang";
 		this.pickupable=true;
 		this.usable=true;
 		this.activate=function()
@@ -1588,12 +1588,12 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.Boomarang])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found the Boomarang! It's totally useless for now!");
+				bConsoleBox.log("You found the Boomerang!");
 				miles.holding=this.sprites[0];
 			}else
 			{
 				playSound("item");
-				bConsoleBox.log("You don't really need another boomarang.");
+				bConsoleBox.log("You don't really need another boomerang.");
 			}
 			this.exists=false;
 			miles.has[hasID.Boomarang]=true;
@@ -1702,7 +1702,7 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.Lens])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found ..some weird magnifying glass! It's totally useless for now!");
+				bConsoleBox.log("You found ..some weird magnifying glass!");
 				miles.holding=this.sprites[0];
 			}else
 			{

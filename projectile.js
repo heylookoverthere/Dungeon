@@ -6,7 +6,7 @@ var xOffset = 150;
 var yOffset= 150;
 
 var arrowsprite=Sprite("arrow");
-
+var silverarrowsprite=Sprite("silverarrow");
 
 
 var boomarangsprite1=Sprite("boomarang");
@@ -49,7 +49,13 @@ projectile.prototype.setup=function(type)
 	this.startTime=new Date().getTime();
 	if(this.type==0)
 	{
-		this.sprites.push(arrowsprite);
+		if(this.player.has[hasID.SilverArrows])
+		{
+			this.sprites.push(silverarrowsprite);
+		}else
+		{
+			this.sprites.push(arrowsprite);
+		}
 	}else if(this.type==1)
 	{
 		this.sprites.push(boomarangsprite1);
@@ -266,7 +272,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 		}
 	}
 	
-	if((this.x/32<2) || (this.x/32>18) || (this.y/32<2)|| (this.y/32>13))
+	if((this.x/32<1) || (this.x/32>18) || (this.y/32<1)|| (this.y/32>13))
 	{
 		playSound("arrowhit");
 		this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?

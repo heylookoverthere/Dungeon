@@ -63,6 +63,16 @@ function dungeon(path)
 	
 	this.changeRoom=function(dir,limited) //used for arrowing through rooms rather than player movement limited determines if you can go through walls/closed doors/ into inactive rooms
 	{
+		this.busyrang=false;
+		for(var i=0;i<miles.projectiles.length;i++)
+		{
+			if(miles.projectiles[i].type==1)
+			{
+				miles.projectiles[i].kill();
+				miles.projectiles.splice(i,1);
+				i--;
+			}
+		}
 		//either way, check map boundries to prevent errors. then if limited, check that a player could actually go that way. 
 		if(dir==0) //going north
 		{
@@ -852,6 +862,16 @@ function dungeon(path)
 	
 	this.changeFloor=function(up,limited)
 	{
+		this.busyrang=false;
+		for(var i=0;i<miles.projectiles.length;i++)
+		{
+			if(miles.projectiles[i].type==1)
+			{
+				miles.projectiles[i].kill();
+				miles.projectiles.splice(i,1);
+				i--;
+			}
+		}
 		if(up)
 		{
 			if(this.roomZ>this.floors-2)
