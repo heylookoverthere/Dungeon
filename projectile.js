@@ -33,7 +33,7 @@ function projectile(aPlayer)
 	this.startTime=0;
 	this.curSprite=0;
 	this.aniTrack=0;
-	this.aniRate=2;
+	this.aniRate=6;
 	this.peakTime=750;
 	this.hitWall=false; 
 	this.boomarang=false; // will it return
@@ -202,6 +202,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 	{
 		this.aniTrack=0;
 		this.curSprite++;
+		playSound("boomerang");
 		if(this.curSprite>this.sprites.length-1)
 		{
 			this.curSprite=0;

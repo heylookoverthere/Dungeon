@@ -738,19 +738,20 @@ function entity(croom)
 	{
 		if(!this.busyrang)
 		{
-		this.acting=true;
-		this.action=actionID.Boomarang;
-		this.actfor=100; 
-		this.busyrang=true;
-		this.actStart=new Date().getTime();
-		var poot=new projectile(this);
-		poot.exists=true; 
-		poot.angle=ang;
-		poot.speed=.5;
-		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
-		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
-		poot.setup(1);
-		this.projectiles.push(poot);
+			playSound("boomerang");
+			this.acting=true;
+			this.action=actionID.Boomarang;
+			this.actfor=100; 
+			this.busyrang=true;
+			this.actStart=new Date().getTime();
+			var poot=new projectile(this);
+			poot.exists=true; 
+			poot.angle=ang;
+			poot.speed=.5;
+			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+			poot.setup(1);
+			this.projectiles.push(poot);
 		}
 	}
 	

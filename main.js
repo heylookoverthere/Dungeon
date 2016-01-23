@@ -1065,7 +1065,7 @@ function resetMiles()
 }
 
 var Krugman=new entity();
-Krugman.AI=1;
+Krugman.AI=0;
 Krugman.x=3;
 Krugman.y=11;
 Krugman.enteredX=Krugman.x;
