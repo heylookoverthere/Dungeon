@@ -737,7 +737,7 @@ function entity(croom)
 	{
 		this.acting=true;
 		this.action=actionID.Boomarang;
-		this.actfor=200; 
+		this.actfor=100; 
 		this.actStart=new Date().getTime();
 		var poot=new projectile(this);
 		poot.exists=true; 
@@ -759,15 +759,17 @@ function entity(croom)
 		this.shootArrow(beta);
 	}
 	
-	this.shootArrow=function(ang)
+	this.shootArrow=function(ang,bmb)
 	{
 		playSound("shoot");
+	
 		this.acting=true;
 		this.action=actionID.Bow;
 		this.actfor=750;
 		this.actStart=new Date().getTime();
 
 		var poot=new projectile(this);
+		if(bmb) {poot.bombArrow=true;}
 		poot.exists=true; 
 		poot.angle=ang;
 		if(ang==270) //hack

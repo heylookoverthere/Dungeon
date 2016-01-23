@@ -184,6 +184,8 @@ function object(oroom) //not a tile, not an enemy
 	this.bombable=false;
 	this.blockArrows=false;
 	this.arrowsActivate=false;
+	this.boomarangActivate=false;
+	this.hookable=false;
 	this.hidden=false;
 	this.active=false;
 	this.hasSecret=false;
@@ -262,6 +264,7 @@ object.prototype.setup=function(id,par)
 	}
 	if (this.type==ObjectID.TallLamp) {
 		this.aniRate=5;
+		this.blockArrows=true;
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("talllamp"));
 		this.topLayer.push(Sprite("talllamptop0"));
@@ -872,6 +875,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
+		this.blockArrows=true;
 		this.sprites.push(Sprite("crystal"));
 		this.name="strange crystal";
 		this.playerActivate=this.activate;
@@ -879,6 +883,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
+		this.blockArrows=true;
 		this.sprites.push(Sprite("keybrick"));
 		this.name="Key Block"; 
 		this.playerActivate=function()
@@ -959,6 +964,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
 		this.width=96;
+		this.blockArrows=true;
 		this.height=32;
 		this.sprites.push(Sprite("bookcase0"));
 		this.topLayer.push(Sprite("bookcase0top"));
@@ -983,6 +989,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
+		this.blockArrows=true;
 		//this.height=64;
 		this.sprites.push(Sprite("statue1"));
 		this.topLayer.push(Sprite("statue1top"));
@@ -1104,9 +1111,10 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
 		this.on=true;
-		this.activate=function()
+		this.boomarangActivate=true;
+		this.activate=function(rang)
 		{
-			if(!miles.has[hasID.Sword])
+			if((!miles.has[hasID.Sword]) &&(!rang))
 			{	
 				bConsoleBox.log("Can't cut bushes with out a sword.");
 				playSound("error");
@@ -1287,12 +1295,15 @@ object.prototype.setup=function(id,par)
 	}else if (this.type==ObjectID.BlueBlocker) { //blue blocker
 	    this.sprites=new Array();
 		this.playerUsable=false;
+		
 		if(this.on)
 		{
 			this.curSprite=0;
+			this.blockArrows=true;
 		}else
 		{
 			this.curSprite=1;
+			this.blockArrows=false;
 		}
 		this.sprites.push(Sprite("blueblocker"));
 		this.sprites.push(Sprite("blueblockerdown"));
@@ -1303,9 +1314,11 @@ object.prototype.setup=function(id,par)
 			if(this.on)
 			{
 				this.curSprite=0;
+				this.blockArrows=true;
 			}else
 			{
 				this.curSprite=1;
+				this.blockArrows=false;
 			}
 		}
 		this.activateEdit=this.activate;
@@ -1316,9 +1329,11 @@ object.prototype.setup=function(id,par)
 		if(this.on)
 		{
 			this.curSprite=0;
+			this.blockArrows=true;
 		}else
 		{
 			this.curSprite=1;
+			this.blockArrows=false;
 		}
 		this.sprites.push(Sprite("redblocker"));
 		this.sprites.push(Sprite("redblockerdown"));
@@ -1329,9 +1344,11 @@ object.prototype.setup=function(id,par)
 			if(this.on)
 			{
 				this.curSprite=0;
+				this.blockArrows=true;
 			}else
 			{
 				this.curSprite=1;
+				this.blockArrows=false;
 			}
 		}
 		this.activateEdit=this.activate;
@@ -1341,6 +1358,9 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("blueorb"));
 	    this.name="Blue orb";
 		this.bombable=true;
+		this.blockArrows=true;
+		this.arrowsActivate=true;
+		this.boomarangActivate=true;
 		this.activate=function()
 		{
 			playSound("orbhit");
@@ -1358,6 +1378,9 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("redorb"));
 	    this.name="Red orb";
 		this.bombable=true;
+		this.blockArrows=true;
+		this.arrowsActivate=true;
+		this.boomarangActivate=true;
 		this.activate=function()
 		{
 			//this.on=!this.on; //is this even needed

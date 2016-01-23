@@ -25,6 +25,7 @@ function projectile(aPlayer)
 	this.width=32;
 	this.height=32;
 	this.counter=0;
+	this.bombArrow=false;
 	this.exists=false;
 	this.smart=true; // tracks player on return
 	this.damage=20; 
@@ -65,7 +66,12 @@ projectile.prototype.draw=function(can)
 		can.save();
 		can.translate(this.x+16+xOffset,this.y+16+yOffset);
 		can.rotate((this.angle-90)* (Math.PI / 180));
+		if(this.bombArrow)
+		{
+			bombsprite.draw(can, 0,0);
+		}
 		this.sprites[this.curSprite].draw(can, 0,0);//this.x+xOffset, this.y+yOffset);
+	
 		//can.scale(1,1);
 		can.restore();
 	}else if(this.type==1)
@@ -100,6 +106,22 @@ projectile.prototype.hit=function(obj)
 	return false;
 }
 
+projectile.prototype.kill=function()
+{
+	this.exists=false;
+	if(this.bombArrow)
+	{
+		var bep=new bomb(this.room,false);
+		bep.x=Math.round(this.x/32);
+		bep.y=Math.round(this.y/32);
+		bep.fuse=0;
+		bep.exists=true;
+		bep.armed=true;
+		bep.timePlaced=new Date().getTime();
+		this.player.activebombs.push(bep);
+	}
+}
+
 projectile.prototype.update=function() //remember, this one's X,Y shoudl not be tile based!!! 
 {
 	var hoat=new Date().getTime();
@@ -122,7 +144,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			}
 		}else if(!this.smart)
 		{
-			this.exists=false;
+			this.kill();
 		}
 		
 		
@@ -195,11 +217,16 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				if((this.player.isPlayer) && (entities[i].isPlayer))
 				{
 					this.exists=true;
+				}else if((this.player.partyMember) && (entities[i].partyMember))
+				{
+					this.exists=true;
 				}else
 				{
 					entities[i].hurt(this.damage);
+					//this.kill();
 				}
 			}
+			//if(!this.exists) {this.kill();}
 		}
 	}
 	
@@ -216,16 +243,27 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				if(this.room.objects[i].blockArrows)
 				{
 					playSound("arrowhit");
-					this.exists=false; //todo, link it to target so it moves with him stuck in him for  abit?
+					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
+				}
+			}else if(this.type==1)
+			{
+				if(this.room.objects[i].boomarangActivate)
+				{
+					this.room.objects[i].playerActivate(true);
+				}
+				if(this.room.objects[i].blockArrows)
+				{
+					//playSound("arrowhit");
+					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
 				}
 			}
 		}
 	}
 	
-	if((this.x/32<2) || (this.x/32>18) || (this.y/32<2)|| (this.y/32>12))
+	if((this.x/32<2) || (this.x/32>18) || (this.y/32<2)|| (this.y/32>13))
 	{
 		playSound("arrowhit");
-		this.exists=false; //todo, link it to target so it moves with him stuck in him for  abit?
+		this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
 	}
 	
 	//check collision with all objects. some may block, some may activate
