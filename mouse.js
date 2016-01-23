@@ -487,6 +487,10 @@ function mouseClick(e) {  //represents the mouse
 		{
 			OPTIONS.DropsPersist=!OPTIONS.DropsPersist;
 		
+		}else if(bup==14)
+		{
+			OPTIONS.FriendlyFire=!OPTIONS.FriendlyFire;
+		
 		}
 
 		return;

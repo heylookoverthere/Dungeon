@@ -313,6 +313,7 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.team=0;
 	this.enteredX=this.x;
 	this.enteredY=this.y;
 	this.partyPos=0;
@@ -723,12 +724,29 @@ function entity(croom)
 			this.gotHurt=60;
 		}
 	}
+	
+	this.getScreenX=function()
+	{
+		return this.x*32+16;
+	}
+	this.getScreenY=function()
+	{
+		return this.y*32+16;
+	}
 	this.tossBoomarang=function(ang)
 	{
 		this.acting=true;
 		this.action=actionID.Boomarang;
-		this.actfor=500; 
+		this.actfor=200; 
 		this.actStart=new Date().getTime();
+		var poot=new projectile(this);
+		poot.exists=true; 
+		poot.angle=ang;
+		poot.speed=.5;
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(1);
+		this.projectiles.push(poot);
 	}
 	
 	this.shootArrowAt=function(targ)

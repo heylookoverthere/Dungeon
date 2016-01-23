@@ -2194,6 +2194,7 @@ function optionsDraw() {
 	canvas.fillText("11) NPC's collect items: "+OPTIONS.NPCPickup,xFset+15,yFset+325-6);
 	canvas.fillText("12) Mirror breaks on use: "+OPTIONS.MirrorBreaks,xFset+15,yFset+350-6);
 	canvas.fillText("13) Drops persist: "+OPTIONS.DropsPersist,xFset+15,yFset+375-6);
+	canvas.fillText("14) Friendly Fire: "+OPTIONS.FriendlyFire,xFset+15,yFset+400-6);
 	//canvas.fillText("14) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+400-6);
 
 
