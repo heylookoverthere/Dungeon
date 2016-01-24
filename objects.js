@@ -30,6 +30,7 @@ objectName[16]="Feces";
 objectName[17]="Half-decent sword";
 objectName[18]="Mushroom";
 objectName[19]="Shield";
+objectName[20]="Better Shield";
 
 objectName[100]="Lamp";
 objectName[101]="Sign";
@@ -107,6 +108,7 @@ ObjectID.Poo=16;
 ObjectID.Sword=17;
 ObjectID.Mushroom=18;
 ObjectID.Shield=19;
+ObjectID.BetterShield=20;
 
 //furniture
 ObjectID.Lamp=100;
@@ -315,7 +317,7 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.activateEdit=this.activate;
-		
+		this.activate(); //oooh that's why it's backwards. 
 	}else if (this.type==ObjectID.Lamp) {
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("lamp"));
@@ -574,6 +576,26 @@ object.prototype.setup=function(id,par)
 			btext="You found a shield!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.Shield]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.BetterShield)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("bettershield"));
+		this.name="Better shield";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a nicer shield!");
+			btext="You found a nice shield!";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.BetterShield]=true;
+			miles.has[hasID.Shield]=true;
+			miles.shieldSprites=bettershieldSprites;
+			//this.shieldDef++?
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;

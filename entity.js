@@ -333,6 +333,7 @@ function entity(croom)
 	this.acting=false;
 	this.actfor=0;
 	this.action=0;
+	this.shieldSprites=shieldSprites;
 	this.actingSprites=new Array();
 	this.actingSprites.push(new Array());
 	this.actingSprites.push(new Array());
@@ -829,7 +830,7 @@ function entity(croom)
 				{
 					if((this.has[hasID.Shield]) && (this.dir==0))
 					{
-						shieldSprites[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+						this.shieldSprites[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 					}
 					
 				
@@ -851,10 +852,10 @@ function entity(croom)
 					{
 						if(this.dir==3)
 						{
-							shieldSprites[this.dir].draw(can,this.x*32+xOffset-5,this.y*32+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+xOffset-5,this.y*32+yOffset-14-this.fallingY*2);
 						}else
 						{
-							shieldSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 						}
 					
 					}

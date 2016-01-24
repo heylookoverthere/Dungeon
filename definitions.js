@@ -70,6 +70,12 @@ shieldSprites.push(Sprite("shield1"));
 shieldSprites.push(Sprite("shield2"));
 shieldSprites.push(Sprite("shield3"));
 
+var bettershieldSprites=new Array();
+bettershieldSprites.push(Sprite("bettershield0"));
+bettershieldSprites.push(Sprite("bettershield1"));
+bettershieldSprites.push(Sprite("bettershield2"));
+bettershieldSprites.push(Sprite("bettershield3"));
+
 var Darkness=14;
 
 var randomPhrases=new Array();
@@ -105,7 +111,7 @@ hasID.Mushroom=21;
 hasID.SilverArrows=22;
 hasID.Mushroom=23;
 hasID.Shield=24;
-
+hasID.BetterShield=25;
 
 var LightLevels=new Array();
 LightLevels.push(0.90); //midnight
@@ -217,6 +223,7 @@ objectSprites[16]=Sprite("poo");
 objectSprites[17]=Sprite("sword");
 objectSprites[18]=Sprite("mushroom");
 objectSprites[19]=Sprite("shield");
+objectSprites[20]=Sprite("bettershield");
 
 //furniture
 objectSprites[100]=Sprite("lamp");
