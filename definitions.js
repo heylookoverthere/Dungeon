@@ -12,7 +12,7 @@ var shiftdown=false;
 var graph=null;
 var MobileMode=false;
 var numSouns=0;
-var curVersion="0.5a";
+var curVersion="0.6a";
 var explosions=new Array();
 var dugsprite=Sprite("shovelhole");
 var divesprite=Sprite("dive");
@@ -236,6 +236,7 @@ objectSprites[113]=Sprite("statue");
 objectSprites[114]=Sprite("bookcasesmall");
 objectSprites[115]=Sprite("bones");
 objectSprites[116]=Sprite("spikey");
+objectSprites[117]=Sprite("eyeswitch0");
 
 //obstacle
 objectSprites[200]=Sprite("bush");

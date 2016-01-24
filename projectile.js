@@ -250,7 +250,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			{
 				if(this.room.objects[i].arrowsActivate)
 				{
-					this.room.objects[i].playerActivate();
+					this.room.objects[i].activate();
 				}
 				if(this.room.objects[i].blockArrows)
 				{
@@ -261,7 +261,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			{
 				if(this.room.objects[i].boomarangActivate)
 				{
-					this.room.objects[i].playerActivate(true);
+					this.room.objects[i].activate(true);
 				}
 				if(this.room.objects[i].blockArrows)
 				{

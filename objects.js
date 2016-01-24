@@ -48,6 +48,7 @@ objectName[113]="Statue";
 objectName[114]="Bookcase";
 objectName[115]="Bones";
 objectName[116]="Spikey thing";
+objectName[117]="Eye Switch";
 
 objectName[200]="Bush";
 objectName[201]="Peg";
@@ -125,6 +126,7 @@ ObjectID.Statue=113;
 ObjectID.Bookcase=114;
 ObjectID.Bones=115;
 ObjectID.SpikeyThing=116;
+ObjectID.EyeSwitch=117;
 
 //obstacle
 ObjectID.Bush=200;
@@ -883,6 +885,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
+		this.hookable=true;
 		this.blockArrows=true;
 		this.sprites.push(Sprite("keybrick"));
 		this.name="Key Block"; 
@@ -1251,9 +1254,96 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.EyeSwitch) {
+		this.sprites=new Array();
+		this.curSprite=1;
+		this.on=true;
+		this.arrowsActivate=true;
+		this.blockArrows=true;
+		this.alwaysWalkable=true;
+//		console.log(this.x,this.y);
+		if(this.y==1)
+		{
+			this.sprites.push(Sprite("eyeswitch0"));
+			this.sprites.push(Sprite("eyeswitch0"));
+			this.width=32;
+			this.height=32;
+		}else if(this.x==18)
+		{
+			this.sprites.push(Sprite("eyeswitch1"));
+			this.sprites.push(Sprite("eyeswitch1"));
+			this.width=32;
+			this.height=32;
+		}else if(this.y==13)
+		{
+			this.sprites.push(Sprite("eyeswitch2"));
+			this.sprites.push(Sprite("eyeswitch2"));
+			this.width=32;
+			this.height=32;
+		}else if(this.x==1)
+		{
+			this.sprites.push(Sprite("eyeswitch3"));
+			this.sprites.push(Sprite("eyeswitch3"));
+			this.width=32;
+			this.height=32;
+		}
+	
+		this.name="Eye switch";
+		this.activateEdit=function(){
+			editor.mode=editModes.SwitchLink;
+			editor.linkingFrom=this;
+		}
+		this.activate=function(){
+			this.on=!this.on
+
+			playSound("switchhit");
+			if(this.on)
+			{
+				
+				this.curSprite= 1;
+			}else
+			{
+				this.curSprite= 0;
+			
+			}
+	
+			for(var i=0;i<this.dest.length;i++)
+			{
+				this.dest[i].activate();
+				if(this.dest[i].room.z<this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from below");
+					playSound("switchhit");
+				}else if(this.dest[i].room.z>this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from above");
+					playSound("switchhit");
+				}else
+				{
+					if(this.dest[i].room.x<this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the west");
+					}else if(this.dest[i].room.x>this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the east");
+					}else if(this.dest[i].room.y<this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the north");
+					}else if(this.dest[i].room.y>this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the south");
+					}
+				}
+			}
+		}
+		this.playerActivate=function()
+		{
+			return; 
+		}
 	}else if (this.type==ObjectID.Peg) { //blue blocker
 	    this.sprites=new Array();
 		this.on=true;
+		this.hookable=true;
 		this.curSprite=0;
 		this.sprites.push(Sprite("pegup"));
 		this.sprites.push(Sprite("pegdown"));
@@ -2278,7 +2368,7 @@ object.prototype.stringify=function()
 	{
 		tempstring+=";";
 		tempstring+=this.on;
-	}else if (this.type==ObjectID.ToggleSwitch)
+	}else if ((this.type==ObjectID.ToggleSwitch) || (this.type==ObjectID.EyeSwitch))
 	{
 		tempstring+=";";
 		tempstring+=this.dest.length;

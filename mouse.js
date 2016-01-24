@@ -160,7 +160,7 @@ $(document).bind("contextmenu",function(e){
 		tx=Math.floor((mX-xOffset)/32);// * Math.pow(2, 1);//curMap.zoom-1);
 		ty=Math.floor((mY-yOffset)/32);// * Math.pow(2, 1);//curMap.zoom-1);
 		
-		if((tx>1) && (tx<18) &&(ty>1)&&(ty<13) )
+		if((tx>-1) && (tx<20) &&(ty>-1)&&(ty<15) )
 		{
 			
 			if(editMode)
@@ -622,7 +622,73 @@ function mouseClick(e) {  //represents the mouse
 	//console.log(curDungeon.curRoom().objects);
 	if((editMode))
 	{
-		if((tx>1) && (tx<18) && (ty>1) &&(ty<13))
+		
+		if(editor.mode==editModes.SwitchLink)
+		{
+			editor.x=tx;
+			editor.y=ty;
+			var glork=null;
+			for(var k=0;k<curDungeon.curRoom().objects.length;k++)
+			{
+				if((editor.x==curDungeon.curRoom().objects[k].x) && (editor.y==curDungeon.curRoom().objects[k].y))
+				{
+					glork=curDungeon.curRoom().objects[k];
+					if(glork.type==ObjectID.Chest)
+					{
+						glork.hidden=true;
+					}
+				}
+			}
+			//if over door
+			var dork=null;
+			var pork=curDungeon.curRoom().getSpecificDoor(editor.x,editor.y-1,0)
+			if(pork)
+			{
+				dork=pork;
+			}
+			pork=curDungeon.curRoom().getSpecificDoor(editor.x+1,editor.y,1)
+			if(pork)
+			{
+				dork=pork;
+			}
+			pork=curDungeon.curRoom().getSpecificDoor(editor.x,editor.y+1,2)
+			if(pork)
+			{
+				dork=pork;
+			}
+			pork=curDungeon.curRoom().getSpecificDoor(editor.x-1,editor.y,3)
+			if(pork)
+			{
+				dork=pork;
+			}
+			//curDungeon.curRoom().exits[0];
+			if(dork)
+			{
+				editor.linkingTo=dork;
+				editor.mode=editModes.Objects;
+				editor.linkingFrom.dest.push(editor.linkingTo);
+				bConsoleBox.log("Linked switch to door");
+			}else if((glork) && (glork.type!=ObjectID.ToggleSwitch) && (!lork.type!=ObjectID.EyeSwitch))//is over an object
+			{
+				editor.linkingTo=glork;
+				editor.mode=editModes.Objects;
+				editor.linkingFrom.dest.push(editor.linkingTo);
+				bConsoleBox.log("Linked switch to "+glork.name);
+			}else
+			{
+				for(var i=0;i<curDungeon.curRoom().stairs.length;i++)
+				{
+					if((curDungeon.curRoom().stairs[i].x==editor.x) && (curDungeon.curRoom().stairs[i].y==editor.y))
+					{
+						editor.linkingTo=curDungeon.curRoom().stairs[i];
+						editor.mode=editModes.Objects;
+						editor.linkingFrom.dest.push(editor.linkingTo);
+						bConsoleBox.log("Linked switch to stairs at "+curDungeon.curRoom().stairs[i].x+","+curDungeon.curRoom().stairs[i].y);
+						curDungeon.curRoom().stairs[i].hidden=true;
+					}
+				}
+			}
+		}else if((tx>-1) && (tx<20) && (ty>-1) &&(ty<15))
 		{
 			//editor.penDown=false;
 			editor.x=tx;
@@ -632,70 +698,7 @@ function mouseClick(e) {  //represents the mouse
 				curDungeon.createRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
 				return;
 			}
-			if(editor.mode==editModes.SwitchLink)
-			{
-				var glork=null;
-				for(var k=0;k<curDungeon.curRoom().objects.length;k++)
-				{
-					if((editor.x==curDungeon.curRoom().objects[k].x) && (editor.y==curDungeon.curRoom().objects[k].y))
-					{
-						glork=curDungeon.curRoom().objects[k];
-						if(glork.type==ObjectID.Chest)
-						{
-							glork.hidden=true;
-						}
-					}
-				}
-				//if over door
-				var dork=null;
-				var pork=curDungeon.curRoom().getSpecificDoor(editor.x,editor.y-1,0)
-				if(pork)
-				{
-					dork=pork;
-				}
-				pork=curDungeon.curRoom().getSpecificDoor(editor.x+1,editor.y,1)
-				if(pork)
-				{
-					dork=pork;
-				}
-				pork=curDungeon.curRoom().getSpecificDoor(editor.x,editor.y+1,2)
-				if(pork)
-				{
-					dork=pork;
-				}
-				pork=curDungeon.curRoom().getSpecificDoor(editor.x-1,editor.y,3)
-				if(pork)
-				{
-					dork=pork;
-				}
-				//curDungeon.curRoom().exits[0];
-				if(dork)
-				{
-					editor.linkingTo=dork;
-					editor.mode=editModes.Objects;
-					editor.linkingFrom.dest.push(editor.linkingTo);
-					bConsoleBox.log("Linked switch to door");
-				}else if((glork) && (glork.type!=ObjectID.ToggleSwitch))//is over an object
-				{
-					editor.linkingTo=glork;
-					editor.mode=editModes.Objects;
-					editor.linkingFrom.dest.push(editor.linkingTo);
-					bConsoleBox.log("Linked switch to "+glork.name);
-				}else
-				{
-					for(var i=0;i<curDungeon.curRoom().stairs.length;i++)
-					{
-						if((curDungeon.curRoom().stairs[i].x==editor.x) && (curDungeon.curRoom().stairs[i].y==editor.y))
-						{
-							editor.linkingTo=curDungeon.curRoom().stairs[i];
-							editor.mode=editModes.Objects;
-							editor.linkingFrom.dest.push(editor.linkingTo);
-							bConsoleBox.log("Linked switch to stairs at "+curDungeon.curRoom().stairs[i].x+","+curDungeon.curRoom().stairs[i].y);
-							curDungeon.curRoom().stairs[i].hidden=true;
-						}
-					}
-				}
-			}else if(editor.mode==editModes.ChestLoot)
+			else if(editor.mode==editModes.ChestLoot)
 			{
 				var meg=isOverTiledList(curDungeon.curRoom().objects,32);
 			
@@ -737,21 +740,21 @@ function mouseClick(e) {  //represents the mouse
 				}else
 				{
 					var text=randomPhrases[Math.floor(Math.random()*randomPhrases.length)]
-					if((editor.objectType==ObjectID.Curtains)||(editor.objectType==ObjectID.WallShield))//curtains
+					if((editor.objectType==ObjectID.Curtains)||(editor.objectType==ObjectID.WallShield)||(editor.objectType==ObjectID.EyeSwitch))//curtains
 					{
-						if(editor.x==2) //left
+						if(editor.x<2) //left
 						{
 							makeObject(1,editor.y,curDungeon.curRoom(),editor.objectType);
 							return;
-						}else if(editor.x==17) //right
+						}else if(editor.x>17) //right
 						{
 							makeObject(18,editor.y,curDungeon.curRoom(),editor.objectType);
 							return;
-						}else if(editor.y==2) //top
+						}else if(editor.y<2) //top
 						{
 							makeObject(editor.x,1,curDungeon.curRoom(),editor.objectType);
 							return;
-						}else if(editor.y==12) //bottom
+						}else if(editor.y>12) //bottom
 						{
 							makeObject(editor.x,13,curDungeon.curRoom(),editor.objectType);
 							return;
@@ -1246,7 +1249,8 @@ mouseXY= function(e) {
     mY = e.pageY - canvasElement.get(0).offsetTop;
 	tx=Math.floor((mX-xOffset)/32);// * Math.pow(2, 1);//curMap.zoom-1);
 	ty=Math.floor((mY-yOffset)/32);// * Math.pow(2, 1);//curMap.zoom-1);
-	if((tx>1) &&(tx<18) &&(ty>1)&&(ty<13))
+	//if((tx>1) &&(tx<18) &&(ty>1)&&(ty<13))
+	if((tx>-1) &&(tx<20) &&(ty>-1)&&(ty<15))
 	{
 		editor.x=tx;
 		editor.y=ty;
@@ -1264,7 +1268,7 @@ mouseXY= function(e) {
 				editor.penDown=false;
 			}
 		}
-	}else if((editor.grabbed) &&(tx>1) &&(tx<18) &&(ty>1)&&(ty<13))
+	}else if((editor.grabbed) &&(tx>-1) &&(tx<20) &&(ty>-1)&&(ty<15))
 	{
 		editor.grabbed.move(tx,ty);
 	}

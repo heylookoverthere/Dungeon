@@ -947,7 +947,7 @@ function room(I) { //room object
 				ffset=5;
 				mitly++;
 				higgins.setup();
-			}else if(higgins.type==ObjectID.ToggleSwitch)
+			}else if((higgins.type==ObjectID.ToggleSwitch) || (higgins.type==ObjectID.EyeSwitch))
 			{
 				var nerp=tempstring[i+4] //number of dests
 				var plerp=i+4;
@@ -1807,7 +1807,7 @@ editCursor.prototype.cycleObjects=function(up)
 		}else if((this.objectType>210) && (this.objectType<300))
 		{
 			this.objectType=300;
-		}else if((this.objectType>116) && (this.objectType<200))
+		}else if((this.objectType>117) && (this.objectType<200))
 		{
 			this.objectType=200;
 		}else if((this.objectType>19) && (this.objectType<100))
@@ -1831,7 +1831,7 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=210;
 		}else if(this.objectType==199)
 		{
-			this.objectType=116;
+			this.objectType=117;
 		}else if(this.objectType==99)
 		{
 			this.objectType=19;
