@@ -1168,6 +1168,14 @@ function entity(croom)
 						this.x=this.enteredX;
 						this.y=this.enteredY;
 						//damage and find nearest standable point. 
+					}else if(!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active)
+					{
+						this.fallingY=0;
+						bConsoleBox.log("no room below");
+						console.log(this.enteredX,this.enteredY);
+						this.hurt(20);
+						this.x=this.enteredX;
+						this.y=this.enteredY;
 					}else
 					{
 						if(this.isPlayer)

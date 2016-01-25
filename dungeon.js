@@ -341,8 +341,10 @@ function dungeon(path)
 				playSound("error");
 			}
 		}
-		this.enteredX=this.x;
-		this.enteredY=this.y;
+
+		miles.enteredX=miles.x;
+		miles.enteredY=miles.y;
+
 	}
 	
 	this.useDoor=function(which) //link to other doors
