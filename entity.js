@@ -347,7 +347,9 @@ function entity(croom)
 	this.actingSprites[1].push(Sprite("linkbow1"));
 	this.actingSprites[2].push(Sprite("linkbow2"));
 	this.actingSprites[3].push(Sprite("linkbow3"));
-				
+	
+
+	
 	this.tookBreath=0;
 	this.canSwim=false;
 	this.autoJoin=false;
@@ -543,6 +545,18 @@ function entity(croom)
 			}
 		}
 		return false;
+	}
+	
+	this.getItem=function(id)
+	{
+		for(var i=0;i<this.inventory.length;i++)
+		{
+			if(this.inventory[i].type==id)
+			{
+				return this.inventory[i];
+			}
+		}
+		return null;
 	}
 	
 	this.giveItem=function(obj,amt)
@@ -749,9 +763,20 @@ function entity(croom)
 			poot.exists=true; 
 			poot.angle=ang;
 			poot.speed=.5;
+			if(this.has[hasID.MagicBoomarang])
+			{
+				poot.speed=1;
+				poot.peakTime=375;
+			}
 			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
 			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
-			poot.setup(1);
+			if(this.has[hasID.MagicBoomarang])
+			{
+				poot.setup(2);
+			}else
+			{
+				poot.setup(1);
+			}
 			this.projectiles.push(poot);
 		}
 	}

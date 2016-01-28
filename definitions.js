@@ -76,6 +76,18 @@ bettershieldSprites.push(Sprite("bettershield1"));
 bettershieldSprites.push(Sprite("bettershield2"));
 bettershieldSprites.push(Sprite("bettershield3"));
 
+var bestshieldSprites=new Array();
+bestshieldSprites.push(Sprite("bestshield0"));
+bestshieldSprites.push(Sprite("bestshield1"));
+bestshieldSprites.push(Sprite("bestshield2"));
+bestshieldSprites.push(Sprite("bestshield3"));
+
+var magicboomact=new Array()
+magicboomact.push(Sprite("linkupmagicbooma"));
+magicboomact.push(Sprite("linkrightmagicbooma"));
+magicboomact.push(Sprite("linkdownmagicbooma"));
+magicboomact.push(Sprite("linkleftmagicbooma"));
+
 var Darkness=14;
 
 var randomPhrases=new Array();
@@ -83,7 +95,7 @@ randomPhrases.push("I dunno much about computers other than the one I got at my 
 randomPhrases.push("You know those guitars that are like....double guitars?");
 randomPhrases.push("Sometimes, cats can be afraid of cucumbers. But sometimes not.");
 
-var numHas=24;
+var numHas=27;
 
 var hasID={};
 hasID.Map=0;
@@ -112,6 +124,8 @@ hasID.SilverArrows=22;
 hasID.Mushroom=23;
 hasID.Shield=24;
 hasID.BetterShield=25;
+hasID.BestShield=26;
+hasID.MagicBoomarang=27;
 
 var LightLevels=new Array();
 LightLevels.push(0.90); //midnight
@@ -224,6 +238,8 @@ objectSprites[17]=Sprite("sword");
 objectSprites[18]=Sprite("mushroom");
 objectSprites[19]=Sprite("shield");
 objectSprites[20]=Sprite("bettershield");
+objectSprites[21]=Sprite("bestshield");
+objectSprites[22]=Sprite("magicboomarang");
 
 //furniture
 objectSprites[100]=Sprite("lamp");

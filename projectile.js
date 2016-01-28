@@ -11,6 +11,8 @@ var silverarrowsprite=Sprite("silverarrow");
 
 var boomarangsprite1=Sprite("boomarang");
 var boomarangsprite2=Sprite("boomarang1");
+var magicboomarangsprite1=Sprite("magicboomarang");
+var magicboomarangsprite2=Sprite("magicboomarang1");
 function projectile(aPlayer)
 {
 	this.x=aPlayer.x*32-16;
@@ -60,6 +62,10 @@ projectile.prototype.setup=function(type)
 	{
 		this.sprites.push(boomarangsprite1);
 		this.sprites.push(boomarangsprite2);
+	}else if(this.type==2)
+	{
+		this.sprites.push(magicboomarangsprite1);
+		this.sprites.push(magicboomarangsprite2);
 	}
 
 }
@@ -80,7 +86,7 @@ projectile.prototype.draw=function(can)
 	
 		//can.scale(1,1);
 		can.restore();
-	}else if(this.type==1)
+	}else if((this.type==1) || (this.type==2))
 	{
 		can.save();
 		can.translate(this.x+xOffset,this.y+yOffset);
@@ -126,7 +132,7 @@ projectile.prototype.kill=function()
 		bep.timePlaced=new Date().getTime();
 		this.player.activebombs.push(bep);
 	}
-	if(this.type==1)
+	if((this.type==1) || (this.type==2))
 	{
 		this.player.busyrang=false;
 	}
@@ -135,7 +141,7 @@ projectile.prototype.kill=function()
 projectile.prototype.update=function() //remember, this one's X,Y shoudl not be tile based!!! 
 {
 	var hoat=new Date().getTime();
-	if((this.type==1) && (hoat-this.startTime>this.peakTime))
+	if(((this.type==1) || (this.type==2)) && (hoat-this.startTime>this.peakTime))
 	{
 		if(this.returning==false)
 		{
@@ -257,7 +263,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 					playSound("arrowhit");
 					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
 				}
-			}else if(this.type==1)
+			}else if((this.type==1) || (this.type==2))
 			{
 				if(this.room.objects[i].boomarangActivate)
 				{

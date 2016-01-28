@@ -31,6 +31,7 @@ objectName[17]="Half-decent sword";
 objectName[18]="Mushroom";
 objectName[19]="Shield";
 objectName[20]="Better Shield";
+objectName[21]="Best Shield";
 
 objectName[100]="Lamp";
 objectName[101]="Sign";
@@ -109,6 +110,8 @@ ObjectID.Sword=17;
 ObjectID.Mushroom=18;
 ObjectID.Shield=19;
 ObjectID.BetterShield=20;
+ObjectID.BestShield=21;
+ObjectID.MagicBoomarang=22;
 
 //furniture
 ObjectID.Lamp=100;
@@ -599,6 +602,61 @@ object.prototype.setup=function(id,par)
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.BestShield)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("bestshield"));
+		this.name="Mirror shield";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a shiney shield!");
+			btext="You found a shiny shield!";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.BestShield]=true;
+			miles.has[hasID.Shield]=true;
+			miles.shieldSprites=bestshieldSprites;
+			//this.shieldDef++?
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.MagicBoomarang)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("magicboomarang"));
+		this.name="Magic Boomarang";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a magic boomarang!");
+			btext="You found a magic boomarang";
+			miles.holding=this.sprites[0];
+			miles.has[hasID.MagicBoomarang]=true;
+			if(!miles.has[hasID.Boomarang])
+			{
+				miles.has[hasID.Boomarang]=true;
+				var shinex=new object();
+				//shinex.usable=true;
+				shinex.type=ObjectID.Boomarang;
+				shinex.room=this.room;
+				shinex.setup();
+				miles.giveItem(shinex);
+			}
+			miles.getItem(ObjectID.Boomarang).sprites=new Array();
+			miles.getItem(ObjectID.Boomarang).sprites.push(magicboomarangsprite1);
+			miles.actingSprites[0][0]=magicboomact[0];
+			miles.actingSprites[1][0]=magicboomact[1];
+			miles.actingSprites[2][0]=magicboomact[2];
+			miles.actingSprites[3][0]=magicboomact[3];
+			//objectSprites[ObjectID.Boomarang]
+		//	miles.shieldSprites=bestshieldSprites;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.SuperBomb)
 	{
 		this.sprites=new Array();
@@ -613,7 +671,19 @@ object.prototype.setup=function(id,par)
 			btext="You the super bombs!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.SuperBomb]=true;
-			objectSprites[ObjectID.Bomb]=superbombsprite;
+			if(!miles.has[hasID.Bomb])
+			{
+				miles.has[hasID.Bomb]=true;
+				var shinex=new object();
+				//shinex.usable=true;
+				shinex.type=ObjectID.Bomb;
+				shinex.room=this.room;
+				shinex.setup();
+				miles.giveItem(shinex,5);
+				miles.bombs+=5;
+			}
+			miles.getItem(ObjectID.Bomb).sprites=new Array();
+			miles.getItem(ObjectID.Bomb).sprites.push(superbombsprite);
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
