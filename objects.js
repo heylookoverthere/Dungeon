@@ -197,6 +197,8 @@ function object(oroom) //not a tile, not an enemy
 	this.hidden=false;
 	this.active=false;
 	this.hasSecret=false;
+	this.cooldown=0;
+	this.lastActivated=0; 
 	this.linkDescriptions=new Array();
 	this.exists=true;
 	this.playerUsable=true;
@@ -1208,6 +1210,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
 		this.on=true;
+		this.aniRate=3;
 		this.boomarangActivate=true;
 		this.activate=function(rang)
 		{
@@ -1545,8 +1548,16 @@ object.prototype.setup=function(id,par)
 		this.blockArrows=true;
 		this.arrowsActivate=true;
 		this.boomarangActivate=true;
+		this.swordActivate=true;
+		this.cooldown=250;
 		this.activate=function()
 		{
+			var npo=new Date().getTime();
+			if(npo-this.lastActivated<this.cooldown)
+			{
+				return;
+			}
+			this.lastActivated=npo;
 			playSound("orbhit");
 		  //change all blue blockers ons
 		  bConsoleBox.log("Blue barriers switched");
@@ -1557,6 +1568,10 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+		if(!OPTIONS.TouchableOrbs)
+		{
+			this.playerActivate=function() {};
+		}
 	}else if (this.type==ObjectID.RedOrb) { //red orb
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("redorb"));
@@ -1565,8 +1580,16 @@ object.prototype.setup=function(id,par)
 		this.blockArrows=true;
 		this.arrowsActivate=true;
 		this.boomarangActivate=true;
+		this.swordActivate=true;
+		this.cooldown=300;
 		this.activate=function()
 		{
+			var npo=new Date().getTime();
+			if(npo-this.lastActivated<this.cooldown)
+			{
+				return;
+			}
+			this.lastActivated=npo;
 			//this.on=!this.on; //is this even needed
 			//change all red blockers ons.
 			playSound("orbhit");
@@ -1577,6 +1600,10 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+		if(!OPTIONS.TouchableOrbs)
+		{
+			this.playerActivate=function() {};
+		}
 	}else if (this.type==ObjectID.Warp) { //warp
 	    this.sprites=new Array();
 		this.active=false;

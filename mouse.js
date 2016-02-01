@@ -515,6 +515,10 @@ function mouseClick(e) {  //represents the mouse
 		{
 			OPTIONS.FriendlyFire=!OPTIONS.FriendlyFire;
 		
+		}else if(bup==15)
+		{
+			OPTIONS.TouchableOrbs=!OPTIONS.TouchableOrbs;
+		
 		}
 
 		return;
@@ -963,36 +967,41 @@ function mouseClick(e) {  //represents the mouse
 		if((meg) && (!meg.underWater))
 		{	
 			var nard=new Array();
-			if(meg.y<curDungeon.curRoom().height-3)
+			if((meg.type==ObjectID.Bush) && (!meg.on))
 			{
-				nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y+1,miles,true));
-			}
-			if(meg.x<curDungeon.curRoom().width-3)
+				nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y,miles,true));
+			}else
 			{
-				nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x+1,meg.y,miles,true));
+				if(meg.y<curDungeon.curRoom().height-3)
+				{
+					nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y+1,miles,true));
+				}
+				if(meg.x<curDungeon.curRoom().width-3)
+				{
+					nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x+1,meg.y,miles,true));
+				}
+				if(meg.x>3)
+				{
+					nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x-1,meg.y,miles,true));
+				}
+				if(meg.y>3)
+				{
+					nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y-1,miles,true));
+				}
+				if((meg.type!=ObjectID.Chest)&&(meg.type!=ObjectID.Sign))
+				{
+					nard.sort(function (a, b) {
+					  if (a.length<b.length) {
+						return -1;
+					  }
+					  if (a.length>b.length) {
+						return 1;
+					  }
+					  // a must be equal to b
+					  return 0;
+					});
+				}
 			}
-			if(meg.x>3)
-			{
-				nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x-1,meg.y,miles,true));
-			}
-			if(meg.y>3)
-			{
-				nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y-1,miles,true));
-			}
-			if((meg.type!=ObjectID.Chest)&&(meg.type!=ObjectID.Sign))
-			{
-				nard.sort(function (a, b) {
-				  if (a.length<b.length) {
-					return -1;
-				  }
-				  if (a.length>b.length) {
-					return 1;
-				  }
-				  // a must be equal to b
-				  return 0;
-				});
-			}
-			
 			for(var i=0;i<nard.length;i++)
 			{
 				var abort=false;
