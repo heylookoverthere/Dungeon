@@ -771,6 +771,11 @@ function entity(croom)
 	{
 		return this.y*32;
 	}
+	this.swingSword=function()
+	{
+		this.poking=false;
+		this.swinging=true;
+	}
 	this.tossBoomarang=function(ang)
 	{
 		if(!this.busyrang)
@@ -868,16 +873,16 @@ function entity(croom)
 			var shY=0;
 			if(this.dir==0)
 			{
-				shX=8;
-				shY=6;
+				shX=2;
+				shY=4;
 			}else if(this.dir==1)
 			{
 				shX=0;
 				shY=0;
 			}else if(this.dir==2)
 			{
-				shX=0;
-				shY=4;
+				shX=-4;
+				shY=2;
 			}else if(this.dir==3)
 			{
 				shX=8;
@@ -910,16 +915,16 @@ function entity(croom)
 			var shY=0;
 			if(this.dir==0)
 			{
-				shX=8;
-				shY=6;
+				shX=2;
+				shY=4;
 			}else if(this.dir==1)
 			{
 				shX=0;
 				shY=0;
 			}else if(this.dir==2)
 			{
-				shX=0;
-				shY=4;
+				shX=-4;
+				shY=2;
 			}else if(this.dir==3)
 			{
 				shX=8;
