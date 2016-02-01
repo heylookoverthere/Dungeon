@@ -1119,6 +1119,82 @@ function entity(croom)
 				}
 			}
 			//return;
+			var hurtx=-1;
+			var hurty=-1;
+			if(this.swingtrack<3)
+			{
+				if(this.dir==0)
+				{
+					hurtx=this.x-1;
+					hurty=this.y-1;
+				}else if(this.dir==1)
+				{
+					hurtx=this.x+1;
+					hurty=this.y-1;
+				}else if(this.dir==2)
+				{
+					hurtx=this.x-1;
+					hurty=this.y+1;
+				}else if(this.dir==3)
+				{
+					hurtx=this.x-1;
+					hurty=this.y-1;
+				}
+			}else if(this.swingtrack<5)
+			{
+				if(this.dir==0)
+				{
+					hurtx=this.x;
+					hurty=this.y-1;
+				}else if(this.dir==1)
+				{
+					hurtx=this.x+1;
+					hurty=this.y;
+				}else if(this.dir==2)
+				{
+					hurtx=this.x;
+					hurty=this.y+1;
+				}else if(this.dir==3)
+				{
+					hurtx=this.x-1;
+					hurty=this.y;
+				}
+			}else
+			{
+				if(this.dir==0)
+				{
+					hurtx=this.x+1;
+					hurty=this.y-1;
+				}else if(this.dir==1)
+				{
+					hurtx=this.x+1;
+					hurty=this.y+1;
+				}else if(this.dir==2)
+				{
+					hurtx=this.x+1;
+					hurty=this.y+1;
+				}else if(this.dir==3)
+				{
+					hurtx=this.x-1;
+					hurty=this.y+1;
+				}
+			} 
+			if((hurtx>-1) && (hurty>-1))
+			{
+				for(var i=0;i<entities.length;i++)
+				{
+					if((entities[i].room.z==this.room.z) && (entities[i].room.x==this.room.x) && (entities[i].room.y==this.room.y))
+					{
+						if((entities[i].x==hurtx) && (entities[i].y==hurty))
+						{
+							if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
+							{
+								entities[i].hurt(10);
+							}
+						}
+					}
+				}
+			}
 		}else if((this.acting) && (this.actfor>0))
 		{
 			var hupp=new Date().getTime();
