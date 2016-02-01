@@ -17,6 +17,15 @@ $(document).bind("contextmenu",function(e){
 	}
 	if((mode==1) && (!editMode)) //non-edit right click
 	{
+		if((miles.getEquipped()==105) && (miles.has[hasID.Sword]))
+		{
+			console.log("WANG");
+			if(!miles.swinging)
+			{
+				miles.swinging=true;
+				playSound("sword4");
+			}
+		}
 		if(miles.getEquipped()==ObjectID.Bomb)
 		{
 			miles.placeBomb();

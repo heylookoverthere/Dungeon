@@ -543,7 +543,6 @@ function entity(croom)
 	}
 	this.getEquipped=function()
 	{
-		
 		return this.inventory[this.equippedTrack].type;//==ObjectID.Bomb
 	}
 	
@@ -876,7 +875,10 @@ function entity(croom)
 				shX=0;
 				shY=0;
 			}
-			this.shieldSprites[this.dir].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			if(this.has[hasID.Shield])
+			{
+				this.shieldSprites[this.dir].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			}
 		}else
 		{
 			if(this.gotHurt%2==0)
