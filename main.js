@@ -1647,7 +1647,7 @@ function inventoryUpdate()
 	{
 		mode=1;
 	}
-	if(inventorykey.check())
+	if((inventorykey.check()) ||(controller.buttons[9].check()))
 	{
 		mode=1;
 	}
@@ -2045,7 +2045,7 @@ function mainMenuUpdate()
 		{
 			showMapList();
 		}
-	}else if((!isLoading)&&(startkey.check())){
+	}else if((!isLoading)&&((startkey.check()) || (controller.buttons[9].check())){
 		if(mmcur==0)
 		{
 			startGame(false);
@@ -2070,7 +2070,7 @@ function mainMenuUpdate()
 
 function mapUpdate()
 {
-	if((mapkey.check()) ||(escapekey.check()))
+	if((mapkey.check()) ||(escapekey.check())||(controller.buttons[9].check())||(controller.buttons[8].check()))
 	{
 		curDungeon.mapFloor=curDungeon.roomZ;
 		mode=1;
@@ -2442,7 +2442,7 @@ function mainUpdate()
 	if(!gamestart) return;
 	//if(gameOver) return;
 	//hack
-	controller.update();
+	
 	//mel.x=miles.x;
 	//mel.y=miles.y-26+miles.headHeight;
 	var tick=0;	
@@ -2455,7 +2455,7 @@ function mainUpdate()
 	{
 		mode=3;
 	}
-	if(inventorykey.check())
+	if((inventorykey.check())  || (controller.buttons[9].check()))
 	{
 		mode=4;
 	}
@@ -2780,7 +2780,7 @@ function mainUpdate()
 				bConsoleBox.log("No","Yellow");
 			}
 		}
-	if(mapkey.check())
+	if((mapkey.check()) || (controller.buttons[8].check()))
 	{
 		//console.log("look");
 		if((editMode) || (miles.has[hasID.Map])) 
@@ -3067,6 +3067,83 @@ function mainUpdate()
 				//addEdit(curDungeon.curRoom());
 			}
 		}
+	}
+	if(!editMode)
+	{
+		//SNES controls
+		controller.update();
+		/*for(var i=0;i<controller.buttons.length;i++)
+		{
+		
+			if(controller.buttons[i].check())
+			{
+				console.log(i);
+			}
+		}*/
+		if(miles.holding)
+		{
+			for(var i=0;i<controller.buttons.length;i++)
+			{
+			
+				if(controller.buttons[i].check())
+				{
+					miles.holding=false;
+					break;
+				}
+			}
+		}
+		if(controller.buttons[0].check())
+		{
+			//console.log("b!");
+			if(miles.swiming)
+			{
+				miles.dive();
+			}else
+			{
+				miles.swingSword();
+			}
+		}
+		if((controller.buttons[0].checkDown()) && (miles.has[hasID.Sword]) && (!miles.swimming) && (!miles.swinging))
+		{
+			miles.poking=true;			
+		}else
+		{
+			miles.poking=false;
+		}
+		if(controller.buttons[2].check())
+		{
+			//console.log("y!");
+			miles.useItem();
+		}
+		if(controller.buttons[5].check())
+		{
+			console.log("R")
+			miles.cycleEquipped(true);
+		}
+		if(controller.buttons[6].check())
+		{
+			console.log("L")
+			miles.cycleEquipped(false);
+		}
+		
+		if(controller.checkUp())
+		{
+			miles.dir=0;
+			miles.tryMove();
+		}else if(controller.checkDown())
+		{
+			miles.dir=2;
+			miles.tryMove();
+		}else if(controller.checkLeft())
+		{
+			miles.dir=3;
+			miles.tryMove();
+		}else if(controller.checkRight())
+		{
+			miles.dir=1;
+			miles.tryMove();
+		}
+		
 	}
 	
 	for (var h=0;h<buttons.length;h++)

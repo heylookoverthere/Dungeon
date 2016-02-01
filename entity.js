@@ -694,6 +694,65 @@ function entity(croom)
 
 	}
 	
+	this.tryMove=function(dir)
+	{
+		if(!dir){dir=this.dir;}
+		if(dir==0)
+		{
+			if(this.y<2)
+			{
+				return false;
+			}
+			if(this.room.walkable(this.x,this.y-1,false,this))
+			{
+				this.y--;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==2)
+		{
+			if(this.y>12)
+			{
+				return false;
+			}
+			if(this.room.walkable(this.x,this.y+1,false,this))
+			{
+				this.y++;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==3)
+		{
+			if(this.x<2)
+			{
+				return false;
+			}
+			if(this.room.walkable(this.x-1,this.y,false,this))
+			{
+				this.x--;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==1)
+		{
+			if(this.x>17)
+			{
+				return false;
+			}
+			if(this.room.walkable(this.x+1,this.y,false,this))
+			{
+				this.x++;
+			}else
+			{
+				return false;
+			}
+		}
+		return true; 
+	}
+	
 	this.dig=function() //fuck you, it's dig now. It shoulda been dig to begin with! the verb of shovel is dig!
 	{
 		
@@ -738,6 +797,143 @@ function entity(croom)
 				makeObject(spotX,spotY,this.room,pojk);
 			}
 			return true;
+		}
+	}
+	
+	this.useItem=function()
+	{
+		if(this.getEquipped()==ObjectID.Bomb)
+		{
+			this.placeBomb();
+			this.removeItem(ObjectID.Bomb,1);
+		}else if(this.getEquipped()==ObjectID.Shovel)
+		{
+			if(this.dig())
+			{
+			
+			}else
+			{
+				bConsoleBox.log("You can't dig here.","yellow");
+			}
+
+		}else if(this.getEquipped()==ObjectID.Bow)
+		{
+			if(this.arrows>0)
+			{
+				this.arrows--;
+				this.removeItem(ObjectID.Bow,1);
+				if(this.dir==0)
+				{
+					this.shootArrow(90);
+				}else if(this.dir==1)
+				{
+					this.shootArrow(180);
+				}else if(this.dir==2)
+				{
+					this.shootArrow(270);
+				}else if(this.dir==3)
+				{
+					this.shootArrow(0);
+				}
+			}else
+			{
+				bConsoleBox.log("Out of arrows.","yellow");
+				playSound("error");
+			}
+
+		}else if(this.getEquipped()==ObjectID.Boomarang)
+		{
+			if(this.dir==0)
+			{
+				this.tossBoomarang(90);
+			}else if(this.dir==1)
+			{
+				this.tossBoomarang(180);
+			}else if(this.dir==2)
+			{
+				this.tossBoomarang(270);
+			}else if(this.dir==3)
+			{
+				this.tossBoomarang(0);
+			}
+			
+		}else if(this.getEquipped()==ObjectID.Flippers)
+		{
+			if(this.dive())
+			{
+			
+			}else
+			{
+				bConsoleBox.log("You can't dive here. I really shouldn't have had to explain that to you.","yellow");
+			}
+
+		}else if(this.getEquipped()==ObjectID.Mirror)
+		{
+			playSound("warp");
+			curDungeon.roomZ=curDungeon.startFloor;
+			curDungeon.roomX=curDungeon.startX;
+			curDungeon.roomY=curDungeon.startY;
+			for(var i=0;i<theParty.members.length;i++)
+			{
+				theParty.members[i].room=curDungeon.curRoom();
+				theParty.members[i].x=9;
+				theParty.members[i].y=12;
+				theParty.members[i].fallingY=0;
+			}
+			if(OPTIONS.MirrorBreaks)
+			{
+				this.removeItem(ObjectID.Mirror,1); 
+				//this.equippedTrack=0;
+			}
+		}else if (this.getEquipped()==ObjectID.Poo)
+		{
+			//remove poop, make new poop object
+			this.has[hasID.Poo]=false;
+			this.removeItem(ObjectID.Poo,1); 
+			if(this.dir==0)
+			{
+				var hio= makeObject(this.x,this.y-1,curDungeon.curRoom(),ObjectID.Poo);
+			}else if(this.dir==1)
+			{
+				var hio= makeObject(this.x+1,this.y,curDungeon.curRoom(),ObjectID.Poo);
+			}else if(this.dir==2)
+			{
+				var hio= makeObject(this.x,this.y+1,curDungeon.curRoom(),ObjectID.Poo);
+			}else if(this.dir==3)
+			{
+				var hio= makeObject(this.x-1,this.y,curDungeon.curRoom(),ObjectID.Poo);
+			}
+			hio.on=true;
+		}else if(this.getEquipped()==ObjectID.RedPotion)
+		{
+			if(this.hp<this.maxHp)
+			{
+				this.heal(this.maxHp);
+				this.removeItem(ObjectID.RedPotion,1); 
+			}else
+			{
+				bConsoleBox.log("You are not hurt.","yellow");
+			}
+		}else if(this.getEquipped()==ObjectID.GreenPotion)
+		{
+			for(var i=0;i<entities.length;i++)
+			{
+				if((entities[i].room.z==curDungeon.roomZ) && (entities[i].room.x==curDungeon.roomX)&& (entities[i].room.y==curDungeon.roomY))
+				{
+					if((isOverTiled(entities[i],32)) && (!entities[i].isPlayer) && (!entities[i].alive))
+					{
+						entities[i].revive();
+						this.removeItem(ObjectID.GreenPotion,1); 
+						return false;
+					}
+				}
+			}
+			playSound("error");
+			bConsoleBox.log("Nobody there to revive");
+		}else if(this.getEquipped()==ObjectID.BluePotion)
+		{
+			this.heal(120);
+			this.removeItem(ObjectID.BluePotion,1); 
 		}
 	}
 	
@@ -790,8 +986,13 @@ function entity(croom)
 	}
 	this.swingSword=function()
 	{
+		if((!miles.has[hasID.Sword]) || (this.swinging))
+		{
+			return;
+		}
 		this.poking=false;
 		this.swinging=true;
+		playSound("sword4");
 	}
 	this.tossBoomarang=function(ang)
 	{

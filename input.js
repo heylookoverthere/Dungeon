@@ -5,7 +5,7 @@ function akey(k) {  //represents a keyboard button
     this.dflag=false;
 	this.desc="A small brown mushroom.";
     this.check= function(){
-       
+ 
 		if (keydown[this.key]) { 
             this.aflag=true;
             return false;
@@ -42,19 +42,21 @@ function aPadButton(k,pad) {  //represents a keyboard button
 	this.parentPad=pad;
 	this.desc="A small brown mushroom.";
     this.check= function(){
-        if ((this.parentPad.buttons[this.key]) && (!this.aflag)){ 
+
+        if ((this.parentPad.buttons[this.key].pressed) && (!this.aflag)){ 
             this.aflag=true;
 			timestamp = new Date();
 			this.pressedTime=timestamp.getTime();
-            return false;
+	        return false;
         }
-        if((!this.parentPad.buttons[this.key]) && (this.aflag===true)){
+        if((!this.parentPad.buttons[this.key].pressed) && (this.aflag===true)){
             this.aflag=false;
 			timestamp = new Date();
 			var nurp=timestamp.getTime();
 			if(nurp-this.pressedTime<1000)
 			{	
 				//console.log(nurp-this.pressedTime);
+				
 				return true;
 			}else
 			{
@@ -72,7 +74,7 @@ function aPadButton(k,pad) {  //represents a keyboard button
             this.dflag=false;
             return false;
         }*/
-		if (this.parentPad.buttons[this.key] )
+		if (this.parentPad.buttons[this.key].pressed )
 		{
 			return true;
 		}
