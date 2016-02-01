@@ -192,6 +192,7 @@ function object(oroom) //not a tile, not an enemy
 	this.blockArrows=false;
 	this.arrowsActivate=false;
 	this.boomarangActivate=false;
+	this.swordActivate=false;
 	this.hookable=false;
 	this.hidden=false;
 	this.active=false;
@@ -1202,6 +1203,7 @@ object.prototype.setup=function(id,par)
 	}else if (this.type==ObjectID.Bush) {
 		this.sprites=new Array();
 		this.bombable=true;
+		this.swordActivate=true;
 		this.sprites.push(Sprite("bush"));
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
@@ -1252,7 +1254,7 @@ object.prototype.setup=function(id,par)
 				}
 			}
 		}
-		this.playerActivate=this.activate;
+		this.playerActivate=function() {};//this.activate;
 	}else if (this.type==ObjectID.Curtains) {
 		this.sprites=new Array();
 		this.curSprite=1;
