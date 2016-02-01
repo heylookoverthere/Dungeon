@@ -19,7 +19,6 @@ $(document).bind("contextmenu",function(e){
 	{
 		if((miles.getEquipped()==105) && (miles.has[hasID.Sword]))
 		{
-			console.log("WANG");
 			if(!miles.swinging)
 			{
 				miles.swinging=true;

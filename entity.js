@@ -349,9 +349,15 @@ function entity(croom)
 	this.actingSprites[3].push(Sprite("linkbow3"));
 	//sword?
 	this.swinging=false; 
+	this.poking=false; 
 	this.swingrate=2;
 	this.swingtrack=0;
 	this.swingcount=0;
+	this.pokeSprites=new Array()
+	this.pokeSprites.push(Sprite("swordswing04"));
+	this.pokeSprites.push(Sprite("poke1"));
+	this.pokeSprites.push(Sprite("poke2"));
+	this.pokeSprites.push(Sprite("poke3"));
 	this.swingSprites=new Array();
 	this.swingSprites.push(new Array());
 	this.swingSprites.push(new Array());
@@ -895,6 +901,48 @@ function entity(croom)
 					this.shieldSprites[2].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
 				}
 			}
+		}else if((this.isPlayer) && (this.poking))
+		{
+			var knuckx=-48;
+			var knucky=-48;
+			
+			var shX=0;
+			var shY=0;
+			if(this.dir==0)
+			{
+				shX=8;
+				shY=6;
+			}else if(this.dir==1)
+			{
+				shX=0;
+				shY=0;
+			}else if(this.dir==2)
+			{
+				shX=0;
+				shY=4;
+			}else if(this.dir==3)
+			{
+				shX=8;
+				shY=8;
+			}
+			if((this.dir==0)&&(this.has[hasID.Shield]))
+			{
+				this.shieldSprites[1].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			}else if((this.dir==1) &&(this.has[hasID.Shield]))
+			{
+				this.shieldSprites[0].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			}
+			this.pokeSprites[this.dir].draw(can,this.x*32+xOffset+knuckx,this.y*32+yOffset-14-this.fallingY*2+knucky);
+			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
+			{
+				if(this.dir==2)
+				{
+					this.shieldSprites[3].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				}else if(this.dir==3)
+				{
+					this.shieldSprites[2].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				}
+			}
 		}else
 		{
 			if(this.gotHurt%2==0)
@@ -1066,8 +1114,7 @@ function entity(croom)
 				}
 			}
 			//return;
-		}
-		if((this.acting) && (this.actfor>0))
+		}else if((this.acting) && (this.actfor>0))
 		{
 			var hupp=new Date().getTime();
 			if(hupp-this.actStart>this.actfor)
@@ -1143,6 +1190,7 @@ function entity(croom)
 		if(this.falling)
 		{
 			this.swinging=false;
+			this.poking=false;
 			this.fallingY-=5;
 			if(this.fallingY<1)
 			{
