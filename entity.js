@@ -855,13 +855,15 @@ function entity(croom)
 			this.holding.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-16-this.fallingY*2);
 		}else if((this.isPlayer) && (this.swinging))
 		{
-			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+			var knuckx=-48;
+			var knucky=-48;
+			
 			var shX=0;
 			var shY=0;
 			if(this.dir==0)
 			{
-				shX=0;
-				shY=0;
+				shX=8;
+				shY=6;
 			}else if(this.dir==1)
 			{
 				shX=0;
@@ -869,15 +871,29 @@ function entity(croom)
 			}else if(this.dir==2)
 			{
 				shX=0;
-				shY=0;
+				shY=4;
 			}else if(this.dir==3)
 			{
-				shX=0;
-				shY=0;
+				shX=8;
+				shY=8;
 			}
-			if(this.has[hasID.Shield])
+			if((this.dir==0)&&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[this.dir].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[1].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			}else if((this.dir==1) &&(this.has[hasID.Shield]))
+			{
+				this.shieldSprites[0].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+			}
+			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+xOffset+knuckx,this.y*32+yOffset-14-this.fallingY*2+knucky);
+			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
+			{
+				if(this.dir==2)
+				{
+					this.shieldSprites[3].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				}else if(this.dir==3)
+				{
+					this.shieldSprites[2].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				}
 			}
 		}else
 		{
