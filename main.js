@@ -1643,13 +1643,18 @@ function mainMenuDraw(){
 
 function inventoryUpdate()
 {
+	controller.update();
 	if((escapekey.check()))
 	{
 		mode=1;
 	}
-	if((inventorykey.check()) ||(controller.buttons[9].check()))
+	if((inventorykey.check()) || (controller.buttons[9].check()))
 	{
 		mode=1;
+	}
+	if((controller.buttons[8].check()) && (miles.has[hasID.Map]))
+	{
+		mode=2;
 	}
 	if(upkey.check())
 	{
@@ -2045,7 +2050,7 @@ function mainMenuUpdate()
 		{
 			showMapList();
 		}
-	}else if((!isLoading)&&((startkey.check()) || (controller.buttons[9].check())){
+	}else if((!isLoading)&&((startkey.check()) || (controller.buttons[9].check()))){
 		if(mmcur==0)
 		{
 			startGame(false);
@@ -2070,10 +2075,15 @@ function mainMenuUpdate()
 
 function mapUpdate()
 {
-	if((mapkey.check()) ||(escapekey.check())||(controller.buttons[9].check())||(controller.buttons[8].check()))
+	controller.update();
+	if((mapkey.check()) ||(escapekey.check())||(controller.buttons[8].check()))
 	{
 		curDungeon.mapFloor=curDungeon.roomZ;
 		mode=1;
+	}
+	if(controller.buttons[9].check())
+	{
+		mode=4;
 	}
 	if(upkey.check())
 	{

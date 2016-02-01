@@ -1707,6 +1707,7 @@ object.prototype.setup=function(id,par)
 				miles.holding=this.sprites[0];
 				miles.swingSprites=masterSwingSprites;
 				miles.pokeSprites=masterPokeSprites;
+				miles.swordDamage=20;
 			}else
 			{
 				playSound("item");

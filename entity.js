@@ -331,6 +331,7 @@ function entity(croom)
 	this.x=4;
 	this.y=3;
 	this.team=0;
+	this.swordDamage=10;
 	this.enteredX=this.x;
 	this.enteredY=this.y;
 	this.partyPos=0;
@@ -1407,7 +1408,7 @@ function entity(croom)
 						{
 							if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
 							{
-								entities[i].hurt(10);
+								entities[i].hurt(this.swordDamage);
 							}
 						}
 					}
@@ -1456,7 +1457,7 @@ function entity(croom)
 						{
 							if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
 							{
-								entities[i].hurt(5);
+								entities[i].hurt(this.swordDamage/2);
 							}
 						}
 					}
