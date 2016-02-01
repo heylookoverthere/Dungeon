@@ -4,7 +4,24 @@ equippedID.Bow=2;
 equippedID.Boomerang=3;
 
 var numEquippable=2;
-
+var masterSwingSprites=new Array();
+masterSwingSprites.push(new Array());
+masterSwingSprites.push(new Array());
+masterSwingSprites.push(new Array());
+masterSwingSprites.push(new Array());
+for(var i=0;i<4;i++)
+{
+	for(var j=0;j<8;j++) 
+	{
+		var daPath= "masterswordswing"+i+j;
+		masterSwingSprites[i].push(Sprite(daPath));
+	}
+}
+masterPokeSprites=new Array()
+masterPokeSprites.push(Sprite("masterswordswing04"));
+masterPokeSprites.push(Sprite("masterpoke1"));
+masterPokeSprites.push(Sprite("masterpoke2"));
+masterPokeSprites.push(Sprite("masterpoke3"));
 
 function bomb(croom,isSuper)
 {

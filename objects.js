@@ -1549,7 +1549,7 @@ object.prototype.setup=function(id,par)
 		this.arrowsActivate=true;
 		this.boomarangActivate=true;
 		this.swordActivate=true;
-		this.cooldown=250;
+		this.cooldown=400;
 		this.activate=function()
 		{
 			var npo=new Date().getTime();
@@ -1581,7 +1581,7 @@ object.prototype.setup=function(id,par)
 		this.arrowsActivate=true;
 		this.boomarangActivate=true;
 		this.swordActivate=true;
-		this.cooldown=300;
+		this.cooldown=400;
 		this.activate=function()
 		{
 			var npo=new Date().getTime();
@@ -1705,6 +1705,8 @@ object.prototype.setup=function(id,par)
 				playSound("itemfanfare");
 				bConsoleBox.log("You found the Master Sword!!");
 				miles.holding=this.sprites[0];
+				miles.swingSprites=masterSwingSprites;
+				miles.pokeSprites=masterPokeSprites;
 			}else
 			{
 				playSound("item");
