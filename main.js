@@ -88,7 +88,7 @@ function handleTouchEnd(evt) {
 	if(now-downSince>OPTIONS.HoldTime)
 	{
 		//held
-		console.log("held touch");
+		//console.log("held touch");
 	}else
 	{
 		//single
@@ -3146,6 +3146,7 @@ function mainUpdate()
 			}
 			
 		}
+		//miles.update();
 	}
 	
 	if(escapekey.check()){

@@ -347,7 +347,24 @@ function entity(croom)
 	this.actingSprites[1].push(Sprite("linkbow1"));
 	this.actingSprites[2].push(Sprite("linkbow2"));
 	this.actingSprites[3].push(Sprite("linkbow3"));
-	
+	//sword?
+	this.swinging=false; 
+	this.swingrate=2;
+	this.swingtrack=0;
+	this.swingcount=0;
+	this.swingSprites=new Array();
+	this.swingSprites.push(new Array());
+	this.swingSprites.push(new Array());
+	this.swingSprites.push(new Array());
+	this.swingSprites.push(new Array());
+	for(var i=0;i<4;i++)
+	{
+		for(var j=0;j<8;j++) // change j max to eight!
+		{
+			var daPath= "swordswing"+i+j;
+			this.swingSprites[i].push(Sprite(daPath));
+		}
+	}
 
 	
 	this.tookBreath=0;
@@ -833,11 +850,33 @@ function entity(croom)
 			//	this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
 			//}
 			return;
-		}
-		if((this.isPlayer) && (this.holding))
+		}else if((this.isPlayer) && (this.holding))
 		{
 			this.sprites[4].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
 			this.holding.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-16-this.fallingY*2);
+		}else if((this.isPlayer) && (this.swinging))
+		{
+			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+			var shX=0;
+			var shY=0;
+			if(this.dir==0)
+			{
+				shX=0;
+				shY=0;
+			}else if(this.dir==1)
+			{
+				shX=0;
+				shY=0;
+			}else if(this.dir==2)
+			{
+				shX=0;
+				shY=0;
+			}else if(this.dir==3)
+			{
+				shX=0;
+				shY=0;
+			}
+			this.shieldSprites[this.dir].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
 		}else
 		{
 			if(this.gotHurt%2==0)
@@ -992,7 +1031,23 @@ function entity(croom)
 			{
 				this.diving=false; 
 			}
-		
+			this.swinging=false;
+		}
+		if(this.swinging)
+		{
+			this.swingcount++;
+			if(this.swingcount>this.swingrate)
+			{
+//				console.log("swinging");
+				this.swingcount=0;
+				this.swingtrack++;
+				if (this.swingtrack>7)
+				{
+					this.swingtrack=0;
+					this.swinging=false; 
+				}
+			}
+			//return;
 		}
 		if((this.acting) && (this.actfor>0))
 		{
@@ -1069,6 +1124,7 @@ function entity(croom)
 	
 		if(this.falling)
 		{
+			this.swinging=false;
 			this.fallingY-=5;
 			if(this.fallingY<1)
 			{
