@@ -90,6 +90,8 @@ magicboomact.push(Sprite("linkleftmagicbooma"));
 
 var Darkness=14;
 
+var SMALL_BREAK=16;
+
 var randomPhrases=new Array();
 randomPhrases.push("I dunno much about computers other than the one I got at my house.");
 randomPhrases.push("You know those guitars that are like....double guitars?");

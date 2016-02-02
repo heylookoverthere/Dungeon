@@ -4,6 +4,13 @@ equippedID.Bow=2;
 equippedID.Boomerang=3;
 
 var numEquippable=2;
+
+var bunnyheadsprite=new Array();
+bunnyheadsprite.push(Sprite("bheadup"));
+bunnyheadsprite.push(Sprite("bheadright"));
+bunnyheadsprite.push(Sprite("bheaddown"));
+bunnyheadsprite.push(Sprite("bheadleft"));
+
 var masterSwingSprites=new Array();
 masterSwingSprites.push(new Array());
 masterSwingSprites.push(new Array());
@@ -330,6 +337,7 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.speed=4;
 	this.team=0;
 	this.swordDamage=10;
 	this.enteredX=this.x;
@@ -338,6 +346,8 @@ function entity(croom)
 	this.partyMember=false;
 	this.mapSprite=Sprite("profhead");
 	this.name="Waffles";
+	this.xSmall=0;
+	this.ySmall=0;
 	this.lastX=4;
 	this.maxBombs=10;
 	this.maxArrows=20;
@@ -351,6 +361,7 @@ function entity(croom)
 	this.acting=false;
 	this.actfor=0;
 	this.action=0;
+	this.bunnyHead=false;
 	this.shieldSprites=shieldSprites;
 	this.actingSprites=new Array();
 	this.actingSprites.push(new Array());
@@ -695,6 +706,45 @@ function entity(croom)
 
 	}
 	
+	this.incMove=function(dir)
+	{
+		if(!dir){dir=this.dir;}
+		if(!this.canMove(dir)) { return false;}
+		if(dir==2)
+		{
+			this.ySmall+=this.speed;
+			if(this.ySmall>SMALL_BREAK)
+			{
+				this.ySmall=-SMALL_BREAK;
+				this.tryMove(dir);
+			}				
+		}else if(dir==0)
+		{
+			this.ySmall-=this.speed;
+			if(this.ySmall<-SMALL_BREAK)
+			{
+				this.ySmall=SMALL_BREAK;
+				this.tryMove(dir)
+			}				
+		}else if(dir==1)
+		{
+			this.xSmall+=this.speed;
+			if(this.xSmall>SMALL_BREAK)
+			{
+				this.xSmall=-SMALL_BREAK;
+				this.tryMove(dir);
+			}				
+		}else if(dir==3)
+		{
+			this.xSmall-=this.speed;
+			if(this.xSmall<-SMALL_BREAK)
+			{
+				this.xSmall=SMALL_BREAK;
+				this.tryMove(dir)
+			}				
+		}
+	}
+	
 	this.tryMove=function(dir)
 	{
 		if(!dir){dir=this.dir;}
@@ -749,6 +799,65 @@ function entity(croom)
 			}else
 			{
 				return false;
+			}
+		}
+		return true; 
+	}
+	
+	this.canMove=function(dir)
+	{
+		if(!dir){dir=this.dir;}
+		if(dir==0)
+		{
+			if(this.y<2)
+			{
+				return false;
+			}
+			if(!this.room.walkable(this.x,this.y-1,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==2)
+		{
+			if(this.y>12)
+			{
+				return false;
+			}
+			if(!this.room.walkable(this.x,this.y+1,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==3)
+		{
+			if(this.x<2)
+			{
+				return false;
+			}
+			if(!this.room.walkable(this.x-1,this.y,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==1)
+		{
+			if(this.x>17)
+			{
+				return false;
+			}
+			if(!this.room.walkable(this.x+1,this.y,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
 			}
 		}
 		return true; 
@@ -1073,7 +1182,7 @@ function entity(croom)
 		{
 			//if((this.deathAniTrack<2) || (this.isPlayer))//hack
 			//{
-				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2)
+				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
 			//}else
 			//{
 			//	this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
@@ -1081,8 +1190,8 @@ function entity(croom)
 			return;
 		}else if((this.isPlayer) && (this.holding))
 		{
-			this.sprites[4].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
-			this.holding.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-16-this.fallingY*2);
+			this.sprites[4].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+			this.holding.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-16-this.fallingY*2);
 		}else if((this.isPlayer) && (this.swinging))
 		{
 			var knuckx=-48;
@@ -1109,20 +1218,20 @@ function entity(croom)
 			}
 			if((this.dir==0)&&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[1].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[0].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
-			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+xOffset+knuckx,this.y*32+yOffset-14-this.fallingY*2+knucky);
+			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
 				{
-					this.shieldSprites[3].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}else if(this.dir==3)
 				{
-					this.shieldSprites[2].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
 			}
 		}else if((this.isPlayer) && (this.poking))
@@ -1151,20 +1260,20 @@ function entity(croom)
 			}
 			if((this.dir==0)&&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[1].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[0].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
-			this.pokeSprites[this.dir].draw(can,this.x*32+xOffset+knuckx,this.y*32+yOffset-14-this.fallingY*2+knucky);
+			this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
 				{
-					this.shieldSprites[3].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}else if(this.dir==3)
 				{
-					this.shieldSprites[2].draw(can,this.x*32+xOffset+shX,this.y*32+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
 			}
 		}else
@@ -1175,16 +1284,16 @@ function entity(croom)
 				{
 					var jerry=can.globalAlpha;
 					can.globalAlpha=0.75;
-					divesprite.draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					divesprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					can.globalAlpha=jerry; 
 				}else if(this.swimming)
 				{
-					this.swimSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+					this.swimSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 				}else
 				{
 					if((this.has[hasID.Shield]) && (this.dir==0))
 					{
-						this.shieldSprites[0].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+						this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					}
 					
 				
@@ -1192,24 +1301,24 @@ function entity(croom)
 					{
 							if((this.dir==0) || (this.dir==1))
 							{
-								this.actingSprites[this.dir][this.action].draw(can,this.x*32+xOffset-12,this.y*32+yOffset-14-this.fallingY*2);
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset-12,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}else
 							{
-								this.actingSprites[this.dir][this.action].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}
 					}else
 					{
-						this.sprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+						this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					}
 					
 					if((this.has[hasID.Shield]) && (this.dir>0))
 					{
 						if(this.dir==3)
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+xOffset-5,this.y*32+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset-5,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}else
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+xOffset,this.y*32+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					
 					}
@@ -1220,16 +1329,22 @@ function entity(croom)
 			{
 				if(this.fallingY>100)
 				{
-					shadowSprite[0].draw(can,this.x*32+xOffset,this.y*32+yOffset);
+					shadowSprite[0].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
 				}else if(this.fallingY>50)
 				{
-					shadowSprite[1].draw(can,this.x*32+xOffset,this.y*32+yOffset);
+					shadowSprite[1].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
 				}else 
 				{
-					shadowSprite[2].draw(can,this.x*32+xOffset,this.y*32+yOffset);
+					shadowSprite[2].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
 				}
 			}
 		}
+		
+		if(this.bunnyHead)
+		{
+			bunnyheadsprite[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-18-this.fallingY*2);
+		}
+		
 		for(var i=0;i<this.activebombs.length;i++)
 		{
 			if(this.activebombs[i].exists)

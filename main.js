@@ -3139,19 +3139,19 @@ function mainUpdate()
 		if(controller.checkUp())
 		{
 			miles.dir=0;
-			miles.tryMove();
+			miles.incMove();
 		}else if(controller.checkDown())
 		{
 			miles.dir=2;
-			miles.tryMove();
+			miles.incMove();
 		}else if(controller.checkLeft())
 		{
 			miles.dir=3;
-			miles.tryMove();
+			miles.incMove();
 		}else if(controller.checkRight())
 		{
 			miles.dir=1;
-			miles.tryMove();
+			miles.incMove();
 		}
 		
 	}
