@@ -1417,6 +1417,63 @@ function entity(croom)
 		return;
 	}
 	
+	this.getFacingObject=function()
+	{
+		var gx=this.x;
+		var gy=this.y;
+		if(this.dir==0)
+		{
+			gy--;
+		}else if(this.dir==1)
+		{
+			gx++;
+		}else if(this.dir==2)
+		{
+			gy++;
+		}else if(this.dir==3)
+		{
+			gx--;
+		}
+		for(var i=0;i<this.room.objects.length;i++)
+		{
+			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy))
+			{
+				return this.room.objects[i];
+			}
+		}
+		return null;
+	}
+	
+	this.getFacingEntity=function()
+	{
+		var gx=this.x;
+		var gy=this.y;
+		if(this.dir==0)
+		{
+			gy--;
+		}else if(this.dir==1)
+		{
+			gx++;
+		}else if(this.dir==2)
+		{
+			gy++;
+		}else if(this.dir==3)
+		{
+			gx--;
+		}
+		for(var i=0;i<entities.length;i++)
+		{
+			if((entities[i].x==gx) && (entities[i].y==gy))
+			{
+				if((entities[i].room.z==this.room.z)&&(entities[i].room.x==this.room.x) && (entities[i].room.y==this.room.y))
+				{
+					return entities[i];
+				}
+			}
+		}
+		return null;
+	}
+	
 	this.update=function()
 	{
 		for(var i=0;i<this.projectiles.length;i++)

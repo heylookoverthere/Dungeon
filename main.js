@@ -3090,6 +3090,37 @@ function mainUpdate()
 				console.log(i);
 			}
 		}*/
+		if ($("#dialogBox").length > 0) 
+		{
+			if(controller.buttons[1].check())
+			{
+				$("#dialogBox").remove();
+				if(gameOver)
+				{
+					mode=0;
+				}
+			}
+		}
+		if(controller.buttons[1].check())
+		{
+			//contextual. if NPC in talk range, talk. 
+			//if object in front, activate
+			var pled=miles.getFacingEntity();
+			if(pled)
+			{
+				pled.say();
+				if((!pled.partyMember) && (pled.autoJoin))
+				{
+					theParty.add(pled);
+				}
+				return;
+			}
+			var gled=miles.getFacingObject();
+			if((gled) && (gled.playerUsable))
+			{
+				gled.playerActivate();
+			}
+		}
 		if(miles.holding)
 		{
 			for(var i=0;i<controller.buttons.length;i++)
