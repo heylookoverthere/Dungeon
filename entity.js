@@ -709,38 +709,62 @@ function entity(croom)
 	this.incMove=function(dir)
 	{
 		if(!dir){dir=this.dir;}
-		if(!this.canMove(dir)) { return false;}
+		//if(!this.canMove(dir)) { return false;}
 		if(dir==2)
 		{
 			this.ySmall+=this.speed;
 			if(this.ySmall>SMALL_BREAK)
 			{
-				this.ySmall=-SMALL_BREAK;
-				this.tryMove(dir);
+				if(this.canMove(dir))
+				{
+					this.ySmall=-SMALL_BREAK;
+					this.tryMove(dir);
+				}else
+				{
+					this.ySmall=SMALL_BREAK;
+				}
 			}				
 		}else if(dir==0)
 		{
 			this.ySmall-=this.speed;
 			if(this.ySmall<-SMALL_BREAK)
 			{
-				this.ySmall=SMALL_BREAK;
-				this.tryMove(dir)
+				if(this.canMove(dir))
+				{
+					this.ySmall=SMALL_BREAK;
+					this.tryMove(dir)
+				}else
+				{
+					this.ySmall=-SMALL_BREAK;
+				}
 			}				
 		}else if(dir==1)
 		{
 			this.xSmall+=this.speed;
 			if(this.xSmall>SMALL_BREAK)
 			{
-				this.xSmall=-SMALL_BREAK;
-				this.tryMove(dir);
+				if(this.canMove(dir))
+				{
+					this.xSmall=-SMALL_BREAK;
+					this.tryMove(dir);
+				}else
+				{
+					this.xSmall=SMALL_BREAK;
+				}
 			}				
 		}else if(dir==3)
 		{
 			this.xSmall-=this.speed;
 			if(this.xSmall<-SMALL_BREAK)
 			{
-				this.xSmall=SMALL_BREAK;
-				this.tryMove(dir)
+				if(this.canMove(dir))
+				{
+					this.xSmall=SMALL_BREAK;
+					this.tryMove(dir)
+				}else
+				{
+					this.xSmall=-SMALL_BREAK;
+				}
 			}				
 		}
 	}
@@ -1483,6 +1507,35 @@ function entity(croom)
 			{
 				this.projectiles.splice(i,1);
 				i--;
+			}
+		}
+		if((this.x!=this.lastX) || (this.y!=this.lastY))
+		for(var i=0;i<this.room.exits.length;i++)
+		{
+			if(this.room.exits[i].orientation==0)
+			{
+				if((this.y==2) && (this.ySmall<-8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+				{
+					curDungeon.changeRoom(0,true);
+				}
+			}else if(this.room.exits[i].orientation==2)
+			{
+				if((this.y==12) && (this.ySmall>8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+				{
+					curDungeon.changeRoom(2,true);
+				}
+			}else if(this.room.exits[i].orientation==3)
+			{
+				if((this.x==2)&& (this.xSmall<-8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+				{
+					curDungeon.changeRoom(3,true);
+				}
+			}else if(this.room.exits[i].orientation==1)
+			{
+				if((this.x==17) && (this.xSmall>8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+				{
+					curDungeon.changeRoom(1,true);
+				}
 			}
 		}
 		if(this.diving)
