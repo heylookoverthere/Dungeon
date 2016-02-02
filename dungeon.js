@@ -115,10 +115,10 @@ function dungeon(path)
 						//console.log(purd);
 						if(limited)
 						{
-							miles.x=purd.x+1;
+							//miles.x=purd.x+1;
 							miles.y=12;
 							miles.dir=0;
-							miles.xSmall=0;
+							//miles.xSmall=0;
 							miles.ySmall=0;
 						}
 						this.roomY--;
@@ -182,10 +182,10 @@ function dungeon(path)
 					{
 						if(limited)
 						{
-							miles.x=purd.x+1;
+							//miles.x=purd.x+1;
 							miles.y=2;
 							miles.dir=2;
-							miles.xSmall=0;
+							//miles.xSmall=0;
 							miles.ySmall=0;
 						}
 						this.roomY++;
@@ -250,10 +250,10 @@ function dungeon(path)
 						if(limited)
 						{
 							miles.x=2;
-							miles.y=purd.y
+							//miles.y=purd.y
 							miles.dir=1;
 							miles.xSmall=0;
-							miles.ySmall=0;
+							//miles.ySmall=0;
 						}
 						this.roomX++;
 						if(limited)
@@ -320,10 +320,10 @@ function dungeon(path)
 						if(limited)
 						{
 							miles.x=17;
-							miles.y=purd.y;
+							//miles.y=purd.y;
 							miles.dir=3;
 							miles.xSmall=0;
-							miles.ySmall=0;
+							//miles.ySmall=0;
 						}
 						this.roomX--;
 						if(limited)
@@ -965,7 +965,7 @@ function dungeon(path)
 				playSound("error");
 			}
 		}
-
+		
 	}
 	
 	dungeon.prototype.smartAddDoor=function(x,y,dir,type,croom)

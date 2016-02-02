@@ -15,8 +15,8 @@ var magicboomarangsprite1=Sprite("magicboomarang");
 var magicboomarangsprite2=Sprite("magicboomarang1");
 function projectile(aPlayer)
 {
-	this.x=aPlayer.x*32-16;
-	this.y=aPlayer.y*32-16;
+	this.x=aPlayer.x*32+aPlayer.xSmall-16;
+	this.y=aPlayer.y*32+aPlayer.ySmall-16;
 	this.player=aPlayer;
 	this.room=aPlayer.room;
 	this.team=aPlayer.team;

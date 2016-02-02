@@ -449,7 +449,8 @@ function entity(croom)
 	this.destY=0;
 	this.path=null; 
 	this.walkTrack=0;
-	this.walkSpeed=8;
+	this.walkSpeed=0;
+	this.walkSpeed=0;
 	this.going=false;
 	this.pathTrack=0;
 	this.healAmount=0;
@@ -708,6 +709,8 @@ function entity(croom)
 	
 	this.incMove=function(dir)
 	{
+		if(!this.alive) {return false;}
+		if(this.fallingY>0) {return false;}
 		if(!dir){dir=this.dir;}
 		//if(!this.canMove(dir)) { return false;}
 		if(dir==2)
@@ -780,6 +783,8 @@ function entity(croom)
 			}
 			if(this.room.walkable(this.x,this.y-1,false,this))
 			{
+				this.lastX=this.x;
+				this.lastY=this.y;
 				this.y--;
 			}else
 			{
@@ -793,6 +798,8 @@ function entity(croom)
 			}
 			if(this.room.walkable(this.x,this.y+1,false,this))
 			{
+				this.lastX=this.x;
+				this.lastY=this.y;
 				this.y++;
 			}else
 			{
@@ -806,6 +813,8 @@ function entity(croom)
 			}
 			if(this.room.walkable(this.x-1,this.y,false,this))
 			{
+				this.lastX=this.x;
+				this.lastY=this.y;
 				this.x--;
 			}else
 			{
@@ -819,6 +828,8 @@ function entity(croom)
 			}
 			if(this.room.walkable(this.x+1,this.y,false,this))
 			{
+				this.lastX=this.x;
+				this.lastY=this.y;
 				this.x++;
 			}else
 			{
@@ -1139,6 +1150,10 @@ function entity(croom)
 			this.busyrang=true;
 			this.actStart=new Date().getTime();
 			var poot=new projectile(this);
+			if((this.dir==0) || (this.dir==2))
+			{
+				poot.x+=32;
+			}
 			poot.exists=true; 
 			poot.angle=ang;
 			poot.speed=.5;
@@ -1509,32 +1524,57 @@ function entity(croom)
 				i--;
 			}
 		}
-		if((this.x!=this.lastX) || (this.y!=this.lastY))
-		for(var i=0;i<this.room.exits.length;i++)
+		//if((this.x!=this.lastX) || (this.y!=this.lastY))
+		if(this.isPlayer) 
 		{
-			if(this.room.exits[i].orientation==0)
+			if((this.x!=this.lastX) || (this.y!=this.lastY))
 			{
-				if((this.y==2) && (this.ySmall<-8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+				for(var i=0;i<this.room.stairs.length;i++)
 				{
-					curDungeon.changeRoom(0,true);
+					if((this.room.stairs[i].x==this.x) && (this.room.stairs[i].y==this.y) &&(!this.room.stairs[i].hidden))
+					{
+						if(this.room.tiles[this.x][this.y].data==DungeonTileType.UpStair)
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							curDungeon.changeFloor(true,true);
+							break;
+						}else
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							curDungeon.changeFloor(false,true);
+							break;
+						}
+					}
 				}
-			}else if(this.room.exits[i].orientation==2)
+			}
+			for(var i=0;i<this.room.exits.length;i++)
 			{
-				if((this.y==12) && (this.ySmall>8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+				if(this.room.exits[i].orientation==0)
 				{
-					curDungeon.changeRoom(2,true);
-				}
-			}else if(this.room.exits[i].orientation==3)
-			{
-				if((this.x==2)&& (this.xSmall<-8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					if((this.y==2) && (this.ySmall<-8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+					{
+						curDungeon.changeRoom(0,true);
+					}
+				}else if(this.room.exits[i].orientation==2)
 				{
-					curDungeon.changeRoom(3,true);
-				}
-			}else if(this.room.exits[i].orientation==1)
-			{
-				if((this.x==17) && (this.xSmall>8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					if((this.y==12) && (this.ySmall>8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+					{
+						curDungeon.changeRoom(2,true);
+					}
+				}else if(this.room.exits[i].orientation==3)
 				{
-					curDungeon.changeRoom(1,true);
+					if((this.x==2)&& (this.xSmall<-8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					{
+						curDungeon.changeRoom(3,true);
+					}
+				}else if(this.room.exits[i].orientation==1)
+				{
+					if((this.x==17) && (this.xSmall>8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					{
+						curDungeon.changeRoom(1,true);
+					}
 				}
 			}
 		}
@@ -1890,6 +1930,8 @@ function entity(croom)
 				//Do better drawing?
 				this.falling=true;
 				this.fallingY=150;
+				this.xSmall=0;
+				this.ySmall=0;
 				if(this.isPlayer)
 				{
 					if(this.room.z==0)
@@ -2131,12 +2173,12 @@ function entity(croom)
 		}
 		if(this.going)
 		{
-			this.walkTrack++;
-			if((this.walkTrack>this.walkSpeed) && (this.path)) //if path. length==0, you're there. do function. 
+			
+			if(this.path)//if path. length==0, you're there. do function. 
 			{
+				
 				if(this.path.length>0)
 				{
-					this.walkTrack=0;
 					if(this.path[this.pathTrack].x>this.x) //facing east
 					{
 						this.dir=1;
@@ -2153,11 +2195,60 @@ function entity(croom)
 					{
 						this.dir=0;
 					}
-					this.lastX=this.x;
+					if(this.dir==0)
+					{
+						this.ySmall-=this.speed;
+						if(this.ySmall<-SMALL_BREAK)
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							this.x=this.path[this.pathTrack].x;
+							this.y=this.path[this.pathTrack].y;
+							this.pathTrack++;
+							this.ySmall=SMALL_BREAK;
+						}
+					}else if(this.dir==2)
+					{
+						this.ySmall+=this.speed;
+						if(this.ySmall>SMALL_BREAK)
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							this.x=this.path[this.pathTrack].x;
+							this.y=this.path[this.pathTrack].y;
+							this.pathTrack++;
+							this.ySmall=-SMALL_BREAK;
+						}
+					}else if(this.dir==3)
+					{
+						this.xSmall-=this.speed;
+						if(this.xSmall<-SMALL_BREAK)
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							this.x=this.path[this.pathTrack].x;
+							this.y=this.path[this.pathTrack].y;
+							this.pathTrack++;
+							this.xSmall=SMALL_BREAK;
+						}
+					}else if(this.dir==1)
+					{
+						this.xSmall+=this.speed;
+						if(this.xSmall>SMALL_BREAK)
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							this.x=this.path[this.pathTrack].x;
+							this.y=this.path[this.pathTrack].y;
+							this.pathTrack++;
+							this.xSmall=-SMALL_BREAK;
+						}
+					}
+					/*this.lastX=this.x;
 					this.lastY=this.y;
 					this.x=this.path[this.pathTrack].x;
 					this.y=this.path[this.pathTrack].y;
-					this.pathTrack++;
+					this.pathTrack++;*/
 				}
 				if(this.pathTrack==this.path.length)
 				{

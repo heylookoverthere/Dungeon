@@ -3101,6 +3101,26 @@ function mainUpdate()
 				}
 			}
 		}
+		
+	for(var i=0;i<buttons.length;i++)
+	{
+		if(buttons[i].hasFocus)
+		{
+			if(controller.buttons[1].check())
+			{
+				if((!buttons[i].unClickable))
+				{
+					buttons[i].hasFocus=false;
+					buttons[i].exists=false;
+					return;
+				}else
+				{
+					
+				}
+			}
+		}
+	}
+		
 		if(controller.buttons[1].check())
 		{
 			//contextual. if NPC in talk range, talk. 
@@ -3158,12 +3178,12 @@ function mainUpdate()
 		}
 		if(controller.buttons[5].check())
 		{
-			console.log("R")
+			//console.log("R")
 			miles.cycleEquipped(true);
 		}
 		if(controller.buttons[6].check())
 		{
-			console.log("L")
+			//console.log("L")
 			miles.cycleEquipped(false);
 		}
 		
