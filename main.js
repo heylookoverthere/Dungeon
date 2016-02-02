@@ -422,6 +422,7 @@ if(checkMobile())
 {
 	bConsoleBox.log("Xbox Version");
 	MobileMode=false;
+	Xbox=true;
 }else {
 	bConsoleBox.log("Desktop Version");
 	MobileMode=false;
@@ -1395,29 +1396,29 @@ if(MobileMode)
 	concanvasElement.get(0).addEventListener('touchmove', handleTouchMove, false);
 	concanvasElement.get(0).addEventListener('touchstart', handleConTouchStart, false); 
 }
-if(false)//(Xbox)
+if(Xbox)
 {
-
+	var controller = new GameController.Controller(0); 
 }else
 {
 	var gamepadSupportAvailable = !!navigator.getGamepads || !!navigator.webkitGamepads;
 
 	var gamepad = navigator.getGamepads && navigator.getGamepads()[0];
+
+
+	window.addEventListener("GamepadConnected", function(e) {
+	  console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+	  e.gamepad.index, e.gamepad.id,
+	  e.gamepad.buttons.length, e.gamepad.axes.length);
+	});
+
+	window.addEventListener("GamepadDisconnected", function(e) {
+	  console.log("Gamepad disconnected from index %d: %s",
+	  e.gamepad.index, e.gamepad.id);
+	});
+
+	controller= new virtualGamePad();
 }
-
-window.addEventListener("GamepadConnected", function(e) {
-  console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-  e.gamepad.index, e.gamepad.id,
-  e.gamepad.buttons.length, e.gamepad.axes.length);
-});
-
-window.addEventListener("GamepadDisconnected", function(e) {
-  console.log("Gamepad disconnected from index %d: %s",
-  e.gamepad.index, e.gamepad.id);
-});
-
-controller= new virtualGamePad();
-
 var savekey=new akey("i"); //define the different keys
 var loadkey=new akey("t");
 var optionskey=new akey("o");
@@ -2063,6 +2064,20 @@ function mainMenuUpdate()
 	
 	
 	gamepad = navigator.getGamepads && navigator.getGamepads()[0];
+	
+	if(Xbox)
+	{
+		var cstate=controller.getState();
+		if(cstate.connected)
+		{
+			if(cstate.a)
+			{
+				bConsoleBox.log("A");
+				startGame(true);
+			}
+		}
+	}
+	
 	if(false)//(controller.buttons[7].check())
 	{
 		if(mmcur==0)
@@ -3108,7 +3123,19 @@ function mainUpdate()
 			}
 		}
 	}
-	if((!editMode) && (controller.buttons.length>0)) //?!
+	if((!editMode) &&(Xbox))
+	{
+		var cstate=controller.getState();
+		if(cstate.connected)
+		{
+			if(cstate.a)
+			{
+				bConsoleBox.log("A");
+			}
+		}
+	}
+	
+	else if((!editMode) && (controller.buttons.length>0)) //?!
 	{
 		//SNES controls
 		controller.update();
