@@ -24,6 +24,7 @@ if(checkMobile())
 if(checkXbox())
 {
 	Xbox=true;
+	OPTIONS.musicOn=true;
 }
 	
 	//document.addEventListener('touchmove', handleTouchMove, false);
@@ -32,6 +33,8 @@ var xDown = null;
 var yDown = null;                                                        
 var downSince=new Date().getTime();	
 var downLast=new Date().getTime();	
+
+
 
 function handleTouchStart(evt) {  
 	//evt.preventDefault();         
@@ -410,6 +413,7 @@ function logControls()
 bConsoleBox=new textbox();
 bConsoleBox.width=300;
 bConsoleBox.height=CANVAS_HEIGHT-12;
+bConsoleBox.exists=true;
 bConsoleBox.log("Loading...");
 if(checkMobile())
 {
@@ -417,7 +421,7 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 5");
+	bConsoleBox.log("Xbox Version 11");
 	MobileMode=false;
 	Xbox=true;
 }else {
@@ -1659,7 +1663,10 @@ function mainMenuDraw(){
 	{
 		canvas.fillText("LOADING . . .",478,660);
 	}
-	bConsoleBox.draw(concanvas);
+	if(bConsoleBox.exists)
+	{
+		bConsoleBox.draw(concanvas);
+	}
 	//monsta.draw(canvas,camera);
 	//canvas.fillText("Particles: "+ monsta.particles.length,460,550);
 };
@@ -1671,11 +1678,11 @@ function inventoryUpdate()
 	{
 		mode=1;
 	}
-	if((inventorykey.check()) || ((controller.buttons[9]) && (controller.buttons[9].check())))
+	if((inventorykey.check()) || ((controller.buttons[9]) && (controller.buttons[SNESKeys.Start].check())))
 	{
 		mode=1;
 	}
-	if((controller.buttons[8].check()) && (miles.has[hasID.Map]))
+	if((controller.buttons[SNESKeys.Select].check()) && (miles.has[hasID.Map]))
 	{
 		mode=2;
 	}
@@ -1950,7 +1957,7 @@ function actuallyStartGame()
 	bConsoleBox.log("Doors and switches linked!","yellow");
 }
 
-function startGame(goolp)
+function startGame(goolp,ploop)
 {
 
 	if(!goolp)
@@ -1973,7 +1980,7 @@ function startGame(goolp)
 		resetMiles();
 		actuallyStartGame();
 		//curDungeon.addFloor();
-	}else
+	}else if(!ploop)
 	{
 		pungname=prompt("Enter name of dungeon to load","dungeon1");
 		if(pungname==null) {return;}
@@ -2024,8 +2031,30 @@ function startGame(goolp)
 			}
 		}
 		checkIfLoaded();
-		
-		
+	}else
+	{
+		pungname=ploop;
+		curDungeon.name=pungname;
+		editMode=false;
+				
+		countIndex=existingDungeons.indexOf(curDungeon.name);
+		curDungeon.load();
+		resetMiles();
+		function checkIfLoaded() 
+		{ 
+			if (LOAD_COUNTS[countIndex] == 0)
+			{ 
+				actuallyStartGame();
+			}else if(LOAD_COUNTS[countIndex]<0)
+			{
+				bConsoleBox.log("Load_Counts problem! Reload page.","yellow");
+			}else			
+			{ 
+				//console.log("waiting for load count to be 0");
+				window.setTimeout(checkIfLoaded, 1000); 
+			}
+		}
+		checkIfLoaded();
 	}
 		
 	
@@ -2070,11 +2099,14 @@ function mainMenuUpdate()
 		{
 			for( var i=0;i<controller.pad.buttons.length;i++)
 			{
-				if((controller.pad.buttons[i].pressed) || (controller.pad.buttons[i].value>0))
+				if((controller.pad.buttons[i].pressed) )
 				{
-					bConsoleBox.log(i);
-					
-					startGame(true);
+					//bConsoleBox.log(i+":"+controller.pad.buttons[i].value);
+					if(!isLoading)
+					{
+						startGame(true,"asword");	
+						actuallyStartGame(); //yeah. what. 
+					}
 				}
 			}
 		}
@@ -3129,21 +3161,25 @@ function mainUpdate()
 	if((!editMode) && (controller.buttons.length>0)) //?!
 	{	
 		controller.update();
+		if((Xbox) && (controller.pad) && (controller.pad.buttons[10].pressed))
+		{
+			customConsole=false;
+		}
 		if((!Xbox) || (controller.pad))
 		{
 			//SNES controls
 			
-			for(var i=0;i<controller.buttons.length;i++)
+			/*for(var i=0;i<controller.buttons.length;i++)
 			{
 			
 				if(controller.buttons[i].check())
 				{
-					bConsoleBox.log(i);
+					console.log(i);
 				}
-			}
+			}*/
 			if ($("#dialogBox").length > 0) 
 			{
-				if(controller.buttons[1].check())
+				if(((Xbox) && (controller.pad) && (controller.pad.buttons[0].pressed)) || ((!Xbox) && (controller.buttons[0].check())))
 				{
 					$("#dialogBox").remove();
 					if(gameOver)
@@ -3157,7 +3193,7 @@ function mainUpdate()
 		{
 			if(buttons[i].hasFocus)
 			{
-				if(controller.buttons[1].check())
+				iif(((Xbox) && (controller.pad) && (controller.pad.buttons[1].pressed)) || ((!Xbox) && (controller.buttons[1].check())))
 				{
 					if((!buttons[i].unClickable))
 					{
@@ -3172,7 +3208,7 @@ function mainUpdate()
 			}
 		}
 			
-			if(controller.buttons[1].check())
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[0].pressed)) || ((!Xbox) && (controller.buttons[SNESKeys.A].check())))
 			{
 				//contextual. if NPC in talk range, talk. 
 				//if object in front, activate
@@ -3194,16 +3230,12 @@ function mainUpdate()
 			}
 			if(miles.holding)
 			{
-				for(var i=0;i<controller.buttons.length;i++)
-				{
-					if((controller.buttons[i].check()) || ((Xbox) &&(controller.pad.buttons[i].pressed)))
+				if(((Xbox) && (controller.pad) && (controller.pad.buttons[0].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.A].check())))
 					{
 						miles.holding=false;
-						break;
 					}
-				}
 			}
-			if(controller.buttons[0].check())
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[1].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.B].check())))
 			{
 				//console.log("b!");
 				if(miles.swiming)
@@ -3214,24 +3246,24 @@ function mainUpdate()
 					miles.swingSword();
 				}
 			}
-			if((controller.buttons[0].checkDown()) && (miles.has[hasID.Sword]) && (!miles.swimming) && (!miles.swinging))
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[1].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.B].check())) && (miles.has[hasID.Sword]) && (!miles.swimming) && (!miles.swinging))
 			{
 				miles.poking=true;			
 			}else
 			{
 				miles.poking=false;
 			}
-			if(controller.buttons[2].check())
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[2].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.Y].check())))
 			{
 				//console.log("y!");
 				miles.useItem();
 			}
-			if(controller.buttons[5].check())
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[5].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.R].check())))
 			{
 				//console.log("R")
 				miles.cycleEquipped(true);
 			}
-			if(controller.buttons[6].check())
+			if(((Xbox) && (controller.pad) && (controller.pad.buttons[6].pressed)) || ((!Xbox) && (controller.buttons[SNESKey.L].check())))
 			{
 				//console.log("L")
 				miles.cycleEquipped(false);
