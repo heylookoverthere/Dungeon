@@ -5,9 +5,6 @@ var bullshitHack=true; //right click to link doors
 var existingDungeons=new Array();
 var countIndex=0;
 
-
-
-
 var bulbsprite=Sprite("bulb");
 var bulboffsprite=Sprite("bulboff");
 
@@ -420,7 +417,7 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version");
+	bConsoleBox.log("Xbox Version 5");
 	MobileMode=false;
 	Xbox=true;
 }else {
@@ -1396,9 +1393,9 @@ if(MobileMode)
 	concanvasElement.get(0).addEventListener('touchmove', handleTouchMove, false);
 	concanvasElement.get(0).addEventListener('touchstart', handleConTouchStart, false); 
 }
-if(Xbox)
+if(false)
 {
-	var controller = new GameController.Controller(0); 
+	//var controller = navigator.getGamepads()[0];
 }else
 {
 	var gamepadSupportAvailable = !!navigator.getGamepads || !!navigator.webkitGamepads;
@@ -2067,15 +2064,21 @@ function mainMenuUpdate()
 	
 	if(Xbox)
 	{
-		var cstate=controller.getState();
-		if(cstate.connected)
+		//bConsoleBox.log(controller.buttons.length);
+		controller.update();
+		if(controller.pad)
 		{
-			if(cstate.a)
+			for( var i=0;i<controller.pad.buttons.length;i++)
 			{
-				bConsoleBox.log("A");
-				startGame(true);
+				if((controller.pad.buttons[i].pressed) || (controller.pad.buttons[i].value>0))
+				{
+					bConsoleBox.log(i);
+					
+					startGame(true);
+				}
 			}
 		}
+		
 	}
 	
 	if(false)//(controller.buttons[7].check())
@@ -3123,148 +3126,138 @@ function mainUpdate()
 			}
 		}
 	}
-	if((!editMode) &&(Xbox))
-	{
-		var cstate=controller.getState();
-		if(cstate.connected)
-		{
-			if(cstate.a)
-			{
-				bConsoleBox.log("A");
-			}
-		}
-	}
-	
-	else if((!editMode) && (controller.buttons.length>0)) //?!
-	{
-		//SNES controls
+	if((!editMode) && (controller.buttons.length>0)) //?!
+	{	
 		controller.update();
-		/*for(var i=0;i<controller.buttons.length;i++)
+		if((!Xbox) || (controller.pad))
 		{
-		
-			if(controller.buttons[i].check())
-			{
-				console.log(i);
-			}
-		}*/
-		if ($("#dialogBox").length > 0) 
-		{
-			if(controller.buttons[1].check())
-			{
-				$("#dialogBox").remove();
-				if(gameOver)
-				{
-					mode=0;
-				}
-			}
-		}
-		
-	for(var i=0;i<buttons.length;i++)
-	{
-		if(buttons[i].hasFocus)
-		{
-			if(controller.buttons[1].check())
-			{
-				if((!buttons[i].unClickable))
-				{
-					buttons[i].hasFocus=false;
-					buttons[i].exists=false;
-					return;
-				}else
-				{
-					
-				}
-			}
-		}
-	}
-		
-		if(controller.buttons[1].check())
-		{
-			//contextual. if NPC in talk range, talk. 
-			//if object in front, activate
-			var pled=miles.getFacingEntity();
-			if(pled)
-			{
-				pled.say();
-				if((!pled.partyMember) && (pled.autoJoin))
-				{
-					theParty.add(pled);
-				}
-				return;
-			}
-			var gled=miles.getFacingObject();
-			if((gled) && (gled.playerUsable))
-			{
-				gled.playerActivate();
-			}
-		}
-		if(miles.holding)
-		{
+			//SNES controls
+			
 			for(var i=0;i<controller.buttons.length;i++)
 			{
 			
 				if(controller.buttons[i].check())
 				{
-					miles.holding=false;
-					break;
+					bConsoleBox.log(i);
+				}
+			}
+			if ($("#dialogBox").length > 0) 
+			{
+				if(controller.buttons[1].check())
+				{
+					$("#dialogBox").remove();
+					if(gameOver)
+					{
+						mode=0;
+					}
+				}
+			}
+			
+		for(var i=0;i<buttons.length;i++)
+		{
+			if(buttons[i].hasFocus)
+			{
+				if(controller.buttons[1].check())
+				{
+					if((!buttons[i].unClickable))
+					{
+						buttons[i].hasFocus=false;
+						buttons[i].exists=false;
+						return;
+					}else
+					{
+						
+					}
 				}
 			}
 		}
-		if(controller.buttons[0].check())
-		{
-			//console.log("b!");
-			if(miles.swiming)
+			
+			if(controller.buttons[1].check())
 			{
-				miles.dive();
+				//contextual. if NPC in talk range, talk. 
+				//if object in front, activate
+				var pled=miles.getFacingEntity();
+				if(pled)
+				{
+					pled.say();
+					if((!pled.partyMember) && (pled.autoJoin))
+					{
+						theParty.add(pled);
+					}
+					return;
+				}
+				var gled=miles.getFacingObject();
+				if((gled) && (gled.playerUsable))
+				{
+					gled.playerActivate();
+				}
+			}
+			if(miles.holding)
+			{
+				for(var i=0;i<controller.buttons.length;i++)
+				{
+					if((controller.buttons[i].check()) || ((Xbox) &&(controller.pad.buttons[i].pressed)))
+					{
+						miles.holding=false;
+						break;
+					}
+				}
+			}
+			if(controller.buttons[0].check())
+			{
+				//console.log("b!");
+				if(miles.swiming)
+				{
+					miles.dive();
+				}else
+				{
+					miles.swingSword();
+				}
+			}
+			if((controller.buttons[0].checkDown()) && (miles.has[hasID.Sword]) && (!miles.swimming) && (!miles.swinging))
+			{
+				miles.poking=true;			
 			}else
 			{
-				miles.swingSword();
+				miles.poking=false;
 			}
-		}
-		if((controller.buttons[0].checkDown()) && (miles.has[hasID.Sword]) && (!miles.swimming) && (!miles.swinging))
-		{
-			miles.poking=true;			
-		}else
-		{
-			miles.poking=false;
-		}
-		if(controller.buttons[2].check())
-		{
-			//console.log("y!");
-			miles.useItem();
-		}
-		if(controller.buttons[5].check())
-		{
-			//console.log("R")
-			miles.cycleEquipped(true);
-		}
-		if(controller.buttons[6].check())
-		{
-			//console.log("L")
-			miles.cycleEquipped(false);
-		}
-		if(!miles.holding)
-		{
-			if(controller.checkUp())
+			if(controller.buttons[2].check())
 			{
-				miles.dir=0;
-				miles.incMove();
-			}else if(controller.checkDown())
+				//console.log("y!");
+				miles.useItem();
+			}
+			if(controller.buttons[5].check())
 			{
-				miles.dir=2;
-				miles.incMove();
-			}else if(controller.checkLeft())
+				//console.log("R")
+				miles.cycleEquipped(true);
+			}
+			if(controller.buttons[6].check())
 			{
-				miles.dir=3;
-				miles.incMove();
-			}else if(controller.checkRight())
+				//console.log("L")
+				miles.cycleEquipped(false);
+			}
+			if(!miles.holding)
 			{
-				miles.dir=1;
-				miles.incMove();
+				if(controller.checkUp())
+				{
+					miles.dir=0;
+					miles.incMove();
+				}else if(controller.checkDown())
+				{
+					miles.dir=2;
+					miles.incMove();
+				}else if(controller.checkLeft())
+				{
+					miles.dir=3;
+					miles.incMove();
+				}else if(controller.checkRight())
+				{
+					miles.dir=1;
+					miles.incMove();
+				}
 			}
 		}
 	}
-	
 	for (var h=0;h<buttons.length;h++)
 	{
 		buttons[h].update();
