@@ -1538,19 +1538,42 @@ function drawGUI(can)
 		}
 		can.globalAlpha=1;
 		can.fillStyle="white";
-		canvas.fillRect(808,76,40,40);
+		canvas.fillRect(808,105,40,40);
+		canvas.fillRect(808,56,40,40);
 		can.fillStyle="black";
-		canvas.fillRect(812,80,32,32);
+		canvas.fillRect(812,109,32,32);
+		canvas.fillRect(812,60,32,32);
+		if((!Xbox) && (!controller.pad))
+		{
+			canvas.save();
+			canvas.font = "30pt Calibri";
+			can.fillStyle="white";
+			can.fillText("->",760,90);
+			can.fillText("<-",760,140);
+			canvas.restore();
+		}
 		if(miles.equippedTrack>0)
 		{
 			//miles.equippedSprites[miles.equippedTrack].draw(can,812,80);
 			var nep=miles.getUsableInventory();
 			//console.log(nep[miles.equippedTrack]);
-			nep[miles.equippedTrack].sprites[0].draw(can,812,80);
+			nep[miles.equippedTrack].sprites[0].draw(can,812,60);
 			can.fillStyle="white";
 			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
 			{
-				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack],849,100);
+				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack],849,80);
+			}
+		}
+		if(miles.equippedTrack2>0)
+		{
+			//miles.equippedSprites[miles.equippedTrack].draw(can,812,80);
+			var nep=miles.getUsableInventory();
+			//console.log(nep[miles.equippedTrack]);
+			nep[miles.equippedTrack2].sprites[0].draw(can,812,105);
+			can.fillStyle="white";
+			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
+			{
+				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack2],849,145);
 			}
 		}
 	}
@@ -2125,8 +2148,8 @@ function mainMenuUpdate()
 			{
 				if((controller.pad.buttons[i].pressed) )
 				{
-					//bConsoleBox.log(i+":"+controller.buttons[i].key);
-					if(!isLoading)
+					bConsoleBox.log(i+":"+controller.buttons[i].key);
+					if((!isLoading) && ((i==11) || (i==0)))
 					{
 						startGame(true,"dungeon1");	
 						actuallyStartGame(); //yeah. what. 
@@ -3331,6 +3354,11 @@ function mainUpdate()
 				//console.log("y!");
 				miles.useItem();
 			}
+			if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
+			{
+				//console.log("x!");
+				miles.useItem(true);
+			}
 			if(((Xbox) && (controller.pad) && (controller.Xcheck(5))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.R].check())))
 			{
 				//console.log("R")
@@ -3449,6 +3477,11 @@ function mainUpdate()
 				//console.log("y!");
 				miles.useItem();
 			}
+			if(SNESXKey.check())
+			{
+				//console.log("y!");
+				miles.useItem(true);
+			}
 			if(SNESRKey.check())
 			{
 				//console.log("R")
@@ -3457,7 +3490,7 @@ function mainUpdate()
 			if(SNESLKey.check())
 			{
 				//console.log("L")
-				miles.cycleEquipped(false);
+				miles.cycleEquipped(true,true);
 			}
 			if(!miles.holding)
 			{
