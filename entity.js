@@ -712,6 +712,14 @@ function entity(croom)
 				}
 			}
 		}
+		if((this.equippedTrack<0) || (this.equippedTrack>this.inventory.length-1)) 
+		{
+			this.equippedTrack=0;
+		}
+		if((this.equippedTrack2<0) || (this.equippedTrack2>this.inventory.length-1)) 
+		{
+			this.equippedTrack2=0;
+		}
 
 	}
 	
@@ -1226,7 +1234,7 @@ function entity(croom)
 		this.actStart=new Date().getTime();
 
 		var poot=new projectile(this);
-		if(bmb) {poot.bombArrow=true;console.log("bombarrow");}
+		if(bmb) {poot.bombArrow=true;}
 		poot.exists=true; 
 		poot.angle=ang;
 		if(ang==270) //hack

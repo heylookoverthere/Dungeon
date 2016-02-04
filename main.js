@@ -3392,12 +3392,14 @@ function mainUpdate()
 			}
 			if(((miles.getEquipped()==ObjectID.Bow) && (miles.getEquipped(true)==ObjectID.Bomb)) || ((miles.getEquipped(true)==ObjectID.Bow) && (miles.getEquipped()==ObjectID.Bomb)))
 			{
-				if(controller.checkTwo(SNESKey.X,SNESKey.Y))
+				if(((Xbox) && (controller.checkTwo(2,3))) || ((controller.checkTwo(SNESKey.X,SNESKey.Y))))
 				{
 					if((miles.arrows>0) && (miles.bombs>0))
 					{
-						//miles.arrows--;
-						//miles.removeItem(ObjectID.Bow,1);
+						miles.arrows--;
+						miles.removeItem(ObjectID.Bow,1);
+						miles.bombs--;
+						miles.removeItem(ObjectID.Bomb,1);
 						if(miles.dir==0)
 						{
 							miles.shootArrow(90,true);
