@@ -947,6 +947,7 @@ function entity(croom)
 	
 	this.useItem=function()
 	{
+		if(this.swimming) {return false;}
 		if(this.getEquipped()==ObjectID.Bomb)
 		{
 			this.placeBomb();
@@ -1004,13 +1005,13 @@ function entity(croom)
 			
 		}else if(this.getEquipped()==ObjectID.Flippers)
 		{
-			if(this.dive())
+			/*if(this.dive())
 			{
 			
 			}else
 			{
 				bConsoleBox.log("You can't dive here. I really shouldn't have had to explain that to you.","yellow");
-			}
+			}*/
 
 		}else if(this.getEquipped()==ObjectID.Mirror)
 		{

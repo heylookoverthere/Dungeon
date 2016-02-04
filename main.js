@@ -3212,6 +3212,7 @@ function mainUpdate()
 					curDungeon.linkSwitches(i);
 				}
 				bConsoleBox.log("Doors and switches linked!","yellow");
+				curDungeon.timeStarted=new Date();
 			}
 		}
 	}else if((!editMode) && (controller.buttons.length>0)) //?!
@@ -3295,7 +3296,7 @@ function mainUpdate()
 			if(((Xbox) && (controller.pad) && (controller.Xcheck(1))) || ((!Xbox) && (controller.pad)&& (controller.buttons[SNESKey.B].check())))
 			{
 				//console.log("b!");
-				if(miles.swiming)
+				if(miles.swimming)
 				{
 					miles.dive();
 				}else
