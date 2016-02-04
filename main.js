@@ -26,6 +26,7 @@ if(checkXbox())
 	Xbox=true;
 	OPTIONS.musicOn=true;
 	OPTIONS.LightingOn=false;
+	milesFree=false;
 }
 	
 	//document.addEventListener('touchmove', handleTouchMove, false);
@@ -422,11 +423,12 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 31");
+	bConsoleBox.log("Xbox Version 32");
 	MobileMode=false;
 	Xbox=true;
 	OPTIONS.LightingOn=false;
-	bConsoleBox.numLines=31;
+	bConsoleBox.numLines=36;
+	milesFree=false;
 }else {
 	bConsoleBox.log("Desktop Version");
 	MobileMode=false;
@@ -1681,7 +1683,7 @@ function inventoryUpdate()
 	{
 		mode=1;
 	}
-	if((inventorykey.check()) || ((Xbox) && (controller.pad) && (controller.Xcheck(9))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
+	if((inventorykey.check()) || ((Xbox) && (controller.Xcheck(11))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
 	{
 		mode=1;
 	}
@@ -2537,9 +2539,24 @@ function mainDraw() {
 		canvas.save();
 		var popl=new Date().getTime();
 		canvas.fillStyle =  "#DCDCDC";
+		var nakl=10-(popl-LockTime)/1000;
+		if(nakl>7)
+		{
+			canvas.fillStyle =  "red";
+		}else if(nakl>3)
+		{
+			canvas.fillStyle =  "orange";
+		}else if(nakl>1)
+		{
+			canvas.fillStyle =  "yellow";
+		}else
+		{
+			canvas.fillStyle =  "green";
+		}
     	canvas.globalAlpha=1;
 		canvas.font = "46pt Calibri";
-		canvas.fillText(10-(popl-LockTime)/1000,400,250);
+		Math.round(nakl*10)/10
+		canvas.fillText(Math.round(nakl*10)/10,400,250);
 		canvas.restore();
 	}
 
@@ -3232,7 +3249,7 @@ function mainUpdate()
 		{
 			if(buttons[i].hasFocus)
 			{
-				if(((Xbox) && (controller.pad) && (controller.Xcheck(1))) || ((!Xbox) && (controller.buttons[SNESKey.A].check())))
+				if(((Xbox) && (controller.pad) && (controller.Xcheck(0))) || ((!Xbox) && (controller.buttons[SNESKey.A].check())))
 				{
 					if((!buttons[i].unClickable))
 					{
