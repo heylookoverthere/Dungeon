@@ -1223,7 +1223,7 @@ function entity(croom)
 		this.actStart=new Date().getTime();
 
 		var poot=new projectile(this);
-		if(bmb) {poot.bombArrow=true;}
+		if(bmb) {poot.bombArrow=true;console.log("bombarrow");}
 		poot.exists=true; 
 		poot.angle=ang;
 		if(ang==270) //hack

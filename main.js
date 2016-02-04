@@ -3390,15 +3390,46 @@ function mainUpdate()
 			{
 				miles.poking=false;
 			}
+			if(((miles.getEquipped()==ObjectID.Bow) && (miles.getEquipped(true)==ObjectID.Bomb)) || ((miles.getEquipped(true)==ObjectID.Bow) && (miles.getEquipped()==ObjectID.Bomb)))
+			{
+				if((controller.pad) && (controller.buttons[SNESKey.X].check())&& (controller.buttons[SNESKey.Y].check()))
+				{
+					if((miles.arrows>0) && (miles.bombs>0))
+					{
+						//miles.arrows--;
+						//miles.removeItem(ObjectID.Bow,1);
+						if(miles.dir==0)
+						{
+							miles.shootArrow(90,true);
+						}else if(miles.dir==1)
+						{
+							miles.shootArrow(180,true);
+						}else if(this.dir==2)
+						{
+							miles.shootArrow(270,true);
+						}else if(this.dir==3)
+						{
+							miles.shootArrow(0,true);
+						}
+					}else
+					{
+						bConsoleBox.log("Out of arrows or bombs.","yellow");
+						playSound("error");
+					}
+				}
+			}
+			
 			if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Y].check())))
 			{
 				//console.log("y!");
 				miles.useItem();
+				
 			}
 			if(((Xbox) && (controller.pad) && (controller.Xcheck(3))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
 			{
 				//console.log("x!");
 				miles.useItem(true);
+	
 			}
 			if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].check()))
 			{
