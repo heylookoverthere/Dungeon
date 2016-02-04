@@ -42,27 +42,30 @@ function aPadButton(k,pad) {  //represents a keyboard button
 	this.parentPad=pad;
 	this.desc="A small brown mushroom.";
     this.check= function(){
+		if(!this.parentPad) {bConsoleBox.log("no parent pad!");}
 
-        if ((this.parentPad.buttons[this.key].pressed) && (!this.aflag)){ 
-            this.aflag=true;
-			timestamp = new Date();
-			this.pressedTime=timestamp.getTime();
-	        return false;
-        }
-        if((!this.parentPad.buttons[this.key].pressed) && (this.aflag===true)){
-            this.aflag=false;
-			timestamp = new Date();
-			var nurp=timestamp.getTime();
-			if(nurp-this.pressedTime<1000)
-			{	
-				//console.log(nurp-this.pressedTime);
-				
-				return true;
-			}else
-			{
+			if ((this.parentPad.buttons[this.key].pressed) && (!this.aflag)){ 
+				this.aflag=true;
+				timestamp = new Date();
+				this.pressedTime=timestamp.getTime();
 				return false;
 			}
-        }
+			if((!this.parentPad.buttons[this.key].pressed) && (this.aflag===true)){
+				this.aflag=false;
+				if(Xbox) {return true;}
+				timestamp = new Date();
+				var nurp=timestamp.getTime();
+				if(nurp-this.pressedTime<1000)
+				{	
+					//console.log(nurp-this.pressedTime);
+					
+					return true;
+				}else
+				{
+					return false;
+				}
+			}
+		
 		
     };
     this.checkDown= function(){
@@ -128,6 +131,30 @@ function virtualGamePad()
 		}
 	
 };
+
+virtualGamePad.prototype.Xcheck=function(k)
+{
+	if ((this.pad.buttons[k].pressed) && (!this.buttons[k].aflag)){ 
+		this.buttons[k].aflag=true;
+		timestamp = new Date();
+		this.pressedTime=timestamp.getTime();
+		return false;
+	}
+	if((!this.pad.buttons[k].pressed) && (this.buttons[k].aflag===true)){
+		this.buttons[k].aflag=false;
+		timestamp = new Date();
+		var nurp=timestamp.getTime();
+		if(nurp-this.pressedTime<1000)
+		{	
+			//console.log(nurp-this.pressedTime);
+			
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
+}
 
 virtualGamePad.prototype.switchToKeyboard=function()
 {
@@ -337,7 +364,32 @@ virtualGamePad.prototype.checkDownRight=function()
 
 virtualGamePad.prototype.update=function()
 {
-	this.pad = navigator.getGamepads && navigator.getGamepads()[0];
+	
+	if((Xbox) && (!this.pad))
+	{
+		
+		if(navigator.getGamepads()[0]){
+			this.pad = navigator.getGamepads && navigator.getGamepads()[0];
+			if(this.pad){
+				this.keyboard=false;
+				this.buttons=[];
+				this.dpad=[];
+				this.dpad.push(this.pad.axes[0])
+				this.dpad.push(this.pad.axes[1]);
+				for(var i=0;i<this.pad.buttons.length;i++)
+				{
+					var daisy=new aPadButton(i,this.pad);
+					this.buttons.push(daisy);
+				}
+				bConsoleBox.log("Controller detected.");
+				bConsoleBox.log(this.pad.buttons.length+" pad buttons");
+				bConsoleBox.log(this.buttons.length+" buttons");
+			}
+		}
+	}else
+	{
+		this.pad = navigator.getGamepads && navigator.getGamepads()[0];
+	}
 	if((!this.keyboard) && (!navigator.getGamepads()[0]))
 	{
 		this.switchToKeyboard();
