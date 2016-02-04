@@ -423,7 +423,7 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 32");
+	bConsoleBox.log("Xbox Version 34");
 	MobileMode=false;
 	Xbox=true;
 	OPTIONS.LightingOn=false;
@@ -629,7 +629,7 @@ timy.doThings=function()
 				if (LOAD_COUNTS[countIndex] == 0)
 				{ 
 					actuallyStartGame();
-				}else if(LOAD_COUNTS[countIndex]<0)
+				}else if((LOAD_COUNTS[countIndex]<0) && (!Xbox))
 				{
 					bConsoleBox.log("Load_Counts problem! Reload page.","yellow");
 				}else			
@@ -1493,9 +1493,9 @@ function drawGUI(can)
 			{
 				surd+=" Going";
 			}
-			canvas.fillRect(500,2,390,68);
+			can.fillRect(500,2,390,68);
 			can.fillStyle="blue";
-			canvas.fillRect(504,6,383,60);
+			can.fillRect(504,6,383,60);
 			can.fillStyle="white";
 			can.fillText("Nancy: "+nancy.status,508,24);
 			can.fillText("Floor: "+nancy.room.z+" "+"RoomX: "+nancy.room.x+" RoomY: "+nancy.room.y+surd,508,48);
@@ -1529,28 +1529,42 @@ function drawGUI(can)
 				surd+=" Going "+nancy.destX+","+nancy.destY;
 			}
 			can.fillStyle="white";
-			canvas.fillRect(500,2,390,68);
+			can.fillRect(500,2,390,68);
 			can.fillStyle="blue";
-			canvas.fillRect(504,6,383,60);
+			can.fillRect(504,6,383,60);
 			can.fillStyle="white";
 			can.fillText("Nancy: "+nancy.status,508,24);
 			can.fillText("Floor: "+nancy.room.z+" "+"RoomX: "+nancy.room.x+" RoomY: "+nancy.room.y+surd,508,48);
 		}
 		can.globalAlpha=1;
 		can.fillStyle="white";
-		canvas.fillRect(808,105,40,40);
-		canvas.fillRect(808,56,40,40);
+		can.fillRect(808,105,40,40);
+		can.fillRect(808,56,40,40);
 		can.fillStyle="black";
-		canvas.fillRect(812,109,32,32);
-		canvas.fillRect(812,60,32,32);
+		can.fillRect(812,109,32,32);
+		can.fillRect(812,60,32,32);
 		if((!Xbox) && (!controller.pad))
 		{
-			canvas.save();
-			canvas.font = "30pt Calibri";
+			can.save();
+			can.font = "30pt Calibri";
 			can.fillStyle="white";
 			can.fillText("->",760,90);
 			can.fillText("<-",760,140);
-			canvas.restore();
+			can.restore();
+		}else if (Xbox)
+		{
+			xboxxsprite.draw(can,760,60);
+			xboxysprite.draw(can,760,110);
+		}else
+		{
+			/*can.save();
+			can.font = "30pt Calibri";
+			can.fillStyle="white";
+			can.fillText("Y",770,90);
+			can.fillText("X",770,140);
+			can.restore();*/
+			xboxxsprite.draw(can,760,60);
+			xboxysprite.draw(can,760,110);
 		}
 		if(miles.equippedTrack>0)
 		{
@@ -1569,7 +1583,7 @@ function drawGUI(can)
 			//miles.equippedSprites[miles.equippedTrack].draw(can,812,80);
 			var nep=miles.getUsableInventory();
 			//console.log(nep[miles.equippedTrack]);
-			nep[miles.equippedTrack2].sprites[0].draw(can,812,105);
+			nep[miles.equippedTrack2].sprites[0].draw(can,812,109);
 			can.fillStyle="white";
 			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
 			{
@@ -2068,7 +2082,7 @@ function startGame(goolp,ploop)
 			if (LOAD_COUNTS[countIndex] == 0)
 			{ 
 				actuallyStartGame();
-			}else if(LOAD_COUNTS[countIndex]<0)
+			}else if((LOAD_COUNTS[countIndex]<0)  && (!Xbox))
 			{
 				bConsoleBox.log("Load_Counts problem! Reload page.","yellow");
 			}else			
@@ -2092,7 +2106,7 @@ function startGame(goolp,ploop)
 			if (LOAD_COUNTS[countIndex] == 0)
 			{ 
 				actuallyStartGame();
-			}else if(LOAD_COUNTS[countIndex]<0)
+			}else if((LOAD_COUNTS[countIndex]<0)  && (!Xbox))
 			{
 				bConsoleBox.log("Load_Counts problem! Reload page.","yellow");
 			}else			
@@ -2151,7 +2165,7 @@ function mainMenuUpdate()
 					bConsoleBox.log(i+":"+controller.buttons[i].key);
 					if((!isLoading) && ((i==11) || (i==0)))
 					{
-						startGame(true,"dungeon1");	
+						startGame(true,"asword");	
 						actuallyStartGame(); //yeah. what. 
 					}
 				}
@@ -3354,20 +3368,40 @@ function mainUpdate()
 				//console.log("y!");
 				miles.useItem();
 			}
-			if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
+			if(((Xbox) && (controller.pad) && (controller.Xcheck(3))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
 			{
 				//console.log("x!");
 				miles.useItem(true);
 			}
-			if(((Xbox) && (controller.pad) && (controller.Xcheck(5))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.R].check())))
+			if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].check()))
 			{
 				//console.log("R")
 				miles.cycleEquipped(true);
 			}
-			if(((Xbox) && (controller.pad) && (controller.Xcheck(6))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].check())))
+			if((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].check()))
 			{
 				//console.log("L")
+				miles.cycleEquipped(true,true);
+			}
+			if((Xbox) && (controller.pad) && (controller.Xcheck(5)))
+			{
+				//console.log("R bumper")
+				miles.cycleEquipped(true);
+			}
+			if((Xbox) && (controller.pad) && (controller.Xcheck(4))) 
+			{
+				//console.log("L bumper")
 				miles.cycleEquipped(false);
+			}
+			if((Xbox) && (controller.pad) && (controller.Xcheck(6)))
+			{
+				//console.log("R trigger")
+				miles.cycleEquipped(true,true);
+			}
+			if((Xbox) && (controller.pad) && (controller.Xcheck(7))) 
+			{
+				//console.log("L trigger")
+				miles.cycleEquipped(false,true);
 			}
 			if(!miles.holding)
 			{
