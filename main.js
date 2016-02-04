@@ -25,6 +25,7 @@ if(checkXbox())
 {
 	Xbox=true;
 	OPTIONS.musicOn=true;
+	OPTIONS.LightingOn=false;
 }
 	
 	//document.addEventListener('touchmove', handleTouchMove, false);
@@ -87,7 +88,7 @@ function handleTouchEnd(evt) {
 	//evt.preventDefault();   
 	xDown = evt.touches[0].clientX;                                      
     yDown = evt.touches[0].clientY;  	
-	var now=new Date.getTime();
+	var now=new Date().getTime();
 	if(now-downSince>OPTIONS.HoldTime)
 	{
 		//held
@@ -421,9 +422,11 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 30");
+	bConsoleBox.log("Xbox Version 31");
 	MobileMode=false;
 	Xbox=true;
+	OPTIONS.LightingOn=false;
+	bConsoleBox.numLines=31;
 }else {
 	bConsoleBox.log("Desktop Version");
 	MobileMode=false;
@@ -2111,7 +2114,7 @@ function mainMenuUpdate()
 					//bConsoleBox.log(i+":"+controller.buttons[i].key);
 					if(!isLoading)
 					{
-						startGame(true,"asword");	
+						startGame(true,"dungeon1");	
 						actuallyStartGame(); //yeah. what. 
 					}
 				}
@@ -2532,11 +2535,11 @@ function mainDraw() {
 	if(!milesFree)
 	{
 		canvas.save();
-		var popl=new Date.getTime();
+		var popl=new Date().getTime();
 		canvas.fillStyle =  "#DCDCDC";
     	canvas.globalAlpha=1;
-		canvas.font = "24pt Calibri";
-		canvas.fillText((popl-LockTime)/1000,350,250);
+		canvas.font = "46pt Calibri";
+		canvas.fillText(10-(popl-LockTime)/1000,400,250);
 		canvas.restore();
 	}
 
@@ -3180,8 +3183,8 @@ function mainUpdate()
 	}
 	if(!milesFree)
 	{
-		var popl=new Date.getTime();
-		if(LockTime-popl>10000)
+		var popl=new Date().getTime();
+		if(popl-LockTime>10000)
 		{
 			milesFree=true;
 			if(Xbox)
@@ -3197,9 +3200,9 @@ function mainUpdate()
 	}else if((!editMode) && (controller.buttons.length>0)) //?!
 	{	
 		controller.update();
-		if((Xbox) && (controller.pad) && (controller.pad.buttons[12].pressed))
+		if((Xbox) && (controller.Xcheck(12)))
 		{
-			customConsole=false;
+			customConsole=!customConsole;
 		}
 		if((!Xbox) || (controller.pad))
 		{
@@ -3229,7 +3232,7 @@ function mainUpdate()
 		{
 			if(buttons[i].hasFocus)
 			{
-				iif(((Xbox) && (controller.pad) && (controller.Xcheck(1))) || ((!Xbox) && (controller.buttons[SNESKey.A].check())))
+				if(((Xbox) && (controller.pad) && (controller.Xcheck(1))) || ((!Xbox) && (controller.buttons[SNESKey.A].check())))
 				{
 					if((!buttons[i].unClickable))
 					{
@@ -3266,7 +3269,8 @@ function mainUpdate()
 			}
 			if(miles.holding)
 			{
-				if(((Xbox) && (controller.pad) && (controller.Xcheck(0))) || ((!Xbox) && ((controller.buttons[SNESKey.B].check()) ||(controller.buttons[SNESKey.A].checkDown()))))
+				//todo: why does A have to be held?
+				if(((Xbox) && (controller.pad) && (controller.pad.buttons[0].pressed)) || ((!Xbox) && ((controller.buttons[SNESKey.B].check()) ||(controller.buttons[SNESKey.A].checkDown()))))
 				{
 					miles.holding=false;
 				}
