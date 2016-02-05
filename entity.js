@@ -1131,6 +1131,13 @@ function entity(croom)
 					this.equippedTrack2=mup.length-1;//0;
 				}
 			}
+			if(this.equippedTrack2>0)
+			{
+				if(this.equippedTrack2==this.equippedTrack)
+				{
+					this.cycleEquipped(true,true);
+				}
+			}
 		}else
 		{
 		
@@ -1148,6 +1155,13 @@ function entity(croom)
 				if(this.equippedTrack<0)
 				{
 					this.equippedTrack=mup.length-1;//0;
+				}
+			}
+			if(this.equippedTrack>0)
+			{
+				if(this.equippedTrack==this.equippedTrack2)
+				{
+					this.cycleEquipped(true,false);
 				}
 			}
 		}
