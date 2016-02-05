@@ -3448,14 +3448,25 @@ function mainUpdate()
 					if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Y].check())))
 					{
 						//console.log("y!");
-						
-						miles.useItem();
+						if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
+						{
+							miles.cycleEquipped(true);
+						}else
+						{
+							miles.useItem();
+						}
 						
 					}
 					if(((Xbox) && (controller.pad) && (controller.Xcheck(3))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
 					{
 						//console.log("x!");
-						miles.useItem(true);
+						if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
+						{
+							miles.cycleEquipped(true,true);
+						}else
+						{
+							miles.useItem(true);
+						}
 			
 					}
 				}
@@ -3464,7 +3475,10 @@ function mainUpdate()
 				if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Y].check())))
 				{
 					//console.log("y!");
-					if(miles.inventory[miles.equippedTrack].type==ObjectID.Boomarang)
+					if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
+					{
+						miles.cycleEquipped(true);
+					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Boomarang)
 					{
 						if(controller.checkDownRight())
 						{
@@ -3491,7 +3505,10 @@ function mainUpdate()
 				if(((Xbox) && (controller.pad) && (controller.Xcheck(3))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
 				{
 					//console.log("x!");
-					if(miles.inventory[miles.equippedTrack2].type==ObjectID.Boomarang)
+					if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
+					{
+						miles.cycleEquipped(true,true);
+					}else if(miles.inventory[miles.equippedTrack2].type==ObjectID.Boomarang)
 					{
 						if(controller.checkDownRight())
 						{
@@ -3516,26 +3533,26 @@ function mainUpdate()
 		
 				}
 			}
-			if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].check()))
+			/*if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].check()))
 			{
 				//console.log("R")
 				miles.cycleEquipped(true);
 			}
-			if((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].check()))
+			/*if((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].check()))
 			{
 				//console.log("L")
 				miles.cycleEquipped(true,true);
-			}
+			}*/
 			if((Xbox) && (controller.pad) && (controller.Xcheck(5)))
 			{
 				//console.log("R bumper")
-				miles.cycleEquipped(true);
+				//miles.cycleEquipped(true);
 			}
-			if((Xbox) && (controller.pad) && (controller.Xcheck(4))) 
+			/*if((Xbox) && (controller.pad) && (controller.Xcheck(4))) 
 			{
 				//console.log("L bumper")
 				miles.cycleEquipped(false);
-			}
+			}*/
 			if((Xbox) && (controller.pad) && (controller.Xcheck(6)))
 			{
 				//console.log("R trigger")
@@ -3544,26 +3561,38 @@ function mainUpdate()
 			if((Xbox) && (controller.pad) && (controller.Xcheck(7))) 
 			{
 				//console.log("L trigger")
-				miles.cycleEquipped(false,true);
+				miles.cycleEquipped(true,false);
 			}
 			if(!miles.holding)
 			{
 				if(controller.checkUp())
 				{
 					miles.dir=0;
-					miles.incMove();
+					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
+					{
+						miles.incMove();
+					}
 				}else if(controller.checkDown())
 				{
 					miles.dir=2;
-					miles.incMove();
+					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
+					{
+						miles.incMove();
+					}
 				}else if(controller.checkLeft())
 				{
 					miles.dir=3;
-					miles.incMove();
+					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
+					{
+						miles.incMove();
+					}
 				}else if(controller.checkRight())
 				{
 					miles.dir=1;
-					miles.incMove();
+					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
+					{
+						miles.incMove();
+					}
 				}
 			}
 		}
