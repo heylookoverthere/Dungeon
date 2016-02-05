@@ -350,7 +350,7 @@ function entity(croom)
 	this.ySmall=0;
 	this.lastX=4;
 	this.jumping=false;
-	this.jumpTime=200;
+	this.jumpTime=300;
 	this.jumpStart=0;
 	this.jumpPeaked=false;
 	this.jumpSpeed=2;
