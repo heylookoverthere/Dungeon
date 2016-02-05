@@ -2014,7 +2014,7 @@ function controlsDraw() {
 	canvas.fillText("Controls: ",xFset+150,yFset+12-6);
 	
 
-	if(true)//(Xbox)
+	if(Xbox)
 	{
 		canvas.fillText("Sword: ",xFset+60,yFset+64-6);
 		canvas.fillText("Item1: ",xFset+60,yFset+100-6);

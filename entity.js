@@ -349,6 +349,11 @@ function entity(croom)
 	this.xSmall=0;
 	this.ySmall=0;
 	this.lastX=4;
+	this.jumping=false;
+	this.jumpTime=200;
+	this.jumpStart=0;
+	this.jumpPeaked=false;
+	this.jumpSpeed=2;
 	this.maxBombs=10;
 	this.maxArrows=20;
 	this.swimming=false;
@@ -736,7 +741,7 @@ function entity(croom)
 	this.incMove=function(dir)
 	{
 		if(!this.alive) {return false;}
-		if(this.fallingY>0) {return false;}
+		if((this.fallingY>0) && (!this.jumping)) {return false;}
 		if(!dir){dir=this.dir;}
 		//if(!this.canMove(dir)) { return false;}
 		if(dir==2)
@@ -980,6 +985,10 @@ function entity(croom)
 		{
 			this.placeBomb();
 			this.removeItem(ObjectID.Bomb,1);
+		}else if(this.getEquipped(secondary)==ObjectID.Feather)
+		{
+			this.jump();
+
 		}else if(this.getEquipped(secondary)==ObjectID.Shovel)
 		{
 			if(this.dig())
@@ -1109,6 +1118,17 @@ function entity(croom)
 			this.heal(120);
 			this.removeItem(ObjectID.BluePotion,1); 
 		}
+	}
+	
+	this.jump=function()
+	{
+		if(this.jumping) {return false;}
+		//do we even need dir? no jumping is just a status. 
+		playSound("jump");
+		this.jumpStart=new Date().getTime(); 
+		this.fallingY=1;
+		this.jumping=true;
+		this.jumpPeaked=false;
 	}
 	
 	this.cycleEquipped=function(up,secondary)
@@ -1664,6 +1684,20 @@ function entity(croom)
 				i--;
 			}
 		}
+		if(this.jumping)
+		{
+			if(!this.jumpPeaked)
+			{
+				this.fallingY+=this.jumpSpeed;
+				var sunt=new Date().getTime();
+				if(sunt-this.jumpStart>this.jumpTime)
+				{
+					this.jumpPeaked=true; 
+					this.falling=true;
+				}
+			}
+		}
+		
 		//if((this.x!=this.lastX) || (this.y!=this.lastY))
 		if(this.isPlayer) 
 		{
@@ -2041,6 +2075,7 @@ function entity(croom)
 		}
 		if(this.fallingY<1)
 		{
+			this.jumping=false;
 			if((this.room.tiles[this.x][this.y].data==DungeonTileType.Unstable) && (OPTIONS.UnsafeWalking))
 			{
 				
@@ -2060,7 +2095,7 @@ function entity(croom)
 					//this.lastX=this.x;
 					//this.lastY=this.y;
 				}
-			}else if((this.room.tiles[this.x][this.y].data==DungeonTileType.Hole) &&(!this.falling))
+			}else if((this.room.tiles[this.x][this.y].data==DungeonTileType.Hole) &&(!this.falling) &&(!this.jumping))
 			{
 				
 				if(this.isPlayer)

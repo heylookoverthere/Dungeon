@@ -1658,6 +1658,7 @@ object.prototype.setup=function(id,par)
 			miles.holding=this.sprites[0];
 			this.exists=false;
 			miles.has[hasID.Feather]=true;
+			miles.giveItem(this,1);
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Mirror) {
