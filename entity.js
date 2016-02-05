@@ -1276,7 +1276,6 @@ function entity(croom)
 		{
 			return false;
 		}
-		playSound("swordbeam");
 		if(this.dir==0)
 		{
 			ang=90;
@@ -1290,8 +1289,7 @@ function entity(croom)
 		{
 			ang=0;
 		}
-		//playSound("shoot");
-		console.log("shooting");
+		playSound("swordbeam");
 		var poot=new projectile(this);
 		poot.exists=true; 
 		poot.angle=ang;
