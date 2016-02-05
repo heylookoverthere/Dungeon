@@ -2425,7 +2425,10 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 }
 object.prototype.draw=function(can,cam,xOffh,yOffh)
 {
-	
+	if((this.type==ObjectID.Bush) &&(!this.on) && (this.room.tiles[this.x][this.y].data==DungeonTileTypes.Hole))
+	{
+		return;
+	}
 	if(this.timed)
 	{
 		var knuc=new Date().getTime();
@@ -2447,6 +2450,7 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 			return;
 		}
 	}
+	if((this.type==ObjectID.Bush) &&(!this.on) && (this.room.tiles[this.x][this.y].data==DungeonTileTypes.Hole))
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	this.sprites[this.curSprite].draw(can, this.x*32+xOffh, this.y*32+yOffh);
