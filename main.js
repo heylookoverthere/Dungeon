@@ -2354,7 +2354,7 @@ function mainMenuUpdate()
 		if(mmcur==0)
 		{
 			startGame(false);
-		}else if(mmcur==1)
+		}else if((mmcur==1) && (existingDungeons.length>0))
 		{
 			startGame(true);
 		}else if(mmcur==2)
@@ -2532,7 +2532,7 @@ function mainDraw() {
 	}
 	if(!gamestart) {return;}
 		
-	monsta.draw(canvas,camera);
+
 
 	if(true)//(!stayDay)
 	{
@@ -2722,6 +2722,7 @@ function mainDraw() {
 	{
 		curDungeon.curRoom().fires[i].draw(canvas,camera);
 	}
+	monsta.draw(canvas,camera);
 	curDungeon.curRoom().darken(canvas,miles.x,miles.y);
 	drawGUI(canvas);
 	for (var h=0;h<buttons.length;h++)
@@ -3727,7 +3728,7 @@ function mainUpdate()
 				//console.log("L trigger")
 				miles.cycleEquipped(true,false);
 			}
-			if(!miles.holding)
+			if((!miles.holding) && (!miles.dashing))
 			{
 				if(controller.checkUp())
 				{
@@ -3862,7 +3863,7 @@ function mainUpdate()
 				//console.log("L")
 				miles.cycleEquipped(true,true);
 			}
-			if(!miles.holding)
+			if((!miles.holding) && (!miles.dashing));
 			{
 				if(SNESUpKey.checkDown())
 				{

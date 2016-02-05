@@ -337,6 +337,7 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.baseSpeed=4;
 	this.speed=4;
 	this.team=0;
 	this.swordDamage=10;
@@ -349,6 +350,11 @@ function entity(croom)
 	this.xSmall=0;
 	this.ySmall=0;
 	this.lastX=4;
+	this.dashing=false;
+	this.reallyDashing=false;
+	this.dashDelay=1000;
+	this.dashStart=0;
+	this.dashSpeed=8;
 	this.jumping=false;
 	this.jumpTime=300;
 	this.jumpStart=0;
@@ -753,11 +759,14 @@ function entity(croom)
 				{
 					this.ySmall=-SMALL_BREAK;
 					this.tryMove(dir);
+					return true;
 				}else
 				{
 					this.ySmall=SMALL_BREAK;
+					return false;
 				}
-			}				
+			}
+			return true;
 		}else if(dir==0)
 		{
 			this.ySmall-=this.speed;
@@ -766,12 +775,15 @@ function entity(croom)
 				if(this.canMove(dir))
 				{
 					this.ySmall=SMALL_BREAK;
-					this.tryMove(dir)
+					this.tryMove(dir);
+					return true;
 				}else
 				{
 					this.ySmall=-SMALL_BREAK;
+					return false;
 				}
-			}				
+			}
+			return true;			
 		}else if(dir==1)
 		{
 			this.xSmall+=this.speed;
@@ -781,11 +793,14 @@ function entity(croom)
 				{
 					this.xSmall=-SMALL_BREAK;
 					this.tryMove(dir);
+					return true;
 				}else
 				{
 					this.xSmall=SMALL_BREAK;
+					return false;
 				}
-			}				
+			}		
+			return true;
 		}else if(dir==3)
 		{
 			this.xSmall-=this.speed;
@@ -795,11 +810,14 @@ function entity(croom)
 				{
 					this.xSmall=SMALL_BREAK;
 					this.tryMove(dir)
+					return true;
 				}else
 				{
 					this.xSmall=-SMALL_BREAK;
+					return false;
 				}
-			}				
+			}	
+			return true;			
 		}
 	}
 	
@@ -929,6 +947,14 @@ function entity(croom)
 		return true; 
 	}
 	
+	this.dash=function()
+	{
+		if(this.dashing) {return false;}
+		this.dashing=true;
+		this.dashStart=new Date().getTime();
+		
+	}
+	
 	this.dig=function() //fuck you, it's dig now. It shoulda been dig to begin with! the verb of shovel is dig!
 	{
 		
@@ -1040,16 +1066,16 @@ function entity(croom)
 				this.tossBoomarang(0);
 			}
 			
-		}else if(this.getEquipped(secondary)==ObjectID.Flippers)
+		}else if(this.getEquipped(secondary)==ObjectID.Boots)
 		{
-			/*if(this.dive())
+			if(this.dashing)
 			{
-			
+				this.dashing=false;
 			}else
 			{
-				bConsoleBox.log("You can't dive here. I really shouldn't have had to explain that to you.","yellow");
-			}*/
-
+				this.dash();
+			}
+			
 		}else if(this.getEquipped(secondary)==ObjectID.Mirror)
 		{
 			playSound("warp");
@@ -1534,6 +1560,14 @@ function entity(croom)
 			bunnyheadsprite[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-18-this.fallingY*2);
 		}
 		
+		if(this.dashing)
+		{
+			/*
+			can.globalAlpha=0.50;
+			footcloudsprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+			can.globalAlpha=1;*/
+		}
+		
 		for(var i=0;i<this.activebombs.length;i++)
 		{
 			if(this.activebombs[i].exists)
@@ -1683,6 +1717,55 @@ function entity(croom)
 				this.projectiles.splice(i,1);
 				i--;
 			}
+		}
+		if((this.swimming) || (this.holding))
+		{
+			this.dashing=false;
+			this.reallyDashing=false;
+		}
+		if(this.dashing)
+		{
+			
+			var plopl=new Date().getTime();
+			if(plopl-this.dashStart>this.dashDelay)
+			{
+				this.reallyDashing=true;
+				this.speed=this.dashSpeed;
+				if(this.incMove())
+				{
+					playSound("dash");
+					var angrand=Math.random()*12;
+					angrand-=4;
+					var xrand=Math.random()*12;
+					xrand-=4;
+					var poto =monsta.shootTextured(this.x*32+this.xSmall+xOffset+xrand+6,this.y*32+this.ySmall+yOffset+22-this.fallingY*2,270+angrand,0.5,"footcloud");//sprite);
+					poto.durTime=200;
+					poto.alpha=0.25;
+					poto.gravity=false;
+				}else
+				{
+					this.dashing=false;
+					this.reallyDashing=false;
+					//bounce back? 
+					playSound("rebound");
+				}
+				
+			}else
+			{
+				//rev up sound, effects
+				playSound("dash");
+				var angrand=Math.random()*12;
+				angrand-=4;
+				var xrand=Math.random()*12;
+				xrand-=4;
+				var poto =monsta.shootTextured(this.x*32+this.xSmall+xOffset+xrand+6,this.y*32+this.ySmall+yOffset+22-this.fallingY*2,270+angrand,2.95,"footcloud");//sprite);
+				poto.durTime=200;
+				poto.alpha=0.25;
+			}	
+		
+		}else
+		{
+			this.speed=this.baseSpeed;
 		}
 		if(this.jumping)
 		{
@@ -1860,7 +1943,7 @@ function entity(croom)
 				{
 					if((this.room.objects[i].x==hurtx) && (this.room.objects[i].y==hurty))
 					{
-						if(this.room.objects[i].swordActivate) 
+						if(this.room.objects[i].swordActivate()) 
 						{
 							this.room.objects[i].activate();
 						}
@@ -1909,7 +1992,7 @@ function entity(croom)
 				{
 					if((this.room.objects[i].x==hurtx) && (this.room.objects[i].y==hurty))
 					{
-						if(this.room.objects[i].swordActivate) 
+						if(this.room.objects[i].swordActivate()) 
 						{
 							this.room.objects[i].activate();
 						}
