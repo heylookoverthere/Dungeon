@@ -337,6 +337,11 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.shaking=false;
+	this.shakingSince=0;
+	this.shakingDur=150;
+	this.shakingRight=true;
+	this.shakeTrack=0;
 	this.baseSpeed=4;
 	this.speed=4;
 	this.team=0;
@@ -503,6 +508,13 @@ function entity(croom)
 		playSound("playerdying");
 		//this.exists=false;
 		this.alive=false;
+	}
+	
+	this.shake=function()
+	{
+		this.shaking=true;
+		this.shakingSince=new Date().getTime();
+		this.shakingRight=true;
 	}
 	
 	this.dive=function()
@@ -1397,7 +1409,7 @@ function entity(croom)
 		{
 			//if((this.deathAniTrack<2) || (this.isPlayer))//hack
 			//{
-				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
+				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
 			//}else
 			//{
 			//	this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
@@ -1405,8 +1417,8 @@ function entity(croom)
 			return;
 		}else if((this.isPlayer) && (this.holding))
 		{
-			this.sprites[4].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
-			this.holding.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-16-this.fallingY*2);
+			this.sprites[4].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+			this.holding.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-16-this.fallingY*2);
 		}else if((this.isPlayer) && (this.swinging))
 		{
 			var knuckx=-48;
@@ -1433,20 +1445,20 @@ function entity(croom)
 			}
 			if((this.dir==0)&&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
-			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
 				{
-					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}else if(this.dir==3)
 				{
-					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
 			}
 		}else if((this.isPlayer) && (this.poking))
@@ -1475,20 +1487,20 @@ function entity(croom)
 			}
 			if((this.dir==0)&&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
-			this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+			this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
 				{
-					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}else if(this.dir==3)
 				{
-					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
 			}
 		}else
@@ -1499,16 +1511,16 @@ function entity(croom)
 				{
 					var jerry=can.globalAlpha;
 					can.globalAlpha=0.75;
-					divesprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+					divesprite.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					can.globalAlpha=jerry; 
 				}else if(this.swimming)
 				{
-					this.swimSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+					this.swimSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 				}else
 				{
 					if((this.has[hasID.Shield]) && (this.dir==0))
 					{
-						this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					}
 					
 				
@@ -1516,24 +1528,24 @@ function entity(croom)
 					{
 							if((this.dir==0) || (this.dir==1))
 							{
-								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset-12,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset-12+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}else
 							{
-								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+								this.actingSprites[this.dir][this.action].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}
 					}else
 					{
-						this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 					}
 					
 					if((this.has[hasID.Shield]) && (this.dir>0))
 					{
 						if(this.dir==3)
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset-5,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset-5+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}else
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					
 					}
@@ -1544,20 +1556,20 @@ function entity(croom)
 			{
 				if(this.fallingY>100)
 				{
-					shadowSprite[0].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
+					shadowSprite[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
 				}else if(this.fallingY>50)
 				{
-					shadowSprite[1].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
+					shadowSprite[1].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
 				}else 
 				{
-					shadowSprite[2].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset);
+					shadowSprite[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
 				}
 			}
 		}
 		
 		if(this.bunnyHead)
 		{
-			bunnyheadsprite[this.dir].draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset-18-this.fallingY*2);
+			bunnyheadsprite[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-18-this.fallingY*2);
 		}
 		
 		if(this.dashing)
@@ -1718,6 +1730,34 @@ function entity(croom)
 				i--;
 			}
 		}
+		if(this.shaking)
+		{
+			var plopl=new Date().getTime();
+			if(plopl-this.shakingSince>this.shakingDur)
+			{
+				this.shaking=false;
+				this.shakeTrack=0;
+			}else
+			{
+				if(this.shakingRight)
+				{
+					this.shakeTrack+=2;
+					if(this.shakeTrack>4)
+					{
+						this.shakingRight=false;
+						this.shakeTrack=0;
+					}
+				}else
+				{
+					this.shakeTrack-=2;
+					if(this.shakeTrack<-4)
+					{
+						this.shakingRight=true;
+						this.shakeTrack=0;
+					}
+				}
+			}
+		}
 		if((this.swimming) || (this.holding))
 		{
 			this.dashing=false;
@@ -1748,6 +1788,7 @@ function entity(croom)
 					this.reallyDashing=false;
 					//bounce back? 
 					playSound("rebound");
+					this.shake();
 				}
 				
 			}else
