@@ -3421,8 +3421,6 @@ function mainUpdate()
 				{
 					if((miles.arrows>0) && (miles.bombs>0))
 					{
-						miles.arrows--;
-						miles.removeItem(ObjectID.Bow,1);
 						miles.bombs--;
 						miles.removeItem(ObjectID.Bomb,1);
 						if(miles.dir==0)
@@ -3496,6 +3494,24 @@ function mainUpdate()
 						{
 							miles.useItem();
 						}
+					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Bow)
+					{
+						if(controller.checkDownRight())
+						{
+							miles.shootArrow(225);	
+						}else if(controller.checkDownLeft())
+						{
+							miles.shootArrow(315);	
+						}else if(controller.checkUpLeft())
+						{
+							miles.shootArrow(45);	
+						}else if(controller.checkUpRight())
+						{
+							miles.shootArrow(135);	
+						}else
+						{
+							miles.useItem();
+						}
 					}else
 					{
 						miles.useItem();
@@ -3525,6 +3541,24 @@ function mainUpdate()
 						}else
 						{
 							miles.useItem(true);
+						}
+					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Bow)
+					{
+						if(controller.checkDownRight())
+						{
+							miles.shootArrow(225);	
+						}else if(controller.checkDownLeft())
+						{
+							miles.shootArrow(315);	
+						}else if(controller.checkUpLeft())
+						{
+							miles.shootArrow(45);	
+						}else if(controller.checkUpRight())
+						{
+							miles.shootArrow(135);	
+						}else
+						{
+							miles.useItem();
 						}
 					}else
 					{

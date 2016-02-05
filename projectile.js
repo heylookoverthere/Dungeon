@@ -1,6 +1,8 @@
 var ProjTypes={}
 ProjTypes.Arrow=0;
 ProjTypes.Boomarang=1;
+ProjTypes.MagicBoomarang=2;
+ProjTypes.SwordBeam=3;
 
 var xOffset = 150;
 var yOffset= 150;
@@ -8,6 +10,9 @@ var yOffset= 150;
 var arrowsprite=Sprite("arrow");
 var silverarrowsprite=Sprite("silverarrow");
 
+var swordbeamsprite1=Sprite("swordbeam1");
+var swordbeamsprite2=Sprite("swordbeam2");
+var swordbeamsprite3=Sprite("swordbeam3");
 
 var boomarangsprite1=Sprite("boomarang");
 var boomarangsprite2=Sprite("boomarang1");
@@ -49,23 +54,34 @@ projectile.prototype.setup=function(type)
 {
 	this.type=type;
 	this.startTime=new Date().getTime();
-	if(this.type==0)
+	if(this.type==ProjTypes.Arrow)
 	{
 		if(this.player.has[hasID.SilverArrows])
 		{
 			this.sprites.push(silverarrowsprite);
+			this.damage=20
 		}else
 		{
 			this.sprites.push(arrowsprite);
+			this.damage=10;
 		}
-	}else if(this.type==1)
+	}else if(this.type==ProjTypes.Boomarang)
 	{
 		this.sprites.push(boomarangsprite1);
 		this.sprites.push(boomarangsprite2);
-	}else if(this.type==2)
+		this.damage=5;
+	}else if(this.type==ProjTypes.MagicBoomarang)
 	{
 		this.sprites.push(magicboomarangsprite1);
 		this.sprites.push(magicboomarangsprite2);
+		this.damage=10;
+	}else if(this.type==ProjTypes.SwordBeam)
+	{
+		this.sprites.push(swordbeamsprite1);
+		this.sprites.push(swordbeamsprite2);
+		this.sprites.push(swordbeamsprite3);
+		this.damage=10;
+		this.speed=1;
 	}
 
 }
@@ -73,7 +89,7 @@ projectile.prototype.setup=function(type)
 projectile.prototype.draw=function(can)
 {
 	
-	if(this.type==0)
+	if((this.type==0) || (this.type==ProjTypes.SwordBeam))
 	{
 		can.save();
 		can.translate(this.x+16+xOffset,this.y+16+yOffset);
@@ -214,7 +230,10 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 	{
 		this.aniTrack=0;
 		this.curSprite++;
-		playSound("boomerang");
+		if((this.type==ProjTypes.Boomarang) || (this.type==ProjTypes.MagicBoomarang))
+		{
+			playSound("boomerang");
+		}
 		if(this.curSprite>this.sprites.length-1)
 		{
 			this.curSprite=0;

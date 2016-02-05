@@ -982,8 +982,8 @@ function entity(croom)
 		{
 			if(this.arrows>0)
 			{
-				this.arrows--;
-				this.removeItem(ObjectID.Bow,1);
+				//this.arrows--;
+				//this.removeItem(ObjectID.Bow,1);
 				if(this.dir==0)
 				{
 					this.shootArrow(90);
@@ -1216,6 +1216,8 @@ function entity(croom)
 	
 	this.shootArrowAt=function(targ)
 	{
+		this.arrows--;
+		this.removeItem(ObjectID.Bow,1);
 		var beta=Math.atan2(this.targ.y-this.y,this.targ.x-this.x)* (180 / Math.PI);
 			if (beta < 0.0)
 				beta += 360.0;
@@ -1226,6 +1228,8 @@ function entity(croom)
 	
 	this.shootArrow=function(ang,bmb)
 	{
+		this.arrows--;
+		this.removeItem(ObjectID.Bow,1);
 		playSound("shoot");
 	
 		this.acting=true;
@@ -1245,11 +1249,65 @@ function entity(croom)
 		{
 			poot.y+=28;
 		}
+		if(ang==225)
+		{
+			poot.x+=32;
+		}
+		if(ang==315)
+		{
+			poot.x+=32;
+			poot.y+=32;
+		}
 		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
 		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
 		poot.setup(0);
 		this.projectiles.push(poot);
 	}
+	
+	this.shootBeam=function()
+	{
+		if(this.dir==0)
+		{
+			ang=90;
+		}else if(this.dir==1)
+		{
+			ang=180;
+		}else if(this.dir==2)
+		{
+			ang=270;
+		}else if(this.dir==3)
+		{
+			ang=0;
+		}
+		//playSound("shoot");
+		console.log("shooting");
+		var poot=new projectile(this);
+		poot.exists=true; 
+		poot.angle=ang;
+
+		if(ang==270) //hack
+		{
+			poot.x+=32;
+		}
+		if(ang==0)
+		{
+			poot.y+=28;
+		}
+		if(ang==225)
+		{
+			poot.x+=32;
+		}
+		if(ang==315)
+		{
+			poot.x+=32;
+			poot.y+=32;
+		}
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(ProjTypes.SwordBeam);
+		this.projectiles.push(poot);
+	}
+	
 	this.draw=function(can)
 	{
 		for(var i=0;i<this.projectiles.length;i++)
@@ -1645,6 +1703,10 @@ function entity(croom)
 //				console.log("swinging");
 				this.swingcount=0;
 				this.swingtrack++;
+				if((this.swingtrack==4) && (this.has[hasID.MasterSword]) && (this.hp==this.maxHp))
+				{
+					this.shootBeam();
+				}
 				if (this.swingtrack>7)
 				{
 					this.swingtrack=0;
@@ -2059,7 +2121,7 @@ function entity(croom)
 					//if arrived at player, which we'll assume for now.
 					if((this.textTrack<this.getOffChest) && ($("#dialogBox").length < 1))//(!this.talkBox.exists))
 					{
-						//this.textSaid[this.textTrack]=true; penis
+						//this.textSaid[this.textTrack]=true; 
 						if((!this.partyMember) && (this.autoJoin))
 						{
 							theParty.add(this);
