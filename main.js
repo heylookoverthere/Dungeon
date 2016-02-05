@@ -423,7 +423,7 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 35");
+	bConsoleBox.log("Xbox Version 36");
 	MobileMode=false;
 	Xbox=true;
 	OPTIONS.LightingOn=false;
@@ -3635,7 +3635,7 @@ function mainUpdate()
 				}
 			}
 		}
-	}else if(!editMode)//keyboard
+	}else if((!editMode) && (!Xbox))//keyboard
 	{
 		if ($("#dialogBox").length > 0) 
 		{
