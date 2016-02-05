@@ -1605,7 +1605,7 @@ object.prototype.setup=function(id,par)
 		this.blockArrows=true;
 		this.swordActivate=function(){return true;};
 		this.boomarangActivate=true;
-		this.swordActivate=true;
+		this.swordActivate=function(){return true;};
 		this.cooldown=400;
 		this.activate=function()
 		{
