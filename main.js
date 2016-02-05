@@ -3448,6 +3448,7 @@ function mainUpdate()
 					if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Y].check())))
 					{
 						//console.log("y!");
+						
 						miles.useItem();
 						
 					}
@@ -3463,13 +3464,55 @@ function mainUpdate()
 				if(((Xbox) && (controller.pad) && (controller.Xcheck(2))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Y].check())))
 				{
 					//console.log("y!");
-					miles.useItem();
+					if(miles.inventory[miles.equippedTrack].type==ObjectID.Boomarang)
+					{
+						if(controller.checkDownRight())
+						{
+							miles.tossBoomarang(225);	
+						}else if(controller.checkDownLeft())
+						{
+							miles.tossBoomarang(315);	
+						}else if(controller.checkUpLeft())
+						{
+							miles.tossBoomarang(45);	
+						}else if(controller.checkUpRight())
+						{
+							miles.tossBoomarang(135);	
+						}else
+						{
+							miles.useItem();
+						}
+					}else
+					{
+						miles.useItem();
+					}
 					
 				}
 				if(((Xbox) && (controller.pad) && (controller.Xcheck(3))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.X].check())))
 				{
 					//console.log("x!");
-					miles.useItem(true);
+					if(miles.inventory[miles.equippedTrack2].type==ObjectID.Boomarang)
+					{
+						if(controller.checkDownRight())
+						{
+							miles.tossBoomarang(225);	
+						}else if(controller.checkDownLeft())
+						{
+							miles.tossBoomarang(315);	
+						}else if(controller.checkUpLeft())
+						{
+							miles.tossBoomarang(45);	
+						}else if(controller.checkUpRight())
+						{
+							miles.tossBoomarang(135);	
+						}else
+						{
+							miles.useItem(true);
+						}
+					}else
+					{
+						miles.useItem(true);
+					}
 		
 				}
 			}
