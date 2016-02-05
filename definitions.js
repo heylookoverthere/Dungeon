@@ -23,6 +23,13 @@ var xboxxsprite=Sprite("xboxx");
 var xboxysprite=Sprite("xboxy");
 var xboxasprite=Sprite("xboxa");
 var xboxbsprite=Sprite("xboxb");
+var	xboxlbsprite=Sprite("xboxlb");
+var	xboxrbsprite=Sprite("xboxrb");
+var	xboxltsprite=Sprite("xboxlt");
+var	xboxrtsprite=Sprite("xboxrt");
+var	xboxlcsprite=Sprite("xboxlc");
+var	xboxrcsprite=Sprite("xboxrc");
+var	xboxdpadupsprite=Sprite("xboxdpadup");
 
 var SNESKey={}
 SNESKey.A=1;
