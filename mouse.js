@@ -305,6 +305,7 @@ function mouseClick(e) {  //represents the mouse
 		if((mX<160) || (mX>558))
 		{
 			mode=1;
+			playSound("unpause");
 			return;
 		}
 	}else if(mode==3)
@@ -788,8 +789,9 @@ function mouseClick(e) {  //represents the mouse
 		{
 		
 		} 
-		if((mX>812) && (mY>80) && (mX<844) && (mY<112))
+		if((mX>812) && (mY>80) && (mX<884) && (mY<112))//todo
 		{
+			playSound("pause");
 			mode=4;
 			return;
 		

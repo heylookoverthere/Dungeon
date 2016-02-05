@@ -1266,6 +1266,7 @@ function entity(croom)
 	
 	this.shootBeam=function()
 	{
+		playSound("swordbeam");
 		if(this.dir==0)
 		{
 			ang=90;

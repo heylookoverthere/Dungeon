@@ -1780,10 +1780,12 @@ function inventoryUpdate()
 	if((escapekey.check()))
 	{
 		mode=1;
+		playSound("unpause");
 	}
 	if((inventorykey.check()) || ((Xbox) && (controller.Xcheck(11))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
 	{
 		mode=1;
+		playSound("unpause");
 	}
 	if(miles.has[hasID.Map])
 	{
@@ -2269,6 +2271,7 @@ function mapUpdate()
 	}
 	if((Xbox) && (controller.pad) && (controller.Xcheck(11)) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
 	{
+		playSound("pause");
 		mode=4;
 	}
 	if(upkey.check())
@@ -2302,6 +2305,7 @@ function optionsUpdate()
 	if((escapekey.check()))
 	{
 		mode=1;
+		playSound("unpause");
 	}
 	if(optionskey.check())
 	{
@@ -2684,6 +2688,7 @@ function mainUpdate()
 	}
 	if((inventorykey.check())  ||((Xbox) && (controller.pad) && (controller.Xcheck(11))) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.Start].check())))
 	{
+		playSound("pause");
 		mode=4;
 	}
 	if((editMode) && (savekey.check()))
