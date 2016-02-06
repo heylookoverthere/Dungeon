@@ -652,11 +652,26 @@ function room(I) { //room object
 		if((I.tiles[x][y].data==TileType.Ocean)) {return true;}
 		if(true)//(b.navigateRivers)
 		{
-			if((I.tiles[x][y].data==TileType.Water)) {return true;}
+			if((I.tiles[x][y].data==TileType.Ocean)) {return true;}
 		}
 		return false;
 	}
-	
+	I.jumpable=function(x,y,aPlayer){
+		if(I,tiles[x][y].data==DungeonTileType.Ocean)
+		{
+			return true;
+		}
+		if(I,tiles[x][y].data==DungeonTileType.Lava)
+		{
+			return true;
+		}
+		if(I,tiles[x][y].data==DungeonTileType.Hole)
+		{
+			return true;
+		}
+		return I.walkable(x,y,false,aPlayer);
+		//basically if hole or water or lava return true? 
+	}
 	I.walkable=function(x,y,avoidHoles,aPlayer){
 		/*if((aplayer) && (aplayer.has[hasID.Feather]))
 		{
@@ -691,7 +706,7 @@ function room(I) { //room object
 			return false;
 		}else
 		{*/
-		if((aPlayer.canSwim) && ((I.tiles[x][y].data>19) && (I.tiles[x][y].data<24)))
+		if(((aPlayer.canSwim)||(aPlayer.jumping)) && ((I.tiles[x][y].data>19) && (I.tiles[x][y].data<24)))
 		{
 			return true;
 		}

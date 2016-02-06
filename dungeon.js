@@ -135,8 +135,8 @@ function dungeon(path)
 					}
 				}else
 				{
-					bConsoleBox.log("No open door!");
-					playSound("error");
+					//bConsoleBox.log("No open door!");
+					//playSound("error");
 				}
 			}else
 			{
@@ -202,8 +202,8 @@ function dungeon(path)
 					}
 				}else
 				{
-					bConsoleBox.log("No open door!");
-					playSound("error");
+					//bConsoleBox.log("No open door!");
+					//playSound("error");
 				}
 			}else
 			{
@@ -270,8 +270,8 @@ function dungeon(path)
 					}
 				}else
 				{
-					bConsoleBox.log("No open door!");
-					playSound("error");
+					//bConsoleBox.log("No open door!");
+					//playSound("error");
 				}
 			}else
 			{
@@ -340,8 +340,8 @@ function dungeon(path)
 					}
 				}else
 				{
-					bConsoleBox.log("No open door!");
-					playSound("error");
+					//bConsoleBox.log("No open door!");
+					//playSound("error");
 				}
 			}else
 			{

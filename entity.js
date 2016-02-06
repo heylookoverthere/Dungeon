@@ -2298,7 +2298,11 @@ function entity(croom)
 				//this.room=curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY];
 			}else if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 			{
-				this.swimming=true;
+				if(!this.jumping)
+				{
+					this.swimming=true;
+				
+				}
 			}
 		}
 		
