@@ -60,9 +60,9 @@ function bomb(croom,isSuper)
 		this.exists=false;
 		if(this.isSuper)
 		{
-			for (var n=this.x-2;n<this.x+3;n++)
+			for (var n=this.x-3;n<this.x+3;n++)
 			{
-				for (var m=this.y-2;m<this.y+3;m++)
+				for (var m=this.y-3;m<this.y+3;m++)
 				{
 					//particles, sprites, trigger switches, destroy walls and cracked floors
 					if((n<this.x+2) && (m<this.y+2))
