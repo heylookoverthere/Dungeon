@@ -440,7 +440,7 @@ bConsoleBox.y=18;
 bConsoleBox.x=18;
 bConsoleBox.lines=4;
 
-var dungname="dungeon1";
+var dungname="tutorial";
 
 
 
@@ -2208,11 +2208,11 @@ function startGame(goolp,ploop)
 		//curDungeon.addFloor();
 	}else if(!ploop)
 	{
-		pungname=prompt("Enter name of dungeon to load","asword");
+		pungname=prompt("Enter name of dungeon to load","tutorial");
 		if(pungname==null) {return;}
 		while (!acceptableName(pungname,true)) //doesn't exist
 		{
-			pungname=prompt("No dungeon called "+pungname,"dungeon1");
+			pungname=prompt("No dungeon called "+pungname,"tutorial");
 			if(pungname==null) {return;}
 		}
 		curDungeon.name=pungname;
@@ -2330,7 +2330,7 @@ function mainMenuUpdate()
 					bConsoleBox.log(i+":"+controller.buttons[i].key);
 					if((!isLoading) && ((i==11) || (i==0)))
 					{
-						startGame(true,"asword");	
+						startGame(true,"tutorial");	
 						actuallyStartGame(); //yeah. what. 
 					}
 				}
