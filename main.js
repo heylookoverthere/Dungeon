@@ -3387,8 +3387,32 @@ function mainUpdate()
 					bConsoleBox.log("Can't go off the map");
 				}
 			}
-		}else
+		}else if(editMode)
 		{
+			if(leftkey.check())
+			{
+				editor.clearConfirm();
+				editor.penDown=false;
+				curDungeon.changeRoom(3,!editMode);
+			}
+			if(rightkey.check())
+			{
+				editor.clearConfirm();
+				editor.penDown=false;
+				curDungeon.changeRoom(1,!editMode);
+			}
+			if(upkey.check())
+			{
+				editor.clearConfirm();
+				editor.penDown=false;
+				curDungeon.changeRoom(0,!editMode);
+			}
+			if(downkey.check())
+			{
+				editor.clearConfirm();
+				editor.penDown=false;
+				curDungeon.changeRoom(2,!editMode);
+			}
 			if(letterkeys[22].check())
 			{
 				editor.move(0);
