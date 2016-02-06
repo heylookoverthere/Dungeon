@@ -605,6 +605,7 @@ function entity(croom)
 	{
 		if(secondary)
 		{
+			//PROBLEM> 
 			return this.inventory[this.equippedTrack2].type;
 		}
 		return this.inventory[this.equippedTrack].type;//==ObjectID.Bomb
@@ -1774,6 +1775,12 @@ function entity(croom)
 		{
 			this.dashing=false;
 			this.reallyDashing=false;
+			if((this.swimming) && (!this.has[hasID.Flippers]))
+			{
+				this.hurt(20);
+				this.x=this.enteredX;
+				this.y=this.enteredY;
+			}
 		}
 		if(this.dashing)
 		{
@@ -2263,7 +2270,7 @@ function entity(croom)
 					{
 						this.fallingY=0;
 						bConsoleBox.log("no room below");
-						console.log(this.enteredX,this.enteredY);
+						//console.log(this.enteredX,this.enteredY);
 						this.hurt(20);
 						this.x=this.enteredX;
 						this.y=this.enteredY;
