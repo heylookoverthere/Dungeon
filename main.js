@@ -13,6 +13,8 @@ document.getElementById("mainSong").addEventListener('ended', function() { //loo
 	this.play();
     }, false);
 
+
+	
 if(checkMobile())
 {
 	MobileMode=true;
@@ -1975,7 +1977,7 @@ function controlsUpdate()
 		playSound("unpause");
 	}
 
-	if((controlskey.check()) || ((Xbox) && (controller.Xcheck(15))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
+	if(((!Xbox) && (controlskey.check())) || ((Xbox) && (controller.Xcheck(13))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
 	{
 		mode=1;
 		playSound("unpause");
@@ -2807,7 +2809,7 @@ function mainUpdate()
 	{
 	 //todo, button for this?
 	}
-	if(controlskey.check())
+	if(((Xbox) && (controller.pad) && (controller.Xcheck(13))) || ((!Xbox) &&(controlskey.check())))
 	{
 		playSound("pause");
 		mode=5;
