@@ -2233,6 +2233,8 @@ function entity(croom)
 				//Do better drawing?
 				this.falling=true;
 				this.fallingY=150;
+				this.dashing=false;
+				this.reallyDashing=false;
 				this.xSmall=0;
 				this.ySmall=0;
 				if(this.isPlayer)

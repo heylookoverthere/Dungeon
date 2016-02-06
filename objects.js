@@ -448,7 +448,7 @@ object.prototype.setup=function(id,par)
 		//this.loot=0;
 		this.playerActivate=function(){
 			if(this.curSprite==1) {return;}
-			if(this.hidden) {return;}
+			if((this.hidden) &&(!miles.has[hasID.Lens])) {return;}
 			playSound("chestopen");
 			playSound("itemfanfare");
 			
