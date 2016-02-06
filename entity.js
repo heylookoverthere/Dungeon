@@ -972,8 +972,20 @@ function entity(croom)
 		
 		var spotX=this.x;
 		var spotY=this.y;
-		
-		if((spotX<0) || (spotY<0) || (spotX>ROOM_WIDTH-2)|| (spotY>ROOM_HEIGHT-2)|| (this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
+		if(this.dir==0)
+		{
+			spotY--;
+		}else if(this.dir==1)
+		{
+			spotX++;
+		}else if(this.dir==2)
+		{
+			spotY++;
+		}else if(this.dir==3)
+		{
+			spotX--;
+		}
+		if((spotX<2) || (spotY<2) || (spotX>ROOM_WIDTH-3)|| (spotY>ROOM_HEIGHT-3)|| (this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
 		{
 			playSound("error");
 			return false;
