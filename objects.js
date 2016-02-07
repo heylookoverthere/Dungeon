@@ -783,9 +783,10 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("key");
 			this.exists=false;
-			bConsoleBox.log("Aquired a key!");
+			bConsoleBox.log("Acquired a key!");
 			//miles.holding=this.sprites[0];
 			miles.keys++;
 		}
@@ -800,6 +801,7 @@ object.prototype.setup=function(id,par)
 		this.usable=false;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			bConsoleBox.log("You found a bigger wallet!");
 			btext="You found a bigger wallet!";
 			this.exists=false;
@@ -820,6 +822,7 @@ object.prototype.setup=function(id,par)
 		this.usable=false;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a bigger quiver!");
 			btext="You found a bigger quiver!";
@@ -838,6 +841,7 @@ object.prototype.setup=function(id,par)
 		this.usable=false;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a bigger bomb bag!");
 			btext="You found a bigger bomb bag!";
@@ -856,6 +860,7 @@ object.prototype.setup=function(id,par)
 		this.usable=false;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a map of this dungeon! hit G to use it");
 			btext="You found a map of this dungeon! hit G to use it"
@@ -874,6 +879,7 @@ object.prototype.setup=function(id,par)
 		this.usable=false;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a compass! It will eventually reveal the location of things.");
 			btext="You found the compass"
@@ -892,6 +898,7 @@ object.prototype.setup=function(id,par)
 		this.usable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			miles.has[hasID.Poo]=true;
 			//miles.inventory.push(this);
@@ -2523,6 +2530,8 @@ object.prototype.stringify=function()
 	tempstring+=this.type;
 	tempstring+=";";
 	tempstring+=this.hidden;
+	tempstring+=";";
+	tempstring+=this.buried;
 	if(this.type==ObjectID.Sign)
 	{
 		tempstring+=";";

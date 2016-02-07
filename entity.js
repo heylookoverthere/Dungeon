@@ -994,7 +994,7 @@ function entity(croom)
 		{
 			spotX--;
 		}
-		if((spotX<2) || (spotY<2) || (spotX>ROOM_WIDTH-3)|| (spotY>ROOM_HEIGHT-3)|| (this.room.tiles[spotX][spotY].dug) || (!this.room.digable(this.x,this.y)))//TODO: check for digability.
+		if((spotX<2) || (spotY<2) || (spotX>ROOM_WIDTH-3)|| (spotY>ROOM_HEIGHT-3)|| (this.room.tiles[spotX][spotY].dug) || (!this.room.digable(spotX,spotY,this)))//TODO: check for digability.
 		{
 			playSound("error");
 			return false;
@@ -1002,9 +1002,10 @@ function entity(croom)
 		{
 			playSound("shovel")
 			this.room.tiles[spotX][spotY].dug=true;
-			if(false)//specifically buried loot somehow
+			var glen=this.room.buriedLoot(spotX,spotY);
+			if(glen)
 			{
-				
+				glen.buried=false;
 			}else if(Math.random()*10>4)
 			{
 				var bmoke=3;

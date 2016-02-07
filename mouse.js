@@ -614,7 +614,7 @@ function mouseClick(e) {  //represents the mouse
 			
 				if(editor.mode==editModes.BuriedObjects)
 				{
-					if(!curDungeon.curRoom().digable(editor.x,editor.y))
+					if(!curDungeon.curRoom().digable(editor.x,editor.y,miles))
 					{
 						bConsoleBox.log("Ground is not digable","yellow");
 						return;
