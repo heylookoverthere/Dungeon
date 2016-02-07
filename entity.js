@@ -25,7 +25,7 @@ for(var i=0;i<4;i++)
 	}
 }
 masterPokeSprites=new Array()
-masterPokeSprites.push(Sprite("masterswordswing04"));
+masterPokeSprites.push(Sprite("masterpoke0"));
 masterPokeSprites.push(Sprite("masterpoke1"));
 masterPokeSprites.push(Sprite("masterpoke2"));
 masterPokeSprites.push(Sprite("masterpoke3"));
@@ -399,7 +399,7 @@ function entity(croom)
 	this.swingtrack=0;
 	this.swingcount=0;
 	this.pokeSprites=new Array()
-	this.pokeSprites.push(Sprite("swordswing04"));
+	this.pokeSprites.push(Sprite("poke0"));
 	this.pokeSprites.push(Sprite("poke1"));
 	this.pokeSprites.push(Sprite("poke2"));
 	this.pokeSprites.push(Sprite("poke3"));
@@ -1542,9 +1542,34 @@ function entity(croom)
 			{
 				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
-			this.walkSprites[this.dir][this.walkTrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+44);
+			
+			if((this.animated) && (this.stepping))
+			{
+				if((this.dir==2) || (this.dir==1))
+				{
+					this.walkSprites[this.dir][this.walkTrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+46);
+					this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+				
+				}else
+				{
+					this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+					this.walkSprites[this.dir][this.walkTrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+46);
+				}
+				
+			}else
+			{	
+				if((this.dir==2) || (this.dir==1))
+				{
+					this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+49);
+					this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+				}else
+				{
+					this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+					this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+49);
+				}
+			}
 			//somehow only draw section of sprite. 
-			this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
+	
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
