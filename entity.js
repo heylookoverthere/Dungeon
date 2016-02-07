@@ -1112,6 +1112,7 @@ function entity(croom)
 		}else if(this.getEquipped(secondary)==ObjectID.Mirror)
 		{
 			playSound("warp");
+			this.busyrang=false;
 			curDungeon.roomZ=curDungeon.startFloor;
 			curDungeon.roomX=curDungeon.startX;
 			curDungeon.roomY=curDungeon.startY;
@@ -1745,6 +1746,13 @@ function entity(croom)
 		for(var i=0;i<this.projectiles.length;i++)
 		{
 			this.projectiles[i].update();
+			if((this.projectiles[i].type==ProjTypes.Boomarang) || (this.projectiles[i].type==ProjTypes.MagicBoomarang))
+			{
+				if(!this.busyrang)
+				{
+					this.projectiles[i].exists=false;
+				}
+			}
 			if(!this.projectiles[i].exists)
 			{
 				this.projectiles.splice(i,1);
