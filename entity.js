@@ -403,6 +403,15 @@ function entity(croom)
 	this.pokeSprites.push(Sprite("poke1"));
 	this.pokeSprites.push(Sprite("poke2"));
 	this.pokeSprites.push(Sprite("poke3"));
+	this.animated=false;
+	this.walkTrack=0;
+	this.walkFrames=1;
+	this.walkSprites=new Array();
+	this.walkSprites.push(new Array());
+	this.walkSprites.push(new Array());
+	this.walkSprites.push(new Array());
+	this.walkSprites.push(new Array());
+	
 	this.swingSprites=new Array();
 	this.swingSprites.push(new Array());
 	this.swingSprites.push(new Array());

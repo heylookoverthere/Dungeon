@@ -64,6 +64,8 @@ objectName[208]="Keyhole brick";
 objectName[209]="Rock";
 objectName[210]="Crystal";
 objectName[211]="Crystal2";
+objectName[212]="Rock2";
+objectName[213]="Rock2 Cracked";
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -147,6 +149,8 @@ ObjectID.KeyBrick=208;
 ObjectID.Rock=209;
 ObjectID.Crystal=210;
 ObjectID.Crystal2=211;
+ObjectID.Rock2=212;
+ObjectID.Rock2cracked=213;
 
 //pickups
 ObjectID.Key=300;
@@ -225,7 +229,7 @@ function object(oroom) //not a tile, not an enemy
 		{
 			return true;
 		}
-		if((this.type==ObjectID.BlueBlocker) || (this.type==ObjectID.RedBlocker)|| (this.type==ObjectID.Peg) ||(this.type==ObjectID.Bush)||(this.type==ObjectID.Rock))
+		if((this.type==ObjectID.BlueBlocker) || (this.type==ObjectID.RedBlocker)|| (this.type==ObjectID.Peg) ||(this.type==ObjectID.Bush)||(this.type==ObjectID.Rock)||(this.type==ObjectID.Curtains))
 		{
 			if(!this.on) {
 				return true;
@@ -1238,6 +1242,128 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Rock2) {
+		this.sprites=new Array();
+		this.bombable=false;//true;
+		this.on=true;
+		this.sprites.push(Sprite("rock2"));
+		this.sprites.push(Sprite("shatter0"));
+		this.sprites.push(Sprite("shatter1"));
+		this.sprites.push(Sprite("shatter2"));
+		this.sprites.push(Sprite("shatter3"));
+		this.sprites.push(Sprite("shatter4"));
+		this.sprites.push(Sprite("shatter5"));
+		this.sprites.push(Sprite("shatter6"));
+		this.sprites.push(Sprite("shatter7"));
+		this.name="rock";
+		this.activate=function()
+		{
+			if(false)//!miles.has[hasID.Glove]) //need glvoes
+			{
+				if(OPTIONS.SafeMode)
+				{
+					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
+				}else
+				{
+					bConsoleBox.log("No glove no love!", "yellow"); 
+					playSound("error");
+				}
+				return false;
+			} 
+			if(this.on)
+			{
+				playSound("shatter");
+				this.curSprite=1;
+				this.aniRate=3;
+				this.on=false;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=500+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=function(){};
+	}else if (this.type==ObjectID.Rock2Cracked) {
+		this.sprites=new Array();
+		this.bombable=true;
+		this.on=true;
+		this.sprites.push(Sprite("rock"));
+		this.sprites.push(Sprite("shatter0"));
+		this.sprites.push(Sprite("shatter1"));
+		this.sprites.push(Sprite("shatter2"));
+		this.sprites.push(Sprite("shatter3"));
+		this.sprites.push(Sprite("shatter4"));
+		this.sprites.push(Sprite("shatter5"));
+		this.sprites.push(Sprite("shatter6"));
+		this.sprites.push(Sprite("shatter7"));
+		this.name="cracked rock";
+		this.activate=function()
+		{
+			if(false)// !miles.has[hasID.Glove]) //need glvoes
+			{
+				if(OPTIONS.SafeMode)
+				{
+					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
+				}else
+				{
+					bConsoleBox.log("No glove no love!", "yellow"); 
+					playSound("error");
+				}
+				return false;
+			} 
+			if(this.on)
+			{
+				playSound("shatter");
+				this.curSprite=1;
+				this.aniRate=3;
+				this.on=false;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=500+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=function(){};
 	}else if (this.type==ObjectID.Bush) {
 		this.sprites=new Array();
 		this.bombable=true;
@@ -1298,7 +1424,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.curSprite=1;
 		this.on=true;
-		this.alwaysWalkable=true;
+		this.alwaysWalkable=true;//false;
 //		console.log(this.x,this.y);
 		if(this.y==1)
 		{

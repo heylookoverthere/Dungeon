@@ -301,9 +301,12 @@ objectSprites[208]=Sprite("keybrick");
 objectSprites[209]=Sprite("rock");
 objectSprites[210]=Sprite("crystal");
 objectSprites[211]=Sprite("crystal2");
+objectSprites[212]=Sprite("rock2");
+objectSprites[213]=Sprite("rock2cracked");
 //pickups
 objectSprites[300]=Sprite("key");
 objectSprites[301]=Sprite("triforce");
+
 
 //upgrades
 objectSprites[400]=Sprite("bombbag");
@@ -367,6 +370,7 @@ OPTIONS.DropsPersist=false;
 OPTIONS.FriendlyFire=true; 
 OPTIONS.TouchableOrbs=true;
 OPTIONS.OverLog=false; 
+OPTIONS.MouseControls=false;
 var editHistory=[];
 
 //var snake=0;

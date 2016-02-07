@@ -1080,6 +1080,39 @@ var saveaskey=new akey("u");
 var miles= new entity();
 miles.isPlayer=true;
 miles.walkSpeed=6;
+miles.animated=true;
+miles.walkTrack=0;
+miles.walkFrames=7;
+miles.walkSprites[0].push("linkup1");
+miles.walkSprites[0].push("linkup2");
+miles.walkSprites[0].push("linkup3");
+miles.walkSprites[0].push("linkup4");
+miles.walkSprites[0].push("linkup5");
+miles.walkSprites[0].push("linkup6");
+miles.walkSprites[0].push("linkup7");
+miles.walkSprites[1].push("linkright1");
+miles.walkSprites[1].push("linkright2");
+miles.walkSprites[1].push("linkright3");
+miles.walkSprites[1].push("linkright4");
+miles.walkSprites[1].push("linkright5");
+miles.walkSprites[1].push("linkrightp6");
+miles.walkSprites[1].push("linkright7");
+
+miles.walkSprites[2].push("linkdown1");
+miles.walkSprites[2].push("linkdown2");
+miles.walkSprites[2].push("linkdown3");
+miles.walkSprites[2].push("linkdown4");
+miles.walkSprites[2].push("linkdown5");
+miles.walkSprites[2].push("linkdown6");
+miles.walkSprites[2].push("linkdown7");
+
+miles.walkSprites[3].push("linkleft1");
+miles.walkSprites[3].push("linkleft2");
+miles.walkSprites[3].push("linkleft3");
+miles.walkSprites[3].push("linkleft4");
+miles.walkSprites[3].push("linkleft5");
+miles.walkSprites[3].push("linkleftp6");
+miles.walkSprites[3].push("linkleft7");
 miles.sprites=new Array();
 miles.sprites.push(Sprite("linkup"));
 miles.sprites.push(Sprite("linkright"));
@@ -2537,7 +2570,7 @@ function optionsDraw() {
 	canvas.fillText("12) Mirror breaks on use: "+OPTIONS.MirrorBreaks,xFset+15,yFset+350-6);
 	canvas.fillText("13) Drops persist: "+OPTIONS.DropsPersist,xFset+15,yFset+375-6);
 	canvas.fillText("14) Friendly Fire: "+OPTIONS.FriendlyFire,xFset+15,yFset+400-6);
-	canvas.fillText("15) Orbs activate on touch: "+OPTIONS.TouchableOrbs,xFset+15,yFset+425-6);
+	canvas.fillText("15) Point n' click controls: "+OPTIONS.MouseControls,xFset+15,yFset+425-6);
 	//canvas.fillText("14) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+400-6);
 
 
