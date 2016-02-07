@@ -1542,6 +1542,8 @@ function entity(croom)
 			{
 				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}
+			this.walkSprites[this.dir][this.walkTrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack+48,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky+44);
+			//somehow only draw section of sprite. 
 			this.pokeSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
 			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
 			{
