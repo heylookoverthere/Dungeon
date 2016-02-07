@@ -406,6 +406,9 @@ function entity(croom)
 	this.animated=false;
 	this.walkTrack=0;
 	this.walkFrames=1;
+	this.stepping=false;
+	this.walkAni=0;
+	this.walkAniRate=5;
 	this.walkSprites=new Array();
 	this.walkSprites.push(new Array());
 	this.walkSprites.push(new Array());
@@ -1431,6 +1434,20 @@ function entity(croom)
 		this.projectiles.push(poot);
 	}
 	
+	this.walkAnimate=function()
+	{
+		this.walkAni++;
+		if(this.walkAni>this.walkAniRate)
+		{
+			this.walkAni=0;
+			this.walkTrack++;
+			if(this.walkTrack>this.walkFrames-1)
+			{
+				this.walkTrack=0;
+			}
+		}
+	}
+	
 	this.draw=function(can)
 	{
 		for(var i=0;i<this.projectiles.length;i++)
@@ -1449,6 +1466,7 @@ function entity(croom)
 			return;
 		}else if((this.isPlayer) && (this.holding))
 		{
+			
 			this.sprites[4].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 			this.holding.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-16-this.fallingY*2);
 		}else if((this.isPlayer) && (this.swinging))
@@ -1567,7 +1585,13 @@ function entity(croom)
 							}
 					}else
 					{
-						this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						if((this.animated) && (this.stepping))
+						{
+							this.walkSprites[this.dir][this.walkTrack].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						}else
+						{
+							this.sprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						}
 					}
 					
 					if((this.has[hasID.Shield]) && (this.dir>0))

@@ -150,7 +150,7 @@ ObjectID.Rock=209;
 ObjectID.Crystal=210;
 ObjectID.Crystal2=211;
 ObjectID.Rock2=212;
-ObjectID.Rock2cracked=213;
+ObjectID.Rock2Cracked=213;
 
 //pickups
 ObjectID.Key=300;
@@ -1185,6 +1185,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.blockArrows=true;
 		this.sprites.push(Sprite("rock"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1246,6 +1247,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.blockArrows=true;
 		this.sprites.push(Sprite("rock2"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1307,7 +1309,8 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=true;
 		this.on=true;
-		this.sprites.push(Sprite("rock"));
+		this.blockArrows=true;
+		this.sprites.push(Sprite("rock2cracked"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
 		this.sprites.push(Sprite("shatter2"));
@@ -2527,7 +2530,7 @@ object.prototype.update=function()
 			//console.log(this.curTopSprite);
 		}
 	}
-	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock))&&(this.curSprite>0))
+	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock)||(this.type==ObjectID.Rock2Cracked))&&(this.curSprite>0))
 	{
 		this.ani++;
 		if(this.ani>this.aniRate)

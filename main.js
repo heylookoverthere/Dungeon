@@ -1083,36 +1083,36 @@ miles.walkSpeed=6;
 miles.animated=true;
 miles.walkTrack=0;
 miles.walkFrames=7;
-miles.walkSprites[0].push("linkup1");
-miles.walkSprites[0].push("linkup2");
-miles.walkSprites[0].push("linkup3");
-miles.walkSprites[0].push("linkup4");
-miles.walkSprites[0].push("linkup5");
-miles.walkSprites[0].push("linkup6");
-miles.walkSprites[0].push("linkup7");
-miles.walkSprites[1].push("linkright1");
-miles.walkSprites[1].push("linkright2");
-miles.walkSprites[1].push("linkright3");
-miles.walkSprites[1].push("linkright4");
-miles.walkSprites[1].push("linkright5");
-miles.walkSprites[1].push("linkrightp6");
-miles.walkSprites[1].push("linkright7");
+miles.walkSprites[0].push(Sprite("linkup1"));
+miles.walkSprites[0].push(Sprite("linkup2"));
+miles.walkSprites[0].push(Sprite("linkup3"));
+miles.walkSprites[0].push(Sprite("linkup4"));
+miles.walkSprites[0].push(Sprite("linkup5"));
+miles.walkSprites[0].push(Sprite("linkup6"));
+miles.walkSprites[0].push(Sprite("linkup7"));
+miles.walkSprites[1].push(Sprite("linkright1"));
+miles.walkSprites[1].push(Sprite("linkright2"));
+miles.walkSprites[1].push(Sprite("linkright3"));
+miles.walkSprites[1].push(Sprite("linkright4"));
+miles.walkSprites[1].push(Sprite("linkright5"));
+miles.walkSprites[1].push(Sprite("linkright6"));
+miles.walkSprites[1].push(Sprite("linkright7"));
 
-miles.walkSprites[2].push("linkdown1");
-miles.walkSprites[2].push("linkdown2");
-miles.walkSprites[2].push("linkdown3");
-miles.walkSprites[2].push("linkdown4");
-miles.walkSprites[2].push("linkdown5");
-miles.walkSprites[2].push("linkdown6");
-miles.walkSprites[2].push("linkdown7");
+miles.walkSprites[2].push(Sprite("linkdown1"));
+miles.walkSprites[2].push(Sprite("linkdown2"));
+miles.walkSprites[2].push(Sprite("linkdown3"));
+miles.walkSprites[2].push(Sprite("linkdown4"));
+miles.walkSprites[2].push(Sprite("linkdown5"));
+miles.walkSprites[2].push(Sprite("linkdown6"));
+miles.walkSprites[2].push(Sprite("linkdown7"));
 
-miles.walkSprites[3].push("linkleft1");
-miles.walkSprites[3].push("linkleft2");
-miles.walkSprites[3].push("linkleft3");
-miles.walkSprites[3].push("linkleft4");
-miles.walkSprites[3].push("linkleft5");
-miles.walkSprites[3].push("linkleftp6");
-miles.walkSprites[3].push("linkleft7");
+miles.walkSprites[3].push(Sprite("linkleft1"));
+miles.walkSprites[3].push(Sprite("linkleft2"));
+miles.walkSprites[3].push(Sprite("linkleft3"));
+miles.walkSprites[3].push(Sprite("linkleft4"));
+miles.walkSprites[3].push(Sprite("linkleft5"));
+miles.walkSprites[3].push(Sprite("linkleft6"));
+miles.walkSprites[3].push(Sprite("linkleft7"));
 miles.sprites=new Array();
 miles.sprites.push(Sprite("linkup"));
 miles.sprites.push(Sprite("linkright"));
@@ -3833,6 +3833,8 @@ function mainUpdate()
 				if(controller.checkUp())
 				{
 					miles.dir=0;
+					miles.walkAnimate();
+					miles.stepping=true;
 					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
 					{
 						miles.incMove();
@@ -3840,6 +3842,8 @@ function mainUpdate()
 				}else if(controller.checkDown())
 				{
 					miles.dir=2;
+					miles.walkAnimate();
+					miles.stepping=true;
 					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
 					{
 						miles.incMove();
@@ -3847,6 +3851,8 @@ function mainUpdate()
 				}else if(controller.checkLeft())
 				{
 					miles.dir=3;
+					miles.walkAnimate();
+					miles.stepping=true;
 					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
 					{
 						miles.incMove();
@@ -3854,10 +3860,16 @@ function mainUpdate()
 				}else if(controller.checkRight())
 				{
 					miles.dir=1;
+					miles.walkAnimate();
+					miles.stepping=true;
 					if(!(((Xbox) && (controller.pad) && (controller.pad.buttons[4].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.L].checkDown()))))
 					{
 						miles.incMove();
 					}
+				}else
+				{
+					miles.stepping=false;
+					miles.walkTrack=0;
 				}
 			}
 		}
@@ -3968,19 +3980,31 @@ function mainUpdate()
 				if(SNESUpKey.checkDown())
 				{
 					miles.dir=0;
+					miles.stepping=true;
+					miles.walkAnimate();
 					miles.incMove();
 				}else if(SNESDownKey.checkDown())
 				{
 					miles.dir=2;
+					miles.stepping=true;
+					miles.walkAnimate();
 					miles.incMove();
 				}else if(SNESLeftKey.checkDown())
 				{
 					miles.dir=3;
+					miles.stepping=true;
+					miles.walkAnimate();
 					miles.incMove();
 				}else if(SNESRightKey.checkDown())
 				{
+					miles.stepping=true;
 					miles.dir=1;
+					miles.walkAnimate();
 					miles.incMove();
+				}else
+				{
+					miles.stepping=false;
+					miles.walkTrack=0;
 				}
 			}
 		
