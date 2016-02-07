@@ -603,6 +603,14 @@ function entity(croom)
 	}
 	this.getEquipped=function(secondary)
 	{
+		if((this.equippedTrack<0) || (this.equippedTrack>this.inventory.length-1))
+		{
+			this.equippedTrack=0;
+		}
+		if((this.equippedTrack2<0) || (this.equippedTrack2>this.inventory.length-1))
+		{
+			this.equippedTrack2=0;
+		}
 		if(secondary)
 		{
 			//PROBLEM> 

@@ -221,7 +221,7 @@ function object(oroom) //not a tile, not an enemy
 		{
 			return true;
 		}
-		if(this.hidden==true)
+		if((this.hidden) && (!miles.has[hasID.Lens]))
 		{
 			return true;
 		}
@@ -712,6 +712,12 @@ object.prototype.setup=function(id,par)
 			miles.holding=this.sprites[0];
 			miles.has[hasID.SilverArrows]=true;
 			this.exists=false;
+			var shinex=new object();
+			shinex.usable=true;
+			shinex.type=ObjectID.Bow;
+			shinex.setup();
+			miles.arrows+=5;
+			miles.giveItem(shinex,5);
 		}
 		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.RedPotion)
@@ -1601,7 +1607,7 @@ object.prototype.setup=function(id,par)
 	    this.name="Red orb";
 		this.bombable=true;
 		this.blockArrows=true;
-		this.swordActivate=function(){return true;};
+		this.arrowsActivate=true;
 		this.boomarangActivate=true;
 		this.swordActivate=function(){return true;};
 		this.cooldown=400;

@@ -425,7 +425,15 @@ if(checkMobile())
 	MobileMode=true;
 }else if(checkXbox())
 {
-	bConsoleBox.log("Xbox Version 36");
+	bConsoleBox.log("Xbox Version");
+	MobileMode=false;
+	Xbox=true;
+	OPTIONS.LightingOn=false;
+	bConsoleBox.numLines=36;
+	milesFree=false;
+}else if(checkPSX())
+{
+	bConsoleBox.log("Playstation 4 Version");
 	MobileMode=false;
 	Xbox=true;
 	OPTIONS.LightingOn=false;
@@ -530,6 +538,21 @@ function checkXbox()
 		return true;
 	  }
 	 else
+	 {
+		return false;
+	  }
+}
+
+function checkPSX()
+ { 
+	 if( navigator.userAgent.match(/Playstation/i))
+	 {
+		return true;
+	  }
+	 else if( navigator.userAgent.match(/Playstation 4/i))
+	 {
+		return true;
+	  }else
 	 {
 		return false;
 	  }
@@ -793,6 +816,9 @@ timy.doThings=function()
 			}else if(editor.mode==editModes.Objects)
 			{
 				blex="Object mode. Click or hit space to place the selected object. Click an existing object to edit it's special properties (if applicable). Right click an object to pick it up and again to put it down in a new location. (Because right click has been re-purposed in this mode, you'll have to use Q to change edit modes.) Delete kill will delete a currently grabbed object."
+			}else if(editor.mode==editModes.BuriedObjects)
+			{
+				blex="Buried object mode. Just like object mode but for burying things."
 			}else if(editor.mode==editModes.CopyArea)
 			{
 				blex="Copy Area mode. I have enabled this yet, so I don't know how you're seeing this message! I'm not sure if this is even a thing that is needed. Maybe make it selection/delete mode instead, and then you can delete what's selected? ";
@@ -1821,8 +1847,10 @@ function inventoryDraw() {
 	var yFset=35;
 	canvas.fillStyle="white";
 	canvas.fillRect(xFset-8,yFset-28,558,754);
+	canvas.fillRect(xFset+556,yFset+128,128,550);
 	canvas.fillStyle="blue";
 	canvas.fillRect(xFset-4,yFset-24,548,744);
+	canvas.fillRect(xFset+560,yFset+132,118,540);
 	canvas.font = "20pt Calibri";
 	canvas.fillStyle="white";
 	canvas.fillText("Inventory ",xFset+200,yFset+20-6);
@@ -2599,6 +2627,8 @@ function mainDraw() {
 			canvas.fillText("Fill mode",18,120);
 		}else if(editor.mode==editModes.Objects){
 			canvas.fillText("Object mode",18,120);
+		}else if(editor.mode==editModes.BuriedObjects){
+			canvas.fillText("Buried object mode",18,120);
 		}else if (editor.mode==editModes.Door)
 		{
 			canvas.fillText("Door Mode",18,120);
@@ -2638,6 +2668,16 @@ function mainDraw() {
 			{
 				console.log("no sprite for "+editor.objectType);
 			}
+		}else if(editor.mode==editModes.BuriedObjects)
+		{
+			canvas.fillText("Selected: ",18,96);
+			if(objectSprites[editor.objectType])
+			{
+				objectSprites[editor.objectType].draw(canvas,110,73);
+			}else
+			{
+				console.log("no sprite for "+editor.objectType);
+			}
 		}else if(editor.mode==editModes.ChestLoot)
 		{
 			canvas.fillText("Selected: ",18,96);
@@ -2665,7 +2705,7 @@ function mainDraw() {
 
 	drawDebug(canvas);
 	
-	curDungeon.drawMiniMap(canvas);//,player
+	
 	if(editMode) 
 	{
 		if(curDungeon.curRoom().active)
@@ -2725,7 +2765,8 @@ function mainDraw() {
 		curDungeon.curRoom().fires[i].draw(canvas,camera);
 	}
 	monsta.draw(canvas,camera);
-	curDungeon.curRoom().darken(canvas,miles.x,miles.y);
+	curDungeon.curRoom().darken(canvas,miles);
+	curDungeon.drawMiniMap(canvas);//,player
 	drawGUI(canvas);
 	for (var h=0;h<buttons.length;h++)
 	{
@@ -2980,7 +3021,7 @@ function mainUpdate()
 			{
 				editor.doorType=0;
 			}
-		}else if(editor.mode==editModes.Objects)
+		}else if((editor.mode==editModes.Objects) || (editor.mode==editModes.BuriedObjects))
 		{
 			editor.cycleObjects();
 		}else
@@ -3177,7 +3218,7 @@ function mainUpdate()
 		
 		if(deletekey.check())
 		{	
-			if(editor.mode==editModes.Objects)
+			if((editor.mode==editModes.Objects) ||(editor.mode==editModes.BuriedObjects))
 			{
 				if(shiftkey.checkDown())
 				{
