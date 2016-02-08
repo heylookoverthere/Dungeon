@@ -1931,13 +1931,13 @@ function entity(croom)
 						{
 							this.lastX=this.x;
 							this.lastY=this.y;
-							curDungeon.changeFloor(true,true);
+							curDungeon.changeFloor(true,true,this);
 							break;
 						}else
 						{
 							this.lastX=this.x;
 							this.lastY=this.y;
-							curDungeon.changeFloor(false,true);
+							curDungeon.changeFloor(false,true,this);
 							break;
 						}
 					}
@@ -2317,7 +2317,18 @@ function entity(croom)
 				}
 			}else if((this.room.isHole(this.x,this.y)) &&(!this.falling) &&(!this.jumping))
 			{
-				
+				if(this.room.tiles[this.x][this.y].data==DungeonTileType.DeathHole)
+				{
+					//this.fallingY=0;
+					this.hurt(20);
+					//this.falling=false;
+					this.x=this.enteredX;
+					this.y=this.enteredY;
+					this.lastX=this.x;
+					this.lastY=this.y;
+					return;
+					//damage and find nearest standable point. 
+				}
 				if(this.isPlayer)
 				{	
 					playSound("fall");
@@ -2342,6 +2353,8 @@ function entity(croom)
 						this.hurt(20);
 						this.x=this.enteredX;
 						this.y=this.enteredY;
+						this.lastX=this.x;
+						this.lastY=this.y;
 						//damage and find nearest standable point. 
 					}else if(!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active)
 					{
@@ -2351,22 +2364,16 @@ function entity(croom)
 						this.hurt(20);
 						this.x=this.enteredX;
 						this.y=this.enteredY;
-					}else if(this.room.tiles[this.x][this.y].data==DungeonTileType.DeathHole)
-					{
-						this.fallingY=0;
-						this.hurt(20);
-						this.falling=false;
-						this.x=this.enteredX;
-						this.y=this.enteredY;
-						//damage and find nearest standable point. 
+						this.lastX=this.x;
+						this.lastY=this.y;
 					}else 
 					{
 						if(this.isPlayer)
 						{
-							curDungeon.roomZ--;
-							this.room=curDungeon.curRoom();
-							this.room.explored=true;
-							this.room.hidden=false;
+								curDungeon.roomZ--;
+								this.room=curDungeon.curRoom();
+								this.room.explored=true;
+								this.room.hidden=false;
 						}else
 						{
 							this.room=curDungeon.rooms[curDungeon.roomZ-1][this.room.x][this.room.y];

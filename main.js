@@ -997,7 +997,7 @@ timy.doThings=function()
 					curDungeon.smartAddStair(editor.x,editor.y,true);
 					editor.clearConfirm();
 					editor.penDown=false;
-					curDungeon.changeFloor(true,!editMode);
+					curDungeon.changeFloor(true,!editMode,miles);
 				}
 			}else
 			{
@@ -1015,7 +1015,7 @@ timy.doThings=function()
 			}
 	}else
 	{
-		curDungeon.changeFloor(true,!editMode);
+		curDungeon.changeFloor(true,!editMode,miles);
 	}
 }
 buttons.push(timy);
@@ -1037,7 +1037,7 @@ timy.doThings=function()
 				curDungeon.smartAddStair(editor.x,editor.y,false);
 				editor.clearConfirm();
 				editor.penDown=false;
-				curDungeon.changeFloor(false,!editMode);
+				curDungeon.changeFloor(false,!editMode,miles);
 			}
 		}else
 		{
@@ -1045,7 +1045,7 @@ timy.doThings=function()
 		}
 	}else
 	{
-		curDungeon.changeFloor(false,!editMode);
+		curDungeon.changeFloor(false,!editMode,miles);
 	}
 }
 buttons.push(timy);
@@ -1563,6 +1563,7 @@ function drawGUI(can)
 			can.fillStyle="white";
 			can.fillText("Nancy: "+nancy.status,508,24);
 			can.fillText("Floor: "+nancy.room.z+" "+"RoomX: "+nancy.room.x+" RoomY: "+nancy.room.y+surd,508,48);
+			
 		}
 		if(!curDungeon.curRoom().lampLighting)
 		{
@@ -1585,9 +1586,9 @@ function drawGUI(can)
 		arrowsprite.draw(can,42,90);
 		can.fillText("x"+miles.arrows,42+24,117);
 		can.globalAlpha=0.75;
-		if(showNancyInfo)
+		if(true)//(showNancyInfo)
 		{
-			var surd="";
+			/*var surd="";
 			if(nancy.going)
 			{
 				surd+=" Going "+nancy.destX+","+nancy.destY;
@@ -1598,7 +1599,15 @@ function drawGUI(can)
 			can.fillRect(504,6,383,60);
 			can.fillStyle="white";
 			can.fillText("Nancy: "+nancy.status,508,24);
-			can.fillText("Floor: "+nancy.room.z+" "+"RoomX: "+nancy.room.x+" RoomY: "+nancy.room.y+surd,508,48);
+			can.fillText("Floor: "+nancy.room.z+" "+"RoomX: "+nancy.room.x+" RoomY: "+nancy.room.y+surd,508,48);*/
+			can.fillStyle="white";
+			can.fillRect(500,2,390,68);
+			can.fillStyle="blue";
+			can.fillRect(504,6,383,60);
+			can.fillStyle="white";
+			can.fillText("Miles pos: "+miles.x+","+miles.y,508,24);
+			can.fillText("Floor: "+miles.room.z+" "+"RoomX: "+miles.room.x+" RoomY: "+miles.room.y,508,48);
+			can.fillText("last: "+miles.lastX+","+miles.lastY+" entered: "+miles.enteredX+","+miles.enteredY,508,64);
 		}
 		can.globalAlpha=1;
 		can.fillStyle="white";
@@ -3351,7 +3360,7 @@ function mainUpdate()
 						curDungeon.smartAddStair(editor.x,editor.y,true);
 						editor.clearConfirm();
 						editor.penDown=false;
-						curDungeon.changeFloor(true,!editMode);
+						curDungeon.changeFloor(true,!editMode,miles);
 					}
 				}else
 				{
@@ -3377,7 +3386,7 @@ function mainUpdate()
 						curDungeon.smartAddStair(editor.x,editor.y,false);
 						editor.clearConfirm();
 						editor.penDown=false;
-						curDungeon.changeFloor(false,!editMode);
+						curDungeon.changeFloor(false,!editMode,miles);
 					}
 				}else
 				{
@@ -4012,13 +4021,13 @@ function mainUpdate()
 	if(pageupkey.check())
 	{
 		editor.clearConfirm();
-		curDungeon.changeFloor(true,!editMode);
+		curDungeon.changeFloor(true,!editMode,miles);
 		editor.penDown=false;
 	}
 	if(pagedownkey.check())
 	{
 		editor.clearConfirm();
-		curDungeon.changeFloor(false,!editMode);
+		curDungeon.changeFloor(false,!editMode,miles);
 		editor.penDown=false;
 	}
 	 

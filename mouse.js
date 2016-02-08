@@ -902,7 +902,7 @@ function mouseClick(e) {  //represents the mouse
 				{
 					miles.onArrival=function()
 					{
-						curDungeon.changeFloor(true,!editMode);
+						curDungeon.changeFloor(true,!editMode,miles);
 					}/*
 					if(miles.x>tx)
 					{
@@ -925,7 +925,7 @@ function mouseClick(e) {  //represents the mouse
 				{
 					miles.onArrival=function()
 					{
-						curDungeon.changeFloor(false,!editMode);
+						curDungeon.changeFloor(false,!editMode,miles);
 					}
 					/*
 					if(miles.x>tx)

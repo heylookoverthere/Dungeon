@@ -870,7 +870,7 @@ function dungeon(path)
 	 // Really need to get on that. 
 	}
 	
-	this.changeFloor=function(up,limited)
+	this.changeFloor=function(up,limited,aplayer)
 	{
 		this.busyrang=false;
 		for(var i=0;i<miles.projectiles.length;i++)
@@ -908,6 +908,8 @@ function dungeon(path)
 				this.roomZ++;
 				this.enteredX=this.x;
 				this.enteredY=this.y;
+				aplayer.enteredX=aplayer.x;
+				aplayer.enteredY=aplayer.y;
 				if(limited)
 				{
 					playSound("stairsup");
@@ -949,6 +951,8 @@ function dungeon(path)
 				this.roomZ--;
 				this.enteredX=this.x;
 				this.enteredY=this.y;
+				aplayer.enteredX=aplayer.x;
+				aplayer.enteredY=aplayer.y;
 				if(limited)
 				{
 					playSound("stairsdown");
