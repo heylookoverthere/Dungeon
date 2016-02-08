@@ -215,6 +215,7 @@ function object(oroom) //not a tile, not an enemy
 	this.topLayer=new Array();
 	this.ani=0;
 	this.aniRate=30;
+	this.orientation=0;
 	this.curTopSprite=0;
 	this.width=32;
 	this.height=32;
@@ -1437,6 +1438,8 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.curSprite=1;
 		this.on=true;
+		this.orientation=0;
+		this.swordActivate=function(){return true;};
 		this.alwaysWalkable=true;//false;
 //		console.log(this.x,this.y);
 		if(this.y==1)
@@ -1445,24 +1448,28 @@ object.prototype.setup=function(id,par)
 			this.sprites.push(Sprite("curtains0"));
 			this.width=64;
 			this.height=44
+			this.orientation=0;
 		}else if(this.x==18)
 		{
 			this.sprites.push(Sprite("curtainsopen1"));
 			this.sprites.push(Sprite("curtains1"));
 			this.width=44;
 			this.height=64
+			this.orientation=1;
 		}else if(this.y==13)
 		{
 			this.sprites.push(Sprite("curtainsopen2"));
 			this.sprites.push(Sprite("curtains2"));
 			this.width=64;
 			this.height=44
+			this.orientation=2;
 		}else if(this.x==1)
 		{
 			this.sprites.push(Sprite("curtainsopen3"));
 			this.sprites.push(Sprite("curtains3"));
 			this.width=54;
 			this.height=64
+			this.orientation=3;
 		}else
 		{
 			this.sprites.push(Sprite("curtainsopen0"));
@@ -1488,6 +1495,10 @@ object.prototype.setup=function(id,par)
 			{
 				playSound("secret");
 				this.exists=false;
+				var pend=this.room.getSpecificDoor(this.x,this.y,this.orientation);
+				if(pend){
+					pend.on=false;
+				}
 			}
 		}
 		this.playerActivate=this.activate;

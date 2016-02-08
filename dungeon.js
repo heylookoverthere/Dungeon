@@ -771,6 +771,16 @@ function dungeon(path)
 			{
 				for(var v=0;v<this.rooms[fl][i][j].exits.length;v++)
 				{
+					if(this.rooms[fl][i][j].exits[v].type==doorType.Curtains)
+					{
+						for(var h=0;h<this.rooms[fl][i][j].objects.length;h++)
+						{
+							if((this.rooms[fl][i][j].objects[h].type==ObjectID.Curtains) && (this.rooms[fl][i][j].objects[h].x==this.rooms[fl][i][j].exits[v].x) && (this.rooms[fl][i][j].objects[h].y==this.rooms[fl][i][j].exits[v].y))
+							{
+								this.rooms[fl][i][j].exits[v].on=true;
+							}
+						}
+					}
 					if(this.rooms[fl][i][j].exits[v].orientation==0) //top
 					{
 						if((j>0) && (this.rooms[fl][i][j-1].active))
@@ -1052,7 +1062,7 @@ function dungeon(path)
 				bConsoleBox.log("Warning: Door not linked. No room","Yellow");
 			}
 		}
-		
+		return mindy;
 	};
 	
 	this.cleanSlate=function()

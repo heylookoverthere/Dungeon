@@ -648,11 +648,12 @@ function mouseClick(e) {  //represents the mouse
 				editor.penDown=false;
 				if(editor.x==2) //left
 				{
-					curDungeon.smartAddDoor(1,editor.y,3,editor.doorType);
+					var billpaxton=curDungeon.smartAddDoor(1,editor.y,3,editor.doorType);
 					if(editor.doorType==doorType.Curtains)
 					{
 						var kurtrussel = makeObject(1,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
 						kurtrussel.hasSecret=true;
+						billpaxton.on=true;
 					}
 				}else if(editor.x==17) //right
 				{

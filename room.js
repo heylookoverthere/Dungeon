@@ -98,6 +98,7 @@ function door(or,clone)
 	this.y=0; 
 	this.ctype=1;
 	//this.source=sorc;
+	this.on=false; 
 	this.height=75;
 	this.width=146;
 	this.dest=null;
@@ -211,7 +212,16 @@ function door(or,clone)
 		if(editMode) {return true;}
 		if((this.type==0) || (this.type==doorType.Bombed) || (this.type==doorType.Curtains)) //todo, if curtains are open. 
 		{
-			return true;
+			if(this.type==doorType.Curtains)
+			{
+				if(!this.on)
+				{
+					return true;
+				}
+			}else
+			{
+				return true;
+			}
 		}
 		if((this.type==doorType.Locked)) 
 		{
