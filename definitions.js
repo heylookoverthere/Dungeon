@@ -89,6 +89,10 @@ var moneysprite=Sprite("rupee");
 var bombsprite=Sprite("bomb1");
 var arrowsprite=Sprite("arrow");
 var superbombsprite=Sprite("superbomb");
+
+var holedispsprite=new Sprite("holedisp");
+var deathholedispsprite=new Sprite("deathholedisp");
+
 var shieldSprites=new Array();
 shieldSprites.push(Sprite("shield0"));
 shieldSprites.push(Sprite("shield1"));

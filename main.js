@@ -2739,7 +2739,16 @@ function mainDraw() {
 			canvas.fillText("Selected: ",18,96);
 			if(dungeonTileSprite[editor.brushType])
 			{
-				dungeonTileSprite[editor.brushType].draw(canvas,110,73);
+				if(editor.brushType==DungeonTileType.Hole)
+				{
+					holedispsprite.draw(canvas,110,73);
+				}else if(editor.brushType==DungeonTileType.DeathHole)
+				{
+					deathholedispsprite.draw(canvas,110,73);
+				}else
+				{
+					dungeonTileSprite[editor.brushType].draw(canvas,110,73);
+				}
 			}else
 			{
 				console.log("no sprite for "+editor.brushType);
