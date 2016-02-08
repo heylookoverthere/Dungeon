@@ -204,6 +204,7 @@ function object(oroom) //not a tile, not an enemy
 	this.active=false;
 	this.hasSecret=false;
 	this.cooldown=0;
+	this.frontOnly=false;
 	this.lastActivated=0; 
 	this.linkDescriptions=new Array();
 	this.exists=true;
@@ -418,6 +419,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.sprites.push( Sprite("sign"));
 		this.name="sign";
+		this.frontOnly=true;
 		this.text="Snoke";
 		if(par!=null){
 			this.text=par;
@@ -449,6 +451,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push( Sprite("chest"));
 		this.sprites.push( Sprite("chestopen"));
 		this.name="Chest";
+		this.frontOnly=true;
 		//this.loot=0;
 		this.playerActivate=function(){
 			if(this.curSprite==1) {return;}

@@ -565,6 +565,27 @@ function room(I) { //room object
 		return false;
 	};
 	
+	I.hasVisibleDoor=function(dir)
+	{
+		for(var i=0;i<I.exits.length;i++)
+		{
+			if((I.exits[i]) && (I.exits[i].orientation==dir) &&(I.exits[i].type!=doorType.Bombable))
+			{
+				if(I.exits[i].type==doorType.Curtains)
+				{
+					if(!I.exits[i].on)
+					{
+						return true;
+					}
+				}else
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+	
 	I.getSpecificDoor=function(x,y,dir)
 	{
 		if(!I.hasDoor(dir))		{return null;}

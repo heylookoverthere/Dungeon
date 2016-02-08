@@ -984,6 +984,7 @@ function entity(croom)
 	{
 		if(this.dashing) {return false;}
 		this.dashing=true;
+		this.stepping=true;
 		this.dashStart=new Date().getTime();
 		
 	}
@@ -1117,6 +1118,7 @@ function entity(croom)
 			if(this.dashing)
 			{
 				this.dashing=false;
+				this.stepping=false;
 			}else
 			{
 				this.dash();
@@ -1852,6 +1854,7 @@ function entity(croom)
 		{
 			this.dashing=false;
 			this.reallyDashing=false;
+			this.stepping=false;
 			if((this.swimming) && (!this.has[hasID.Flippers]))
 			{
 				this.hurt(20);
@@ -1870,6 +1873,8 @@ function entity(croom)
 				if(this.incMove())
 				{
 					playSound("dash");
+					this.walkAnimate();
+					this.stepping=true;
 					var angrand=Math.random()*12;
 					angrand-=4;
 					var xrand=Math.random()*12;
@@ -1882,6 +1887,7 @@ function entity(croom)
 				{
 					this.dashing=false;
 					this.reallyDashing=false;
+					this.stepping=false;
 					//bounce back? 
 					playSound("rebound");
 					this.shake();
@@ -2342,6 +2348,7 @@ function entity(croom)
 				this.fallingY=150;
 				this.dashing=false;
 				this.reallyDashing=false;
+				this.stepping=false;
 				this.xSmall=0;
 				this.ySmall=0;
 				if(this.isPlayer)

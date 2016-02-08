@@ -1561,7 +1561,7 @@ function dungeon(path)
 		var gjk=3;
 		for(var zzTop=this.mapFloor;zzTop<this.mapFloor+gjk;zzTop++)
 		{
-			if(zzTop>this.floors)
+			if(zzTop>this.floors-1)
 			{
 				//gjk+=1;
 				continue;
@@ -1667,22 +1667,22 @@ function dungeon(path)
 					{
 						if(((this.rooms[zzTop][i][k].explored) || (OPTIONS.showUnexploredDoors)) && (!this.rooms[zzTop][i][k].hidden) || (editMode)) 
 						{
-							if(this.rooms[zzTop][i][k].hasDoor(0))
+							if(this.rooms[zzTop][i][k].hasVisibleDoor(0))
 							{
 								can.fillStyle="white";
 								canvas.fillRect(xFset+size*i+size/2,yFset+size*k,4,2);
 							}
-							if(this.rooms[zzTop][i][k].hasDoor(2))
+							if(this.rooms[zzTop][i][k].hasVisibleDoor(2))
 							{
 								can.fillStyle="white";
 								canvas.fillRect(xFset+size*i+size/2,yFset+size*k+size,4,2);
 							}
-							if(this.rooms[zzTop][i][k].hasDoor(1))
+							if(this.rooms[zzTop][i][k].hasVisibleDoor(1))
 							{
 								can.fillStyle="white";
 								canvas.fillRect(xFset+size*i+size,yFset+size*k+size/2,2,4);
 							}
-							if(this.rooms[zzTop][i][k].hasDoor(3))
+							if(this.rooms[zzTop][i][k].hasVisibleDoor(3))
 							{
 								can.fillStyle="white";
 								canvas.fillRect(xFset+size*i,yFset+size*k+size/2,2,4);
@@ -1812,22 +1812,22 @@ function dungeon(path)
 				{
 					if(((this.rooms[this.roomZ][i][k].explored) || (OPTIONS.showUnexploredDoors)) && (!this.rooms[this.roomZ][i][k].hidden) || (editMode)) 
 					{
-						if(this.rooms[this.roomZ][i][k].hasDoor(0))
+						if(this.rooms[this.roomZ][i][k].hasVisibleDoor(0))
 						{
 							can.fillStyle="white";
 							canvas.fillRect(xFset+size*i+size/2,yFset+size*k,2,1);
 						}
-						if(this.rooms[this.roomZ][i][k].hasDoor(2))
+						if(this.rooms[this.roomZ][i][k].hasVisibleDoor(2))
 						{
 							can.fillStyle="white";
 							canvas.fillRect(xFset+size*i+size/2,yFset+size*k+size,2,1);
 						}
-						if(this.rooms[this.roomZ][i][k].hasDoor(1))
+						if(this.rooms[this.roomZ][i][k].hasVisibleDoor(1))
 						{
 							can.fillStyle="white";
 							canvas.fillRect(xFset+size*i+size,yFset+size*k+size/2,1,2);
 						}
-						if(this.rooms[this.roomZ][i][k].hasDoor(3))
+						if(this.rooms[this.roomZ][i][k].hasVisibleDoor(3))
 						{
 							can.fillStyle="white";
 							canvas.fillRect(xFset+size*i,yFset+size*k+size/2,1,2);

@@ -1139,6 +1139,7 @@ function resetMiles()
 	gameOver=false;
 	miles.alive=true;
 	miles.equippedTrack=0;
+	miles.equippedTrack2=0;
 	miles.inventory=new Array();
 	miles.inventoryAmounts=new Array();
 	var meeee=new Object;
@@ -1586,7 +1587,7 @@ function drawGUI(can)
 		arrowsprite.draw(can,42,90);
 		can.fillText("x"+miles.arrows,42+24,117);
 		can.globalAlpha=0.75;
-		if(true)//(showNancyInfo)
+		if(showNancyInfo)
 		{
 			/*var surd="";
 			if(nancy.going)
@@ -3607,7 +3608,17 @@ function mainUpdate()
 				var gled=miles.getFacingObject();
 				if((gled) && (gled.playerUsable))
 				{
-					gled.playerActivate();
+					if(gled.frontOnly)
+					{
+						if(gled.y<miles.y)
+						{
+						
+							gled.playerActivate();
+						}
+					}else
+					{
+						gled.playerActivate();
+					}
 				}
 			}
 			if(miles.holding)
@@ -3785,7 +3796,7 @@ function mainUpdate()
 							miles.shootArrow(135);	
 						}else
 						{
-							miles.useItem();
+							miles.useItem(true);
 						}
 					}else
 					{
