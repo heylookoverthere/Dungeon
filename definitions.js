@@ -817,6 +817,8 @@ DungeonTileType.CurtainDoor=43;
 DungeonTileType.Unstable=7;
 DungeonTileType.ReallyUnstable=70;
 DungeonTileType.Hole=8;
+DungeonTileType.DeathHole=71;
+DungeonTileType.GrassHole=72;
 DungeonTileType.GreenBrick=0;
 DungeonTileType.OrangeBrick=3;
 DungeonTileType.BirdHead=33;
@@ -969,6 +971,14 @@ namesused[0]=new Array(120);
 namesused[1]=new Array(120);
 for( var i=0; i<120; i++ ){ namesused[0][i]=false;namesused[1][i]=false; }
 
+var holeEdgeSprites=new Array()
+{
+	holeEdgeSprites.push(Sprite("dungeontiles/holeedge0"));
+	holeEdgeSprites.push(Sprite("dungeontiles/holeedge1"));
+	holeEdgeSprites.push(Sprite("dungeontiles/holeedge2"));
+	holeEdgeSprites.push(Sprite("dungeontiles/holeedge3"));
+}
+
 var tileSprite=new Array(39);
 tileSprite[TileType.Grass] = Sprite("grass");
 tileSprite[TileType.Forest] = Sprite("darkgrass"); 
@@ -1008,6 +1018,8 @@ dungeonTileSprite[DungeonTileType.BirdHead] = Sprite("dungeontiles/dungeonthing"
 dungeonTileSprite[DungeonTileType.Unstable] = Sprite("dungeontiles/unstable");
 dungeonTileSprite[DungeonTileType.ReallyUnstable] = Sprite("dungeontiles/reallyunstable");
 dungeonTileSprite[DungeonTileType.Hole] = Sprite("dungeontiles/hole");
+dungeonTileSprite[DungeonTileType.DeathHole] = Sprite("dungeontiles/deathhole");
+dungeonTileSprite[DungeonTileType.GrassHole] = Sprite("dungeontiles/grasshole");
 dungeonTileSprite[DungeonTileType.Wall] = Sprite("dungeontiles/wall");
 dungeonTileSprite[DungeonTileType.GreenWall] = Sprite("dungeontiles/wall");   
 dungeonTileSprite[DungeonTileType.LockedDoor] = Sprite("dungeontiles/doortile");

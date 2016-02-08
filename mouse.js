@@ -151,28 +151,7 @@ function mouseWheel(e){
 						editor.cycleLoot(true);
 					}else
 					{
-						editor.brushType++;
-						//console.log(editor.brushType);
-						if(editor.brushType>editor.numBrushTypes)
-						{
-							editor.brushType=0;
-						}else if(editor.brushType==34)
-						{
-							editor.brushType=43;
-							//console.log("changed to "+editor.brushType);
-						}else if(editor.brushType==21)//skip water animation tiles
-						{
-							editor.brushType=24;
-							//console.log("changed to "+editor.brushType);
-						}else if(editor.brushType==25)//skip lava animation tiles.
-						{
-							editor.brushType=33;
-							//console.log("changed to "+editor.brushType);
-						}else if((editor.brushType==10) && (OPTIONS.skipWallTiles))//skip wall animation tiles.
-						{
-							editor.brushType=18;
-							//console.log("changed to "+editor.brushType);
-						}
+						editor.cycleTiles(true);
 					}
 				}else if(delta<0)
 				{
@@ -191,29 +170,7 @@ function mouseWheel(e){
 						editor.cycleLoot(false);
 					}else
 					{
-						editor.brushType--;
-						//console.log(editor.brushType);
-						if(editor.brushType<0)
-						{
-							editor.brushType=editor.numBrushTypes;
-							//console.log("changed to "+editor.brushType);
-						}else if(editor.brushType==42)//skip water animation tiles
-						{
-							editor.brushType=33;
-							//console.log("changed to "+editor.brushType);
-						}else if(editor.brushType==24)//skip water animation tiles
-						{
-							editor.brushType=20;
-							//console.log("changed to "+editor.brushType);
-						}else if(editor.brushType==32)//skip lava animation tiles.
-						{
-							editor.brushType=25;
-							//console.log("changed to "+editor.brushType);
-						}else if((editor.brushType==17) && (OPTIONS.skipWallTiles))//skip wall animation tiles.
-						{
-							editor.brushType=9;
-							console.log("changed to "+editor.brushType);
-						}
+						editor.cycleTiles(false);
 					}
 				}
 				

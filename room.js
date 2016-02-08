@@ -689,15 +689,15 @@ function room(I) { //room object
 		return false;
 	}
 	I.jumpable=function(x,y,aPlayer){
-		if(I,tiles[x][y].data==DungeonTileType.Ocean)
+		if(I.tiles[x][y].data==DungeonTileType.Ocean)
 		{
 			return true;
 		}
-		if(I,tiles[x][y].data==DungeonTileType.Lava)
+		if(I.tiles[x][y].data==DungeonTileType.Lava)
 		{
 			return true;
 		}
-		if(I,tiles[x][y].data==DungeonTileType.Hole)
+		if(I.tiles[x][y].data==DungeonTileType.Hole)
 		{
 			return true;
 		}
@@ -743,7 +743,7 @@ function room(I) { //room object
 			return true;
 		}
 			//Serously wtf was I thinking with this. This is insane. 
-			if(((I.tiles[x][y].data==DungeonTileType.FloorEighteen) ||I.tiles[x][y].data==DungeonTileType.FloorFifteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSixteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeventeen)||(I.tiles[x][y].data==DungeonTileType.FloorTwelve) ||(I.tiles[x][y].data==DungeonTileType.FloorThirteen) ||(I.tiles[x][y].data==DungeonTileType.FloorFourteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeven) ||(I.tiles[x][y].data==DungeonTileType.FloorEight) ||(I.tiles[x][y].data==DungeonTileType.FloorNine) ||(I.tiles[x][y].data==DungeonTileType.FloorTen) ||(I.tiles[x][y].data==DungeonTileType.FloorEleven)|| (I.tiles[x][y].data==DungeonTileType.FloorFour) ||(I.tiles[x][y].data==DungeonTileType.FloorFive) ||(I.tiles[x][y].data==DungeonTileType.FloorSix) ||(I.tiles[x][y].data==DungeonTileType.FloorThree) ||(I.tiles[x][y].data==DungeonTileType.FloorTwo) ||(I.tiles[x][y].data==DungeonTileType.FloorOne) ||(I.tiles[x][y].data==DungeonTileType.GreenFloor) ||(I.tiles[x][y].data==DungeonTileType.UpStair)||(I.tiles[x][y].data==DungeonTileType.DownStair) ||(I.tiles[x][y].data==DungeonTileType.Unstable) ||(I.tiles[x][y].data==DungeonTileType.ReallyUnstable)||((I.tiles[x][y].data==DungeonTileType.Hole) && (!avoidHoles)) ||(I.tiles[x][y].data==DungeonTileType.Grass)||(I.tiles[x][y].data==DungeonTileType.Sand) ||(I.tiles[x][y].data==DungeonTileType.Ice))
+			if(((I.tiles[x][y].data==DungeonTileType.FloorEighteen) ||I.tiles[x][y].data==DungeonTileType.FloorFifteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSixteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeventeen)||(I.tiles[x][y].data==DungeonTileType.FloorTwelve) ||(I.tiles[x][y].data==DungeonTileType.FloorThirteen) ||(I.tiles[x][y].data==DungeonTileType.FloorFourteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeven) ||(I.tiles[x][y].data==DungeonTileType.FloorEight) ||(I.tiles[x][y].data==DungeonTileType.FloorNine) ||(I.tiles[x][y].data==DungeonTileType.FloorTen) ||(I.tiles[x][y].data==DungeonTileType.FloorEleven)|| (I.tiles[x][y].data==DungeonTileType.FloorFour) ||(I.tiles[x][y].data==DungeonTileType.FloorFive) ||(I.tiles[x][y].data==DungeonTileType.FloorSix) ||(I.tiles[x][y].data==DungeonTileType.FloorThree) ||(I.tiles[x][y].data==DungeonTileType.FloorTwo) ||(I.tiles[x][y].data==DungeonTileType.FloorOne) ||(I.tiles[x][y].data==DungeonTileType.GreenFloor) ||(I.tiles[x][y].data==DungeonTileType.UpStair)||(I.tiles[x][y].data==DungeonTileType.DownStair) ||(I.tiles[x][y].data==DungeonTileType.Unstable) ||(I.tiles[x][y].data==DungeonTileType.ReallyUnstable) ||(I.tiles[x][y].data==DungeonTileType.DeathHole) ||(I.tiles[x][y].data==DungeonTileType.GrassHole)||((I.tiles[x][y].data==DungeonTileType.Hole) && (!avoidHoles)) ||(I.tiles[x][y].data==DungeonTileType.Grass)||(I.tiles[x][y].data==DungeonTileType.Sand) ||(I.tiles[x][y].data==DungeonTileType.Ice))
 			{
 				for(var i=0;i<I.objects.length;i++)
 				{
@@ -1181,7 +1181,45 @@ function room(I) { //room object
 		can.fillStyle=snarp;
     };
     
-
+	I.isHole=function(x,y)
+	{
+		if((I.tiles[x][y].data==DungeonTileType.Hole) || (I.tiles[x][y].data==DungeonTileType.DeathHole)|| (I.tiles[x][y].data==DungeonTileType.GrassHole))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	I.drawHoleEdges=function(can,cam)
+	{
+		for (i=0;i<ROOM_WIDTH; i++)
+		{
+            for (j=0;j<ROOM_HEIGHT; j++)
+			{
+				if((I.isHole(i,j)) &&(I.tiles[i][j].data!=DungeonTileType.GrassHole))
+				{
+					if(!I.isHole(i,j-1))
+					{
+						holeEdgeSprites[0].draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
+					}
+					if(!I.isHole(i+1,j))
+					{
+						holeEdgeSprites[1].draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
+					}
+					if(!I.isHole(i,j+1))
+					{
+						holeEdgeSprites[2].draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
+					}
+					if(!I.isHole(i-1,j))
+					{
+						holeEdgeSprites[3].draw(can, (i-cam.tileX)*32/Math.pow(2,I.zoom-1)+xOffset, (j-cam.tileY)*32/Math.pow(2,I.zoom-1)+yOffset);
+					}
+				}
+			}
+		}
+	}
+	
+	
     I.draw = function(can,cam) {
 		if(!this.active){return;}
 		//if(!mapDirty) {return;}
@@ -1276,6 +1314,8 @@ function room(I) { //room object
 				}
 			}
 		}
+		
+		I.drawHoleEdges(can,cam);
 		
 		for(var p=0;p<this.exits.length;p++)
 		{
@@ -1816,7 +1856,7 @@ function editCursor()
 	this.mode=1;
 	this.numModes=5;
 	this.numObjectTypes=49;
-	this.numBrushTypes=61;
+	this.numBrushTypes=72;
 	this.objectType=0;
 	this.numDoorTypes=6;
 	this.clipBoard=new room();
@@ -1860,6 +1900,62 @@ editCursor.prototype.cycleLoot=function(up)
 		}else if(this.lootType==299)
 		{
 			this.lootType=20;
+		}
+	}
+}
+
+editCursor.prototype.cycleTiles=function(up)
+{
+	if(up)
+	{
+		this.brushType++;
+		if(this.brushType>this.numBrushTypes)
+		{
+			this.brushType=0;
+		}else if(this.brushType>61)
+		{
+			this.brushType=70;
+		}else if(this.brushType>33)
+		{
+			this.brushType=43;
+		}else if(this.brushType==21)//skip water animation tiles
+		{
+			this.brushType=24;
+		}else if(this.brushType==25)//skip lava animation tiles.
+		{
+			this.brushType=33;
+		}else if((this.brushType==10) && (OPTIONS.skipWallTiles))//skip lava animation tiles.
+		{
+			this.brushType=18;
+		}
+	}else
+	{
+		this.brushType--;
+		//console.log(editor.brushType);
+		if(this.brushType<0)
+		{
+			this.brushType=this.numBrushTypes;
+			//console.log("changed to "+editor.brushType);
+		}else if(this.brushType==69)//skip water animation tiles
+		{
+			this.brushType=41;
+			//console.log("changed to "+editor.brushType);
+		}else if(this.brushType==42)//skip water animation tiles
+		{
+			this.brushType=33;
+			//console.log("changed to "+editor.brushType);
+		}else if(this.brushType==24)//skip water animation tiles
+		{
+			this.brushType=20;
+			//console.log("changed to "+editor.brushType);
+		}else if(this.brushType==32)//skip lava animation tiles.
+		{
+			this.brushType=25;
+			//console.log("changed to "+editor.brushType);
+		}else if((this.brushType==17) && (OPTIONS.skipWallTiles))//skip wall animation tiles.
+		{
+			this.brushType=9;
+			console.log("changed to "+this.brushType);
 		}
 	}
 }

@@ -1635,7 +1635,7 @@ function entity(croom)
 				}
 				
 			}
-			if((this.fallingY>0) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.Hole))
+			if((this.fallingY>0) && (this.room.isHole(this.x,this.y)))
 			{
 				if(this.fallingY>100)
 				{
@@ -2315,7 +2315,7 @@ function entity(croom)
 					//this.lastX=this.x;
 					//this.lastY=this.y;
 				}
-			}else if((this.room.tiles[this.x][this.y].data==DungeonTileType.Hole) &&(!this.falling) &&(!this.jumping))
+			}else if((this.room.isHole(this.x,this.y)) &&(!this.falling) &&(!this.jumping))
 			{
 				
 				if(this.isPlayer)
@@ -2351,7 +2351,15 @@ function entity(croom)
 						this.hurt(20);
 						this.x=this.enteredX;
 						this.y=this.enteredY;
-					}else
+					}else if(this.room.tiles[this.x][this.y].data==DungeonTileType.DeathHole)
+					{
+						this.fallingY=0;
+						this.hurt(20);
+						this.falling=false;
+						this.x=this.enteredX;
+						this.y=this.enteredY;
+						//damage and find nearest standable point. 
+					}else 
 					{
 						if(this.isPlayer)
 						{

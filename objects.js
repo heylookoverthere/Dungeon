@@ -1821,7 +1821,7 @@ object.prototype.setup=function(id,par)
 		{
 			if(this.buried){return;}
 			playSound("itemfanfare");
-			bConsoleBox.log("You found the Roc's Feather! Eventually it might let you jump.");
+			bConsoleBox.log("You found the Roc's Feather! You can use it to jump.");
 			miles.holding=this.sprites[0];
 			this.exists=false;
 			miles.has[hasID.Feather]=true;

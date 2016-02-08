@@ -3062,23 +3062,7 @@ function mainUpdate()
 			editor.cycleObjects();
 		}else
 		{
-			editor.brushType++;
-			if(editor.brushType>editor.numBrushTypes)
-			{
-				editor.brushType=0;
-			}else if(editor.brushType>33)
-			{
-				editor.brushType=43;
-			}else if(editor.brushType==21)//skip water animation tiles
-			{
-				editor.brushType=24;
-			}else if(editor.brushType==25)//skip lava animation tiles.
-			{
-				editor.brushType=33;
-			}else if((editor.brushType==10) && (OPTIONS.skipWallTiles))//skip lava animation tiles.
-			{
-				editor.brushType=18;
-			}
+			editor.cycleTiles(true);
 		}
 	}
 	if ((editMode) &&(editclickkey.check()))
