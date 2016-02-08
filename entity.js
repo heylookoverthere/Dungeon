@@ -1637,7 +1637,7 @@ function entity(croom)
 				}
 				
 			}
-			if((this.fallingY>0) && (this.room.isHole(this.x,this.y)))
+			if((this.fallingY>0))// && (this.room.isHole(this.x,this.y)))
 			{
 				if(this.fallingY>100)
 				{
@@ -2220,7 +2220,7 @@ function entity(croom)
 		{
 			this.swinging=false;
 			this.poking=false;
-			this.fallingY-=5;
+			this.fallingY-=4;
 			if(this.fallingY<1)
 			{
 				if(this.room.tiles[this.x][this.y].data==DungeonTileType.ReallyUnstable)

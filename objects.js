@@ -212,6 +212,17 @@ function object(oroom) //not a tile, not an enemy
 	this.usable=false; //is an item that can be used like a bomb or a potion.
 	this.x=2;
 	this.y=2;
+	this.xv=0;
+	this.yv=0;
+	this.xa=0;
+	this.ya=0;
+	this.decel=0.000;
+	this.friction=0.03;
+	this.fallingY=0;
+	this.xSmall=0;
+	this.ySmall=0;
+	this.peakXV=2;
+	this.peakYV=2;
 	this.topLayer=new Array();
 	this.ani=0;
 	this.aniRate=30;
@@ -255,10 +266,35 @@ object.prototype.getScreenY=function()
 	return this.y*32;
 }
 
+object.prototype.toss=function(dir,force)
+{
+	this.fallingY=24;
+	this.fallingUp=8;
+	if(force==null) {force=0.4;}
+	if(dir==0)
+	{
+		this.ya=-force;
+	}
+	if(dir==1)
+	{
+		this.xa=+force;
+	}
+	if(dir==2)
+	{
+		this.ya=+force;
+	}
+	if(dir==3)
+	{
+		this.xa=-force;
+	}
+}
+
 object.prototype.move=function(x,y) //brings along what is needed (like the flame of the lamp)
 {
 	this.x=x;
 	this.y=y;
+	this.xSmall=0;
+	this.ySmall=0;
 	this.underWater=false;
 	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 	{
@@ -266,10 +302,10 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 	}
 	if(this.flame)
 	{
-		this.flame.x=this.x*32+xOffset;
-		this.flame.y=this.y*32+yOffset-16;
-		this.flame.flare.x=this.x*32+xOffset;
-		this.flame.flare.y=this.y*32+yOffset-16;
+		this.flame.x=this.x*32+xOffset+this.xSmall;
+		this.flame.y=this.y*32+yOffset-16+this.ySmall;
+		this.flame.flare.x=this.x*32+xOffset+this.xSmall;
+		this.flame.flare.y=this.y*32+yOffset-16+this.ySmall;
 	}
 }
 
@@ -2537,8 +2573,313 @@ object.prototype.tileY=function()
 {
 	return Math.floor((this.x-xOffset)/32));
 }*/
+object.prototype.tryMove=function(dir)
+	{
+		if(dir==0)
+		{
+			if(this.y<3)
+			{
+				return false;
+			}
+			if(true)//(this.room.walkable(this.x,this.y-1,false,this))
+			{
+				//this.lastX=this.x;
+				//this.lastY=this.y;
+				this.y--;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==2)
+		{
+			if(this.y>12)
+			{
+				return false;
+			}
+			if(true)//(this.room.walkable(this.x,this.y+1,false,this))
+			{
+				//this.lastX=this.x;
+				//this.lastY=this.y;
+				this.y++;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==3)
+		{
+			if(this.x<3)
+			{
+				return false;
+			}
+			if(true)//(this.room.walkable(this.x-1,this.y,false,this))
+			{
+				//this.lastX=this.x;
+				//this.lastY=this.y;
+				this.x--;
+			}else
+			{
+				return false;
+			}
+		}else if(dir==1)
+		{
+			if(this.x>17)
+			{
+				return false;
+			}
+			if(true)//(this.room.walkable(this.x+1,this.y,false,this))
+			{
+				//this.lastX=this.x;
+				//this.lastY=this.y;
+				this.x++;
+			}else
+			{
+				return false;
+			}
+		}
+		return true; 
+	}
+object.prototype.canMove=function(dir)
+	{
+		if(dir==0)
+		{
+			if(this.y<3)
+			{
+				return false;
+			}
+			if(false)//(!this.room.walkable(this.x,this.y-1,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==2)
+		{
+			if(this.y>11)
+			{
+				return false;
+			}
+			if(false)//(!this.room.walkable(this.x,this.y+1,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==3)
+		{
+			if(this.x<3)
+			{
+				return false;
+			}
+			if(false)//(!this.room.walkable(this.x-1,this.y,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}else if(dir==1)
+		{
+			if(this.x>16)
+			{
+				return false;
+			}
+			if(false)//(!this.room.walkable(this.x+1,this.y,false,this))
+			{
+				return false;
+			}else
+			{
+				return true;
+			}
+		}
+		return true; 
+	}
+
+object.prototype.incMove=function()
+{
+	this.xSmall+=this.xv;
+	this.ySmall+=this.yv;
+	this.xv+=this.xa;
+	this.yv+=this.ya;
+	if(this.fallingY<1){
+		if(this.xv>0)
+		{
+			this.xv-=this.friction;
+			if(this.xv<0)
+			{
+				this.xv=0;
+			}
+		}else if(this.xv<0)
+		{
+			this.xv+=this.friction;
+			if(this.xv>0)
+			{
+				this.xv=0;
+			}
+		}
+	}else
+	{
+				if(this.xv>0)
+		{
+			this.xv-=this.friction/2;
+			if(this.xv<0)
+			{
+				this.xv=0;
+			}
+		}else if(this.xv<0)
+		{
+			this.xv+=this.friction/2;
+			if(this.xv>0)
+			{
+				this.xv=0;
+			}
+		}
+
+	}
+	if(this.yv>0)
+	{
+		this.yv-=this.friction;
+		if(this.yv<0)
+		{
+			this.yv=0;
+		}
+	}else if(this.yv<0)
+	{
+		this.yv+=this.friction;
+		if(this.yv>0)
+		{
+			this.yv=0;
+		}
+	}
+	if(this.xa>0)
+	{
+		this.xa-=this.decel;
+		if(this.xa<0)
+		{
+			this.xa=0;
+		}
+	}if(this.xa<0)
+	{
+		this.xa+=this.decel;
+		if(this.xa>0)
+		{
+			this.xa=0;
+		}
+	}
+	if(this.ya>0)
+	{
+		this.ya-=this.decel;
+		if(this.ya<0)
+		{
+			this.ya=0;
+		}
+	}if(this.ya<0)
+	{
+		this.ya+=this.decel;
+		if(this.ya>0)
+		{
+			this.ya=0;
+		}
+	}
+	if(this.xv>this.peakXV)
+	{
+		this.xv=this.peakXV;
+		this.xa=0;
+	}
+	if(this.yv>this.peakYV)
+	{
+		this.yv=this.peakYV;
+		this.ya=0;
+	}
+	if(this.xv<-this.peakXV)
+	{
+		this.xv=-this.peakXV;
+		this.xa=0;
+	}
+	if(this.yv<-this.peakYV)
+	{
+		this.yv=-this.peakYV;
+		this.ya=0;
+	}
+	if(this.ySmall>SMALL_BREAK)
+	{
+		if(this.canMove(2))
+		{
+			this.ySmall=-SMALL_BREAK;
+			this.tryMove(2);
+			
+			//return true;
+		}else
+		{
+			this.ySmall=SMALL_BREAK;
+			this.ya=0;
+			//return false;
+		}
+	}else if(this.ySmall<-SMALL_BREAK)
+	{
+		if(this.canMove(0))
+		{
+			this.ySmall=SMALL_BREAK;
+			this.tryMove(0);
+			//return true;
+		}else
+		{
+			this.ySmall=SMALL_BREAK;
+			this.ya=0;
+			//return false;
+		}
+	}
+	if(this.xSmall>SMALL_BREAK)
+	{
+		if(this.canMove(1))
+		{
+			this.xSmall=-SMALL_BREAK;
+			this.tryMove(1);
+			//return true;
+		}else
+		{
+			this.xSmall=SMALL_BREAK;
+			this.xa=0;
+			//return false;
+		}
+	}else if(this.xSmall<-SMALL_BREAK)
+	{
+		if(this.canMove(3))
+		{
+			this.xSmall=SMALL_BREAK;
+			this.tryMove(3);
+			//return true;
+		}else
+		{
+			this.xSmall=SMALL_BREAK;
+			this.xa=0;
+			//return false;
+		}
+	}
+	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	{
+		this.underWater=true;
+	}
+	if(this.flame)
+	{
+		this.flame.x=this.x*32+xOffset+this.xSmall;
+		this.flame.y=this.y*32+yOffset-16+this.ySmall;
+		this.flame.flare.x=this.x*32+xOffset+this.xSmall;
+		this.flame.flare.y=this.y*32+yOffset-16+this.ySmall;
+	}
+}
+
 object.prototype.update=function()
 {
+	if(this.fallingUp>0)
+	{
+		this.fallingY+=1;
+		this.fallingUp-=1;
+	}else if(this.fallingY>0)
+	{
+		this.fallingY-=2;
+	}
 	if((this.type==0)&&(this.on))
 	{
 		this.flame.update();
@@ -2556,6 +2897,9 @@ object.prototype.update=function()
 			}
 		}
 	}
+	
+	this.incMove();
+	
 	if((this.type==ObjectID.TallLamp)) // && (this.active))
 	{
 		this.ani++;
@@ -2620,7 +2964,7 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 	}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
-	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh, (this.y-1)*32+1+yOffh);
+	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+1+yOffh+this.ySmall-this.fallingY*2);
 	can.globalAlpha=1;
 }
 object.prototype.draw=function(can,cam,xOffh,yOffh)
@@ -2653,24 +2997,26 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 	if((this.type==ObjectID.Bush) &&(!this.on) && (this.room.tiles[this.x][this.y].data==DungeonTileType.Hole))
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
-	this.sprites[this.curSprite].draw(can, this.x*32+xOffh, this.y*32+yOffh);
+	if(this.fallingY>0)
+	shadowSprite[0].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh+this.ySmall);
+	this.sprites[this.curSprite].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh+this.ySmall-this.fallingY*2);
 	//this.sprite.draw(can, this.x*32+xOffset, this.y*32+yOffset);
 	if((this.type==ObjectID.Lamp) && (this.on))
 	{
 		if((this.room.x==curDungeon.roomX)&& (this.room.y==curDungeon.roomY))
 		{
 			//draw fire?
-			this.flame.draw(can,cam,xOffh,yOffh);
+			this.flame.draw(can,cam,xOffh+this.xSmall,yOffh+this.ySmall-this.fallingY*2);
 		}else
 		{
-			this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh, this.y*32+yOffh-16);
+			this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh-16+this.ySmall-this.fallingY*2);
 		}
 	}else if(this.type==ObjectID.Chest)
 	{
 		can.globalAlpha=1;
 		if ((this.messagebox) && (this.messagebox.exists) && (this.loot>19) && (this.loot!=505) && ((this.loot<400) || (this.loot>407)) )
 		{
-			objectSprites[this.loot].draw(can, this.x*32+xOffh, this.y*32+yOffh-20);
+			objectSprites[this.loot].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh-20+this.ySmall-this.fallingY*2);
 		}
 	}
 	can.globalAlpha=1;
