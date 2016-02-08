@@ -4192,10 +4192,10 @@ function mainUpdate()
 	camera.update();
 	monsta.update();
 	
-	for(var i=0;i<curDungeon.curRoom().fires.length;i++)
+	/*for(var i=0;i<curDungeon.curRoom().fires.length;i++)
 	{
 		curDungeon.curRoom().fires[i].update();
-	}
+	}*/
 	for(var a=0;a<curDungeon.getWidth();a++)
 	{
 		for(var b=0;b<curDungeon.getHeight();b++)
@@ -4205,6 +4205,12 @@ function mainUpdate()
 				curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].update();
 				if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].exists)
 				{
+					if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame)
+					{
+						curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame.flare=null;//.alive=false;
+						curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;alive=false;
+					}
+				
 					curDungeon.rooms[curDungeon.roomZ][a][b].objects.splice(i,1);
 					i--;
 				}

@@ -723,20 +723,7 @@ function mouseClick(e) {  //represents the mouse
 				editor.cycleObjects(true)
 			}else
 			{
-				editor.brushType++;
-				if(editor.brushType>editor.numBrushTypes)
-				{
-					editor.brushType=0;
-				}else if(editor.brushType==21)//skip water animation tiles
-				{
-					editor.brushType=24;
-				}else if(editor.brushType==25)//skip lava animation tiles.
-				{
-					editor.brushType=33;
-				}else if((editor.brushType==10) && (OPTIONS.skipWallTiles))//skip lava animation tiles.
-				{
-					editor.brushType=18;
-				}
+				editor.cycleTiles(true);
 			}
 		}
 		if((mX>812) && (mY>110) && (mX<812+32) &&(mY<110+32)) //clicked the bulb
@@ -753,6 +740,20 @@ function mouseClick(e) {  //represents the mouse
 		
 	}else // non-edit mode mouse stuff.
 	{
+		if((mX>812) && (mY>106) && (mX<884) && (mY<144))//todo
+		{
+			playSound("pause");
+			mode=4;
+			return;
+		
+		}
+		if((mX>812) && (mY>57) && (mX<884) && (mY<92))//todo
+		{
+			playSound("pause");
+			mode=4;
+			return;
+		
+		}
 		if(!OPTIONS.MouseControls) {return;}
 		if ($("#dialogBox").length > 0) 
 		{
@@ -766,13 +767,7 @@ function mouseClick(e) {  //represents the mouse
 		{
 		
 		} 
-		if((mX>812) && (mY>80) && (mX<884) && (mY<112))//todo
-		{
-			playSound("pause");
-			mode=4;
-			return;
-		
-		}
+	
 		for(var i=0;i<entities.length;i++)//don't include miles
 		{
 			if((entities[i].room.z==curDungeon.roomZ)&&(entities[i].room.x==curDungeon.roomX)&&(entities[i].room.y==curDungeon.roomY)&&(isOverTiled(entities[i],32)))

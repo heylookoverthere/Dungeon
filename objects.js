@@ -330,10 +330,10 @@ object.prototype.setup=function(id,par)
 		this.flame=new flame(this.room.lights);
 		this.flame.x=this.x*32+xOffset;
 		this.flame.y=(this.y-1)*32+yOffset-12;
-		this.flame.flare.alive=true;
+		//this.flame.flare.alive=true;
 		this.flame.type=0;
-		this.flame.alive=true;
-		this.room.fires.push(this.flame);
+		this.flame.alive=false;
+		//this.room.fires.push(this.flame);
 
 		this.playerActivate=function()
 		{
@@ -361,8 +361,6 @@ object.prototype.setup=function(id,par)
 				this.flame.x=this.x*32+xOffset;//miles.x;
 				this.flame.y=(this.y-1)*32+yOffset-16;//miles.y;
 				this.flame.type=0;
-				this.flame.alive=false;
-				this.flame.flare.alive=false;
 				playSound("lamp");
 			}
 		}
@@ -378,7 +376,7 @@ object.prototype.setup=function(id,par)
 		this.flame.type=0;
 		this.playerUsable=true;
 		this.flame.alive=false;
-		this.room.fires.push(this.flame);
+		//this.room.fires.push(this.flame);
 		
 		this.playerActivate=function()
 		{
@@ -420,7 +418,7 @@ object.prototype.setup=function(id,par)
 		this.flame.type=0;
 		this.playerUsable=true;
 		this.flame.alive=false;
-		this.room.fires.push(this.flame);
+		//this.room.fires.push(this.flame);
 		
 		this.playerActivate=function()
 		{
@@ -2880,7 +2878,7 @@ object.prototype.update=function()
 	{
 		this.fallingY-=2;
 	}
-	if((this.type==0)&&(this.on))
+	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{
 		this.flame.update();
 	}
@@ -2964,6 +2962,17 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 	}
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
+	if((this.type==ObjectID.TallLamp) && (this.on))
+	{
+		if((this.room.x==curDungeon.roomX)&& (this.room.y==curDungeon.roomY))
+		{
+			//draw fire?
+			this.flame.draw(can,cam,xOffh+this.xSmall,yOffh-32+this.ySmall-this.fallingY*2);
+		}else
+		{
+			this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+yOffh-16+this.ySmall-this.fallingY*2);
+		}
+	}
 	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+1+yOffh+this.ySmall-this.fallingY*2);
 	can.globalAlpha=1;
 }
