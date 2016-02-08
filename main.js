@@ -3258,6 +3258,10 @@ function mainUpdate()
 					{
 						for(var i=0;i<curDungeon.curRoom().objects.length;i++)
 						{
+							if(curDungeon.curRoom().objects[i].flame)
+							{
+								curDungeon.curRoom().objects[i].flame.flare.alive=false;
+							}
 							curDungeon.curRoom().objects[i].exists=false;
 						}
 						curDungeon.curRoom().objects=new Array();
@@ -3278,6 +3282,10 @@ function mainUpdate()
 							if(curDungeon.curRoom().objects[i]==editor.grabbed)
 							{
 								editor.grabbed.exists=false;
+								if(editor.grabbed.flame)
+								{
+									editor.grabbed.flame.flare.alive=false;
+								}
 								curDungeon.curRoom().objects.splice(i,1);
 								i--;
 								editor.grabbed=null;
