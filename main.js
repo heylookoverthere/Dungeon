@@ -2689,6 +2689,9 @@ function mainDraw() {
 			}else if(editor.doorType==5)
 			{
 				canvas.fillText("Curtain Door",18,96);
+			}else if(editor.doorType==6)
+			{
+				canvas.fillText("Lamp activated Door",18,96);
 			}
 			
 		}else if(editor.mode==editModes.Objects)
@@ -3773,7 +3776,7 @@ function mainUpdate()
 						{
 							miles.useItem(true);
 						}
-					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Bow)
+					}else if(miles.inventory[miles.equippedTrack2].type==ObjectID.Bow)
 					{
 						if(controller.checkDownRight())
 						{
@@ -4059,6 +4062,16 @@ function mainUpdate()
 			if(!entities[i].exists)
 			{
 				entities.splice(i,1);
+				i--;
+			}
+			
+		}
+		for (var i=0;i<curDungeon.curRoom().exits.length;i++)
+		{
+			curDungeon.curRoom().exits[i].update();
+			if(!curDungeon.curRoom().exits[i].exists)
+			{
+				curDungeon.curRoom().exits.splice(i,1);
 				i--;
 			}
 			

@@ -9,7 +9,7 @@ var ROOM_HEIGHT=15;
 var ROOM_TILE_SIZE=32;
 var xOffset = 150;
 var yOffset= 150;
-var doorTypes=6;
+var doorTypes=7;
 
 function imageExists(url) 
 {
@@ -56,6 +56,11 @@ doorSprite[5][1]=Sprite("dungeontiles/curtaindoor1");
 doorSprite[5][2]=Sprite("dungeontiles/curtaindoor2");
 doorSprite[5][3]=Sprite("dungeontiles/curtaindoor3");
 
+doorSprite[6][0]=Sprite("dungeontiles/doorclosed0");
+doorSprite[6][1]=Sprite("dungeontiles/doorclosed1");
+doorSprite[6][2]=Sprite("dungeontiles/doorclosed2");
+doorSprite[6][3]=Sprite("dungeontiles/doorclosed3");
+
 function staircase(up,clone)
 {
 	this.x=0;
@@ -84,6 +89,7 @@ doorType.Locked=2;
 doorType.Bombable=3;
 doorType.Bombed=4;
 doorType.Curtains=5;
+doorType.LampActivated=6;
 	
 function door(or,clone)
 {
@@ -223,6 +229,32 @@ function door(or,clone)
 			}
 		}
 		return false;
+	}
+	
+	door.prototype.update=function()
+	{
+		if(this.type==doorType.LampActivated)
+		{
+			var lamps=0;
+			var litLamps=0;
+			for(var l=0;l<this.room.objects.length;l++)
+			{
+				if((this.room.objects[l].type==ObjectID.Lamp)  || (this.room.objects[l].type==ObjectID.TallLamp)||(this.room.objects[l].type==ObjectID.Candle))
+				{
+					lamps++;
+					if(this.room.objects[l].on)
+					{
+						litLamps++;
+					}
+				}
+			}
+			if((lamps>0) &&(litLamps>lamps-1))
+			{
+				playSound("secret");
+				playSound("dooropen");
+				this.open();
+			}	
+		}
 	}
 	
 	door.prototype.draw=function(can,cam)
@@ -1786,7 +1818,7 @@ function editCursor()
 	this.numObjectTypes=49;
 	this.numBrushTypes=61;
 	this.objectType=0;
-	this.numDoorTypes=5;
+	this.numDoorTypes=6;
 	this.clipBoard=new room();
 	this.clipBoard.active=false;
 	this.linkingTo=null;

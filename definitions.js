@@ -783,7 +783,7 @@ TileType.Road=8;
 TileType.Bridge=18;
 TileType.Sand=9;
 
-var numDoorTypes=5;
+var numDoorTypes=6;
 
 var DungeonTileType={};
 DungeonTileType.GreenFloor=1;

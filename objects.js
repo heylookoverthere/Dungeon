@@ -583,6 +583,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a shield!");
 			btext="You found a shield!";
@@ -600,6 +601,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			if(miles.has[hasID.BestShield])
 			{
@@ -627,6 +629,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a shiney shield!");
 			btext="You found a shiny shield!";
@@ -647,6 +650,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a magic boomarang!");
 			btext="You found a magic boomarang";
@@ -682,6 +686,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You got the super bombs!");
 			btext="You got the super bombs!";
@@ -710,6 +715,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You got the silver arrows!");
 			btext="You got the silver arrows!";
@@ -939,6 +945,7 @@ object.prototype.setup=function(id,par)
 			editor.linkingFrom=this;
 		}
 		this.activate=function(){
+			if(this.buried){return;}
 			playSound("switch");
 			this.on=!this.on
 			if(this.on)
@@ -1794,6 +1801,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a heart container!");
 			miles.holding=this.sprites[0];
@@ -1811,6 +1819,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found the Roc's Feather! Eventually it might let you jump.");
 			miles.holding=this.sprites[0];
@@ -1828,6 +1837,7 @@ object.prototype.setup=function(id,par)
 		this.usable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a magic mirror. Use it to return to the start of the dungeon.");
 			miles.holding=this.sprites[0];
@@ -1845,6 +1855,7 @@ object.prototype.setup=function(id,par)
 		this.usable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a shovel! Look for soft ground!");
 			miles.holding=this.sprites[0];
@@ -1866,6 +1877,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.MasterSword])
 			{
 				playSound("itemfanfare");
@@ -1892,6 +1904,7 @@ object.prototype.setup=function(id,par)
 			this.pickupable=true;
 			this.activate=function()
 			{
+				if(this.buried){return;}
 				if(!miles.has[hasID.Sword])
 				{
 					playSound("itemfanfare");
@@ -1915,6 +1928,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Bow])
 			{
 				playSound("itemfanfare");
@@ -1940,6 +1954,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Glove])
 			{
 				playSound("itemfanfare");
@@ -1965,6 +1980,7 @@ object.prototype.setup=function(id,par)
 		this.usable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Boomarang])
 			{
 				playSound("itemfanfare");
@@ -1989,6 +2005,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Flippers])
 			{
 				playSound("itemfanfare");
@@ -2014,6 +2031,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found a mushroom!");
 			miles.holding=this.sprites[0];
@@ -2031,6 +2049,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Boots])
 			{
 				playSound("itemfanfare");
@@ -2056,6 +2075,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Hookshot])
 			{
 				playSound("itemfanfare");
@@ -2080,6 +2100,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(!miles.has[hasID.Lens])
 			{
 				playSound("itemfanfare");
@@ -2105,7 +2126,7 @@ object.prototype.setup=function(id,par)
 		this.usable=true;
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			if(!miles.has[hasID.Bomb])
 			{
 				bConsoleBox.log("You found your first bombs!");
@@ -2132,6 +2153,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found the lantern. You can light torches with it.");
 			miles.holding=this.sprites[0];
@@ -2147,6 +2169,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			playSound("itemfanfare");
 			bConsoleBox.log("You found the hammer!");
 			miles.holding=this.sprites[0];
@@ -2292,7 +2315,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			if(OPTIONS.OverLog)
 			{
 				bCosoleBox.log("You found a bomb.");
@@ -2321,7 +2344,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			if(OPTIONS.OverLog)
 			{
 				bConsoleBox.log("You found an Arrow.");
@@ -2350,6 +2373,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			miles.holding=this.sprites[0];
 			bConsoleBox.log("You found a secret seashell! If you collect enough of these, something good is bound to happen!");
 			playSound("itemfanfare");
@@ -2370,6 +2394,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(OPTIONS.OverLog)
 			{
 				bConsoleBox.log("You found a rupee.");
@@ -2392,7 +2417,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			bConsoleBox.log("You found an apple.");
 			playSound("item");
 			this.exists=false;
@@ -2412,7 +2437,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			if(OPTIONS.OverLog)
 			{
 				bConsoleBox.log("You found five rupees.");
@@ -2435,7 +2460,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-				
+			if(this.buried){return;}	
 			if(OPTIONS.OverLog)
 			{
 				bConsoleBox.log("You found fifty rupees!");
@@ -2458,6 +2483,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.activate=function()
 		{
+			if(this.buried){return;}
 			if(OPTIONS.OverLog)
 			{
 				bConsoleBox.log("You found a heart.");
