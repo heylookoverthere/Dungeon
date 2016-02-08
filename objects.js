@@ -217,7 +217,7 @@ function object(oroom) //not a tile, not an enemy
 	this.xa=0;
 	this.ya=0;
 	this.decel=0.000;
-	this.friction=0.03;
+	this.friction=0.05;
 	this.fallingY=0;
 	this.xSmall=0;
 	this.ySmall=0;
@@ -270,7 +270,7 @@ object.prototype.toss=function(dir,force)
 {
 	this.fallingY=24;
 	this.fallingUp=8;
-	if(force==null) {force=0.4;}
+	if(force==null) {force=0.6;}
 	if(dir==0)
 	{
 		this.ya=-force;
