@@ -189,6 +189,13 @@ function object(oroom) //not a tile, not an enemy
 	this.hurty=false; 
 	this.pickupable=false;
 	this.type=0;
+	this.returning=false;
+	this.targetedX=false;
+	this.targetedY=false;
+	this.targX=0;
+	this.targY=0;
+	this.homeX=0;
+	this.homeY=0;
 	this.persistTime=30;
 	this.grabbable=false;
 	this.timed=false;
@@ -1036,6 +1043,8 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.hurty=true; 
+		this.homeX=this.x;
+		this.homeY=this.y;
 		this.playerUsable=false;
 		this.sprites.push(Sprite("spikey"));
 		this.name="Spikey thing";
@@ -2893,6 +2902,113 @@ object.prototype.update=function()
 			if(this.curSprite>this.sprites.length-1)
 			{
 				this.curSprite=1;
+			}
+		}
+	}
+	
+	if(this.type==ObjectID.SpikeyThing)
+	{
+		if((this.returning)&&(this.x==this.homeX) && (this.y==this.homeY) && (this.xSmall<4) &&(this.ySmall<4))
+		{
+			this.returning=false;
+			this.triggeredX=false;
+			this.triggeredY=false;
+			this.xv=0;
+			this.yv=0;
+			this.xa=0;
+			this.ya=0;
+			this.xSmall=0;
+			this.ySmall=0;
+			console.log("home");
+		}
+		if(this.returning)
+		{
+			
+			if(this.y==this.homeY)
+			{
+				if(this.homeX>this.x)
+				{
+					this.xa=50;
+				}else if(this.homeX<this.x)
+				{
+					this.xa=-50;
+				}
+			}else if(this.x==this.homeX)
+			{
+				if(this.homey>this.y)
+				{
+					this.ya=50;
+				}else if(this.homeY<this.y)
+				{
+					this.ya=-50;
+				}
+			}
+		}else if(this.triggeredY)
+		{
+			if((Math.abs(this.x-this.homeX)>6) || (this.x<2) ||(this.x>17))
+			{
+				this.triggeredY=false;
+				this.triggeredX=false;
+				console.log("returning");
+				this.returning=true;
+				this.ya=0;
+				this.xa=0;
+				this.xv=0;
+				this.yv=0;
+			}
+			if(true)//this.y==this.homeY)
+			{
+				if(this.targX>this.x)
+				{
+					this.xa=50;
+				}else if(this.targX<this.x)
+				{
+					this.xa=-50;
+				}
+			}
+			
+		}else if(this.triggeredX)
+		{
+			if((Math.abs(this.y-this.homeY)>6)|| (this.y<2) ||(this.y>12))
+			{
+				this.triggeredX=false;
+				this.triggeredY=false;
+				console.log("returning");
+				this.returning=true;
+			}
+			if(true)//this.x==this.homeX)
+			{
+				if(this.targY>this.y)
+				{
+					this.ya=50;
+				}else if(this.targY<this.y)
+				{
+					this.ya=-50;
+				}
+			}
+		}else
+		{
+			for(var i=0;i<entities.length;i++)
+			{
+				if((entities[i].room.z==this.room.z) && (entities[i].room.x==this.room.x) &&(entities[i].room.y==this.room.y))
+				{
+					if(entities[i].x==this.x)
+					{
+						this.targX=entities[i].x;
+						this.targY=entities[i].y;
+						console.log("triggeredx");
+						this.triggeredX=true;
+						break;
+					}
+					if(entities[i].y==this.y)
+					{
+						this.targX=entities[i].x;
+						this.targY=entities[i].y;
+						console.log("triggeredy");
+						this.triggeredY=true;
+						break;
+					}
+				}
 			}
 		}
 	}

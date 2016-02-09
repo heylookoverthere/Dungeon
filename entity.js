@@ -2800,6 +2800,12 @@ function entity(croom)
 					{
 						this.hurt(10); 
 					}
+				}if(this.room.objects[i].type==ObjectID.SpikeyThing)
+				{
+					if((this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
+					{
+						this.hurt(10); 
+					}
 				}else if(this.room.objects[i].type==ObjectID.ToggleSwitch)
 				{
 					

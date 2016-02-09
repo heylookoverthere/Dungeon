@@ -1015,6 +1015,8 @@ function room(I) { //room object
 			var higgins=new object(I);
 			higgins.x=Math.floor(tempstring[i]);
 			higgins.y=Math.floor(tempstring[i+1]);
+			higgins.homeX=higgins.x;
+			higgins.homeY=higgins.y;
 			higgins.type=Math.floor(tempstring[i+2]);
 			higgins.hidden=stringTrue(tempstring[i+3]);
 			higgins.buried=stringTrue(tempstring[i+4]);
