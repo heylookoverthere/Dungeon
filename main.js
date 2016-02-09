@@ -1542,7 +1542,7 @@ function drawGUI(can)
 	{
 		can.globalAlpha=0.75;
 		can.fillStyle="white";
-		canvas.fillRect(2,2,228,68);
+		can.fillRect(2,2,228,68);
 		can.fillStyle="blue";
 		canvas.fillRect(6,6,221,60);
 		can.fillStyle="yellow";
@@ -2459,23 +2459,43 @@ function mapUpdate()
 		playSound("pause");
 		mode=4;
 	}
-	if(upkey.check())
+	if((Xbox) || (controller.pad))
 	{
-		curDungeon.mapFloor--;
-		if(curDungeon.mapFloor<0)
+		if(controller.oneCheckUp())
 		{
-			curDungeon.mapFloor=0;
+			curDungeon.mapFloor--;
+			if(curDungeon.mapFloor<0)
+			{
+				curDungeon.mapFloor=0;
+			}
+		}
+		if(controller.oneCheckDown())
+		{
+			curDungeon.mapFloor++;
+			if(curDungeon.mapFloor>curDungeon.floors-1)
+			{
+				curDungeon.mapFloor=curDungeon.floors-1;
+			}
+		}
+	}else
+	{
+		if(upkey.check())
+		{
+			curDungeon.mapFloor--;
+			if(curDungeon.mapFloor<0)
+			{
+				curDungeon.mapFloor=0;
+			}
+		}
+		if(downkey.check())
+		{
+			curDungeon.mapFloor++;
+			if(curDungeon.mapFloor>curDungeon.floors-1)
+			{
+				curDungeon.mapFloor=curDungeon.floors-1;
+			}
 		}
 	}
-	if(downkey.check())
-	{
-		curDungeon.mapFloor++;
-		if(curDungeon.mapFloor>curDungeon.floors-1)
-		{
-			curDungeon.mapFloor=curDungeon.floors-1;
-		}
-	}
-	
 }
 function mapDraw() {
 	//SHOULDN'T
@@ -3086,80 +3106,7 @@ function mainUpdate()
 	}
 	if ((editMode) &&(editclickkey.check()))
 	{
-		if(editor.mode==editModes.Pen)
-		{
-			editor.penDown=!editor.penDown;
-		}else if(editor.mode==editModes.Stamp)
-		{
-			editor.getTile(curDungeon.curRoom()).data=editor.brushType;
-			for(var i=0;i<curDungeon.curRoom().stairs.length;i++)
-			{
-				if((curDungeon.curRoom().stairs[i].x==editor.x) &&(curDungeon.curRoom().stairs[i].y==editor.y) )
-				{
-					curDungeon.curRoom().stairs.splice(i,1);
-					i--;
-				}
-			}
-			if(editor.brushType==DungeonTileType.UpStair)
-			{
-				curDungeon.curRoom().addStair(editor.x,editor.y,true);
-			}else if(editor.brushType==DungeonTileType.DownStair)
-			{
-				curDungeon.curRoom().addStair(editor.x,editor.y,false);
-			}
-		}else if(editor.mode==editModes.Fill)
-		{
-			if((editor.brushType!=DungeonTileType.UpStair) && (editor.brushType!=DungeonTileType.DownStair))
-			{
-				curDungeon.curRoom().fill(editor.x,editor.y,editor.brushType);
-				curDungeon.curRoom().setStairs();
-			}else
-			{
-				bConsoleBox.log("Can't fill with stairs");
-			}
-		}else if(editor.mode==editModes.Door)
-		{
-			if(editor.x==2) //left
-			{
-				curDungeon.smartAddDoor(1,editor.y,3,editor.doorType);
-				if(editor.doorType==doorType.Curtains)
-				{
-					var kurtrussel = makeObject(1,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
-						kurtrussel.hasSecret=true;
-				}
-			}else if(editor.x==17) //right
-			{
-			    curDungeon.smartAddDoor(18,editor.y,1,editor.doorType);
-				if(editor.doorType==doorType.Curtains)
-				{
-					var kurtrussel = makeObject(18,editor.y,curDungeon.curRoom(),ObjectID.Curtains);
-						kurtrussel.hasSecret=true;
-				}
-			}else if(editor.y==2) //top
-			{
-				curDungeon.smartAddDoor(editor.x,1,0,editor.doorType);
-				if(editor.doorType==doorType.Curtains)
-				{
-					var kurtrussel = makeObject(editor.x,1,curDungeon.curRoom(),ObjectID.Curtains);
-						kurtrussel.hasSecret=true;
-				}
-			}else if(editor.y==12) //bottom
-			{
-				curDungeon.smartAddDoor(editor.x,13,2,editor.doorType);
-				if(editor.doorType==doorType.Curtains)
-				{
-					var kurtrussel = makeObject(editor.x,1,13,curDungeon.curRoom(),ObjectID.Curtains);
-						kurtrussel.hasSecret=true;
-				}
-			}else
-			{
-				bConsoleBox.log("Not the best spot for a door.");
-				return;
-			}
-				
-		}
-		//special case for stairs!!
-			
+		editor.click(false,0,0);
 	}
 	for (var h=0;h<buttons.length;h++)
 	{

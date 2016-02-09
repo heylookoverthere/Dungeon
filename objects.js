@@ -321,10 +321,12 @@ object.prototype.setup=function(id,par)
 		this.blockArrows=true;
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("talllamp"));
+		this.topLayer.push(Sprite("talllamptopoff"));
 		this.topLayer.push(Sprite("talllamptop0"));
 		this.topLayer.push(Sprite("talllamptop1"));
 		this.topLayer.push(Sprite("talllamptop2"));
 		this.topLayer.push(Sprite("talllamptop3"));
+		this.curTopSprite=1;
 	    this.name="Tall lamp";
 		this.playerUsable=true;
 		this.flame=new flame(this.room.lights);
@@ -2868,6 +2870,7 @@ object.prototype.incMove=function()
 	}
 }
 
+
 object.prototype.update=function()
 {
 	if(this.fallingUp>0)
@@ -2898,7 +2901,7 @@ object.prototype.update=function()
 	
 	this.incMove();
 	
-	if((this.type==ObjectID.TallLamp)) // && (this.active))
+	if((this.type==ObjectID.TallLamp)  && (this.on))
 	{
 		this.ani++;
 		if(this.ani>this.aniRate)
@@ -2907,7 +2910,7 @@ object.prototype.update=function()
 			this.curTopSprite++;
 			if(this.curTopSprite>this.topLayer.length-1)
 			{
-				this.curTopSprite=0;
+				this.curTopSprite=1;
 			}
 			//console.log(this.curTopSprite);
 		}
@@ -2972,6 +2975,10 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 		{
 			this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+yOffh-16+this.ySmall-this.fallingY*2);
 		}
+	}
+	if(!this.on)
+	{
+		this.curTopSprite=0;
 	}
 	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+1+yOffh+this.ySmall-this.fallingY*2);
 	can.globalAlpha=1;

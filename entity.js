@@ -1384,6 +1384,11 @@ function entity(croom)
 		}
 	}
 	
+	this.getContext=function()
+	{
+		
+	}
+	
 	this.useItem=function(secondary)
 	{
 		if(this.swimming) {return false;}

@@ -1174,6 +1174,10 @@ function dungeon(path)
 				if(simplicity.y>10)
 				{
 					this.rooms[this.roomZ][this.roomX][this.roomY-1].objects[g].draw(can,cam,xOffset,tyOffset);
+					if(this.rooms[this.roomZ][this.roomX][this.roomY-1].objects[g].topLayer.length>0)
+					{
+						this.rooms[this.roomZ][this.roomX][this.roomY-1].objects[g].drawTop(can,cam,xOffset,tyOffset);
+					}
 				}
 			}
 			for(var g=0;g<this.rooms[this.roomZ][this.roomX][this.roomY-1].stairs.length;g++)
@@ -1273,6 +1277,10 @@ function dungeon(path)
 				if(simplicity.y<4)
 				{
 					this.rooms[this.roomZ][this.roomX][this.roomY+1].objects[g].draw(can,cam,xOffset,tyOffset);
+					if(this.rooms[this.roomZ][this.roomX][this.roomY+1].objects[g].topLayer.length>0)
+					{
+						this.rooms[this.roomZ][this.roomX][this.roomY+1].objects[g].drawTop(can,cam,xOffset,tyOffset);
+					}
 					//simplicity.sprites[simplicity.curSprite].draw(can,(simplicity.x-cam.tileX)*ROOM_TILE_SIZE+xOffset,(simplicity.y-cam.tileY)*ROOM_TILE_SIZE+tyOffset);
 				}
 			}
@@ -1365,9 +1373,14 @@ function dungeon(path)
 			for(var g=0;g<this.rooms[this.roomZ][this.roomX-1][this.roomY].objects.length;g++)
 			{
 				var simplicity=this.rooms[this.roomZ][this.roomX-1][this.roomY].objects[g];
-				if(simplicity.x>15)
+				if(simplicity.x>13)
 				{
 					this.rooms[this.roomZ][this.roomX-1][this.roomY].objects[g].draw(can,cam,txOffset,yOffset);
+					if(this.rooms[this.roomZ][this.roomX-1][this.roomY].objects[g].topLayer.length>0)
+					{
+						this.rooms[this.roomZ][this.roomX-1][this.roomY].objects[g].drawTop(can,cam,txOffset,yOffset);
+					}
+
 					//simplicity.sprites[simplicity.curSprite].draw(can,(simplicity.x-cam.tileX)*ROOM_TILE_SIZE+txOffset,(simplicity.y-cam.tileY)*ROOM_TILE_SIZE+yOffset);
 				}
 			}
@@ -1392,6 +1405,8 @@ function dungeon(path)
 					}
 				}
 			}
+			can.fillStyle="black"
+			can.fillRect(0,149,20,425);
 			if(curDungeon.roomY>0)
 			{
 				curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY-1].darkenAdj(can,txOffset,yOffset);
@@ -1463,6 +1478,10 @@ function dungeon(path)
 				if(simplicity.x<4)
 				{
 					this.rooms[this.roomZ][this.roomX+1][this.roomY].objects[g].draw(can,cam,txOffset,yOffset);
+					if(this.rooms[this.roomZ][this.roomX+1][this.roomY].objects[g].topLayer.length>0)
+					{
+						this.rooms[this.roomZ][this.roomX+1][this.roomY].objects[g].drawTop(can,cam,txOffset,yOffset);
+					}
 					//simplicity.sprites[simplicity.curSprite].draw(can,(simplicity.x-cam.tileX)*ROOM_TILE_SIZE+txOffset,(simplicity.y-cam.tileY)*ROOM_TILE_SIZE+yOffset);
 				}
 			}

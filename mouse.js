@@ -217,10 +217,331 @@ function mouseClick(e) {  //represents the mouse
 	
 	if(mode==1)
 	{
+		for(var i=0;i<buttons.length;i++)
+		{
+			if(buttons[i].hasFocus)
+			{
+				if((!buttons[i].unClickable))
+				{
+					buttons[i].hasFocus=false;
+					buttons[i].exists=false;
+					return;
+				}else
+				{
+					//bConsoleBox.log("Choose!","yellow");
+				}
+
+			}
+			if((isOver(buttons[i]))  && (buttons[i].visible))
+			{
+				if((!buttons[i].greyed) && (!buttons[i].decorative)){
+					//clearFocus();
+					
+					
+					//buttons[i].on=!buttons[i].on;
+					for(var k=0;k<buttons[i].linked.length;k++)
+					{
+						buttons[i].linked[k].on=false;
+					}
+					buttons[i].doThings();
+					//console.log(buttons[i].object.name);
+				}
+
+				return;
+			}
+		}
+		if(editMode)
+		{
+			editor.click(true,mX,mY);
+		}else
+		{
+			if((mX>812) && (mY>106) && (mX<884) && (mY<144))//todo
+			{
+				playSound("pause");
+				mode=4;
+				return;
+			
+			}
+			if((mX>812) && (mY>57) && (mX<884) && (mY<92))//todo
+			{
+				playSound("pause");
+				mode=4;
+				return;
+			
+			}
+			if(!OPTIONS.MouseControls) {return;}
+			if ($("#dialogBox").length > 0) 
+			{
+				$("#dialogBox").remove();
+				if(gameOver)
+				{
+					mode=0;
+				}
+				return;
+			} else 
+			{
+			
+			} 
 		
-		console.log(editor);
-		editor.aclick(mX,mY);
-		console.log(editor);
+			for(var i=0;i<entities.length;i++)//don't include miles
+			{
+				if((entities[i].room.z==curDungeon.roomZ)&&(entities[i].room.x==curDungeon.roomX)&&(entities[i].room.y==curDungeon.roomY)&&(isOverTiled(entities[i],32)))
+				{//and next to player!
+					if(entities[i].isPlayer) {continue;}
+					if(entities[i].alive)
+					{
+						entities[i].say();
+						if((!entities[i].partyMember) && (entities[i].autoJoin))
+						{
+							theParty.add(entities[i]);
+						}
+						return;
+					}
+					
+				}
+			}
+			if(miles.holding)
+			{
+				miles.holding=false;
+				return;
+			}
+			if(miles.going)
+			{
+				miles.going=false;
+				miles.path=null;
+				miles.onArrival=function(){};
+				miles.destObj=null;
+				bConsoleBox.log("stopped.");
+				return;
+					
+			}
+			var meg=isOverTiledList(curDungeon.curRoom().objects,32,true);
+			if((meg) && (!meg.underWater))
+			{	
+				var nard=new Array();
+				if((meg.type==ObjectID.Bush) && (!meg.on))
+				{
+					nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y,miles,true));
+				}else
+				{
+					if(meg.y<curDungeon.curRoom().height-3)
+					{
+						nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y+1,miles,true));
+					}
+					if(meg.x<curDungeon.curRoom().width-3)
+					{
+						nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x+1,meg.y,miles,true));
+					}
+					if(meg.x>3)
+					{
+						nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x-1,meg.y,miles,true));
+					}
+					if(meg.y>3)
+					{
+						nard.push(curDungeon.curRoom().getPath(miles.x,miles.y,meg.x,meg.y-1,miles,true));
+					}
+					if((meg.type!=ObjectID.Chest)&&(meg.type!=ObjectID.Sign))
+					{
+						nard.sort(function (a, b) {
+						  if (a.length<b.length) {
+							return -1;
+						  }
+						  if (a.length>b.length) {
+							return 1;
+						  }
+						  // a must be equal to b
+						  return 0;
+						});
+					}
+				}
+				for(var i=0;i<nard.length;i++)
+				{
+					var abort=false;
+					if((miles.x==meg.x) &&  (miles.y==meg.y))
+					{
+						nard[i].push(0);
+						abort=true;
+					}
+					if(nard[i].length>0)
+					{
+						miles.go(nard[i][nard[i].length-1].x,nard[i][nard[i].length-1].y,meg);
+						/*if(!abort)
+						{
+							miles.x=nard[i][nard[i].length-1].x;
+							miles.y=nard[i][nard[i].length-1].y;
+						}
+						if(meg.playerUsable)
+						{
+							meg.playerActivate();
+						}
+						if(miles.x>meg.x)
+						{
+							miles.dir=3;
+						}else if(miles.x<meg.x)
+						{
+							miles.dir=1;
+						}
+						if(miles.y>meg.y)
+						{
+							miles.dir=0;
+						}else if(miles.y<meg.y)
+						{
+							miles.dir=2;
+						}*/
+						return;
+					}
+				}
+					bConsoleBox.log("cannot reach that object!");
+					playSound("error");
+			}
+			//if clicking stairs, try to use them
+			if((tx>1) && (tx<18) && (ty>1) &&(ty<13)) //check for path!
+			{
+				var nard=curDungeon.curRoom().getPath(miles.x,miles.y,tx,ty,miles,true);
+				if(curDungeon.curRoom().tiles[tx][ty].data==DungeonTileType.Hole)
+				{
+					nard=curDungeon.curRoom().getPath(miles.x,miles.y,tx,ty,miles,false);
+				}
+				if(!nard) {nard=new Array();}
+				if((miles.x==tx) &&  (miles.y==ty))
+				{
+					nard.push(0);
+				}
+				if(nard.length>0)
+				{
+					if(curDungeon.curRoom().tiles[tx][ty].data==DungeonTileType.UpStair)
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeFloor(true,!editMode,miles);
+						}
+						miles.go(tx,ty);
+					}else if(curDungeon.curRoom().tiles[tx][ty].data==DungeonTileType.DownStair)
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeFloor(false,!editMode,miles);
+						}
+		
+						miles.go(tx,ty);
+						return;
+					}else if(curDungeon.curRoom().tiles[tx][ty].data==DungeonTileType.Hole)
+					{
+						miles.onArrival=function(){};
+						if((miles.x!=tx) ||  (miles.y!=ty))
+						{
+							miles.goHole(tx,ty);
+						}
+						return;
+					}else if(curDungeon.curRoom().walkable(tx,ty,true,miles))
+					{
+						miles.onArrival=function(){};
+						if((miles.x!=tx) ||  (miles.y!=ty))
+						{
+							miles.go(tx,ty);
+						}
+						return;
+
+					}
+				}else
+				{
+					bConsoleBox.log("cannot get there from here.");	
+					playSound("error");
+				}
+
+			}
+			var peg=isOverTiledList(curDungeon.curRoom().exits,32);
+			if(peg)
+			{	
+				var nard;
+				if(peg.orientation==0) 
+				{
+					nard=curDungeon.curRoom().getPath(miles.x,miles.y,peg.x,peg.y+1,miles,true);
+					if((miles.x==peg.x) &&  (miles.y==peg.y+1))
+					{
+						nard.push(0);
+					}
+				}else if(peg.orientation==1) 
+				{
+					nard=curDungeon.curRoom().getPath(miles.x,miles.y,peg.x-1,peg.y,miles,true);
+					if((miles.x==peg.x-1) &&  (miles.y==peg.y))
+					{
+						nard.push(0);
+					}
+				}else if(peg.orientation==2) 
+				{
+					nard=curDungeon.curRoom().getPath(miles.x,miles.y,peg.x,peg.y-1,miles,true);
+					if((miles.x==peg.x) &&  (miles.y==peg.y-1))
+					{
+						nard.push(0);
+					}
+				}else if(peg.orientation==3) 
+				{
+					nard=curDungeon.curRoom().getPath(miles.x,miles.y,peg.x+1,peg.y,miles,true);
+					if((miles.x==peg.x+1) &&  (miles.y==peg.y))
+					{
+						nard.push(0);
+					}
+				}
+
+				
+				if(nard.length>0)
+				{
+					
+					
+					if((tx>0) && (tx<20)&&(ty>0) && (ty<14))
+					{
+					if(peg.orientation==0) 
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeRoom(0,true);
+						}
+						miles.go(tx,ty+1);
+					}else if(peg.orientation==1) 
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeRoom(1,true);
+						}
+						miles.go(tx-1,ty);
+					}else if(peg.orientation==2) 
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeRoom(2,true);
+						}
+						miles.go(tx,ty-1);
+					}else if(peg.orientation==3) 
+					{
+						miles.onArrival=function()
+						{
+							curDungeon.changeRoom(3,true);
+						}
+						miles.go(tx+1,ty);
+					}
+					/*if((peg.orientation==0) || (peg.orientation==2))
+					{
+						if((tx>1) && (tx<18))
+						{
+							miles.x=tx;
+						}
+					}else
+					{
+						if((ty>1) && (ty<12))
+						{
+							miles.y=ty;
+						}
+					}
+					curDungeon.changeRoom(peg.orientation,true);*/
+					}
+				}else
+				{
+					bConsoleBox.log("cannot reach that door!");	
+					playSound("error");
+				}
+			}
+		}
 	}else if (mode==2)
 	{
 		if(editMode)
@@ -231,11 +552,11 @@ function mouseClick(e) {  //represents the mouse
 			var bobsize=28;
 			var miniMapX=0;
 			var miniMapY=0;
-			//console.log(mx,my);
-			if((mx>217) && (my>19)&& (mx<640)&& (my<245))//and less than width and height. 
+			//console.log(mX,mY);
+			if((mX>217) && (mY>19)&& (mX<640)&& (mY<245))//and less than width and height. 
 			{ 
-				miniMapx=Math.round((mx+bobxFset)/bobsize)-16;
-				miniMapy=Math.round((my+bobyFset)/bobsize)-2;
+				miniMapx=Math.round((mX+bobxFset)/bobsize)-16;
+				miniMapy=Math.round((mY+bobyFset)/bobsize)-2;
 				//console.log(miniMapx,miniMapy);
 				if((miniMapx>-1) && (miniMapy>-1) && (miniMapx<15) &&( miniMapy<8))
 				{
@@ -244,10 +565,10 @@ function mouseClick(e) {  //represents the mouse
 				{
 					//console.log("Learn to click!");
 				} 
-			}else if((curDungeon.mapFloor+1<curDungeon.floors)&& (mx>217) && (my>265)&& (mx<640)&& (my<490))//and less than width and height. 
+			}else if((curDungeon.mapFloor+1<curDungeon.floors)&& (mX>217) && (mY>265)&& (mX<640)&& (mY<490))//and less than width and height. 
 			{ 
-				miniMapx=Math.round((mx+bobxFset)/bobsize)-16;
-				miniMapy=Math.round((my+bobyFset)/bobsize)-11;
+				miniMapx=Math.round((mX+bobxFset)/bobsize)-16;
+				miniMapy=Math.round((mY+bobyFset)/bobsize)-11;
 				if((miniMapx>-1) && (miniMapy>-1) && (miniMapx<15) &&( miniMapy<8))
 				{
 					curDungeon.setRoom(curDungeon.mapFloor+1,miniMapx,miniMapy);
@@ -255,11 +576,11 @@ function mouseClick(e) {  //represents the mouse
 				{
 					//console.log("Learn to click!");
 				} 
-			}else if((curDungeon.mapFloor+2<curDungeon.floors)&& (mx>217) && (my>509)&& (mx<640)&& (my<735))//and less than width and height. 
+			}else if((curDungeon.mapFloor+2<curDungeon.floors)&& (mX>217) && (mY>509)&& (mX<640)&& (mY<735))//and less than width and height. 
 			{ 
-				miniMapx=Math.round((mx+bobxFset)/bobsize)-16;
-				miniMapy=Math.round((my+bobyFset)/bobsize)-19;
-				console.log(mx,my);
+				miniMapx=Math.round((mX+bobxFset)/bobsize)-16;
+				miniMapy=Math.round((mY+bobyFset)/bobsize)-19;
+				console.log(mX,mY);
 				console.log(miniMapx,miniMapy);
 				if((miniMapx>-1) && (miniMapy>-1) && (miniMapx<15) &&( miniMapy<8))
 				{
@@ -427,66 +748,19 @@ function mouseClick(e) {  //represents the mouse
 		//editor.penDown=false;
 		//editor.clearConfirm();
 	}
-	for(var i=0;i<buttons.length;i++)
-	{
-		if(buttons[i].hasFocus)
-		{
-			if((!buttons[i].unClickable))
-			{
-				buttons[i].hasFocus=false;
-				buttons[i].exists=false;
-				return;
-			}else
-			{
-				//bConsoleBox.log("Choose!","yellow");
-			}
-			//hacky
-			/*if(isOver(buttons[i]))
-			{
-			
-			}else
-			{
-				if(buttons[i].optionOne)
-				{
-					buttons[i].optionOne();
-				}
-			}*/
-		}
-	}
-	for(var i=0;i<buttons.length;i++)
-	{
-		if((isOver(buttons[i]))  && (buttons[i].visible))
-		{
-			if((!buttons[i].greyed) && (!buttons[i].decorative)){
-				//clearFocus();
-				
-				
-				//buttons[i].on=!buttons[i].on;
-				for(var k=0;k<buttons[i].linked.length;k++)
-				{
-					buttons[i].linked[k].on=false;
-				}
-				buttons[i].doThings();
-				//console.log(buttons[i].object.name);
-			}
-
-			return;
-		}
-	}
+	
+	
 //	console.log(curDungeon.curRoom().objects.length);
 	//console.log(curDungeon.curRoom().objects);
 	if((editMode))
 	{
-		
-		
-		
 		var bobxFset=620;
 		var bobyFset=609;
 		var bobsize=18;
 		var miniMapX=0;
 		var miniMapY=0;
 		if((mX>bobxFset) && (mY>bobyFset))
-		{ //they're clicking the fucking minimap. Those cunts. 
+		{ //they're clicking the minimap. 
 			
 			miniMapx=Math.floor((mX+bobxFset)/bobsize)-69;
 			miniMapy=Math.floor((mY+bobyFset)/bobsize)-68;
@@ -495,10 +769,7 @@ function mouseClick(e) {  //represents the mouse
 				curDungeon.setRoom(curDungeon.roomZ,miniMapx,miniMapy);
 			}else
 			{
-				if(!OPTIONS.SafeMode)
-				{
-					bConsoleBox.log("Learn to fucking click, cuntface.","Yellow");
-				}
+				
 			} 
 		}
 		if((mX>25) && (mX<151) && (mY>68) &&(mY<113))
