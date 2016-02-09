@@ -1356,31 +1356,50 @@ function entity(croom)
 			if(glen)
 			{
 				glen.buried=false;
+				glen.toss(miles.dir);
+				glen.fallingUp=12;
+				glen.friction=0.1;
 			}else if(Math.random()*10>4)
 			{
 				var bmoke=3;
 				if(Math.random()*10>8)
 				{
-					makeObject(spotX,spotY,this.room,ObjectID.Shell);
+					var ben=makeObject(spotX,spotY,this.room,ObjectID.Shell);
+					ben.toss(miles.dir);
+					ben.fallingUp=12;
+					ben.friction=0.1;
 					return;
 				}
 				if((this.hp<miles.maxHp) && (Math.random()*10<3))
 				{
-					makeObject(spotX,spotY,this.room,ObjectID.Heart);
+					var ben=makeObject(spotX,spotY,this.room,ObjectID.Heart);
+					ben.toss(miles.dir);
+					ben.fallingUp=12;
+					ben.friction=0.1;
 					return;
 				}
 				if((this.has[hasID.Bow]) && (Math.random()*10<3))
 				{
-					makeObject(spotX,spotY,this.room,ObjectID.Arrow);
+					var ben=makeObject(spotX,spotY,this.room,ObjectID.Arrow);
+					ben.toss(miles.dir);
+					ben.fallingUp=12;
+					ben.friction=0.1;
 					return;
 				}
 				if((this.has[hasID.Bomb]) && (Math.random()*10<3))
 				{
-					makeObject(spotX,spotY,this.room,ObjectID.BombRefill);
+					var ben=makeObject(spotX,spotY,this.room,ObjectID.BombRefill);
+					ben.toss(miles.dir);
+					ben.fallingUp=12;
+					ben.friction=0.1;
 					return;
 				}
 				var pojk=500+Math.floor(Math.random()*2);
-				makeObject(spotX,spotY,this.room,pojk);
+				var ben=makeObject(spotX,spotY,this.room,pojk);
+				ben.toss(miles.dir);
+				ben.fallingUp=12;
+				ben.friction=0.1;
+				
 			}
 			return true;
 		}
