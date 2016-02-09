@@ -1476,6 +1476,23 @@ function entity(croom)
 				bConsoleBox.log("You can't dig here.","yellow");
 			}
 
+		}else if(this.getEquipped(secondary)==ObjectID.Hookshot)
+		{
+	
+			if(this.dir==0)
+			{
+				this.shootHook(90);
+			}else if(this.dir==1)
+			{
+				this.shootHook(180);
+			}else if(this.dir==2)
+			{
+				this.shootHook(270);
+			}else if(this.dir==3)
+			{
+				this.shootHook(0);
+			}
+			
 		}else if(this.getEquipped(secondary)==ObjectID.Bow)
 		{
 			if(this.arrows>0)
@@ -1790,6 +1807,40 @@ function entity(croom)
 		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
 		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
 		poot.setup(0);
+		this.projectiles.push(poot);
+	}
+	
+	this.shootHook=function(ang)
+	{
+		//this.acting=true;
+		//this.action=actionID.Hookshot;
+		//this.actfor=750;
+		//this.actStart=new Date().getTime();
+
+		var poot=new projectile(this);
+
+		poot.exists=true; 
+		poot.angle=ang;
+		if(ang==270) //hack
+		{
+			poot.x+=32;
+		}
+		if(ang==0)
+		{
+			poot.y+=28;
+		}
+		if(ang==225)
+		{
+			poot.x+=32;
+		}
+		if(ang==315)
+		{
+			poot.x+=32;
+			poot.y+=32;
+		}
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(ProjTypes.Hookshot);
 		this.projectiles.push(poot);
 	}
 	
@@ -2160,7 +2211,7 @@ function entity(croom)
 		}
 		for(var i=0;i<this.room.objects.length;i++)
 		{
-			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy))
+			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand))
 			{
 				return this.room.objects[i];
 			}
@@ -2206,6 +2257,31 @@ function entity(croom)
 			}
 		}
 		return null;
+	}
+	
+	this.closeEnoughTo=function(obj)
+	{
+		if((obj.x==this.x) && (obj.y==this.y))
+		{
+			return true;
+		}
+		
+		if((obj.x==this.x+1) &&(obj.y==this.y) && (this.xSmall>8))
+		{
+			return true;
+		}else if((obj.x==this.x-1) &&(obj.y==this.y) && (this.xSmall<-8))
+		{
+			return true;
+		}else if((obj.x==this.x) &&(obj.y==this.y+1) && (this.ySmall>8))
+		{
+			return true;
+		}else if((obj.x==this.x) &&(obj.y==this.y-1) && (this.ySmall<-8))
+		{
+			return true;
+		}
+		
+		return false;
+		
 	}
 	
 	this.getFacingBomb=function()
@@ -2725,7 +2801,7 @@ function entity(croom)
 							this.room.objects[i].playerActivate();
 						}
 					}
-				}else if((this.room.objects[i].pickupable) &&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
+				}else if((this.room.objects[i].pickupable) &&(this.closeEnoughTo(this.room.objects[i])))//(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
 					if(!this.room.objects[i].underWater)
 					{

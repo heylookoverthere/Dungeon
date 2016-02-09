@@ -190,6 +190,7 @@ function object(oroom) //not a tile, not an enemy
 	this.pickupable=false;
 	this.type=0;
 	this.persistTime=30;
+	this.grabbable=false;
 	this.timed=false;
 	this.underWater=false;
 	this.buried=false; 
@@ -1183,6 +1184,7 @@ object.prototype.setup=function(id,par)
 	}else if (this.type==ObjectID.Pot) {
 		this.sprites=new Array();
 		this.bombable=true;
+		this.grababble=true;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("pot"));
 		this.sprites.push(Sprite("shatter0"));
@@ -1203,6 +1205,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
+			
 			if(!this.on)
 			{
 				playSound("shatter");
@@ -1240,6 +1243,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.grababble=true;
 		this.blockArrows=true;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("rock"));
@@ -1316,18 +1320,6 @@ object.prototype.setup=function(id,par)
 		this.name="rock";
 		this.activate=function()
 		{
-			if(false)//!miles.has[hasID.Glove]) //need glvoes
-			{
-				if(OPTIONS.SafeMode)
-				{
-					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
-				}else
-				{
-					bConsoleBox.log("No glove no love!", "yellow"); 
-					playSound("error");
-				}
-				return false;
-			} 
 			if(this.on)
 			{
 				playSound("shatter");
@@ -1378,18 +1370,6 @@ object.prototype.setup=function(id,par)
 		this.name="cracked rock";
 		this.activate=function()
 		{
-			if(false)// !miles.has[hasID.Glove]) //need glvoes
-			{
-				if(OPTIONS.SafeMode)
-				{
-					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
-				}else
-				{
-					bConsoleBox.log("No glove no love!", "yellow"); 
-					playSound("error");
-				}
-				return false;
-			} 
 			if(this.on)
 			{
 				playSound("shatter");

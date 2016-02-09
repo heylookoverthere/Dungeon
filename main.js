@@ -3598,7 +3598,7 @@ function mainUpdate()
 						miles.grabbed=mled;
 					}
 					var gled=miles.getFacingObject();
-					if((gled) &&(miles.has[hasID.Glove])&& (gled.fallingY<1) && ((gled.type==ObjectID.Rock) || (gled.type==ObjectID.Pot)))
+					if((gled) &&(miles.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble))
 					{
 						miles.grabbed=gled;
 					}else if((gled) && (gled.playerUsable))
@@ -4144,7 +4144,6 @@ function mainUpdate()
 				mode=0;
 				document.getElementById("mainSong").pause();
 			}
-			console.log(OPTIONS.confirmationPopUps)
 			if(OPTIONS.confirmationPopUps)
 			{
 				popQuestion("Returning to main menu. Unsaved changes will be lost. Last saved "+mlk+" Confirm? (Y/N)");
