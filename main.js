@@ -448,7 +448,7 @@ bConsoleBox.y=18;
 bConsoleBox.x=18;
 bConsoleBox.lines=4;
 
-var dungname="tutorial";
+var dungname="testmap";
 
 
 
@@ -2297,7 +2297,7 @@ function startGame(goolp,ploop)
 		//curDungeon.addFloor();
 	}else if(!ploop)
 	{
-		pungname=prompt("Enter name of dungeon to load","tutorial");
+		pungname=prompt("Enter name of dungeon to load","testmap");
 		if(pungname==null) {return;}
 		while (!acceptableName(pungname,true)) //doesn't exist
 		{
@@ -3586,20 +3586,31 @@ function mainUpdate()
 						theParty.add(pled);
 					}
 					return;
-				}
-				var gled=miles.getFacingObject();
-				if((gled) && (gled.playerUsable))
+				}else if(miles.grabbed!=null)
 				{
-					if(gled.frontOnly)
+					miles.grabbed.toss(miles.dir,10);
+					miles.grabbed=null;
+				}else
+				{
+					var mled=miles.getFacingBomb();
+					if((mled) && (mled.fallingY<1))
 					{
-						if(gled.y<miles.y)
+						miles.grabbed=mled;
+					}
+					var gled=miles.getFacingObject();
+					if((gled) && (gled.playerUsable))
+					{
+						if(gled.frontOnly)
 						{
-						
+							if(gled.y<miles.y)
+							{
+							
+								gled.playerActivate();
+							}
+						}else
+						{
 							gled.playerActivate();
 						}
-					}else
-					{
-						gled.playerActivate();
 					}
 				}
 			}
@@ -4239,6 +4250,15 @@ function mainUpdate()
 		if(!curDungeon.curRoom().lights[i].alive)
 		{
 			curDungeon.curRoom().lights.splice(i,1);
+			i--;
+		}
+	}
+	for(var i=0;i<curDungeon.curRoom().bombs.length;i++)
+	{
+		curDungeon.curRoom().bombs[i].update();
+		if(!curDungeon.curRoom().bombs[i].exists)
+		{
+			curDungeon.curRoom().bombs.splice(i,1);
 			i--;
 		}
 	}

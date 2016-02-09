@@ -436,6 +436,7 @@ function room(I) { //room object
 	I.lightLevel=0.00;
 	I.miniMapX=0;
 	I.miniMapY=0;
+	I.bombs=new Array();
 	I.explored=false;//TODO
 	I.hidden=false;
 	I.log=new Array();

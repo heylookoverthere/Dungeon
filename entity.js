@@ -38,6 +38,7 @@ function bomb(croom,isSuper)
 	this.y=0;
 	this.exists=false;
 	this.timePlaced=0;
+	this.name="bomb";
 	this.fuse=4;
 	this.room=croom;
 	this.armed=false;
@@ -470,9 +471,8 @@ bomb.prototype.canMove=function(dir)
 	}
 bomb.prototype.toss=function(dir,force)
 {
-	this.fallingY=24;
-	this.fallingUp=8;
-	if(force==null) {force=0.6;}
+	this.fallingUp=24;
+	if(force==null) {force=1000000.6;}
 	if(dir==0)
 	{
 		this.ya=-force;
@@ -500,14 +500,14 @@ bomb.prototype.incMove=function()
 	if(this.fallingY<1){
 		if(this.xv>0)
 		{
-			this.xv-=this.friction;
+			this.xv-=this.friction/2;
 			if(this.xv<0)
 			{
 				this.xv=0;
 			}
 		}else if(this.xv<0)
 		{
-			this.xv+=this.friction;
+			this.xv+=this.friction/2;
 			if(this.xv>0)
 			{
 				this.xv=0;
@@ -517,7 +517,7 @@ bomb.prototype.incMove=function()
 	{
 				if(this.xv>0)
 		{
-			this.xv-=this.friction/2;
+			this.xv-=this.friction/3;
 			if(this.xv<0)
 			{
 				this.xv=0;
@@ -534,20 +534,20 @@ bomb.prototype.incMove=function()
 	}
 	if(this.yv>0)
 	{
-		this.yv-=this.friction;
+		this.yv-=this.friction/2;
 		if(this.yv<0)
 		{
 			this.yv=0;
 		}
 	}else if(this.yv<0)
 	{
-		this.yv+=this.friction;
+		this.yv+=this.friction/2;
 		if(this.yv>0)
 		{
 			this.yv=0;
 		}
 	}
-	if(this.xa>0)
+	/*if(this.xa>0)
 	{
 		this.xa-=this.decel;
 		if(this.xa<0)
@@ -561,7 +561,7 @@ bomb.prototype.incMove=function()
 		{
 			this.xa=0;
 		}
-	}
+	}*/
 	if(this.ya>0)
 	{
 		this.ya-=this.decel;
@@ -680,6 +680,7 @@ function entity(croom)
 	this.baseSpeed=4;
 	this.speed=4;
 	this.team=0;
+	this.grabbed=null;
 	this.swordDamage=10;
 	this.enteredX=this.x;
 	this.enteredY=this.y;
@@ -947,6 +948,7 @@ function entity(croom)
 		edsbomb.armed=true;
 		edsbomb.timePlaced=new Date().getTime();
 		this.activebombs.push(edsbomb);
+		this.room.bombs.push(edsbomb);
 	}
 	this.getEquipped=function(secondary)
 	{
@@ -1390,6 +1392,15 @@ function entity(croom)
 		if((pled) && (pled.team==this.team))
 		{
 			return "talk to "+pled.name;
+		}
+		if(this.grabbed!=null)
+		{
+			return "throw "+this.grabbed.name;
+		}
+		var mled=this.getFacingBomb();
+		if(mled)
+		{
+			return "grab bomb";
 		}
 		gled=this.getFacingObject();
 		if(gled)
@@ -2197,8 +2208,48 @@ function entity(croom)
 		return null;
 	}
 	
+	this.getFacingBomb=function()
+	{
+		var gx=this.x;
+		var gy=this.y;
+		if(this.dir==0)
+		{
+			gy--;
+		}else if(this.dir==1)
+		{
+			gx++;
+		}else if(this.dir==2)
+		{
+			gy++;
+		}else if(this.dir==3)
+		{
+			gx--;
+		}
+		for(var i=0;i<this.room.bombs.length;i++)
+		{
+			if((this.room.bombs[i].x==this.x) && (this.room.bombs[i].y==this.y))
+			{
+				return this.room.bombs[i];
+			}else if((this.room.bombs[i].x==gx) && (this.room.bombs[i].y==gy))
+			{
+				return this.room.bombs[i];
+			}
+			
+		}
+		
+		return null;
+	}
+	
 	this.update=function()
 	{
+		if(this.grabbed)
+		{
+			this.grabbed.x=this.x;
+			this.grabbed.y=this.y;
+			this.grabbed.xSmall=this.xSmall;
+			this.grabbed.ySmall=this.ySmall;
+			this.grabbed.fallingY=this.fallingY+16;
+		}
 		for(var i=0;i<this.projectiles.length;i++)
 		{
 			this.projectiles[i].update();

@@ -202,6 +202,7 @@ function object(oroom) //not a tile, not an enemy
 	this.hookable=false;
 	this.hidden=false;
 	this.active=false;
+	this.activateOnImpact=false;
 	this.hasSecret=false;
 	this.cooldown=0;
 	this.frontOnly=false;
@@ -1183,6 +1184,7 @@ object.prototype.setup=function(id,par)
 	}else if (this.type==ObjectID.Pot) {
 		this.sprites=new Array();
 		this.bombable=true;
+		this.activateOnImpact=true;
 		this.sprites.push(Sprite("pot"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1233,6 +1235,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=false;//true;
 		this.on=true;
 		this.blockArrows=true;
+		this.activateOnImpact=true;
 		this.sprites.push(Sprite("rock"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -2720,7 +2723,7 @@ object.prototype.incMove=function()
 		}
 	}else
 	{
-				if(this.xv>0)
+		if(this.xv>0)
 		{
 			this.xv-=this.friction/2;
 			if(this.xv<0)
