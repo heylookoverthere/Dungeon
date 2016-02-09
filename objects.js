@@ -2919,7 +2919,7 @@ object.prototype.update=function()
 			this.ya=0;
 			this.xSmall=0;
 			this.ySmall=0;
-			console.log("home");
+			//console.log("home");
 		}
 		if(this.returning)
 		{
@@ -2945,18 +2945,24 @@ object.prototype.update=function()
 			}
 		}else if(this.triggeredY)
 		{
-			if((Math.abs(this.x-this.homeX)>6) || (this.x<2) ||(this.x>17))
+			if((Math.abs(this.homeX-this.x)>6) || (this.x<2) ||(this.x>17)|| (this.x==this.targX))
 			{
 				this.triggeredY=false;
 				this.triggeredX=false;
-				console.log("returning");
 				this.returning=true;
-				this.ya=0;
-				this.xa=0;
+				this.triggeredX=false;
+				this.triggeredY=false;
 				this.xv=0;
 				this.yv=0;
+				this.xa=0;
+				this.ya=0;
+				this.targX=this.homeX;
+				this.targY=this.homeY;
+				this.xSmall=0;
+				this.ySmall=0;
+				return;
 			}
-			if(true)//this.y==this.homeY)
+			if((this.y==this.homeY) && (this.xa==0))
 			{
 				if(this.targX>this.x)
 				{
@@ -2969,14 +2975,24 @@ object.prototype.update=function()
 			
 		}else if(this.triggeredX)
 		{
-			if((Math.abs(this.y-this.homeY)>6)|| (this.y<2) ||(this.y>12))
+			if((Math.abs(this.homeY-this.y)>5)|| (this.y<2) ||(this.y>12) || (this.y==this.targY))
 			{
 				this.triggeredX=false;
 				this.triggeredY=false;
-				console.log("returning");
 				this.returning=true;
+				this.triggeredX=false;
+				this.triggeredY=false;
+				this.xv=0;
+				this.yv=0;
+				this.xa=0;
+				this.ya=0;
+				this.targX=this.homeX;
+				this.targY=this.homeY;
+				this.xSmall=0;
+				this.ySmall=0;
+				return;
 			}
-			if(true)//this.x==this.homeX)
+			if((this.x==this.homeX) && (this.ya==0))
 			{
 				if(this.targY>this.y)
 				{
@@ -2994,17 +3010,26 @@ object.prototype.update=function()
 				{
 					if(entities[i].x==this.x)
 					{
-						this.targX=entities[i].x;
+						if(entities[i].y>this.y)
+						{
+							this.targY=this.y+6;
+						}else
+						{
+							this.targY=this.y-6;
+						}
 						this.targY=entities[i].y;
-						console.log("triggeredx");
 						this.triggeredX=true;
 						break;
 					}
 					if(entities[i].y==this.y)
 					{
-						this.targX=entities[i].x;
-						this.targY=entities[i].y;
-						console.log("triggeredy");
+						if(entities[i].x>this.x)
+						{
+							this.targX=this.x+6;
+						}else
+						{
+							this.targX=this.x-6;
+						}
 						this.triggeredY=true;
 						break;
 					}

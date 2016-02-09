@@ -2791,6 +2791,10 @@ function entity(croom)
 		}
 		for(var i=0;i<this.room.objects.length;i++)
 		{
+			if((this.room.objects[i].hurty) && (this.closeEnoughTo(this.room.objects[i])))
+			{
+				this.hurt(10);
+			}
 			if(this.fallingY<1)
 			{
 		
