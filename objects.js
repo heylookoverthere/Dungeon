@@ -269,9 +269,8 @@ object.prototype.getScreenY=function()
 
 object.prototype.toss=function(dir,force)
 {
-	this.fallingY=24;
-	this.fallingUp=8;
-	if(force==null) {force=0.6;}
+	this.fallingUp=24;
+	if(force==null) {force=10000;}
 	if(dir==0)
 	{
 		this.ya=-force;
@@ -1031,7 +1030,7 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=false;
 		this.sprites.push(Sprite("potstand"));
 		this.name="Pot stand";
-		this.playerActivate=this.activate;
+		this.playerActivate=function() {};//this.activate;
 	}else if (this.type==ObjectID.SpikeyThing) {
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
@@ -1195,6 +1194,13 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("shatter6"));
 		this.sprites.push(Sprite("shatter7"));
 		this.name="Pot";
+		this.swordActivate=function() {
+			if(miles.has[hasID.MasterSword])
+			{
+				return true;
+			}
+			return false;
+		}
 		this.activate=function()
 		{
 			if(!this.on)
@@ -1229,7 +1235,7 @@ object.prototype.setup=function(id,par)
 				}
 			}
 		}
-		this.playerActivate=this.activate;
+		this.playerActivate=function(){};//this.activate;
 	}else if (this.type==ObjectID.Rock) {
 		this.sprites=new Array();
 		this.bombable=false;//true;
@@ -2701,28 +2707,11 @@ object.prototype.canMove=function(dir)
 
 object.prototype.incMove=function()
 {
-	this.xSmall+=this.xv;
-	this.ySmall+=this.yv;
-	this.xv+=this.xa;
-	this.yv+=this.ya;
+	this.xSmall+=this.xv*2;
+	this.ySmall+=this.yv*2;
+	this.xv+=this.xa*2;
+	this.yv+=this.ya*2;
 	if(this.fallingY<1){
-		if(this.xv>0)
-		{
-			this.xv-=this.friction;
-			if(this.xv<0)
-			{
-				this.xv=0;
-			}
-		}else if(this.xv<0)
-		{
-			this.xv+=this.friction;
-			if(this.xv>0)
-			{
-				this.xv=0;
-			}
-		}
-	}else
-	{
 		if(this.xv>0)
 		{
 			this.xv-=this.friction/2;
@@ -2738,24 +2727,41 @@ object.prototype.incMove=function()
 				this.xv=0;
 			}
 		}
+	}else
+	{
+		if(this.xv>0)
+		{
+			this.xv-=this.friction/3;
+			if(this.xv<0)
+			{
+				this.xv=0;
+			}
+		}else if(this.xv<0)
+		{
+			this.xv+=this.friction/3;
+			if(this.xv>0)
+			{
+				this.xv=0;
+			}
+		}
 
 	}
 	if(this.yv>0)
 	{
-		this.yv-=this.friction;
+		this.yv-=this.friction/2;
 		if(this.yv<0)
 		{
 			this.yv=0;
 		}
 	}else if(this.yv<0)
 	{
-		this.yv+=this.friction;
+		this.yv+=this.friction/2;
 		if(this.yv>0)
 		{
 			this.yv=0;
 		}
 	}
-	if(this.xa>0)
+	/*if(this.xa>0)
 	{
 		this.xa-=this.decel;
 		if(this.xa<0)
@@ -2784,7 +2790,7 @@ object.prototype.incMove=function()
 		{
 			this.ya=0;
 		}
-	}
+	}*/
 	if(this.xv>this.peakXV)
 	{
 		this.xv=this.peakXV;
@@ -2805,19 +2811,20 @@ object.prototype.incMove=function()
 		this.yv=-this.peakYV;
 		this.ya=0;
 	}
+	var frankie=false;
 	if(this.ySmall>SMALL_BREAK)
 	{
 		if(this.canMove(2))
 		{
 			this.ySmall=-SMALL_BREAK;
 			this.tryMove(2);
+			frankie=true;
 			
-			//return true;
 		}else
 		{
 			this.ySmall=SMALL_BREAK;
 			this.ya=0;
-			//return false;
+
 		}
 	}else if(this.ySmall<-SMALL_BREAK)
 	{
@@ -2825,12 +2832,11 @@ object.prototype.incMove=function()
 		{
 			this.ySmall=SMALL_BREAK;
 			this.tryMove(0);
-			//return true;
+			frankie=true;
 		}else
 		{
 			this.ySmall=SMALL_BREAK;
 			this.ya=0;
-			//return false;
 		}
 	}
 	if(this.xSmall>SMALL_BREAK)
@@ -2839,12 +2845,12 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=-SMALL_BREAK;
 			this.tryMove(1);
-			//return true;
+			frankie=true;
 		}else
 		{
 			this.xSmall=SMALL_BREAK;
 			this.xa=0;
-			//return false;
+	
 		}
 	}else if(this.xSmall<-SMALL_BREAK)
 	{
@@ -2852,12 +2858,11 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=SMALL_BREAK;
 			this.tryMove(3);
-			//return true;
+			frankie=true;
 		}else
 		{
 			this.xSmall=SMALL_BREAK;
 			this.xa=0;
-			//return false;
 		}
 	}
 	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
@@ -2871,6 +2876,7 @@ object.prototype.incMove=function()
 		this.flame.flare.x=this.x*32+xOffset+this.xSmall;
 		this.flame.flare.y=this.y*32+yOffset-16+this.ySmall;
 	}
+	return frankie;
 }
 
 
@@ -2883,6 +2889,15 @@ object.prototype.update=function()
 	}else if(this.fallingY>0)
 	{
 		this.fallingY-=2;
+		if(this.fallingY<1)
+		{
+			this.fallingY=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
+		}
+		
 	}
 	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{

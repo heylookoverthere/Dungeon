@@ -515,7 +515,7 @@ bomb.prototype.incMove=function()
 		}
 	}else
 	{
-				if(this.xv>0)
+		if(this.xv>0)
 		{
 			this.xv-=this.friction/3;
 			if(this.xv<0)
@@ -561,7 +561,7 @@ bomb.prototype.incMove=function()
 		{
 			this.xa=0;
 		}
-	}*/
+	}
 	if(this.ya>0)
 	{
 		this.ya-=this.decel;
@@ -576,7 +576,7 @@ bomb.prototype.incMove=function()
 		{
 			this.ya=0;
 		}
-	}
+	}(*/
 	if(this.xv>this.peakXV)
 	{
 		this.xv=this.peakXV;

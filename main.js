@@ -3598,7 +3598,10 @@ function mainUpdate()
 						miles.grabbed=mled;
 					}
 					var gled=miles.getFacingObject();
-					if((gled) && (gled.playerUsable))
+					if((gled) &&(miles.has[hasID.Glove])&& (gled.fallingY<1) && ((gled.type==ObjectID.Rock) || (gled.type==ObjectID.Pot)))
+					{
+						miles.grabbed=gled;
+					}else if((gled) && (gled.playerUsable))
 					{
 						if(gled.frontOnly)
 						{
