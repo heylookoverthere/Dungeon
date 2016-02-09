@@ -844,7 +844,21 @@ timy.doThings=function()
 buttons.push(timy);
 if(!Xbox)
 {
-var timy=new button();
+var touchshiftkey=new akey("shift");
+var controlskey= new akey("j");
+
+var SNESAKey=new akey("down");
+var SNESXKey=new akey("left");
+var SNESYKey=new akey("right");
+var SNESBKey=new akey("up");
+var SNESRKey=new akey("shift");
+var SNESLKey=new akey("/");
+
+var SNESUpKey=new akey("w");
+var SNESDownKey=new akey("s");
+var SNESLeftKey=new akey("a");
+var SNESRightKey=new akey("d");
+/*var timy=new button();
 timy.text="North";
 timy.x=200-buttonX;
 timy.y=640;
@@ -873,20 +887,7 @@ timy.doThings=function()
 	}
 }
 
-var touchshiftkey=new akey("shift");
-var controlskey= new akey("j");
 
-var SNESAKey=new akey("down");
-var SNESXKey=new akey("left");
-var SNESYKey=new akey("right");
-var SNESBKey=new akey("up");
-var SNESRKey=new akey("shift");
-var SNESLKey=new akey("/");
-
-var SNESUpKey=new akey("w");
-var SNESDownKey=new akey("s");
-var SNESLeftKey=new akey("a");
-var SNESRightKey=new akey("d");
 
 buttons.push(timy);
 timy=new button();
@@ -1049,6 +1050,7 @@ timy.doThings=function()
 	}
 }
 buttons.push(timy);
+*/
 }
 //lights.push(new light(7092,3748,14));
 //lights.push(new light(7208,3777,14));
@@ -1620,21 +1622,23 @@ function drawGUI(can)
 		if((!Xbox) && (!controller.pad))
 		{
 			can.save();
-			can.font = "30pt Calibri";
 			can.fillStyle="white";
-			can.fillText(">",780,90);
-			can.fillText("<",780,140);
-			can.fillText("-",777,89);
-			can.fillText("-",789,139);
+			var jam=miles.getContext();
+			if(jam)
+			{
+				arrowkeysprite[2].draw(can,2,616);
+				can.fillText(jam,42,640);
+			}
+			arrowkeysprite[1].draw(can,760,60);
+			arrowkeysprite[3].draw(can,760,110);
 			can.restore();
 			if(miles.has[hasID.Sword])
 			{
 				can.save();
 				can.font = "30pt Calibri";
 				can.fillStyle="white";
-		
-				can.fillText("^",782,30);
-				can.fillText("|",783,34);
+				arrowkeysprite[0].draw(can,760,10);
+				
 				can.restore();
 				can.fillStyle="white";
 				can.fillRect(808,6,40,40);
@@ -1652,6 +1656,13 @@ function drawGUI(can)
 		{
 			xboxxsprite.draw(can,760,60);
 			xboxysprite.draw(can,760,110);
+			can.fillStyle="white";
+			var jam=miles.getContext();
+			if(jam)
+			{
+				xboxbsprite.draw(can,2,616);
+				can.fillText(jam,42,640);
+			}
 			if(miles.has[hasID.Sword])
 			{
 				xboxasprite.draw(can,760,10);
@@ -1669,6 +1680,13 @@ function drawGUI(can)
 			}
 		}else
 		{
+			can.fillStyle="white";
+			var jam=miles.getContext();
+			if(jam)
+			{
+				xboxasprite.draw(can,2,616);
+				can.fillText(jam,42,640);
+			}
 			if(miles.has[hasID.Sword])
 			{
 				xboxbsprite.draw(can,760,10);
@@ -2925,7 +2943,7 @@ function mainUpdate()
 	{
 	 //todo, button for this?
 	}
-	if(((Xbox) && (controller.pad) && (controller.Xcheck(13))) || ((!Xbox) &&(controlskey.check())))
+	if(((Xbox) && (controller.pad) && (controller.Xcheck(13))) || ((!Xbox) &&(controlskey)&&(controlskey.check())))
 	{
 		playSound("pause");
 		mode=5;
@@ -3844,7 +3862,7 @@ function mainUpdate()
 				}
 			}
 		}
-	}else if((!editMode) && (!Xbox))//keyboard
+	}else if((!editMode) && (!Xbox) &&(controller.keyboard))//keyboard
 	{
 		if ($("#dialogBox").length > 0) 
 		{

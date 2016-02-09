@@ -83,6 +83,12 @@ function playSound(name){
     
 };
 
+var arrowkeysprite=new Array()
+arrowkeysprite.push(Sprite("arrowkeyup"));
+arrowkeysprite.push(Sprite("arrowkeyright"));
+arrowkeysprite.push(Sprite("arrowkeydown"));
+arrowkeysprite.push(Sprite("arrowkeyleft"));
+
 var downarrowsprite=Sprite("downarrow");
 var uparrowsprite=Sprite("uparrow");
 var moneysprite=Sprite("rupee");

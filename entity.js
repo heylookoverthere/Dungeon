@@ -1386,7 +1386,60 @@ function entity(croom)
 	
 	this.getContext=function()
 	{
-		
+		var pled=miles.getFacingEntity();
+		if((pled) && (pled.team==this.team))
+		{
+			return "talk to "+pled.name;
+		}
+		gled=this.getFacingObject();
+		if(gled)
+		{
+			if((gled.type==ObjectID.Peg) && (this.has[hasID.Hammer]))
+			{
+				return "hammer peg";
+			}
+			if((gled.type==ObjectID.Rock) && (this.has[hasID.Glove]))
+			{
+				return "lift rock";
+			}else if((gled.type==ObjectID.Pot) && (this.has[hasID.Glove]))
+			{
+				return "lift pot";
+			}else if((gled.type==ObjectID.Lamp) || (gled.type==ObjectID.TallLamp) && (this.has[hasID.Lantern]))
+			{
+				if(gled.on)
+				{
+					return "extinguish lamp";
+				}else
+				{
+					return "light lamp";
+				}
+			}else if((gled.type==ObjectID.Candle) && (this.has[hasID.Lantern]))
+			{
+				if(gled.on)
+				{
+					return "extinguish candle";
+				}else
+				{
+					return "light candle";
+				}
+			}else if(gled.type==ObjectID.Curtains)
+			{
+				if(gled.on)
+				{
+					return "open curtains";
+				}else
+				{
+					return "close curtains";
+				}
+			}else if((gled.type==ObjectID.Sign) && (gled.y<this.y))
+			{
+				return "read sign";
+			}else if((gled.type==ObjectID.Chest) && (gled.y<this.y))
+			{
+				return "open chest";
+			}
+		}
+		return null;
 	}
 	
 	this.useItem=function(secondary)
