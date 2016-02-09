@@ -3964,7 +3964,7 @@ function mainUpdate()
 				//console.log("L")
 				miles.cycleEquipped(true,true);
 			}
-			if((!miles.holding) && (!miles.dashing));
+			if((!miles.holding) && (!miles.dashing))
 			{
 				if(SNESUpKey.checkDown())
 				{
