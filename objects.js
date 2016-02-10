@@ -2928,19 +2928,19 @@ object.prototype.update=function()
 			{
 				if(this.homeX>this.x)
 				{
-					this.xa=50;
+					this.xv=1;
 				}else if(this.homeX<this.x)
 				{
-					this.xa=-50;
+					this.xv=-1;
 				}
 			}else if(this.x==this.homeX)
 			{
 				if(this.homeY>this.y)
 				{
-					this.ya=50;
+					this.yv=1;
 				}else if(this.homeY<this.y)
 				{
-					this.ya=-50;
+					this.yv=-1;
 				}
 			}
 		}else if(this.triggeredY)
