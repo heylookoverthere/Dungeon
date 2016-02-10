@@ -1131,7 +1131,7 @@ function resetMiles()
 	miles.equippedTrack=0;
 	miles.equippedTrack2=0;
 	miles.dashing=false;
-	miles.actuallyDashing=false;
+	miles.reallyDashing=false;
 	miles.poking=false;
 	miles.grabbed=null;
 	miles.fallingY=0;
