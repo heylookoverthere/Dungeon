@@ -76,6 +76,7 @@ function bomb(croom,isSuper)
 			this.explode();
 		}
 	}
+
 	this.explode=function()
 	{
 		playSound("explosion");
@@ -471,6 +472,7 @@ bomb.prototype.canMove=function(dir)
 	}
 bomb.prototype.toss=function(dir,force)
 {
+	playSound("throw");
 	this.fallingUp=24;
 	if(force==null) {force=1000000.6;}
 	if(dir==0)
@@ -863,6 +865,12 @@ function entity(croom)
 		this.shaking=true;
 		this.shakingSince=new Date().getTime();
 		this.shakingRight=true;
+	}
+	
+	this.grab=function(obj)
+	{
+		playSound("grab");
+		this.grabbed=obj;
 	}
 	
 	this.dive=function()
@@ -1359,6 +1367,7 @@ function entity(croom)
 				glen.toss(miles.dir);
 				glen.fallingUp=12;
 				glen.friction=0.1;
+				return true;
 			}else if(Math.random()*10>4)
 			{
 				var bmoke=3;
@@ -1368,7 +1377,7 @@ function entity(croom)
 					ben.toss(miles.dir);
 					ben.fallingUp=12;
 					ben.friction=0.1;
-					return;
+					return true;
 				}
 				if((this.hp<miles.maxHp) && (Math.random()*10<3))
 				{
@@ -1376,7 +1385,7 @@ function entity(croom)
 					ben.toss(miles.dir);
 					ben.fallingUp=12;
 					ben.friction=0.1;
-					return;
+					return true;
 				}
 				if((this.has[hasID.Bow]) && (Math.random()*10<3))
 				{
@@ -1384,7 +1393,7 @@ function entity(croom)
 					ben.toss(miles.dir);
 					ben.fallingUp=12;
 					ben.friction=0.1;
-					return;
+					return true;
 				}
 				if((this.has[hasID.Bomb]) && (Math.random()*10<3))
 				{
@@ -1392,13 +1401,14 @@ function entity(croom)
 					ben.toss(miles.dir);
 					ben.fallingUp=12;
 					ben.friction=0.1;
-					return;
+					return true;
 				}
 				var pojk=500+Math.floor(Math.random()*2);
 				var ben=makeObject(spotX,spotY,this.room,pojk);
 				ben.toss(miles.dir);
 				ben.fallingUp=12;
 				ben.friction=0.1;
+				return true;
 				
 			}
 			return true;
@@ -2230,7 +2240,7 @@ function entity(croom)
 		}
 		for(var i=0;i<this.room.objects.length;i++)
 		{
-			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand))
+			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand)&&(this.room.objects[i].type!=ObjectID.ToggleSwitch))
 			{
 				return this.room.objects[i];
 			}
@@ -2343,7 +2353,7 @@ function entity(croom)
 			this.grabbed.y=this.y;
 			this.grabbed.xSmall=this.xSmall;
 			this.grabbed.ySmall=this.ySmall;
-			this.grabbed.fallingY=this.fallingY+16;
+			this.grabbed.fallingY=this.fallingY+24;
 		}
 		for(var i=0;i<this.projectiles.length;i++)
 		{

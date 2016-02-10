@@ -3595,12 +3595,12 @@ function mainUpdate()
 					var mled=miles.getFacingBomb();
 					if((mled) && (mled.fallingY<1))
 					{
-						miles.grabbed=mled;
+						miles.grab(mled);
 					}
 					var gled=miles.getFacingObject();
 					if((gled) &&(miles.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble))
 					{
-						miles.grabbed=gled;
+						miles.grab(gled);
 					}else if((gled) && (gled.playerUsable))
 					{
 						if(gled.frontOnly)

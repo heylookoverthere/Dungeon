@@ -2,6 +2,9 @@ var numLoots=11;
 var LOAD_COUNT=0;
 var Object_Count=0;
 
+var Spikey_Accel=100;
+var Spikey_Vel=7;
+
 var ObjectID={};
 var objectName=new Array()
 
@@ -280,6 +283,7 @@ object.prototype.getScreenY=function()
 object.prototype.toss=function(dir,force)
 {
 	this.fallingUp=24;
+	playSound("throw");
 	if(force==null) {force=10000;}
 	if(dir==0)
 	{
@@ -303,6 +307,8 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 {
 	this.x=x;
 	this.y=y;
+	this.homeX=this.x;
+	this.homeY=this.y;
 	this.xSmall=0;
 	this.ySmall=0;
 	this.underWater=false;
@@ -1045,6 +1051,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.hurty=true; 
+		//this.friction=0;
 		this.homeX=this.x;
 		this.homeY=this.y;
 		this.playerUsable=false;
@@ -2949,6 +2956,7 @@ object.prototype.update=function()
 		{
 			if((this.room.objectWillBlock(this)) || ((this.x<3)&&(this.xSmall<-4)) ||((this.x>16)&&(this.xSmall>4))|| (this.x==this.targX))
 			{
+				playSound("chink");
 				this.triggeredY=false;
 				this.triggeredX=false;
 				this.returning=true;
@@ -2964,14 +2972,17 @@ object.prototype.update=function()
 				this.ySmall=0;
 				return;
 			}
-			if((this.y==this.homeY) && (this.xa==0))
+			if((this.y==this.homeY))
 			{
 				if(this.targX>this.x)
 				{
-					this.xa=50;
+					this.xv=Spikey_Vel;
 				}else if(this.targX<this.x)
 				{
-					this.xa=-50;
+					this.xv=-Spikey_Vel;
+				}else
+				{
+					this.xv=0;
 				}
 			}
 			
@@ -2979,6 +2990,7 @@ object.prototype.update=function()
 		{
 			if((this.room.objectWillBlock(this))|| ((this.y<3)&&(this.ySmall<-4)) ||((this.y>11) && (this.ySmall>4)) || (this.y==this.targY))
 			{
+				playSound("chink");
 				this.triggeredX=false;
 				this.triggeredY=false;
 				this.returning=true;
@@ -2994,14 +3006,17 @@ object.prototype.update=function()
 				this.ySmall=0;
 				return;
 			}
-			if((this.x==this.homeX) && (this.ya==0))
+			if((this.x==this.homeX))
 			{
 				if(this.targY>this.y)
 				{
-					this.ya=50;
+					this.yv=Spikey_Vel;
 				}else if(this.targY<this.y)
 				{
-					this.ya=-50;
+					this.yv=-Spikey_Vel;
+				}else
+				{
+					this.yv=0;
 				}
 			}
 		}else
