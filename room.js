@@ -823,7 +823,10 @@ function room(I) { //room object
 		{
 			var meg=player.getFacingObject();
 			if(!meg){return true};
-			if((meg.type==ObjectID.Bush) && (!meg.on))
+			if((meg) && (meg.buried))
+			{
+				return true;
+			}else if((meg) && (meg.type==ObjectID.Bush) && (!meg.on))
 			{
 				meg.exists=false;//shouldn't do this here.
 				return true;

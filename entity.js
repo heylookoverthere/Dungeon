@@ -1413,6 +1413,7 @@ function entity(croom)
 			}
 			return true;
 		}
+		return false;
 	}
 	
 	this.getContext=function()
