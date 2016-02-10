@@ -3275,8 +3275,27 @@ function mainUpdate()
 				{
 					bConsoleBox.log(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY].name +" will be deleted. Confirm? (Y/N)","yellow");
 					editor.confirming=true;
-					editor.confirmingWhat=function(){curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY]=new room();
-					curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY].active=false;}
+					editor.confirmingWhat=function()
+					{
+						curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY]=new room();
+						curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY].active=false;
+						var bactive=false;
+						for(var i=0;i<15;i++)
+						{
+							for (var j=0;j<8;j++)
+							{
+								if(curDungeon.rooms[curDungeon.roomZ][i][j].active)
+								{
+									bactive=true;
+								}
+							}
+						}
+						if((curDungeon.roomZ==curDungeon.floors-1) && (!bactive))
+						{
+							curDungeon.floors--;
+							console.log("agent carter");
+						}
+					}
 					if(OPTIONS.confirmationPopUps)
 					{
 						popQuestion(curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY].name +" will be deleted. Confirm? (Y/N)");
