@@ -1130,6 +1130,17 @@ function resetMiles()
 	miles.alive=true;
 	miles.equippedTrack=0;
 	miles.equippedTrack2=0;
+	miles.dashing=false;
+	miles.actuallyDashing=false;
+	miles.poking=false;
+	miles.grabbed=null;
+	miles.fallingY=0;
+	miles.xSmall=0;
+	miles.ySmall=0;
+	miles.xv=0;
+	miles.xa=0;
+	miles.yv=0;
+	miles.ya=0;
 	miles.inventory=new Array();
 	miles.inventoryAmounts=new Array();
 	var meeee=new Object;
