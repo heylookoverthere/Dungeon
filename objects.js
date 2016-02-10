@@ -1,6 +1,6 @@
 var numLoots=11;
 var LOAD_COUNT=0;
-
+var Object_Count=0;
 
 var ObjectID={};
 var objectName=new Array()
@@ -182,6 +182,8 @@ ObjectID.Apple=506;
 function object(oroom) //not a tile, not an enemy
 {
 	this.sprites=new Array();
+	this.ID=Object_Count;
+	Object_Count++;
 	this.curSprite=0;
 	this.on=false;
 	this.ctype=0;
@@ -2945,7 +2947,7 @@ object.prototype.update=function()
 			}
 		}else if(this.triggeredY)
 		{
-			if((Math.abs(this.homeX-this.x)>6) || ((this.x<3)&&(this.xSmall<-4)) ||((this.x>16)&&(this.xSmall>4))|| (this.x==this.targX))
+			if((this.room.objectWillBlock(this)) || ((this.x<3)&&(this.xSmall<-4)) ||((this.x>16)&&(this.xSmall>4))|| (this.x==this.targX))
 			{
 				this.triggeredY=false;
 				this.triggeredX=false;
@@ -2975,7 +2977,7 @@ object.prototype.update=function()
 			
 		}else if(this.triggeredX)
 		{
-			if((Math.abs(this.homeY-this.y)>5)|| ((this.y<3)&&(this.ySmall<-4)) ||((this.y>11) && (this.ySmall>4)) || (this.y==this.targY))
+			if((this.room.objectWillBlock(this))|| ((this.y<3)&&(this.ySmall<-4)) ||((this.y>11) && (this.ySmall>4)) || (this.y==this.targY))
 			{
 				this.triggeredX=false;
 				this.triggeredY=false;
@@ -3012,10 +3014,10 @@ object.prototype.update=function()
 					{
 						if(entities[i].y>this.y)
 						{
-							this.targY=this.y+6;
+							this.targY=this.y+12;
 						}else
 						{
-							this.targY=this.y-6;
+							this.targY=this.y-12;
 						}
 						this.triggeredX=true;
 						break;
@@ -3024,10 +3026,10 @@ object.prototype.update=function()
 					{
 						if(entities[i].x>this.x)
 						{
-							this.targX=this.x+6;
+							this.targX=this.x+18;
 						}else
 						{
-							this.targX=this.x-6;
+							this.targX=this.x-18;
 						}
 						this.triggeredY=true;
 						break;
