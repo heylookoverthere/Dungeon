@@ -2935,7 +2935,7 @@ object.prototype.update=function()
 				}
 			}else if(this.x==this.homeX)
 			{
-				if(this.homey>this.y)
+				if(this.homeY>this.y)
 				{
 					this.ya=50;
 				}else if(this.homeY<this.y)
@@ -2945,7 +2945,7 @@ object.prototype.update=function()
 			}
 		}else if(this.triggeredY)
 		{
-			if((Math.abs(this.homeX-this.x)>6) || (this.x<2) ||(this.x>17)|| (this.x==this.targX))
+			if((Math.abs(this.homeX-this.x)>6) || ((this.x<3)&&(this.xSmall<-4)) ||((this.x>16)&&(this.xSmall>4))|| (this.x==this.targX))
 			{
 				this.triggeredY=false;
 				this.triggeredX=false;
@@ -2975,7 +2975,7 @@ object.prototype.update=function()
 			
 		}else if(this.triggeredX)
 		{
-			if((Math.abs(this.homeY-this.y)>5)|| (this.y<2) ||(this.y>12) || (this.y==this.targY))
+			if((Math.abs(this.homeY-this.y)>5)|| ((this.y<3)&&(this.ySmall<-4)) ||((this.y>11) && (this.ySmall>4)) || (this.y==this.targY))
 			{
 				this.triggeredX=false;
 				this.triggeredY=false;
@@ -3017,7 +3017,6 @@ object.prototype.update=function()
 						{
 							this.targY=this.y-6;
 						}
-						this.targY=entities[i].y;
 						this.triggeredX=true;
 						break;
 					}

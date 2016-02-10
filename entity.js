@@ -2791,20 +2791,21 @@ function entity(croom)
 		}
 		for(var i=0;i<this.room.objects.length;i++)
 		{
-			if((this.room.objects[i].hurty) && (this.closeEnoughTo(this.room.objects[i])))
-			{
-				this.hurt(10);
-			}
+			
 			if(this.fallingY<1)
 			{
-		
+				
 				if(this.room.objects[i].type==ObjectID.Spikes)
 				{
 					if((this.room.objects[i].on)&&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 					{
 						this.hurt(10); 
 					}
-				}if(this.room.objects[i].type==ObjectID.SpikeyThing)
+				}
+				if((this.room.objects[i].hurty) && (this.closeEnoughTo(this.room.objects[i])))
+				{
+					this.hurt(10);
+				}else if(this.room.objects[i].type==ObjectID.SpikeyThing)
 				{
 					if((this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 					{
