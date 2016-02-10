@@ -55,18 +55,6 @@ function handleConTouchStart(evt) {
 			
 		if(now-downLast<OPTIONS.DoubleTapThreshold)
 		{
-			//bConsoleBox.log("Double Tap","yellow");
-			/*if(bullshitHack)
-			{
-				bullshitHack=false;
-				for(var i=0;i<curDungeon.floors;i++)
-				{
-					curDungeon.linkDoors(i);
-					curDungeon.linkSwitches(i);
-				}
-				bConsoleBox.log("Doors and switches linked!","yellow");
-				return;
-			}*/
 			if(mode==0)
 			{
 	
