@@ -1168,8 +1168,8 @@ function explosionEffect(croom)
 	this.draw=function(can,xOffh,yOffh)
 	{
 		var bur=can.globalAlpha;
-		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
-		{
+		//if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
+		//{
 			if(this.type==0)
 			{
 				can.globalAlpha=0.5;
@@ -1179,7 +1179,7 @@ function explosionEffect(croom)
 				leafssprite[this.aniTrack].draw(can,(this.x+1)*32+xOffh,this.y*32+yOffh);
 			}
 			
-		}
+		//}
 		can.globalAlpha=bur;
 	}
 }

@@ -1108,6 +1108,7 @@ function dungeon(path)
 		if(!MobileMode)
 		{
 		var tyOffset=-331; //top
+	
 		if((this.roomY>0) && (this.rooms[this.roomZ][this.roomX][this.roomY-1].active) && (!this.rooms[this.roomZ][this.roomX][this.roomY-1].hidden))
 		{
 			for (i=0;i<ROOM_WIDTH; i++)
@@ -1168,6 +1169,26 @@ function dungeon(path)
 					
 				}
 			}
+			
+			for(var g=0;g<explosions.length;g++)
+			{
+				var expo=explosions[g];
+				if((expo.room.z==this.roomZ) && (expo.room.x==this.roomX)&& (expo.room.y==this.roomY-1) && (true))//(expo.y>10))
+				{
+					expo.draw(can,xOffset,tyOffset);
+				}
+			
+			}
+			for(var g=0;g<this.rooms[this.roomZ][this.roomX][this.roomY-1].bombs.length;g++)
+			{
+				var simplicity=this.rooms[this.roomZ][this.roomX][this.roomY-1].bombs[g];
+				
+				if(simplicity.y>10)
+				{
+					simplicity.draw(can,xOffset,tyOffset);
+				}
+			}
+			
 			for(var g=0;g<this.rooms[this.roomZ][this.roomX][this.roomY-1].objects.length;g++)
 			{
 				var simplicity=this.rooms[this.roomZ][this.roomX][this.roomY-1].objects[g];
@@ -1191,13 +1212,14 @@ function dungeon(path)
 					}
 				}
 			}
+			
 			for(var g=0;g<entities.length;g++)
 			{
 				if((entities[g].room.z==curDungeon.roomZ) && (entities[g].room.name==curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY-1].name))
 				{
 					if(entities[g].y>10)
 					{
-						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+xOffset, (entities[g].y)*32+tyOffset)
+						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+xOffset, (entities[g].y)*32+tyOffset);
 					}
 				}
 			}
@@ -1306,6 +1328,24 @@ function dungeon(path)
 				}
 			}
 		
+			for(var g=0;g<explosions.length;g++)
+			{
+				var expo=explosions[g];
+				if((expo.room.z==this.roomZ) && (expo.room.x==this.roomX)&& (expo.room.y==this.roomY+1) && (true))//(expo.y>10))
+				{
+					expo.draw(can,xOffset,tyOffset);
+				}
+			
+			}
+			for(var g=0;g<this.rooms[this.roomZ][this.roomX][this.roomY+1].bombs.length;g++)
+			{
+				var simplicity=this.rooms[this.roomZ][this.roomX][this.roomY+1].bombs[g];
+				
+				if(simplicity.y<4)
+				{
+					simplicity.draw(can,xOffset,tyOffset);
+				}
+			}
 				curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY+1].darkenAdj(can,xOffset,tyOffset);
 		
 		}
@@ -1403,6 +1443,24 @@ function dungeon(path)
 					{
 						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+txOffset, (entities[g].y)*32+yOffset)
 					}
+				}
+			}
+			for(var g=0;g<explosions.length;g++)
+			{
+				var expo=explosions[g];
+				if((expo.room.z==this.roomZ) && (expo.room.x==this.roomX-1)&& (expo.room.y==this.roomY) && (true))//(expo.y>10))
+				{
+					expo.draw(can,txOffset,yOffset);
+				}
+			
+			}
+			for(var g=0;g<this.rooms[this.roomZ][this.roomX-1][this.roomY].bombs.length;g++)
+			{
+				var simplicity=this.rooms[this.roomZ][this.roomX-1][this.roomY].bombs[g];
+				
+				if(simplicity.x>13)
+				{
+					simplicity.draw(can,txOffset,yOffset);
 				}
 			}
 			can.fillStyle="black"
@@ -1504,6 +1562,24 @@ function dungeon(path)
 					{
 						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+txOffset, (entities[g].y)*32+yOffset)
 					}
+				}
+			}
+			for(var g=0;g<explosions.length;g++)
+			{
+				var expo=explosions[g];
+				if((expo.room.z==this.roomZ) && (expo.room.x==this.roomX+1)&& (expo.room.y==this.roomY) && (true))//(expo.y>10))
+				{
+					expo.draw(can,txOffset,yOffset);
+				}
+			
+			}
+			for(var g=0;g<this.rooms[this.roomZ][this.roomX+1][this.roomY].bombs.length;g++)
+			{
+				var simplicity=this.rooms[this.roomZ][this.roomX+1][this.roomY].bombs[g];
+				
+				if(simplicity.x<4)
+				{
+					simplicity.draw(can,txOffset,yOffset);
 				}
 			}
 			if(curDungeon.roomY>0)

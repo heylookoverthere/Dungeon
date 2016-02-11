@@ -328,7 +328,7 @@ function bomb(croom,isSuper)
 	}
 	this.draw=function(can,xoffh,yoffh)
 	{
-		if((this.room.z==curDungeon.roomZ) &&(this.room.x==curDungeon.roomX) &&(this.room.y==curDungeon.roomY))
+		if(this.exists)
 		{
 			var millip= new Date().getTime();
 			var dex=0;
@@ -2175,7 +2175,7 @@ function entity(croom)
 		
 		for(var i=0;i<this.activebombs.length;i++)
 		{
-			if(this.activebombs[i].exists)
+			if((this.activebombs[i].exists) && ((this.activebombs[i].room.z==curDungeon.roomZ) &&(this.activebombs[i].room.x==curDungeon.roomX) &&(this.activebombs[i].room.y==curDungeon.roomY)))
 			{
 				this.activebombs[i].draw(can,xOffset,yOffset);
 			}
@@ -2780,10 +2780,12 @@ function entity(croom)
 			if(!this.activebombs[i].exists)
 			{
 				this.activebombs.splice(i,1);
+				
 				//i--;
 			}
 			
 		}
+	
 	
 		if(this.falling)
 		{

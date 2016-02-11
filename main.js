@@ -2850,6 +2850,7 @@ function mainDraw() {
 		}
 	}
 	explosions.forEach(function(expo) {
+		if((expo.room.z==curDungeon.roomZ)&&(expo.room.x==curDungeon.roomX)&&(expo.room.y==curDungeon.roomY))
             expo.draw(canvas,xOffset,yOffset);
 	});
 	for(var i=0;i<curDungeon.curRoom().fires.length;i++)
