@@ -1338,7 +1338,7 @@ function entity(croom)
 	
 	this.dash=function()
 	{
-		if(this.dashing) {return false;}
+		if((this.dashing) || (!this.alive)){return false;}
 		this.dashing=true;
 		this.stepping=true;
 		this.dashStart=new Date().getTime();
@@ -1439,7 +1439,13 @@ function entity(croom)
 		var pled=miles.getFacingEntity();
 		if((pled) && (pled.team==this.team))
 		{
-			return "talk to "+pled.name;
+			if(pled.alive)
+			{
+				return "talk to "+pled.name;	
+			}else if(this.hasItem(ObjectID.GreenPotion))
+			{
+				return "revive "+pled.name;
+			}
 		}
 		if(this.grabbed!=null)
 		{
@@ -2790,7 +2796,13 @@ function entity(croom)
 				{
 					playSound("landing");
 					playSound("cavein");
-					this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+					if((this.room.z<1) || (!curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY].active))
+					{
+						this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
+					}else
+					{
+						this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+					}
 					
 				}
 				this.falling=false;
@@ -2892,7 +2904,13 @@ function entity(croom)
 			{
 				if((this.x!=this.lastX) || (this.y!=this.lastY))
 				{
-					this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+					if((this.room.z<1) || (!curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY].active))
+					{
+						this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
+					}else
+					{
+						this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+					}
 					playSound("cavein");
 					//this.lastX=this.x;
 					//this.lastY=this.y;
@@ -3056,6 +3074,8 @@ function entity(croom)
 					this.onArrival=function()
 					{
 						this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y]
+						this.enteredX=this.x;
+						this.enteredY=this.y;
 					}
 					var nex=this.room.getStairs(false);
 					this.go(nex.x,nex.y);
@@ -3072,6 +3092,8 @@ function entity(croom)
 								this.onArrival=function()
 								{
 									//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y]
+									this.enteredX=this.x;
+									this.enteredY=this.y;
 								}
 								var nex=this.room.getStairs(false);
 								this.goHole(i,j);
@@ -3089,6 +3111,8 @@ function entity(croom)
 					this.onArrival=function()
 					{
 						this.room=curDungeon.rooms[this.room.z+1][this.room.x][this.room.y]
+						this.enteredX=this.x;
+						this.enteredY=this.y;
 					}
 					var nex=this.room.getStairs(true)
 					this.go(nex.x,nex.y);
@@ -3148,6 +3172,8 @@ function entity(croom)
 									this.room=curDungeon.rooms[this.room.z][this.room.x][this.room.y-1]
 									this.y=12;
 									this.x=peg.x;
+									this.enteredX=this.x;
+									this.enteredY=this.y;
 								}
 							}
 							this.go(peg.x,peg.y+1);
@@ -3160,6 +3186,8 @@ function entity(croom)
 									this.room=curDungeon.rooms[this.room.z][this.room.x+1][this.room.y]
 									this.x=2;
 									this.y=peg.y;
+									this.enteredX=this.x;
+									this.enteredY=this.y;
 								}
 							}
 							
@@ -3172,6 +3200,8 @@ function entity(croom)
 									this.room=curDungeon.rooms[this.room.z][this.room.x][this.room.y+1]
 									this.y=2;
 									this.x=peg.x;
+									this.enteredX=this.x;
+									this.enteredY=this.y;
 								}
 							}
 							this.go(peg.x,peg.y-1);
@@ -3183,6 +3213,8 @@ function entity(croom)
 									this.room=curDungeon.rooms[this.room.z][this.room.x-1][this.room.y]
 									this.x=17;
 									this.y=peg.y;
+									this.enteredX=this.x;
+									this.enteredY=this.y;
 								}
 							}
 							this.go(peg.x+1,peg.y);

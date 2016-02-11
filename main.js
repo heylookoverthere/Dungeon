@@ -3596,14 +3596,22 @@ function mainUpdate()
 				//contextual. if NPC in talk range, talk. 
 				//if object in front, activate
 				var pled=miles.getFacingEntity();
-				if(pled)
+				if((pled) && (pled.team==miles.team))
 				{
-					pled.say();
-					if((!pled.partyMember) && (pled.autoJoin))
+					if(pled.alive) 
 					{
-						theParty.add(pled);
+						pled.say();
+						if((!pled.partyMember) && (pled.autoJoin))
+						{
+							theParty.add(pled);
+						}
+						return;
+					}else if(miles.hasItem(ObjectID.GreenPotion))
+					{
+						pled.revive();
+						miles.removeItem(ObjectID.GreenPotion,1); 
 					}
-					return;
+					
 				}else if(miles.grabbed!=null)
 				{
 					miles.grabbed.toss(miles.dir,10);
