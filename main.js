@@ -4281,9 +4281,10 @@ function mainUpdate()
 			i--;
 		}
 	}
+	
 	for(var i=0;i<curDungeon.curRoom().bombs.length;i++)
 	{
-		curDungeon.curRoom().bombs[i].update();
+		//curDungeon.curRoom().bombs[i].update();
 		if(!curDungeon.curRoom().bombs[i].exists)
 		{
 			curDungeon.curRoom().bombs.splice(i,1);
