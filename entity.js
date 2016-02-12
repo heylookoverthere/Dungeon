@@ -2064,7 +2064,7 @@ function entity(croom)
 				shY=0;
 			}else if(this.dir==2)
 			{
-				shX=-4;
+				shX=-6;
 				shY=2;
 			}else if(this.dir==3)
 			{
@@ -2106,7 +2106,7 @@ function entity(croom)
 				shY=0;
 			}else if(this.dir==2)
 			{
-				shX=2;
+				shX=-4;
 				shY=2;
 			}else if(this.dir==3)
 			{
