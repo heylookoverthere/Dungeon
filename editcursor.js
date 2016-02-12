@@ -333,7 +333,7 @@ editCursor.prototype.cycleTiles=function(up)
 		}else if(this.brushType==25)
 		{
 			this.brushType=44;
-		}else if(this.brushType==62)//skip water animation tiles
+		}else if(this.brushType==63)//skip water animation tiles
 		{
 			this.brushType=70;
 		}else if(this.brushType==73)//skip lava animation tiles.
@@ -355,7 +355,7 @@ editCursor.prototype.cycleTiles=function(up)
 			this.brushType=25;
 		}else if(this.brushType==69)//skip water animation tiles
 		{
-			this.brushType=61;
+			this.brushType=62;
 		}else if(this.brushType==-1)//skip lava animation tiles.
 		{
 			this.brushType=72;

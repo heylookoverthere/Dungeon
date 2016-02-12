@@ -11,6 +11,8 @@ bunnyheadsprite.push(Sprite("bheadright"));
 bunnyheadsprite.push(Sprite("bheaddown"));
 bunnyheadsprite.push(Sprite("bheadleft"));
 
+var halfgrasssprite=Sprite("dungeontiles/halfgrass");
+
 var masterSwingSprites=new Array();
 masterSwingSprites.push(new Array());
 masterSwingSprites.push(new Array());
@@ -2257,7 +2259,12 @@ function entity(croom)
 				this.activebombs[i].draw(can,xOffset,yOffset);
 			}
 		}
-		
+		if(this.room.tiles[this.x][this.y].data==DungeonTileType.Grass)
+		{
+			can.globalAlpha=0.80;
+			//halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+			can.globalAlpha=1;
+		}
 		
 	}
 	this.goHole=function(x,y,obj)

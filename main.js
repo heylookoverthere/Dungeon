@@ -3927,7 +3927,7 @@ function mainUpdate()
 				//console.log("L trigger")
 				miles.cycleEquipped(true,false);
 			}
-			if((!miles.holding) && (!miles.dashing))
+			if((!miles.holding) && (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))))
 			{
 				if(controller.checkUp())
 				{

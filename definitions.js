@@ -816,6 +816,7 @@ DungeonTileType.FloorFifteen=58;
 DungeonTileType.FloorSixteen=59;
 DungeonTileType.FloorSeventeen=60;
 DungeonTileType.FloorEighteen=61;
+DungeonTileType.CutGrass=62;
 DungeonTileType.Ice=2;
 DungeonTileType.Water=20;
 DungeonTileType.Lava=24; 
@@ -1019,7 +1020,8 @@ tileSprite[TileType.Road] = Sprite("road");
 tileSprite[TileType.Sand] = Sprite("sand");
 
 var dungeonTileSprite=new Array(69);
-dungeonTileSprite[DungeonTileType.Grass] = Sprite("dungeontiles/grass");
+dungeonTileSprite[DungeonTileType.Grass] = Sprite("dungeontiles/tallgrass");
+dungeonTileSprite[DungeonTileType.CutGrass] = Sprite("dungeontiles/cutgrass");
 dungeonTileSprite[DungeonTileType.GreenBrick] = Sprite("dungeontiles/brick2"); 
 //dungeonTileSprite[DungeonTileType.Snow] = Sprite("snow"); 
 dungeonTileSprite[DungeonTileType.OrangeBrick] = Sprite("dungeontiles/wall"); 
