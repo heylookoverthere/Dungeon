@@ -277,6 +277,7 @@ objectSprites[19]=Sprite("shield");
 objectSprites[20]=Sprite("bettershield");
 objectSprites[21]=Sprite("bestshield");
 objectSprites[22]=Sprite("magicboomarang");
+objectSprites[23]=Sprite("rumham");
 
 //furniture
 objectSprites[100]=Sprite("lamp");

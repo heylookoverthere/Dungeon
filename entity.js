@@ -556,6 +556,14 @@ bomb.prototype.toss=function(dir,force)
 
 bomb.prototype.incMove=function()
 {
+	
+	if((this.swimming) &&(!this.canSwim))
+	{
+		//thrash! 
+		//...shark?
+		return;
+	}
+	
 	this.xSmall+=this.xv;
 	this.ySmall+=this.yv;
 	this.xv+=this.xa;
@@ -735,6 +743,7 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.RumHam=false;
 	this.shaking=false;
 	this.shakingSince=0;
 	this.shakingDur=150;
@@ -2446,6 +2455,15 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		if (this.RumHam)
+		{
+			var juk=this.maxArrows-this.arrows;
+			var juy=this.maxBombs-this.bombs;
+			//this.giveItem(ObjectID.Bow,juy)
+			//this.giveItem(ObjectID.Bombs,juk)
+			this.bombs=this.maxBombs;
+			this.arrows=this.maxArrows;
+		}
 		if(this.grabbed)
 		{
 			this.grabbed.x=this.x;
@@ -2453,7 +2471,7 @@ function entity(croom)
 			this.grabbed.xSmall=this.xSmall;
 			this.grabbed.ySmall=this.ySmall;
 			this.grabbed.fallingY=this.fallingY+20;
-			if(!this.grabbed.exists)
+			if((!this.grabbed.exists) || (!this.alive) || (this.swimming) || (this.poking) || (this.swinging))
 			{
 				this.grabbed=null;
 			}

@@ -40,7 +40,7 @@ editCursor.prototype.cycleLoot=function(up)
 		}else if((this.lootType>300) && (this.lootType<400))
 		{
 			this.lootType=400;
-		}else if((this.lootType>20) && (this.lootType<100))
+		}else if((this.lootType>23) && (this.lootType<100))
 		{
 			this.lootType=300;
 		}
@@ -58,7 +58,7 @@ editCursor.prototype.cycleLoot=function(up)
 			this.lootType=300;
 		}else if(this.lootType==299)
 		{
-			this.lootType=20;
+			this.lootType=23;
 		}
 	}
 }

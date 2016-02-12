@@ -4325,17 +4325,27 @@ function mainUpdate()
 		{
 			for(var i=0;i<curDungeon.rooms[curDungeon.roomZ][a][b].objects.length;i++) //should do adjacent rooms too, no?
 			{
+				//TODO: getting errors here. dunno why but will hack around. 
 				curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].update();
-				if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].exists)
+				if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i]) //why needed?
 				{
-					if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame)
+					
+					
+					if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].exists)
 					{
-						curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame.flare=null;//.alive=false;
-						curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;alive=false;
+						if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame)
+						{
+							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame.flare=null;//.alive=false;
+							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;alive=false;
+						}
+					
+						curDungeon.rooms[curDungeon.roomZ][a][b].objects.splice(i,1);
+						i--;
 					}
-				
-					curDungeon.rooms[curDungeon.roomZ][a][b].objects.splice(i,1);
-					i--;
+				}else if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i])
+				{
+					
+					continue;
 				}
 			}
 		}

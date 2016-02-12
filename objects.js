@@ -23,7 +23,7 @@ objectName[6]="Blue Potion";
 objectName[7]="Green Potion";
 objectName[8]="Shovel";
 objectName[9]="Mirror";
-objectName[10]="Boomarang";
+objectName[10]="Boomerang";
 objectName[11]="Hookshot";
 objectName[12]="Flippers";
 objectName[13]="Lens of something or other";
@@ -35,7 +35,9 @@ objectName[18]="Mushroom";
 objectName[19]="Shield";
 objectName[20]="Better Shield";
 objectName[21]="Best Shield";
-
+objectName[22]="Magic Boomerang";
+objectName[23]="Rum Ham";
+     
 objectName[100]="Lamp";
 objectName[101]="Sign";
 objectName[102]="Candle";
@@ -118,6 +120,7 @@ ObjectID.Shield=19;
 ObjectID.BetterShield=20;
 ObjectID.BestShield=21;
 ObjectID.MagicBoomarang=22;
+ObjectID.RumHam=23;
 
 //furniture
 ObjectID.Lamp=100;
@@ -608,7 +611,14 @@ object.prototype.setup=function(id,par)
 				{
 					miles.giveItem(shinex,1);
 				}*/
-				btext = "You have found the "+objectName[this.loot];
+				if(this.loot==ObjectID.RumHam)
+				{
+					//btext = "You have found the legendary "+objectName[this.loot]+"!";
+					btext = "You have found the "+objectName[this.loot];
+				}else
+				{
+					btext = "You have found the "+objectName[this.loot];
+				}
 			}
 			
 	
@@ -2658,10 +2668,64 @@ object.prototype.setup=function(id,par)
 	else if (this.type==ObjectID.RumHam) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
+		playSound("chant");
 		this.sprites.push(Sprite("rumham"));
 	    this.name="RUM HAM";
 		bConsoleBox.log("You found the legendary Rum Ham!");
-		miles.holding=this.sprites[0];
+		//miles.holding=this.sprites[0];
+		this.activate=function()
+		{
+			miles.RumHam=true;
+			for(var i=0;i<21;i++)
+			{	
+				if((i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield))
+				{
+					var shinex=new object();
+					shinex.type=i;
+					shinex.setup();
+					miles.giveItem(shinex,99); 
+				}
+			}
+			for(var i=0;i<miles.has.length;i++)
+			{	
+				miles.has[i]=true;
+			}
+			miles.has[hasID.MasterSword]=false;
+			var shinex=new object();
+			//shinex.usable=true;
+			shinex.type=ObjectID.MagicBoomarang;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			var shinex=new object();
+			//shinex.usable=true;
+			shinex.type=ObjectID.BestShield;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			var shinex=new object();
+			//shinex.usable=true;
+			shinex.type=ObjectID.MasterSword;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			var shinex=new object();
+			//shinex.usable=true;
+			shinex.type=ObjectID.SuperBomb;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			var shinex=new object();
+			//shinex.usable=true;
+			shinex.type=ObjectID.SilverArrow;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			miles.holding=null;
+			miles.canSwim=true;
+			miles.maxHp=280;
+			miles.heal(miles.maxHp);
+		}
 		//miles.has all
 		this.playerActivate=this.activate;
 	}
