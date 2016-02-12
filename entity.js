@@ -49,6 +49,7 @@ function bomb(croom,isSuper)
 	this.sprites.push(Sprite("superbomb1"));
 	this.xv=0;
 	this.yv=0;
+	this.underWater=false;
 	this.xa=0;
 	this.ya=0;
 	this.decel=0.000;
@@ -68,8 +69,30 @@ function bomb(croom,isSuper)
 		}else if(this.fallingY>0)
 		{
 			this.fallingY-=2;
+			if((this.fallingY<1) && (this.fallingUp<1)) 
+			{
+				if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
+				{
+					playSound("splash");
+					this.underWater=true;
+				}
+				this.fallingY=0;
+				
+			}
 		}
 		this.incMove();
+		if(this.room.isHole(this.x,this.y))
+		{
+			playSound("fall");
+			if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
+			{
+				this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
+				this.fallingY=150;
+			}else
+			{
+				this.exists=false;
+			}
+		}
 		var millip=new Date().getTime();
 		if((millip-this.timePlaced>this.fuse*1000) && (this.armed))
 		{
@@ -330,6 +353,17 @@ function bomb(croom,isSuper)
 	{
 		if(this.exists)
 		{
+			if(this.underWater)
+			{
+				if((miles.has[hasID.Lens]) || (editMode))
+				{
+					can.globalAlpha=0.5;
+				}else
+				{
+					return;
+				}
+			}
+			
 			var millip= new Date().getTime();
 			var dex=0;
 			if(this.fallingY>0)
@@ -662,7 +696,7 @@ bomb.prototype.incMove=function()
 			//return false;
 		}
 	}
-	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 	{
 		this.underWater=true;
 	}
@@ -1014,6 +1048,18 @@ function entity(croom)
 			}
 		}
 		return null;
+	}
+	
+	this.getItemAmt=function(id)
+	{
+		for(var i=0;i<this.inventory.length;i++)
+		{
+			if(this.inventory[i].type==id)
+			{
+				return this.inventoryAmounts[i];
+			}
+		}
+		return 0;
 	}
 	
 	this.giveItem=function(obj,amt)
@@ -1494,7 +1540,7 @@ function entity(croom)
 					return "open curtains";
 				}else
 				{
-					return "close curtains";
+					//return "close curtains";
 				}
 			}else if((gled.type==ObjectID.Sign) && (gled.y<this.y))
 			{
@@ -1962,7 +2008,10 @@ function entity(croom)
 	{
 		for(var i=0;i<this.projectiles.length;i++)
 		{
-			this.projectiles[i].draw(can,xOffset,yOffset);
+			if((this.projectiles[i].room.x==curDungeon.roomX) && (this.projectiles[i].room.y==curDungeon.roomY)&&(this.projectiles[i].room.z==curDungeon.roomZ))
+			{
+				this.projectiles[i].draw(can,xOffset,yOffset);
+			}
 		}
 		if(!this.alive)
 		{
@@ -2266,7 +2315,14 @@ function entity(croom)
 		{
 			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand)&&(this.room.objects[i].type!=ObjectID.ToggleSwitch))
 			{
-				return this.room.objects[i];
+				if(this.grabbed==null) 
+				{
+					return this.room.objects[i];
+				}else if((this.grabbed) && (this.grabbed.ID!=this.room.objects[i].ID))
+				{
+					console.log(this.grabbed.ID,this.room.objects[i].ID);
+					return this.room.objects[i];
+				}
 			}
 		}
 		return null;
@@ -2657,7 +2713,7 @@ function entity(croom)
 					{
 						if(this.room.objects[i].swordActivate()) 
 						{
-							this.room.objects[i].activate();
+							this.room.objects[i].playerActivate();
 						}
 					}
 				
@@ -2706,7 +2762,7 @@ function entity(croom)
 					{
 						if(this.room.objects[i].swordActivate()) 
 						{
-							this.room.objects[i].activate();
+							this.room.objects[i].playerActivate();
 						}
 					}
 				
@@ -2811,9 +2867,13 @@ function entity(croom)
 				this.fallingY=0;
 				if(this.room.tiles[this.x][this.y].data!=DungeonTileType.Hole)
 				{
-					playSound("landing");
+					//playSound("landing");
 					this.lastX=this.x;
 					this.lastY=this.y;
+				}
+				if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
+				{
+					playSound("splash");
 				}
 				
 			}
@@ -2867,7 +2927,7 @@ function entity(croom)
 					{
 						if((this.room.objects[i].curSprite==0)&&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 						{
-							this.room.objects[i].playerActivate();
+							//this.room.objects[i].playerActivate(); // PROBLEM ONE
 						}
 					}
 				}else if((this.room.objects[i].pickupable) &&(this.closeEnoughTo(this.room.objects[i])))//(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))

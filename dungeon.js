@@ -61,12 +61,12 @@ function dungeon(path)
 		this.roomY=y; 
 	}
 	
-	this.changeRoom=function(dir,limited) //used for arrowing through rooms rather than player movement limited determines if you can go through walls/closed doors/ into inactive rooms
+	this.changeRoom=function(dir,limited) 
 	{
 		this.busyrang=false;
 		for(var i=0;i<miles.projectiles.length;i++)
 		{
-			if(miles.projectiles[i].type==1)
+			if((miles.projectiles[i].type==1) || (miles.projectiles[i].type==2))
 			{
 				miles.projectiles[i].kill();
 				miles.projectiles.splice(i,1);
@@ -100,7 +100,7 @@ function dungeon(path)
 				{
 					
 					
-					if(limited)
+					/*if((limited) && (OPTIONS.MouseControls))
 					{
 						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,3,miles,true);
 						
@@ -111,7 +111,7 @@ function dungeon(path)
 					}
 					
 					if((purd) &&(nard)&&(nard.length>0) || (!limited))
-					{
+					{*/
 						//console.log(purd);
 						if(limited)
 						{
@@ -127,12 +127,16 @@ function dungeon(path)
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
 							miles.room=curDungeon.curRoom();
+							if(miles.grabbed)
+							{
+								miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+							}
 						}
-					}else
+					/*}else
 					{
 						bConsoleBox.log("No path to door!");
 						playSound("error");
-					}
+					}*/
 				}else
 				{
 					//bConsoleBox.log("No open door!");
@@ -168,7 +172,7 @@ function dungeon(path)
 				if((purd) &&(purd.passable(miles)) || (!limited))
 				{
 					
-					if(limited)
+					/*if(limited)
 					{
 						var nard=this.curRoom().getPath(miles.x,miles.y,purd.x,12,miles,true);
 						
@@ -179,7 +183,7 @@ function dungeon(path)
 					}
 					
 					if((purd) &&(nard)&&(nard.length>0)|| (!limited))
-					{
+					{*/
 						if(limited)
 						{
 							//miles.x=purd.x+1;
@@ -194,12 +198,16 @@ function dungeon(path)
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
 							miles.room=curDungeon.curRoom();
+							if(miles.grabbed)
+							{
+								miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+							}
 						}
-					}else
+					/*}else
 					{
 						bConsoleBox.log("No path to door!");
 						playSound("error");
-					}
+					}*/
 				}else
 				{
 					//bConsoleBox.log("No open door!");
@@ -234,7 +242,7 @@ function dungeon(path)
 				if((purd) && (purd.passable(miles)) || (!limited))
 				{
 					
-					if(limited)
+					/*if(limited)
 					{
 						var nard=this.curRoom().getPath(miles.x,miles.y,17,purd.y,miles,true);
 						
@@ -245,7 +253,7 @@ function dungeon(path)
 					}
 					
 					if((purd) &&(nard)&&(nard.length>0) || (!limited))
-					{
+					{*/
 						//console.log(purd);
 						if(limited)
 						{
@@ -261,13 +269,17 @@ function dungeon(path)
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
 							miles.room=curDungeon.curRoom();
+							if(miles.grabbed)
+							{
+								miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+							}
 	
 						}
-					}else
+					/*}else
 					{
 						bConsoleBox.log("No path to door!");
 						playSound("error");
-					}
+					}*/
 				}else
 				{
 					//bConsoleBox.log("No open door!");
@@ -304,7 +316,7 @@ function dungeon(path)
 				{
 					
 					
-					if(limited)
+					/*if(limited)
 					{
 						var nard=this.curRoom().getPath(miles.x,miles.y,3,purd.y,miles,true);					
 						if((miles.y==purd.y) && (miles.x==3))
@@ -316,7 +328,7 @@ function dungeon(path)
 					if((purd) &&(nard)&&(nard.length>0) || (!limited))
 					{
 						//console.log(purd);
-							
+							*/
 						if(limited)
 						{
 							miles.x=17;
@@ -331,13 +343,17 @@ function dungeon(path)
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
 							miles.room=curDungeon.curRoom();
+							if(miles.grabbed)
+							{
+								miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+							}
 	
 						}
-					}else
+					/*}else
 					{
 						bConsoleBox.log("No path to door!");
 						playSound("error");
-					}
+					}*/
 				}else
 				{
 					//bConsoleBox.log("No open door!");

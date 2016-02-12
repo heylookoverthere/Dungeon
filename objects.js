@@ -322,6 +322,11 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 		this.flame.y=this.y*32+yOffset-16+this.ySmall;
 		this.flame.flare.x=this.x*32+xOffset+this.xSmall;
 		this.flame.flare.y=this.y*32+yOffset-16+this.ySmall;
+		if(this.type==ObjectID.TallLamp)
+		{
+			this.flame.y=this.y*32+yOffset-36+this.ySmall;
+			this.flame.flare.y=this.y*32+yOffset-36+this.ySmall;
+		}
 	}
 }
 
@@ -347,7 +352,7 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=true;
 		this.flame=new flame(this.room.lights);
 		this.flame.x=this.x*32+xOffset;
-		this.flame.y=(this.y-1)*32+yOffset-12;
+		this.flame.y=(this.y-1)*32+yOffset-20;
 		//this.flame.flare.alive=true;
 		this.flame.type=0;
 		this.flame.alive=false;
@@ -377,7 +382,7 @@ object.prototype.setup=function(id,par)
 			}else{
 				this.flame=new flame(this.room.lights);
 				this.flame.x=this.x*32+xOffset;//miles.x;
-				this.flame.y=(this.y-1)*32+yOffset-16;//miles.y;
+				this.flame.y=(this.y-1)*32+yOffset-32;//miles.y;
 				this.flame.type=0;
 				playSound("lamp");
 			}
@@ -701,7 +706,7 @@ object.prototype.setup=function(id,par)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("magicboomarang"));
-		this.name="Magic Boomarang";
+		this.name="Magic Boomerang";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.activate=function()
@@ -737,7 +742,7 @@ object.prototype.setup=function(id,par)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("superbomb"));
-		this.name="Super Bomb";
+		this.name="Super Bombs";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.activate=function()
@@ -920,7 +925,7 @@ object.prototype.setup=function(id,par)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("map"));
-		this.name="map";
+		this.name="Map";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.usable=false;
@@ -939,7 +944,7 @@ object.prototype.setup=function(id,par)
 	{
 		this.sprites=new Array();
 		this.sprites.push(Sprite("compass"));
-		this.name="compass";
+		this.name="Compass";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.usable=false;
@@ -1063,8 +1068,31 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
 		this.blockArrows=true;
+		this.on=true;
+		this.swordActivate=function() {
+			if(miles.has[hasID.MasterSword])
+			{
+				return true;
+			}
+			return false;
+		}
 		this.sprites.push(Sprite("crystal"));
 		this.name="strange crystal";
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Sword]) //need sword
+			{
+				return false;
+			} 
+			if(this.on)
+			{
+				playSound("shatter");
+				//this.curSprite=1;
+				//this.aniRate=3;
+				this.exists=false;
+				
+			}
+		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Crystal2) {
 		this.sprites=new Array();
@@ -1214,6 +1242,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("shatter6"));
 		this.sprites.push(Sprite("shatter7"));
 		this.name="Pot";
+		this.playerUsable=false;
 		this.swordActivate=function() {
 			if(miles.has[hasID.MasterSword])
 			{
@@ -1223,7 +1252,6 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
-			
 			if(!this.on)
 			{
 				playSound("shatter");
@@ -1256,7 +1284,7 @@ object.prototype.setup=function(id,par)
 				}
 			}
 		}
-		this.playerActivate=function(){};//this.activate;
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Rock) {
 		this.sprites=new Array();
 		this.bombable=false;//true;
@@ -1429,9 +1457,49 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
 		this.on=true;
+		this.playerUsable=false;
 		this.aniRate=3;
 		this.boomarangActivate=true;
 		this.activate=function(rang)
+		{
+			if(this.on)
+			{
+				playSound("curtains");
+				this.curSprite=1;
+				//this.aniRate=3;
+				var bumj= new explosionEffect(this.room);
+				bumj.setup(this.x-2,this.y-2,this.room);
+				bumj.numFrames=7;
+				bumj.type=1;
+				explosions.push(bumj);
+				this.on=false;
+				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=500+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=function(rang) 
 		{
 			if((!miles.has[hasID.Sword]) &&(!rang))
 			{	
@@ -1476,7 +1544,6 @@ object.prototype.setup=function(id,par)
 				}
 			}
 		}
-		this.playerActivate=function() {};//this.activate;
 	}else if (this.type==ObjectID.Curtains) {
 		this.sprites=new Array();
 		this.curSprite=1;
@@ -1544,7 +1611,32 @@ object.prototype.setup=function(id,par)
 				}
 			}
 		}
-		this.playerActivate=this.activate;
+		this.playerActivate=function(){
+			if(this.on)
+			{
+				this.on=false;
+
+				playSound("curtains");
+				if(this.on)
+				{
+					
+					this.curSprite= 1;
+				}else
+				{
+					this.curSprite= 0;
+				
+				}
+				if(this.hasSecret)
+				{
+					playSound("secret");
+					this.exists=false;
+					var pend=this.room.getSpecificDoor(this.x,this.y,this.orientation);
+					if(pend){
+						pend.on=false;
+					}
+				}
+			}
+		}
 	}else if (this.type==ObjectID.WallShield) {
 		this.sprites=new Array();
 		this.curSprite=0;
@@ -1797,9 +1889,9 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
-		if(!OPTIONS.TouchableOrbs)
+		if(OPTIONS.TouchableOrbs)
 		{
-			this.playerActivate=function() {};
+			this.playerUsable=true
 		}
 	}else if (this.type==ObjectID.RedOrb) { //red orb
 	    this.sprites=new Array();
@@ -1811,6 +1903,8 @@ object.prototype.setup=function(id,par)
 		this.boomarangActivate=true;
 		this.swordActivate=function(){return true;};
 		this.cooldown=400;
+		this.playerUsable=false;
+		
 		this.activate=function()
 		{
 			var npo=new Date().getTime();
@@ -1829,9 +1923,9 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
-		if(!OPTIONS.TouchableOrbs)
+		if(OPTIONS.TouchableOrbs)
 		{
-			this.playerActivate=function() {};
+			this.playerUsable=true;
 		}
 	}else if (this.type==ObjectID.Warp) { //warp
 	    this.sprites=new Array();
@@ -1872,7 +1966,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("feather"));
-	    this.name="Roc feather";
+	    this.name="Roc's Feather";
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -1889,7 +1983,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("mirror"));
-	    this.name="Magic mirror";
+	    this.name="Magic Mirror";
 		this.pickupable=true;
 		this.usable=true;
 		this.activate=function()
@@ -2102,7 +2196,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("boots"));
-	    this.name="boots";
+	    this.name="Pegasus Boots";
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -2153,7 +2247,7 @@ object.prototype.setup=function(id,par)
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("lens"));
-	    this.name="Creepy lens";
+	    this.name="Creepy Lens";
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -2198,6 +2292,11 @@ object.prototype.setup=function(id,par)
 			miles.has[hasID.Bomb]=true;
 			miles.bombs+=5;
 			miles.giveItem(this,5);
+			if(miles.has[hasID.SuperBomb])
+			{
+				miles.getItem(ObjectID.Bomb).sprites=new Array();
+				miles.getItem(ObjectID.Bomb).sprites.push(superbombsprite);
+			}
 			
 		}
 		this.playerActivate=this.activate;
@@ -2385,6 +2484,11 @@ object.prototype.setup=function(id,par)
 			shinex.setup();
 			miles.bombs+=1;
 			miles.giveItem(shinex,1);
+			if(miles.has[hasID.SuperBomb])
+			{
+				miles.getItem(ObjectID.Bomb).sprites=new Array();
+				miles.getItem(ObjectID.Bomb).sprites.push(superbombsprite);
+			}
 			
 		}
 		this.playerActivate=this.activate;
@@ -2863,7 +2967,7 @@ object.prototype.incMove=function()
 			this.xa=0;
 		}
 	}
-	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 	{
 		this.underWater=true;
 	}
@@ -2873,10 +2977,28 @@ object.prototype.incMove=function()
 		this.flame.y=this.y*32+yOffset-16+this.ySmall;
 		this.flame.flare.x=this.x*32+xOffset+this.xSmall;
 		this.flame.flare.y=this.y*32+yOffset-16+this.ySmall;
+		if(this.type==ObjectID.TallLamp)
+		{
+			this.flame.y=this.y*32+yOffset-36+this.ySmall;
+			this.flame.flare.y=this.y*32+yOffset-36+this.ySmall;
+		}
 	}
 	return frankie;
 }
 
+object.prototype.changeRoom=function(dz,dx,dy)
+{
+	for (var i=0;i<this.room.objects.length;i++)
+	{
+		if(this.room.objects[i].ID==this.ID)
+		{
+			this.room.objects.splice(i,1);
+			i--;
+		}
+	}
+	this.room=curDungeon.rooms[dz][dx][dy];
+	this.room.objects.push(this);
+}
 
 object.prototype.update=function()
 {
@@ -2889,11 +3011,36 @@ object.prototype.update=function()
 		this.fallingY-=2;
 		if(this.fallingY<1)
 		{
-			this.fallingY=0;
-			if(this.activateOnImpact)
+			if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 			{
-				this.activate();
+				playSound("splash");
+				this.underwater=true;
 			}
+			this.fallingY=0;
+			if(this.room.isHole(this.x,this.y))
+			{
+				playSound("fall");
+				if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
+				{
+					//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
+					this.changeRoom(this.room.z-1,this.room.x,this.room.y);
+					this.fallingY=150;
+				}else
+				{
+					this.exists=false;
+				}
+			}else
+			{
+				this.fallingY=0;
+				if(this.activateOnImpact)
+				{
+					this.xv=0;
+					this.yv=0;
+					this.xa=0;
+					this.ya=0;
+					this.activate();
+				}
+			}			
 		}
 		
 	}
@@ -3125,10 +3272,10 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 		if((this.room.x==curDungeon.roomX)&& (this.room.y==curDungeon.roomY))
 		{
 			//draw fire?
-			this.flame.draw(can,cam,xOffh+this.xSmall,yOffh-32+this.ySmall-this.fallingY*2);
+			//this.flame.draw(can,cam,xOffh+this.xSmall,yOffh-32+this.ySmall-this.fallingY*2);
 		}else
 		{
-			this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+yOffh-16+this.ySmall-this.fallingY*2);
+			//this.flame.sprites[this.flame.aniTrack].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+yOffh-16+this.ySmall-this.fallingY*2);
 		}
 	}
 	if(!this.on)

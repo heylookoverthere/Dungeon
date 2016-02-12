@@ -268,7 +268,7 @@ editCursor.prototype.click=function(m,mx,my)
 				}
 			
 				
-			}}else if(this.mode==editModes.Pen)
+			}else if(this.mode==editModes.Pen)
 			{
 				this.penDown=!this.penDown;
 			}if(this.mode==editModes.Door)
@@ -312,10 +312,8 @@ editCursor.prototype.click=function(m,mx,my)
 					bConsoleBox.log("Not the best spot for a door.");
 					return;
 				}
+			}
 		}	
-	}else // non-edit mode mouse stuff.
-	{
-		
 	}
 	
 	return;
