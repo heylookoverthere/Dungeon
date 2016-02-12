@@ -940,6 +940,10 @@ function dungeon(path)
 				{
 					playSound("stairsup");
 					miles.room=curDungeon.curRoom();
+					if(miles.grabbed)
+					{
+						miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+					}
 				}
 				this.rooms[this.roomZ][this.roomX][this.roomY].explored=true;
 				this.rooms[this.roomZ][this.roomX][this.roomY].hidden=false;
@@ -983,6 +987,10 @@ function dungeon(path)
 				{
 					playSound("stairsdown");
 					miles.room=curDungeon.curRoom();
+					if(miles.grabbed)
+					{
+						miles.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+					}
 				}
 				if(limited)
 				{

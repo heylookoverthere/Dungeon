@@ -30,12 +30,16 @@ masterPokeSprites.push(Sprite("masterpoke1"));
 masterPokeSprites.push(Sprite("masterpoke2"));
 masterPokeSprites.push(Sprite("masterpoke3"));
 
+var bombCount=0;
+
 function bomb(croom,isSuper)
 {
 	if(!isSuper) {isSuper=false;}
 	this.isSuper=isSuper;
 	this.x=0;
 	this.y=0;
+	this.ID=bombCount;
+	bombCount++;
 	this.exists=false;
 	this.timePlaced=0;
 	this.name="bomb";
@@ -390,6 +394,21 @@ function bomb(croom,isSuper)
 		}
 	}
 }
+
+bomb.prototype.changeRoom=function(dz,dx,dy)
+{
+	for (var i=0;i<this.room.bombs.length;i++)
+	{
+		if(this.room.bombs[i].ID==this.ID)
+		{
+			this.room.bombs.splice(i,1);
+			i--;
+		}
+	}
+	this.room=curDungeon.rooms[dz][dx][dy];
+	this.room.bombs.push(this);
+}
+
 bomb.prototype.tryMove=function(dir)
 	{
 		if(dir==0)
@@ -1717,7 +1736,7 @@ function entity(croom)
 	
 	this.jump=function()
 	{
-		if(this.jumping) {return false;}
+		if((this.jumping) || (!this.alive)) {return false;}
 		//do we even need dir? no jumping is just a status. 
 		playSound("jump");
 		this.jumpStart=new Date().getTime(); 
@@ -2433,7 +2452,11 @@ function entity(croom)
 			this.grabbed.y=this.y;
 			this.grabbed.xSmall=this.xSmall;
 			this.grabbed.ySmall=this.ySmall;
-			this.grabbed.fallingY=this.fallingY+24;
+			this.grabbed.fallingY=this.fallingY+20;
+			if(!this.grabbed.exists)
+			{
+				this.grabbed=null;
+			}
 		}
 		for(var i=0;i<this.projectiles.length;i++)
 		{
@@ -2537,6 +2560,11 @@ function entity(croom)
 		}
 		if(this.jumping)
 		{
+			if(!this.alive)
+			{
+				this.jumping=false;
+				return; 
+			}
 			if(!this.jumpPeaked)
 			{
 				this.fallingY+=this.jumpSpeed;
