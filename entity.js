@@ -904,6 +904,7 @@ function entity(croom)
 	this.deadSprites.push(Sprite("profdeath0"));
 	this.deadSprites.push(Sprite("profdeath1"));
 	this.deadSprites.push(Sprite("profdeath2"));
+	this.deadinswatersprite=Sprite("profdeath2");
 	this.deathAniTrack=0;
 	this.aniCount=0;
 	this.aniTrack=0;
@@ -1510,6 +1511,64 @@ function entity(croom)
 		return false;
 	}
 	
+	this.doContextual=function()
+	{
+		if(this.grabbed!=null)
+		{
+			this.grabbed.toss(this.dir,10);
+			this.grabbed=null;
+		}else
+		{
+			var mled=this.getFacingBomb();
+			if((mled) && (mled.fallingY<1))
+			{
+				this.grab(mled);
+			}
+			var gled=this.getFacingObject();
+			if((gled) &&(this.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble))
+			{
+				this.grab(gled);
+			}else if((gled) && (gled.playerUsable))
+			{
+				//console.log(this.grabbed.ID,gled.ID);
+				if((this.grabbed) && (this.grabbed.ID==gled.ID))
+				{
+				}else
+				{
+					if(gled.frontOnly)
+					{
+						if(gled.y<this.y)
+						{
+							gled.playerActivate();
+						}
+					}else
+					{
+						gled.playerActivate();
+					}
+				}
+			}else 
+			{
+				var pled=this.getFacingEntity();
+				if((pled) && (pled.team==this.team))
+				{
+					if(pled.alive) 
+					{
+						pled.say();
+						if((!pled.partyMember) && (pled.autoJoin))
+						{
+							theParty.add(pled);
+						}
+						return;
+					}else if(this.hasItem(ObjectID.GreenPotion))
+					{
+						pled.revive();
+						this.removeItem(ObjectID.GreenPotion,1); 
+					}
+				}
+			}
+		}
+	}
+	
 	this.getContext=function()
 	{
 		var pled=miles.getFacingEntity();
@@ -1517,67 +1576,70 @@ function entity(croom)
 		{
 			if(pled.alive)
 			{
-				return "talk to "+pled.name;	
+				return "Talk to "+pled.name;	
 			}else if(this.hasItem(ObjectID.GreenPotion))
 			{
-				return "revive "+pled.name;
+				return "Revive "+pled.name;
 			}
 		}
 		if(this.grabbed!=null)
 		{
-			return "throw "+this.grabbed.name;
+			return "Throw "+this.grabbed.name;
 		}
 		var mled=this.getFacingBomb();
 		if(mled)
 		{
-			return "grab bomb";
+			return "Grab bomb";
 		}
 		gled=this.getFacingObject();
 		if(gled)
 		{
 			if((gled.type==ObjectID.Peg) && (this.has[hasID.Hammer]))
 			{
-				return "hammer peg";
+				return "Hammer peg";
 			}
 			if((gled.type==ObjectID.Rock) && (this.has[hasID.Glove]))
 			{
-				return "lift rock";
+				return "Lift rock";
 			}else if((gled.type==ObjectID.Pot) && (this.has[hasID.Glove]))
 			{
-				return "lift pot";
+				return "Lift pot";
+			}else if((gled.type==ObjectID.Skull) && (this.has[hasID.Glove]))
+			{
+				return "Lift skull";
 			}else if((gled.type==ObjectID.Lamp) || (gled.type==ObjectID.TallLamp) && (this.has[hasID.Lantern]))
 			{
 				if(gled.on)
 				{
-					return "extinguish lamp";
+					return "Extinguish lamp";
 				}else
 				{
-					return "light lamp";
+					return "Light lamp";
 				}
 			}else if((gled.type==ObjectID.Candle) && (this.has[hasID.Lantern]))
 			{
 				if(gled.on)
 				{
-					return "extinguish candle";
+					return "Extinguish candle";
 				}else
 				{
-					return "light candle";
+					return "Light candle";
 				}
 			}else if(gled.type==ObjectID.Curtains)
 			{
 				if(gled.on)
 				{
-					return "open curtains";
+					return "Open curtains";
 				}else
 				{
 					//return "close curtains";
 				}
 			}else if((gled.type==ObjectID.Sign) && (gled.y<this.y))
 			{
-				return "read sign";
-			}else if((gled.type==ObjectID.Chest) && (gled.y<this.y))
+				return "Read sign";
+			}else if((gled.type==ObjectID.Chest) && (gled.y<this.y) && (gled.curSprite==0))
 			{
-				return "open chest";
+				return "Open chest";
 			}
 		}
 		return null;
@@ -2045,13 +2107,15 @@ function entity(croom)
 		}
 		if(!this.alive)
 		{
-			//if((this.deathAniTrack<2) || (this.isPlayer))//hack
-			//{
+			if(!this.swimming)
+			{
 				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
-			//}else
-			//{
-			//	this.deadSprites[this.deathAniTrack].draw(can,this.x*32+xOffset-16,this.y*32+yOffset+8-this.fallingY*2)
-			//}
+			}else
+			{
+				this.deadinwatersprite.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
+			}
+			
+			
 			return;
 		}else if((this.isPlayer) && (this.holding))
 		{
@@ -2813,7 +2877,7 @@ function entity(croom)
 				{
 					if((this.room.objects[i].x==hurtx) && (this.room.objects[i].y==hurty))
 					{
-						if(this.room.objects[i].swordActivate()) 
+						if((this.room.objects[i].swordActivate()) && (this.room.objects[i].pokable))
 						{
 							this.room.objects[i].playerActivate();
 						}

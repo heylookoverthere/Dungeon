@@ -1113,6 +1113,7 @@ miles.deadSprites=new Array();
 miles.deadSprites.push(Sprite("linkdead1"));
 miles.deadSprites.push(Sprite("linkdead2"));
 miles.deadSprites.push(Sprite("linkdead3"));
+miles.deadinwatersprite=Sprite("deadinwater");
 miles.swimSprites=new Array();
 miles.swimSprites.push(Sprite("swim0"));
 miles.swimSprites.push(Sprite("swim1"));
@@ -1625,8 +1626,8 @@ function drawGUI(can)
 			var jam=miles.getContext();
 			if(jam)
 			{
-				arrowkeysprite[2].draw(can,2,616);
-				can.fillText(jam,42,640);
+				arrowkeysprite[2].draw(can,2,620);
+				can.fillText(jam,42,644);
 			}
 			arrowkeysprite[1].draw(can,760,60);
 			arrowkeysprite[3].draw(can,760,110);
@@ -1659,8 +1660,8 @@ function drawGUI(can)
 			var jam=miles.getContext();
 			if(jam)
 			{
-				xboxbsprite.draw(can,2,616);
-				can.fillText(jam,42,640);
+				xboxbsprite.draw(can,2,620);
+				can.fillText(jam,42,644);
 			}
 			if(miles.has[hasID.Sword])
 			{
@@ -1683,8 +1684,8 @@ function drawGUI(can)
 			var jam=miles.getContext();
 			if(jam)
 			{
-				xboxasprite.draw(can,2,616);
-				can.fillText(jam,42,640);
+				xboxasprite.draw(can,2,620);
+				can.fillText(jam,42,644);
 			}
 			if(miles.has[hasID.Sword])
 			{
@@ -3658,60 +3659,7 @@ function mainUpdate()
 			{
 				//contextual. if NPC in talk range, talk. 
 				//if object in front, activate
-				if(miles.grabbed!=null)
-				{
-					miles.grabbed.toss(miles.dir,10);
-					miles.grabbed=null;
-				}else
-				{
-					var mled=miles.getFacingBomb();
-					if((mled) && (mled.fallingY<1))
-					{
-						miles.grab(mled);
-					}
-					var gled=miles.getFacingObject();
-					if((gled) &&(miles.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble))
-					{
-						miles.grab(gled);
-					}else if((gled) && (gled.playerUsable))
-					{
-						//console.log(miles.grabbed.ID,gled.ID);
-						if((miles.grabbed) && (miles.grabbed.ID==gled.ID))
-						{
-						}else
-						{
-							if(gled.frontOnly)
-							{
-								if(gled.y<miles.y)
-								{
-									gled.playerActivate();
-								}
-							}else
-							{
-								gled.playerActivate();
-							}
-						}
-					}else 
-					{
-						var pled=miles.getFacingEntity();
-						if((pled) && (pled.team==miles.team))
-						{
-							if(pled.alive) 
-							{
-								pled.say();
-								if((!pled.partyMember) && (pled.autoJoin))
-								{
-									theParty.add(pled);
-								}
-								return;
-							}else if(miles.hasItem(ObjectID.GreenPotion))
-							{
-								pled.revive();
-								miles.removeItem(ObjectID.GreenPotion,1); 
-							}
-						}
-					}
-				}
+				miles.doContextual();
 			}
 			if(miles.holding)
 			{
@@ -4025,21 +3973,7 @@ function mainUpdate()
 			{
 				//contextual. if NPC in talk range, talk. 
 				//if object in front, activate
-				var pled=miles.getFacingEntity();
-				if(pled)
-				{
-					pled.say();
-					if((!pled.partyMember) && (pled.autoJoin))
-					{
-						theParty.add(pled);
-					}
-					return;
-				}
-				var gled=miles.getFacingObject();
-				if((gled) && (gled.playerUsable))
-				{
-					gled.playerActivate();
-				}
+				miles.doContextual();
 			}
 			if(miles.holding)
 			{

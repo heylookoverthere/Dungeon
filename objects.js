@@ -71,6 +71,7 @@ objectName[210]="Crystal";
 objectName[211]="Crystal2";
 objectName[212]="Rock2";
 objectName[213]="Rock2 Cracked";
+objectName[214]="Skull";
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -157,6 +158,7 @@ ObjectID.Crystal=210;
 ObjectID.Crystal2=211;
 ObjectID.Rock2=212;
 ObjectID.Rock2Cracked=213;
+ObjectID.Skull=214;
 
 //pickups
 ObjectID.Key=300;
@@ -197,6 +199,7 @@ function object(oroom) //not a tile, not an enemy
 	this.hurty=false; 
 	this.pickupable=false;
 	this.type=0;
+	this.pokable=false;
 	this.returning=false;
 	this.targetedX=false;
 	this.targetedY=false;
@@ -1166,6 +1169,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
 		this.blockArrows=true;
+		this.pokable=true;
 		this.on=true;
 		this.swordActivate=function() {
 			if(miles.has[hasID.MasterSword])
@@ -1200,6 +1204,7 @@ object.prototype.setup=function(id,par)
 			return (miles.reallyDashing);
 		}
 		this.blockArrows=true;
+		this.pokable=true;
 		this.sprites.push(Sprite("crystal2"));
 		this.name="stranger crystal";
 		this.activate=function()
@@ -1357,6 +1362,70 @@ object.prototype.setup=function(id,par)
 				this.aniRate=3;
 				this.on=true;
 				if(false)//(this.loot)
+				{
+				
+				}else if(Math.random()*10>4)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}
+					var pojk=500+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
+				}
+			}
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Skull) {
+		this.sprites=new Array();
+		this.bombable=false;//true;
+		this.on=true;
+		this.grababble=true;
+		this.blockArrows=true;
+		this.activateOnImpact=true;
+		this.sprites.push(Sprite("skull"));
+		this.sprites.push(Sprite("shatter0"));
+		this.sprites.push(Sprite("shatter1"));
+		this.sprites.push(Sprite("shatter2"));
+		this.sprites.push(Sprite("shatter3"));
+		this.sprites.push(Sprite("shatter4"));
+		this.sprites.push(Sprite("shatter5"));
+		this.sprites.push(Sprite("shatter6"));
+		this.sprites.push(Sprite("shatter7"));
+		this.name="skull";
+		this.activate=function()
+		{
+			if(!miles.has[hasID.Glove]) //need glvoes
+			{
+				if(OPTIONS.SafeMode)
+				{
+					bConsoleBox.log("Too heavy to lift with your bear hands!", "yellow"); 
+				}else
+				{
+					bConsoleBox.log("No glove no love!", "yellow"); 
+					playSound("error");
+				}
+				return false;
+			} 
+			if(this.on)
+			{
+				playSound("shatter");
+				this.curSprite=1;
+				this.aniRate=3;
+				this.on=false;
+				if(true)//(this.loot) //no loot for skulls I think? 
 				{
 				
 				}else if(Math.random()*10>4)
@@ -1554,6 +1623,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bush"));
 		this.sprites.push(Sprite("bushcut")); //todo!
 		this.name="bush";
+		this.pokable=true;
 		this.on=true;
 		this.playerUsable=false;
 		this.aniRate=3;
@@ -3215,7 +3285,11 @@ object.prototype.update=function()
 			if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 			{
 				playSound("splash");
-				this.underwater=true;
+				this.underWater=true;
+				this.xv=0;
+				this.yv=0;
+				this.xa=0;
+				this.ya=0; 
 			}
 			this.fallingY=0;
 			if(this.room.isHole(this.x,this.y))
@@ -3233,13 +3307,19 @@ object.prototype.update=function()
 			}else
 			{
 				this.fallingY=0;
-				if(this.activateOnImpact)
+				if(this.activateOnImpact) 
 				{
-					this.xv=0;
-					this.yv=0;
-					this.xa=0;
-					this.ya=0;
-					this.activate();
+					if(!this.underWater)
+					{
+						this.xv=0;
+						this.yv=0;
+						this.xa=0;
+						this.ya=0;
+						this.activate();
+					}else
+					{
+						this.exists=false
+					}
 				}
 			}			
 		}
@@ -3418,7 +3498,7 @@ object.prototype.update=function()
 			//console.log(this.curTopSprite);
 		}
 	}
-	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock)||(this.type==ObjectID.Rock2Cracked))&&(this.curSprite>0))
+	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock)||(this.type==ObjectID.Skull)||(this.type==ObjectID.Rock2Cracked))&&(this.curSprite>0))
 	{
 		this.ani++;
 		if(this.ani>this.aniRate)
