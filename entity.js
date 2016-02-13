@@ -81,6 +81,9 @@ function bomb(croom,isSuper)
 				{
 					playSound("splash");
 					this.underWater=true;
+					var bumj= new explosionEffect(this.room);
+					bumj.setup(this.x,this.y,this.room,this,2);
+					explosions.push(bumj);
 				}
 				this.fallingY=0;
 				
@@ -670,7 +673,12 @@ bomb.prototype.incMove=function()
 		this.yv=-this.peakYV;
 		this.ya=0;
 	}
-	if(this.ySmall>SMALL_BREAK)
+	var temp_break=SMALL_BREAK;
+	if(!this.canMove(2))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	if(this.ySmall>temp_break)
 	{
 		if(this.canMove(2))
 		{
@@ -680,11 +688,16 @@ bomb.prototype.incMove=function()
 			//return true;
 		}else
 		{
-			this.ySmall=SMALL_BREAK;
+			this.ySmall=temp_break;//SMALL_BREAK;
 			this.ya=0;
 			//return false;
 		}
-	}else if(this.ySmall<-SMALL_BREAK)
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(0))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	}else if(this.ySmall<-temp_break)
 	{
 		if(this.canMove(0))
 		{
@@ -693,7 +706,7 @@ bomb.prototype.incMove=function()
 			//return true;
 		}else
 		{
-			this.ySmall=SMALL_BREAK;
+			this.ySmall=temp_break;
 			this.ya=0;
 			//return false;
 		}
@@ -1219,7 +1232,12 @@ function entity(croom)
 		if(dir==2)
 		{
 			this.ySmall+=this.speed;
-			if(this.ySmall>SMALL_BREAK)
+			var temp_break=SMALL_BREAK;
+			if(!this.canMove(2))
+			{
+				temp_break=SMALL_BREAK/2;
+			}
+			if(this.ySmall>temp_break)
 			{
 				if(this.canMove(dir))
 				{
@@ -1228,7 +1246,7 @@ function entity(croom)
 					return true;
 				}else
 				{
-					this.ySmall=SMALL_BREAK;
+					this.ySmall=temp_break;
 					return false;
 				}
 			}
@@ -1236,7 +1254,12 @@ function entity(croom)
 		}else if(dir==0)
 		{
 			this.ySmall-=this.speed;
-			if(this.ySmall<-SMALL_BREAK)
+			var temp_break=SMALL_BREAK;
+			if(!this.canMove(0))
+			{
+				temp_break=SMALL_BREAK/2;
+			}
+			if(this.ySmall<-temp_break)
 			{
 				if(this.canMove(dir))
 				{
@@ -1245,7 +1268,7 @@ function entity(croom)
 					return true;
 				}else
 				{
-					this.ySmall=-SMALL_BREAK;
+					this.ySmall=-temp_break;
 					return false;
 				}
 			}
@@ -1253,7 +1276,12 @@ function entity(croom)
 		}else if(dir==1)
 		{
 			this.xSmall+=this.speed;
-			if(this.xSmall>SMALL_BREAK)
+			var temp_break=SMALL_BREAK;
+			if(!this.canMove(1))
+			{
+				temp_break=SMALL_BREAK/2;
+			}
+			if(this.xSmall>temp_break)
 			{
 				if(this.canMove(dir))
 				{
@@ -1262,7 +1290,7 @@ function entity(croom)
 					return true;
 				}else
 				{
-					this.xSmall=SMALL_BREAK;
+					this.xSmall=temp_break;
 					return false;
 				}
 			}		
@@ -1270,7 +1298,12 @@ function entity(croom)
 		}else if(dir==3)
 		{
 			this.xSmall-=this.speed;
-			if(this.xSmall<-SMALL_BREAK)
+			var temp_break=SMALL_BREAK;
+			if(!this.canMove(3))
+			{
+				temp_break=SMALL_BREAK/2;
+			}
+			if(this.xSmall<-temp_break)
 			{
 				if(this.canMove(dir))
 				{
@@ -1279,7 +1312,7 @@ function entity(croom)
 					return true;
 				}else
 				{
-					this.xSmall=-SMALL_BREAK;
+					this.xSmall=-temp_break;
 					return false;
 				}
 			}	
@@ -2697,27 +2730,51 @@ function entity(croom)
 			{
 				if(this.room.exits[i].orientation==0)
 				{
-					if((this.y==2) && (this.ySmall<-8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+					if((this.y==2) && (this.ySmall<-7)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
 					{
-						curDungeon.changeRoom(0,true);
+						if((controller.pad) && (controller.checkUp()))
+						{
+							curDungeon.changeRoom(0,true);
+						}else if (SNESUpKey.checkDown())
+						{
+							curDungeon.changeRoom(0,true);
+						}
 					}
 				}else if(this.room.exits[i].orientation==2)
 				{
-					if((this.y==12) && (this.ySmall>8)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
+					if((this.y==12) && (this.ySmall>7)&& ((this.x==this.room.exits[i].x) || (this.x==this.room.exits[i].x+1)))
 					{
-						curDungeon.changeRoom(2,true);
+						if((controller.pad) &&(controller.checkDown()))
+						{
+							curDungeon.changeRoom(2,true);
+						}else if (SNESDownKey.checkDown())
+						{
+							curDungeon.changeRoom(2,true);
+						}
 					}
 				}else if(this.room.exits[i].orientation==3)
 				{
-					if((this.x==2)&& (this.xSmall<-8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					if((this.x==2)&& (this.xSmall<-7) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
 					{
-						curDungeon.changeRoom(3,true);
+						if((controller.pad) &&(controller.checkLeft()))
+						{
+							curDungeon.changeRoom(3,true);
+						}else if (SNESLeftKey.checkDown())
+						{
+							curDungeon.changeRoom(3,true);
+						}
 					}
 				}else if(this.room.exits[i].orientation==1)
 				{
-					if((this.x==17) && (this.xSmall>8) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
+					if((this.x==17) && (this.xSmall>7) && ((this.y==this.room.exits[i].y) || (this.y==this.room.exits[i].y+1)))
 					{
-						curDungeon.changeRoom(1,true);
+						if((controller.pad) &&(controller.checkRight()))
+						{
+							curDungeon.changeRoom(1,true);
+						}else if (SNESRightKey.checkDown())
+						{
+							curDungeon.changeRoom(1,true);
+						}
 					}
 				}
 			}
@@ -2993,6 +3050,9 @@ function entity(croom)
 				if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 				{
 					playSound("splash");
+					var bumj= new explosionEffect(this.room);
+					bumj.setup(this.x,this.y,this.room,2);
+					explosions.push(bumj);
 				}
 				
 			}
@@ -3175,6 +3235,10 @@ function entity(croom)
 							{
 									curDungeon.roomZ--;
 									this.room=curDungeon.curRoom();
+									if(this.grabbed)
+									{
+										this.grabbed.changeRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
+									}
 									this.room.explored=true;
 									this.room.hidden=false;
 							}else

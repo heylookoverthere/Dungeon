@@ -734,7 +734,7 @@ object.prototype.setup=function(id,par)
 				return;
 			}
 			playSound("itemfanfare");
-			bConsoleBox.log("You found a shiney shield!");
+			bConsoleBox.log("You found a shiny shield!");
 			btext="You found a shiny shield!";
 			miles.holding=this.sprites[0];
 			miles.has[hasID.BestShield]=true;
@@ -3193,7 +3193,12 @@ object.prototype.incMove=function()
 		this.ya=0;
 	}
 	var frankie=false;
-	if(this.ySmall>SMALL_BREAK)
+	var temp_break=SMALL_BREAK;
+	if(!this.canMove(2))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	if(this.ySmall>temp_break)
 	{
 		if(this.canMove(2))
 		{
@@ -3203,11 +3208,17 @@ object.prototype.incMove=function()
 			
 		}else
 		{
-			this.ySmall=SMALL_BREAK;
+			this.ySmall=temp_break;
 			this.ya=0;
 
 		}
-	}else if(this.ySmall<-SMALL_BREAK)
+	}
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(0))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	if(this.ySmall<-temp_break)
 	{
 		if(this.canMove(0))
 		{
@@ -3216,11 +3227,16 @@ object.prototype.incMove=function()
 			frankie=true;
 		}else
 		{
-			this.ySmall=SMALL_BREAK;
+			this.ySmall=temp_break;
 			this.ya=0;
 		}
 	}
-	if(this.xSmall>SMALL_BREAK)
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(1))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	if(this.xSmall>temp_break)
 	{
 		if(this.canMove(1))
 		{
@@ -3229,11 +3245,17 @@ object.prototype.incMove=function()
 			frankie=true;
 		}else
 		{
-			this.xSmall=SMALL_BREAK;
+			this.xSmall=temp_break;
 			this.xa=0;
 	
 		}
-	}else if(this.xSmall<-SMALL_BREAK)
+	}
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(3))
+	{
+		temp_break=SMALL_BREAK/2;
+	}
+	if(this.xSmall<-temp_break)
 	{
 		if(this.canMove(3))
 		{
@@ -3242,7 +3264,7 @@ object.prototype.incMove=function()
 			frankie=true;
 		}else
 		{
-			this.xSmall=SMALL_BREAK;
+			this.xSmall=temp_break;
 			this.xa=0;
 		}
 	}
@@ -3285,14 +3307,23 @@ object.prototype.update=function()
 	{
 		this.fallingY+=1;
 		this.fallingUp-=1;
+		if(this.fallingUp<1)
+		{
+			this.hurty=true;
+		}
 	}else if(this.fallingY>0)
 	{
 		this.fallingY-=2;
+		
 		if(this.fallingY<1)
 		{
+			this.hurty=false;
 			if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 			{
 				playSound("splash");
+				var bumj= new explosionEffect(this.room);
+				bumj.setup(this.x,this.y,this.room,this,2);
+				explosions.push(bumj);
 				this.underWater=true;
 				this.xv=0;
 				this.yv=0;

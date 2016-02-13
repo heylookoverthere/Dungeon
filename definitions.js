@@ -1124,6 +1124,11 @@ explosionsprite[1] =Sprite("explosion1");
 explosionsprite[2] =Sprite("explosion2");
 explosionsprite[3] =Sprite("explosion3");
 
+var splashsprite=new Array(4);
+splashsprite[0] =Sprite("splash");
+splashsprite[1] =Sprite("splash");
+splashsprite[2] =Sprite("splash");
+
 var leafssprite=new Array(8);
 leafssprite[0] =Sprite("leaves0");
 leafssprite[1] =Sprite("leaves1");
@@ -1145,11 +1150,22 @@ function explosionEffect(croom)
 	this.aniCount=0;
 	this.exists=false;
 	this.aniRate=6;
+	this.object=null;
 	this.numFrames=3;
-	this.setup=function(x,y,croom)
+	this.setup=function(x,y,croom,obj,type)
 	{
+		if(type==null){type=0;}
+		if(obj){
+			this.object=obj;
+		}
+		this.type=type;
+		if(this.type==2)
+		{
+			this.numFrames=2;
+		}
 		this.x=x;
 		this.y=y;
+
 		this.room=croom;
 		this.exists=true;
 		//this.timeStart=new Data().getTime();
@@ -1177,10 +1193,31 @@ function explosionEffect(croom)
 			if(this.type==0)
 			{
 				can.globalAlpha=0.5;
-				explosionsprite[this.aniTrack].draw(can,this.x*32+xOffh+16,this.y*32+yOffh+16);
+				if(this.object)
+				{
+					explosionsprite[this.aniTrack].draw(can,this.x*32+this.object.xSmall+xOffh+16,this.y*32+this.object.xSmall+yOffh+16);
+				}else
+				{
+					explosionsprite[this.aniTrack].draw(can,this.x*32+xOffh+16,this.y*32+yOffh+16);
+				}
 			}else if(this.type==1)
 			{
-				leafssprite[this.aniTrack].draw(can,(this.x+1)*32+xOffh,this.y*32+yOffh);
+				if(this.object)
+				{
+					leafssprite[this.aniTrack].draw(can,(this.x)*32+xOffh+this.object.xSmall,this.y*32+yOffh+this.object.ySmall);
+				}else
+				{
+					leafssprite[this.aniTrack].draw(can,(this.x)*32+xOffh,this.y*32+yOffh);
+				}
+			}else if(this.type==2)
+			{
+				if(this.object)
+				{
+					splashsprite[this.aniTrack].draw(can,(this.x)*32+xOffh+this.object.xSmall,this.y*32+yOffh+this.object.ySmall);
+				}else
+				{
+					splashsprite[this.aniTrack].draw(can,(this.x)*32+xOffh,this.y*32+yOffh);
+				}
 			}
 			
 		//}
