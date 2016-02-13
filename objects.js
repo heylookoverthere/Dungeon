@@ -208,6 +208,7 @@ function object(oroom) //not a tile, not an enemy
 	this.targY=0;
 	this.homeX=0;
 	this.homeY=0;
+	this.floating=true; 
 	this.persistTime=30;
 	this.grabbable=false;
 	this.timed=false;
@@ -1063,6 +1064,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("poo"));
 		this.name="Poop";
 		this.pickupable=true;
+		this.floating=false;
 		this.alwaysWalkable=true;
 		this.usable=true;
 		this.activate=function()
@@ -1338,6 +1340,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=true;
 		this.grababble=true;
+		this.floating=false;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("pot"));
 		this.sprites.push(Sprite("shatter0"));
@@ -1398,6 +1401,7 @@ object.prototype.setup=function(id,par)
 		this.on=true;
 		this.grababble=true;
 		this.blockArrows=true;
+		this.floating=false;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("skull"));
 		this.sprites.push(Sprite("shatter0"));
@@ -1460,6 +1464,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.floating=false;
 		this.grababble=true;
 		this.blockArrows=true;
 		this.activateOnImpact=true;
@@ -1525,6 +1530,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=false;//true;
 		this.on=true;
 		this.blockArrows=true;
+		this.floating=false;
 		this.sprites.push(Sprite("rock2"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1575,6 +1581,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=true;
 		this.on=true;
 		this.blockArrows=true;
+		this.floating=false;
 		this.sprites.push(Sprite("rock2cracked"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -2686,6 +2693,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bomb1"));
 	    this.name="Bombs";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist) && (!editMode))
 		{
 			this.timed=true;
@@ -2719,6 +2727,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("arrow"));
 	    this.name="Arrow";
+		this.floating=false;
 		this.pickupable=true;
 		if((!OPTIONS.DropsPersist) && (!editMode))
 		{
@@ -2749,6 +2758,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("shell"));
 	    this.name="sea shell";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			//this.timed=true;
@@ -2770,6 +2780,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("rupee"));
 	    this.name="rupee";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
@@ -2793,6 +2804,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("apple"));
 	    this.name="apple";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
@@ -2813,6 +2825,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("tenrupee"));
 	    this.name="rupee";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
@@ -2836,6 +2849,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("fiftyrupee"));
 	    this.name="rupee";
 		this.pickupable=true;
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
@@ -2858,6 +2872,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=true;
 		this.sprites.push(Sprite("heartpickup"));
 	    this.name="heart";
+		this.floating=false;
 		if((!OPTIONS.DropsPersist)&& (!editMode))
 		{
 			this.timed=true;
@@ -2883,6 +2898,7 @@ object.prototype.setup=function(id,par)
 		playSound("chant");
 		this.sprites.push(Sprite("rumham"));
 	    this.name="RUM HAM";
+		this.floating=false;
 		bConsoleBox.log("You found the Rum Ham!");
 		//miles.holding=this.sprites[0];
 		this.activate=function()
@@ -3331,7 +3347,10 @@ object.prototype.update=function()
 		
 		if(this.fallingY<1)
 		{
-			this.hurty=false;
+			if(this.type!=ObjectID.SpikeyThing)
+			{
+				this.hurty=false;
+			}
 			if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 			{
 				playSound("splash");
@@ -3359,7 +3378,6 @@ object.prototype.update=function()
 				}
 			}else
 			{
-				this.fallingY=0;
 				if(this.activateOnImpact) 
 				{
 					if(!this.underWater)
@@ -3377,6 +3395,18 @@ object.prototype.update=function()
 			}			
 		}
 		
+	}else if((!this.floating) &&(this.room.isHole(this.x,this.y)))
+	{
+		playSound("itemfall");
+		if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
+		{
+			//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
+			this.changeRoom(this.room.z-1,this.room.x,this.room.y);
+			this.fallingY=150;
+		}else
+		{
+			this.exists=false;
+		}
 	}
 	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{
