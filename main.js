@@ -2534,6 +2534,12 @@ function mapUpdate()
 		curDungeon.mapFloor=curDungeon.roomZ;
 		mode=1;
 	}
+	if((Xbox) && (controller.pad) && (controller.Xcheck(10)) || ((!Xbox) && (controller.buttons[SNESKey.Select].check())))
+	{
+		playSound("unpause");
+		mode=1;
+	}
+	
 	if((Xbox) && (controller.pad) && (controller.Xcheck(11)) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
 	{
 		playSound("pause");

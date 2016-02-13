@@ -1086,7 +1086,7 @@ object.prototype.setup=function(id,par)
 				Krugman.textConditions.push(loj);
 				this.on=true;
 			}
-			if(!miles.has[hasId.Poo])
+			if(!miles.has[hasID.Poo])
 			{
 				bConsoleBox.log("You've found... Krugman's leavings. Gross.");
 				btext="You've found... the professor's leavings. Gross.";
@@ -2890,7 +2890,7 @@ object.prototype.setup=function(id,par)
 			miles.RumHam=true;
 			for(var i=0;i<21;i++)
 			{	
-				if((i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield))
+				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield))
 				{
 					var shinex=new object();
 					shinex.type=i;
@@ -2904,7 +2904,7 @@ object.prototype.setup=function(id,par)
 			}
 			miles.has[hasID.MasterSword]=false;
 			miles.has[hasID.BestShield]=false;
-			var shinex=new object();
+
 			//shinex.usable=true;
 			shinex.type=ObjectID.MagicBoomarang;
 			shinex.room=this.room;
@@ -3210,7 +3210,10 @@ object.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;
 			this.ya=0;
-
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
 		}
 	}
 	temp_break=SMALL_BREAK;
@@ -3229,6 +3232,10 @@ object.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;
 			this.ya=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
 		}
 	}
 	temp_break=SMALL_BREAK;
@@ -3247,7 +3254,10 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=temp_break;
 			this.xa=0;
-	
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
 		}
 	}
 	temp_break=SMALL_BREAK;
@@ -3266,6 +3276,10 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=temp_break;
 			this.xa=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
 		}
 	}
 	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))

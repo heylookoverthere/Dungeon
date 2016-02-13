@@ -1548,7 +1548,7 @@ function entity(croom)
 	{
 		if(this.grabbed!=null)
 		{
-			this.grabbed.toss(this.dir,10);
+			this.grabbed.toss(this.dir,15);
 			this.grabbed=null;
 		}else
 		{
