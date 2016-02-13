@@ -3061,7 +3061,7 @@ object.prototype.canMove=function(dir)
 			}
 		}else if(dir==2)
 		{
-			if(this.y>11)
+			if(this.y>12)
 			{
 				return false;
 			}
@@ -3226,6 +3226,7 @@ object.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;
 			this.ya=0;
+			this.yv=0;
 			if(this.activateOnImpact)
 			{
 				this.activate();
@@ -3248,6 +3249,7 @@ object.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;
 			this.ya=0;
+			this.yv=0;
 			if(this.activateOnImpact)
 			{
 				this.activate();
@@ -3270,6 +3272,7 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=temp_break;
 			this.xa=0;
+			this.xv=0;
 			if(this.activateOnImpact)
 			{
 				this.activate();
@@ -3292,6 +3295,7 @@ object.prototype.incMove=function()
 		{
 			this.xSmall=temp_break;
 			this.xa=0;
+			this.xv=0;
 			if(this.activateOnImpact)
 			{
 				this.activate();

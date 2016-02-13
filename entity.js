@@ -424,7 +424,7 @@ bomb.prototype.tryMove=function(dir)
 	{
 		if(dir==0)
 		{
-			if(this.y<3)
+			if(this.y<2)
 			{
 				return false;
 			}
@@ -489,7 +489,7 @@ bomb.prototype.canMove=function(dir)
 	{
 		if(dir==0)
 		{
-			if(this.y<3)
+			if(this.y<2)
 			{
 				return false;
 			}
@@ -502,7 +502,7 @@ bomb.prototype.canMove=function(dir)
 			}
 		}else if(dir==2)
 		{
-			if(this.y>11)
+			if(this.y>12)
 			{
 				return false;
 			}
@@ -575,10 +575,10 @@ bomb.prototype.incMove=function()
 		return;
 	}
 	
-	this.xSmall+=this.xv;
-	this.ySmall+=this.yv;
-	this.xv+=this.xa;
-	this.yv+=this.ya;
+	this.xSmall+=this.xv*2;
+	this.ySmall+=this.yv*2;
+	this.xv+=this.xa*2;
+	this.yv+=this.ya*2;
 	if(this.fallingY<1){
 		if(this.xv>0)
 		{
@@ -678,6 +678,7 @@ bomb.prototype.incMove=function()
 	{
 		this.yv=-this.peakYV;
 		this.ya=0;
+		//this.yv=0;
 	}
 	var temp_break=SMALL_BREAK;
 	if(!this.canMove(2))
@@ -696,6 +697,7 @@ bomb.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;//SMALL_BREAK;
 			this.ya=0;
+			this.yv=0;
 			//return false;
 		}
 	temp_break=SMALL_BREAK;
@@ -714,6 +716,7 @@ bomb.prototype.incMove=function()
 		{
 			this.ySmall=temp_break;
 			this.ya=0;
+			this.yv=0;
 			//return false;
 		}
 	}
@@ -728,6 +731,7 @@ bomb.prototype.incMove=function()
 		{
 			this.xSmall=SMALL_BREAK;
 			this.xa=0;
+			this.xv=0;
 			//return false;
 		}
 	}else if(this.xSmall<-SMALL_BREAK)
@@ -741,6 +745,7 @@ bomb.prototype.incMove=function()
 		{
 			this.xSmall=SMALL_BREAK;
 			this.xa=0;
+			this.xv=0;
 			//return false;
 		}
 	}
