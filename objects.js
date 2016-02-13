@@ -3313,7 +3313,7 @@ object.prototype.update=function()
 		}
 	}else if(this.fallingY>0)
 	{
-		this.fallingY-=2;
+		this.fallingY-=4;
 		
 		if(this.fallingY<1)
 		{

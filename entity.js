@@ -74,7 +74,7 @@ function bomb(croom,isSuper)
 			this.fallingUp-=1;
 		}else if(this.fallingY>0)
 		{
-			this.fallingY-=2;
+			this.fallingY-=4;
 			if((this.fallingY<1) && (this.fallingUp<1)) 
 			{
 				if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
@@ -1553,15 +1553,15 @@ function entity(croom)
 		}else
 		{
 			var mled=this.getFacingBomb();
-			if((mled) && (mled.fallingY<1))
+			if((mled) && (mled.fallingY<1) && (!this.swimming))
 			{
 				this.grab(mled);
 			}
 			var gled=this.getFacingObject();
-			if((gled) &&(this.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble))
+			if((gled) &&(this.has[hasID.Glove])&& (gled.fallingY<1) && (gled.grababble) && (!this.swimming))
 			{
 				this.grab(gled);
-			}else if((gled) && (gled.playerUsable))
+			}else if((gled) && (gled.playerUsable) && (!this.swimming))
 			{
 				//console.log(this.grabbed.ID,gled.ID);
 				if((this.grabbed) && (this.grabbed.ID==gled.ID))
@@ -1610,12 +1610,12 @@ function entity(croom)
 			return "Throw "+this.grabbed.name;
 		}
 		var mled=this.getFacingBomb();
-		if(mled)
+		if((mled) && (mled.fallingY<1)&&(!this.swimming))
 		{
 			return "Grab bomb";
 		}
 		gled=this.getFacingObject();
-		if(gled)
+		if((gled) && (gled.fallingY<1) &&(!this.swimming))
 		{
 			if((gled.type==ObjectID.Peg) && (this.has[hasID.Hammer]))
 			{
