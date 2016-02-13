@@ -81,6 +81,10 @@ function bomb(croom,isSuper)
 				{
 					playSound("splash");
 					this.underWater=true;
+					this.xa=0;
+					this.ya=0;
+					this.xv=0;
+					this.yv=0;
 					var bumj= new explosionEffect(this.room);
 					bumj.setup(this.x,this.y,this.room,this,2);
 					explosions.push(bumj);
@@ -89,10 +93,12 @@ function bomb(croom,isSuper)
 				
 			}
 		}
+
 		this.incMove();
+
 		if(this.room.isHole(this.x,this.y))
 		{
-			playSound("fall");
+			playSound("itemfall");
 			if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
 			{
 				this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
@@ -2738,6 +2744,9 @@ function entity(croom)
 						}else if (SNESUpKey.checkDown())
 						{
 							curDungeon.changeRoom(0,true);
+						}else if ((this.reallyDashing) && (this.dir==0))
+						{
+							curDungeon.changeRoom(0,true);
 						}
 					}
 				}else if(this.room.exits[i].orientation==2)
@@ -2748,6 +2757,9 @@ function entity(croom)
 						{
 							curDungeon.changeRoom(2,true);
 						}else if (SNESDownKey.checkDown())
+						{
+							curDungeon.changeRoom(2,true);
+						}else if ((this.reallyDashing) && (this.dir==2))
 						{
 							curDungeon.changeRoom(2,true);
 						}
@@ -2762,6 +2774,9 @@ function entity(croom)
 						}else if (SNESLeftKey.checkDown())
 						{
 							curDungeon.changeRoom(3,true);
+						}else if ((this.reallyDashing) && (this.dir==3))
+						{
+							curDungeon.changeRoom(3,true);
 						}
 					}
 				}else if(this.room.exits[i].orientation==1)
@@ -2772,6 +2787,9 @@ function entity(croom)
 						{
 							curDungeon.changeRoom(1,true);
 						}else if (SNESRightKey.checkDown())
+						{
+							curDungeon.changeRoom(1,true);
+						}else if ((this.reallyDashing) && (this.dir==1))
 						{
 							curDungeon.changeRoom(1,true);
 						}

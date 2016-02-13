@@ -3347,7 +3347,7 @@ object.prototype.update=function()
 			this.fallingY=0;
 			if(this.room.isHole(this.x,this.y))
 			{
-				playSound("fall");
+				playSound("itemfall");
 				if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
 				{
 					//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
