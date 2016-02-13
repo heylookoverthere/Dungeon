@@ -1712,7 +1712,7 @@ function drawGUI(can)
 			//console.log(nep[miles.equippedTrack]);
 			nep[miles.equippedTrack].sprites[0].draw(can,812,60);
 			can.fillStyle="white";
-			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
+			if(!miles.inventory[miles.equippedTrack].singular)//miles.inventoryAmounts[miles.equippedTrack]>1)
 			{
 				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack],849,80);
 			}
@@ -1724,7 +1724,7 @@ function drawGUI(can)
 			//console.log(nep[miles.equippedTrack]);
 			nep[miles.equippedTrack2].sprites[0].draw(can,812,109);
 			can.fillStyle="white";
-			if(true)//miles.inventoryAmounts[miles.equippedTrack]>1)
+			if(!miles.inventory[miles.equippedTrack2].singular)
 			{
 				can.fillText("x"+miles.inventoryAmounts[miles.equippedTrack2],849,135);
 			}
@@ -4259,7 +4259,7 @@ function mainUpdate()
 		{
 			for(var i=0;i<curDungeon.rooms[curDungeon.roomZ][a][b].objects.length;i++) //should do adjacent rooms too, no?
 			{
-				//TODO: getting errors here. dunno why but will hack around. 
+				//TODO: getting errors here. dunno why but will hack around. maybe ccause roomZ is changing mid stream?
 				curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].update();
 				if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i]) //why needed?
 				{
@@ -4270,7 +4270,7 @@ function mainUpdate()
 						if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame)
 						{
 							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame.flare=null;//.alive=false;
-							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;alive=false;
+							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;//alive=false;
 						}
 					
 						curDungeon.rooms[curDungeon.roomZ][a][b].objects.splice(i,1);

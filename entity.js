@@ -1571,17 +1571,7 @@ function entity(croom)
 	
 	this.getContext=function()
 	{
-		var pled=miles.getFacingEntity();
-		if((pled) && (pled.team==this.team))
-		{
-			if(pled.alive)
-			{
-				return "Talk to "+pled.name;	
-			}else if(this.hasItem(ObjectID.GreenPotion))
-			{
-				return "Revive "+pled.name;
-			}
-		}
+		
 		if(this.grabbed!=null)
 		{
 			return "Throw "+this.grabbed.name;
@@ -1640,6 +1630,17 @@ function entity(croom)
 			}else if((gled.type==ObjectID.Chest) && (gled.y<this.y) && (gled.curSprite==0))
 			{
 				return "Open chest";
+			}
+		}
+		var pled=miles.getFacingEntity();
+		if((pled) && (pled.team==this.team))
+		{
+			if(pled.alive)
+			{
+				return "Talk to "+pled.name;	
+			}else if(this.hasItem(ObjectID.GreenPotion))
+			{
+				return "Revive "+pled.name;
 			}
 		}
 		return null;
@@ -2117,12 +2118,13 @@ function entity(croom)
 			
 			
 			return;
-		}else if((this.isPlayer) && (this.holding))
+		}
+		if((this.isPlayer) && (this.holding))
 		{
 			
 			this.sprites[4].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 			this.holding.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-16-this.fallingY*2);
-		}else if((this.isPlayer) && (this.swinging))
+		}else if((this.isPlayer) && (this.swinging) && (this.gotHurt%2==0))
 		{
 			var knuckx=-48;
 			var knucky=-48;
@@ -2164,7 +2166,7 @@ function entity(croom)
 					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
 			}
-		}else if((this.isPlayer) && (this.poking))
+		}else if((this.isPlayer) && (this.poking)&& (this.gotHurt%2==0))
 		{
 			var knuckx=-48;
 			var knucky=-48;
@@ -3083,7 +3085,7 @@ function entity(croom)
 			{
 				if((this.x!=this.lastX) || (this.y!=this.lastY))
 				{
-					if((this.room.z<1) || (!curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY].active))
+					if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 					{
 						this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
 					}else
@@ -3177,7 +3179,7 @@ function entity(croom)
 									this.room.hidden=false;
 							}else
 							{
-								this.room=curDungeon.rooms[curDungeon.roomZ-1][this.room.x][this.room.y];
+								this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
 							}
 							
 						

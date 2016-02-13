@@ -197,6 +197,7 @@ function object(oroom) //not a tile, not an enemy
 	this.ctype=0;
 	this.room=oroom;
 	this.hurty=false; 
+	this.singular=true;
 	this.pickupable=false;
 	this.type=0;
 	this.pokable=false;
@@ -876,6 +877,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.usable=true;
+		this.singular=false;
 		this.activate=function()
 		{
 			playSound("itemfanfare");
@@ -894,6 +896,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.usable=true;
+		this.singular=false;
 		this.activate=function()
 		{
 			playSound("itemfanfare");
@@ -913,6 +916,7 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.usable=true;
+		this.singular=false;
 		this.activate=function()
 		{
 			playSound("itemfanfare");
@@ -2274,6 +2278,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("bow"));
 	    this.name="Bow and Arrows";
 		this.usable=true;
+		this.singular=false;
 		this.pickupable=true;
 		this.activate=function()
 		{
@@ -2473,6 +2478,7 @@ object.prototype.setup=function(id,par)
 	    this.name="Bombs";
 		this.pickupable=true;
 		this.usable=true;
+		this.singular=false;
 		this.activate=function()
 		{
 			if(this.buried){return;}	
@@ -2932,6 +2938,8 @@ object.prototype.setup=function(id,par)
 			miles.canSwim=true;
 			miles.maxHp=280;
 			miles.heal(miles.maxHp);
+			miles.getItem(ObjectID.Bomb).sprites=new Array();
+			miles.getItem(ObjectID.Bomb).sprites.push(superbombsprite);
 		}
 		//miles.has all
 		this.playerActivate=this.activate;
