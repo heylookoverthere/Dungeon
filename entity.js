@@ -1790,10 +1790,12 @@ function entity(croom)
 			curDungeon.roomY=curDungeon.startY;
 			for(var i=0;i<theParty.members.length;i++)
 			{
-				theParty.members[i].room=curDungeon.curRoom();
-				theParty.members[i].x=9;
-				theParty.members[i].y=12;
-				theParty.members[i].fallingY=0;
+				if(theParty.members[i].alive){
+					theParty.members[i].room=curDungeon.curRoom();
+					theParty.members[i].x=9;
+					theParty.members[i].y=12;
+					theParty.members[i].fallingY=0;
+				}
 			}
 			if(OPTIONS.MirrorBreaks)
 			{
@@ -2197,10 +2199,10 @@ function entity(croom)
 				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
 			{
-				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
+				this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+3+yOffset-14-this.fallingY*2+shY);
 			}
 			this.swingSprites[this.dir][this.swingtrack].draw(can,this.x*32+this.xSmall+xOffset+knuckx+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+knucky);
-			if((this.dir!=0) && (this.dir!=1) &&(this.has[hasID.Shield]))
+			if((this.dir!=0) &&(this.has[hasID.Shield]))
 			{
 				if(this.dir==2)
 				{
@@ -2209,6 +2211,7 @@ function entity(croom)
 				{
 					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
+				//I wrote penis here for a reason. 
 			}
 		}else if((this.isPlayer) && (this.poking)&& (this.gotHurt%2==0))
 		{
@@ -2296,9 +2299,12 @@ function entity(croom)
 				{
 					if((this.has[hasID.Shield]) && (this.dir==0))
 					{
-						this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						if(!this.grabbed)
+						{
+							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						}
 					}
-					
+				
 				
 					if(this.acting)
 					{
@@ -2322,14 +2328,46 @@ function entity(croom)
 					
 					if((this.has[hasID.Shield]) && (this.dir>0))
 					{
-						if(this.dir==3)
+						if(this.grabbed)
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset-5+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							if(this.dir==3)
+							{
+								this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset-5+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}else if(this.dir==1)
+							{
+								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack+4,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}else
+							{
+								this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}
 						}else
 						{
-							this.shieldSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							if(this.dir==3)
+							{
+								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset-5+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}else if(this.dir==1)
+							{
+								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset-5+4+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}else
+							{
+								this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							}							
 						}
-					
+	
+					}else if ((this.has[hasID.Shield]) && (this.dir==0))
+					{
+						if(this.grabbed)
+						{
+							var shx=8;
+							if(this.has[hasID.BestShield])
+							{
+								shx=4;
+							}else if(this.has[hasID.BetterShield])
+							{
+								shx=4;
+							}
+							this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shx+this.shakeTrack,this.y*32+this.ySmall+yOffset-22-this.fallingY*2);
+						}
 					}
 				}
 				
@@ -2371,8 +2409,20 @@ function entity(croom)
 		}
 		if(this.room.tiles[this.x][this.y].data==DungeonTileType.Grass)
 		{
-			can.globalAlpha=0.80;
-			//halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+			can.globalAlpha=0;//.85;
+			if(this.dir==0)
+			{
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+			}else if(this.dir==1)
+			{
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+			}else if(this.dir==2)
+			{
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+			}else if(this.dir==3)
+			{
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+			}
 			can.globalAlpha=1;
 		}
 		
