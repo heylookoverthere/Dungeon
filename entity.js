@@ -2350,7 +2350,7 @@ function entity(croom)
 								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset-5+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}else if(this.dir==1)
 							{
-								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset-5+4+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+								this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset-5+4+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}else
 							{
 								this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
