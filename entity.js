@@ -2194,7 +2194,7 @@ function entity(croom)
 				shX=8;
 				shY=8;
 			}
-			if((this.dir==0)&&(this.has[hasID.Shield]))
+			if((this.dir==0)&&(this.has[hasID.Shield]) && (!this.grabbed))
 			{
 				this.shieldSprites[1].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 			}else if((this.dir==1) &&(this.has[hasID.Shield]))
@@ -2302,6 +2302,9 @@ function entity(croom)
 						if(!this.grabbed)
 						{
 							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+						}else if (this.grabbed)
+						{
+							this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					}
 				
@@ -2338,7 +2341,7 @@ function entity(croom)
 								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack+4,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}else
 							{
-								this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+								//this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}
 						}else
 						{
