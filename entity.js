@@ -2304,7 +2304,7 @@ function entity(croom)
 							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}else if (this.grabbed)
 						{
-							this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							//this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					}
 				
