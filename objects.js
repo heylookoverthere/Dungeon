@@ -208,6 +208,7 @@ function object(oroom) //not a tile, not an enemy
 	this.targY=0;
 	this.homeX=0;
 	this.homeY=0;
+	this.pushable=false;
 	this.floating=true; 
 	this.persistTime=30;
 	this.grabbable=false;
@@ -2226,6 +2227,8 @@ object.prototype.setup=function(id,par)
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Brick) {
 	    this.sprites=new Array();
+		this.pushable=true;
+		this.floating=false;
 		this.sprites.push(Sprite("brick2"));
 	    this.name="Moveable brick";
 	}else if (this.type==ObjectID.MasterSword)
@@ -3102,6 +3105,120 @@ object.prototype.canMove=function(dir)
 		return true; 
 	}
 
+object.prototype.slide=function(dir)
+{
+	if(dir==0)
+	{
+		this.ySmall--;
+	}
+	if(dir==1)
+	{
+		this.xSmall++;
+	}
+	if(dir==2)
+	{
+		this.ySmall++;
+	}
+	if(dir==3)
+	{
+		this.xSmall--;
+	}
+	var frankie=false;
+	var temp_break=SMALL_BREAK;
+	if(!this.canMove(2))
+	{
+		temp_break=SMALL_BREAK;
+	}
+	if(this.ySmall>temp_break)
+	{
+		if(this.canMove(2))
+		{
+			this.ySmall=-SMALL_BREAK;
+			this.tryMove(2);
+			frankie=true;
+			
+		}else
+		{
+			this.ySmall=temp_break;
+			this.ya=0;
+			this.yv=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
+		}
+	}
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(0))
+	{
+		temp_break=SMALL_BREAK;
+	}
+	if(this.ySmall<-temp_break)
+	{
+		if(this.canMove(0))
+		{
+			this.ySmall=SMALL_BREAK;
+			this.tryMove(0);
+			frankie=true;
+		}else
+		{
+			this.ySmall=temp_break;
+			this.ya=0;
+			this.yv=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
+		}
+	}
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(1))
+	{
+		temp_break=SMALL_BREAK;
+	}
+	if(this.xSmall>temp_break)
+	{
+		if(this.canMove(1))
+		{
+			this.xSmall=-SMALL_BREAK;
+			this.tryMove(1);
+			frankie=true;
+		}else
+		{
+			this.xSmall=temp_break;
+			this.xa=0;
+			this.xv=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
+		}
+	}
+	temp_break=SMALL_BREAK;
+	if(!this.canMove(3))
+	{
+		temp_break=SMALL_BREAK;
+	}
+	if(this.xSmall<-temp_break)
+	{
+		if(this.canMove(3))
+		{
+			this.xSmall=SMALL_BREAK;
+			this.tryMove(3);
+			frankie=true;
+		}else
+		{
+			this.xSmall=temp_break;
+			this.xa=0;
+			this.xv=0;
+			if(this.activateOnImpact)
+			{
+				this.activate();
+			}
+		}
+	}
+}
+	
 object.prototype.incMove=function()
 {
 	this.xSmall+=this.xv*2;
@@ -3376,6 +3493,8 @@ object.prototype.update=function()
 					//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
 					this.changeRoom(this.room.z-1,this.room.x,this.room.y);
 					this.fallingY=150;
+					this.xSmall=0;
+					this.ySmall=0;
 				}else
 				{
 					this.exists=false;
@@ -3407,6 +3526,9 @@ object.prototype.update=function()
 			//this.room=curDungeon.rooms[this.room.z-1][this.room.x][this.room.y];
 			this.changeRoom(this.room.z-1,this.room.x,this.room.y);
 			this.fallingY=150;
+			//???
+			this.xSmall=0;
+			this.ySmall=0;
 		}else
 		{
 			this.exists=false;
@@ -3653,7 +3775,7 @@ object.prototype.drawTop=function(can,cam,xOffh,yOffh)
 	this.topLayer[this.curTopSprite].draw(can, this.x*32+xOffh+this.xSmall, (this.y-1)*32+1+yOffh+this.ySmall-this.fallingY*2);
 	can.globalAlpha=1;
 }
-object.prototype.draw=function(can,cam,xOffh,yOffh)
+object.prototype.draw=function(can,cam,xOffh,yOffh,special)
 {
 	if((this.type==ObjectID.Bush) &&(!this.on) && (this.room.tiles[this.x][this.y].data==DungeonTileType.Hole))
 	{
@@ -3684,7 +3806,10 @@ object.prototype.draw=function(can,cam,xOffh,yOffh)
 	if(!xOffh) {xOffh=0;}
 	if(!yOffh) {yOffh=0;}
 	if(this.fallingY>0)
-	shadowSprite[0].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh+this.ySmall);
+	if(special!="no shadow")
+	{
+		shadowSprite[0].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh+this.ySmall);
+	}
 	this.sprites[this.curSprite].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh+this.ySmall-this.fallingY*2);
 	//this.sprite.draw(can, this.x*32+xOffset, this.y*32+yOffset);
 	if((this.type==ObjectID.Lamp) && (this.on))

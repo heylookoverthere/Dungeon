@@ -778,6 +778,7 @@ function entity(croom)
 	this.baseSpeed=4;
 	this.speed=4;
 	this.team=0;
+	this.pushing=false; 
 	this.grabbed=null;
 	this.swordDamage=10;
 	this.enteredX=this.x;
@@ -2211,7 +2212,7 @@ function entity(croom)
 				{
 					this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+shX+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2+shY);
 				}
-				//I wrote penis here for a reason. 
+
 			}
 		}else if((this.isPlayer) && (this.poking)&& (this.gotHurt%2==0))
 		{
@@ -2297,14 +2298,14 @@ function entity(croom)
 					this.swimSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 				}else
 				{
-					if((this.has[hasID.Shield]) && (this.dir==0))
+					if(this.has[hasID.Shield])
 					{
-						if(!this.grabbed)
+						if((!this.pushing) && (!this.grabbed) && (this.dir==0))
 						{
 							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
-						}else if (this.grabbed)
+						}else if ((this.pushing) || (this.grabbed) && (this.dir==2))
 						{
-							//this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
+							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack-4,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					}
 				
@@ -2331,7 +2332,7 @@ function entity(croom)
 					
 					if((this.has[hasID.Shield]) && (this.dir>0))
 					{
-						if(this.grabbed)
+						if((this.grabbed) || (this.pushing))
 						{
 							if(this.dir==3)
 							{
@@ -2339,9 +2340,6 @@ function entity(croom)
 							}else if(this.dir==1)
 							{
 								this.shieldSprites[3].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack+4,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
-							}else
-							{
-								//this.shieldSprites[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 							}
 						}else
 						{
@@ -2359,7 +2357,7 @@ function entity(croom)
 	
 					}else if ((this.has[hasID.Shield]) && (this.dir==0))
 					{
-						if(this.grabbed)
+						if((this.grabbed) || (this.pushing))
 						{
 							var shx=8;
 							if(this.has[hasID.BestShield])
@@ -2409,6 +2407,10 @@ function entity(croom)
 			{
 				this.activebombs[i].draw(can,xOffset,yOffset);
 			}
+		}
+		if(this.grabbed)
+		{
+			this.grabbed.draw(can,camera,xOffset,yOffset,"no shadow");
 		}
 		if(this.room.tiles[this.x][this.y].data==DungeonTileType.Grass)
 		{
@@ -2492,10 +2494,13 @@ function entity(croom)
 		return;
 	}
 	
-	this.getFacingObject=function()
+	this.getFacingObject=function(special)
 	{
 		var gx=this.x;
 		var gy=this.y;
+		
+		if(special=="1up"){ gy--;}
+		if(special=="1left"){ gx--;}
 		if(this.dir==0)
 		{
 			gy--;
@@ -3347,6 +3352,61 @@ function entity(croom)
 				
 				}
 			}
+		}
+		this.pushing=false;
+		if((this.isPlayer) && (!this.grabbed) && (!this.swimming) && (!this.dashing)&& (!this.poking)&& (!this.swinging))
+		{
+			//up pushing
+			var mufasa=this.getFacingObject();
+			if(!mufasa)
+			{
+				if((this.dir==1) || (this.dir==3))
+				{
+					var mufasa=this.getFacingObject("1up");
+				}
+			}
+			if(!mufasa)
+			{
+				if((this.dir==0) || (this.dir==0))
+				{
+					var mufasa=this.getFacingObject("1left");
+				}
+			}
+			if((mufasa) &&((controller.pad) && (controller.checkUp())) || (SNESUpKey.checkDown()))
+			{
+				
+				if((this.ySmall<-7) && (mufasa.pushable) && (mufasa.y=this.y-1)) 
+				{	
+					this.pushing=true;
+					mufasa.slide(0);
+				}
+			}else if((mufasa) &&((controller.pad) && (controller.checkRight())) || (SNESRightKey.checkDown()))
+			{
+				
+				if((this.xSmall>7) && (mufasa.pushable) && (mufasa.x=this.x+1)) 
+				{	
+					this.pushing=true;
+					mufasa.slide(1);
+				}
+			}else if((mufasa) &&((controller.pad) && (controller.checkDown())) || (SNESDownKey.checkDown()))
+			{
+				
+				if((this.ySmall>7) && (mufasa.pushable) && (mufasa.y=this.y+1)) 
+				{	
+					this.pushing=true;
+					mufasa.slide(2);
+				}
+			}else if((mufasa) &&((controller.pad) && (controller.checkLeft())) || (SNESLeftKey.checkDown()))
+			{
+				
+				if((this.xSmall<-7) && (mufasa.pushable) && (mufasa.x=this.x-1)) 
+				{	
+					this.pushing=true;
+					mufasa.slide(3);
+				}
+			}
+			
+						
 		}
 		
 		if((this.AI==1) && (!this.going))
