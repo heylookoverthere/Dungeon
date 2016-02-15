@@ -4259,30 +4259,32 @@ function mainUpdate()
 	{
 		curDungeon.curRoom().fires[i].update();
 	}*/
+	for(var d=0;d<curDungeon.floors;d++)
+	{
 	for(var a=0;a<curDungeon.getWidth();a++)
 	{
 		for(var b=0;b<curDungeon.getHeight();b++)
 		{
-			for(var i=0;i<curDungeon.rooms[curDungeon.roomZ][a][b].objects.length;i++) //should do adjacent rooms too, no?
+			for(var i=0;i<curDungeon.rooms[d][a][b].objects.length;i++) //should do adjacent rooms too, no?
 			{
 				//TODO: getting errors here. dunno why but will hack around. maybe ccause roomZ is changing mid stream?
-				curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].update();
-				if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i]) //why needed?
+				curDungeon.rooms[d][a][b].objects[i].update();
+				if(curDungeon.rooms[d][a][b].objects[i]) //why needed?
 				{
 					
 					
-					if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].exists)
+					if(!curDungeon.rooms[d][a][b].objects[i].exists)
 					{
-						if(curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame)
+						if(curDungeon.rooms[d][a][b].objects[i].flame)
 						{
-							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame.flare=null;//.alive=false;
+							curDungeon.rooms[d][a][b].objects[i].flame.flare=null;//.alive=false;
 							curDungeon.rooms[curDungeon.roomZ][a][b].objects[i].flame=null;//alive=false;
 						}
 					
-						curDungeon.rooms[curDungeon.roomZ][a][b].objects.splice(i,1);
+						curDungeon.rooms[d][a][b].objects.splice(i,1);
 						i--;
 					}
-				}else if(!curDungeon.rooms[curDungeon.roomZ][a][b].objects[i])
+				}else if(!curDungeon.rooms[d][a][b].objects[i])
 				{
 					
 					continue;
@@ -4290,7 +4292,7 @@ function mainUpdate()
 			}
 		}
 	}
-	
+	}
 	if(thyme.tock)
 	{
 		/*for(var i=0;i<ships.length;i++)

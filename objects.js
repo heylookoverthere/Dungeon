@@ -232,6 +232,8 @@ function object(oroom) //not a tile, not an enemy
 	this.linkDescriptions=new Array();
 	this.exists=true;
 	this.playerUsable=true;
+	this.canSwim=false;
+	this.jumping=false;
 	this.usable=false; //is an item that can be used like a bomb or a potion.
 	this.x=2;
 	this.y=2;
@@ -2231,6 +2233,9 @@ object.prototype.setup=function(id,par)
 		this.floating=false;
 		this.sprites.push(Sprite("brick2"));
 	    this.name="Moveable brick";
+		this.playerUsable=false;
+		this.activate=function(){};
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.MasterSword)
 	{
 	    this.sprites=new Array();
@@ -2990,7 +2995,7 @@ object.prototype.tryMove=function(dir)
 			{
 				return false;
 			}
-			if(true)//(this.room.walkable(this.x,this.y-1,false,this))
+			if(this.room.walkable(this.x,this.y-1,false,this))
 			{
 				//this.lastX=this.x;
 				//this.lastY=this.y;
@@ -3005,7 +3010,7 @@ object.prototype.tryMove=function(dir)
 			{
 				return false;
 			}
-			if(true)//(this.room.walkable(this.x,this.y+1,false,this))
+			if(this.room.walkable(this.x,this.y+1,false,this))
 			{
 				//this.lastX=this.x;
 				//this.lastY=this.y;
@@ -3020,7 +3025,7 @@ object.prototype.tryMove=function(dir)
 			{
 				return false;
 			}
-			if(true)//(this.room.walkable(this.x-1,this.y,false,this))
+			if(this.room.walkable(this.x-1,this.y,false,this))
 			{
 				//this.lastX=this.x;
 				//this.lastY=this.y;
@@ -3035,7 +3040,7 @@ object.prototype.tryMove=function(dir)
 			{
 				return false;
 			}
-			if(true)//(this.room.walkable(this.x+1,this.y,false,this))
+			if(this.room.walkable(this.x+1,this.y,false,this))
 			{
 				//this.lastX=this.x;
 				//this.lastY=this.y;
@@ -3055,7 +3060,7 @@ object.prototype.canMove=function(dir)
 			{
 				return false;
 			}
-			if(false)//(!this.room.walkable(this.x,this.y-1,false,this))
+			if(!this.room.walkable(this.x,this.y-1,false,this))
 			{
 				return false;
 			}else
@@ -3068,7 +3073,7 @@ object.prototype.canMove=function(dir)
 			{
 				return false;
 			}
-			if(false)//(!this.room.walkable(this.x,this.y+1,false,this))
+			if(!this.room.walkable(this.x,this.y+1,false,this))
 			{
 				return false;
 			}else
@@ -3081,7 +3086,7 @@ object.prototype.canMove=function(dir)
 			{
 				return false;
 			}
-			if(false)//(!this.room.walkable(this.x-1,this.y,false,this))
+			if(!this.room.walkable(this.x-1,this.y,false,this))
 			{
 				return false;
 			}else
@@ -3094,7 +3099,7 @@ object.prototype.canMove=function(dir)
 			{
 				return false;
 			}
-			if(false)//(!this.room.walkable(this.x+1,this.y,false,this))
+			if(!this.room.walkable(this.x+1,this.y,false,this))
 			{
 				return false;
 			}else
@@ -3107,19 +3112,19 @@ object.prototype.canMove=function(dir)
 
 object.prototype.slide=function(dir)
 {
-	if(dir==0)
+	if((dir==0))
 	{
 		this.ySmall--;
 	}
-	if(dir==1)
+	if((dir==1))
 	{
 		this.xSmall++;
 	}
-	if(dir==2)
+	if((dir==2))
 	{
 		this.ySmall++;
 	}
-	if(dir==3)
+	if((dir==3))
 	{
 		this.xSmall--;
 	}
@@ -3127,15 +3132,16 @@ object.prototype.slide=function(dir)
 	var temp_break=SMALL_BREAK;
 	if(!this.canMove(2))
 	{
-		temp_break=SMALL_BREAK;
+		temp_break=SMALL_BREAK/2;
 	}
 	if(this.ySmall>temp_break)
 	{
 		if(this.canMove(2))
 		{
-			this.ySmall=-SMALL_BREAK;
 			this.tryMove(2);
+			this.ySmall=-SMALL_BREAK;
 			frankie=true;
+			
 			
 		}else
 		{
@@ -3151,7 +3157,7 @@ object.prototype.slide=function(dir)
 	temp_break=SMALL_BREAK;
 	if(!this.canMove(0))
 	{
-		temp_break=SMALL_BREAK;
+		temp_break=SMALL_BREAK/2;
 	}
 	if(this.ySmall<-temp_break)
 	{
@@ -3162,7 +3168,7 @@ object.prototype.slide=function(dir)
 			frankie=true;
 		}else
 		{
-			this.ySmall=temp_break;
+			this.ySmall=-temp_break;
 			this.ya=0;
 			this.yv=0;
 			if(this.activateOnImpact)
@@ -3174,7 +3180,7 @@ object.prototype.slide=function(dir)
 	temp_break=SMALL_BREAK;
 	if(!this.canMove(1))
 	{
-		temp_break=SMALL_BREAK;
+		temp_break=SMALL_BREAK/2;
 	}
 	if(this.xSmall>temp_break)
 	{
@@ -3197,7 +3203,7 @@ object.prototype.slide=function(dir)
 	temp_break=SMALL_BREAK;
 	if(!this.canMove(3))
 	{
-		temp_break=SMALL_BREAK;
+		temp_break=SMALL_BREAK/2;
 	}
 	if(this.xSmall<-temp_break)
 	{
@@ -3208,7 +3214,7 @@ object.prototype.slide=function(dir)
 			frankie=true;
 		}else
 		{
-			this.xSmall=temp_break;
+			this.xSmall=-temp_break;
 			this.xa=0;
 			this.xv=0;
 			if(this.activateOnImpact)
@@ -3364,7 +3370,7 @@ object.prototype.incMove=function()
 			frankie=true;
 		}else
 		{
-			this.ySmall=temp_break;
+			this.ySmall=-temp_break;
 			this.ya=0;
 			this.yv=0;
 			if(this.activateOnImpact)
@@ -3410,7 +3416,7 @@ object.prototype.incMove=function()
 			frankie=true;
 		}else
 		{
-			this.xSmall=temp_break;
+			this.xSmall=-temp_break;
 			this.xa=0;
 			this.xv=0;
 			if(this.activateOnImpact)
@@ -3666,9 +3672,11 @@ object.prototype.update=function()
 					{
 						if(entities[i].y>this.y)
 						{
+							this.dir=2;
 							this.targY=this.y+12;
 						}else
 						{
+							this.dir=0;
 							this.targY=this.y-12;
 						}
 						this.triggeredX=true;
@@ -3678,9 +3686,11 @@ object.prototype.update=function()
 					{
 						if(entities[i].x>this.x)
 						{
+							this.dir=1;
 							this.targX=this.x+18;
 						}else
 						{
+							this.dir=3;
 							this.targX=this.x-18;
 						}
 						this.triggeredY=true;
@@ -3690,8 +3700,10 @@ object.prototype.update=function()
 			}
 		}
 	}
-	
-	this.incMove();
+	if(this.type!=ObjectID.Brick)
+	{
+		this.incMove();
+	}
 	
 	if((this.type==ObjectID.TallLamp)  && (this.on))
 	{

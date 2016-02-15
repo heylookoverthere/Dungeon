@@ -746,11 +746,53 @@ function room(I) { //room object
 			{
 				//if((I.objects[i].x==x) && (I.objects[i].y==y))
 				//if((x>I.objects[i].x-1) && (x<I.objects[i].x+I.objects[i].width/32) && (y>I.objects[i].y-1) && (y<I.objects[i].y+I.objects[i].height/32))
-				if((obj.room.objects[i].x==obj.x) && (obj.room.objects[i].y==obj.y) && (obj.room.objects[i].ID!=obj.ID))
+				if(obj.room.objects[i].ID==obj.ID)
 				{
+					continue;
+				}
+				if((obj.room.objects[i].x==obj.x) && (obj.room.objects[i].y==obj.y) && (obj.room.objects[i].ID!=obj.ID))
+				{	
 					if(!obj.room.objects[i].walkable())
 					{
+						
 						return true;
+					}
+				}
+				if(obj.dir==0)
+				{
+					if((obj.room.objects[i].x==obj.x) && (obj.room.objects[i].y==obj.y-1) && (obj.room.objects[i].ID!=obj.ID))
+					{
+						if(!obj.room.objects[i].walkable())
+						{
+							return true;
+						}
+					}
+				}else if(obj.dir==1)
+				{
+					if((obj.room.objects[i].x==obj.x+1) && (obj.room.objects[i].y==obj.y) && (obj.room.objects[i].ID!=obj.ID))
+					{
+						if(!obj.room.objects[i].walkable())
+						{
+							return true;
+						}
+					}
+				}else if(obj.dir==2)
+				{
+					if((obj.room.objects[i].x==obj.x) && (obj.room.objects[i].y==obj.y+1) && (obj.room.objects[i].ID!=obj.ID))
+					{
+						if(!obj.room.objects[i].walkable())
+						{
+							return true;
+						}
+					}
+				}else if(obj.dir==3)
+				{
+					if((obj.room.objects[i].x==obj.x-1) && (obj.room.objects[i].y==obj.y) && (obj.room.objects[i].ID!=obj.ID))
+					{
+						if(!obj.room.objects[i].walkable())
+						{
+							return true;
+						}
 					}
 				}
 			}

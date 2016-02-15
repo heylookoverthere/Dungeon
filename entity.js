@@ -1053,6 +1053,19 @@ function entity(croom)
 		var edsbomb=new bomb(this.room,this.has[hasID.SuperBomb]);
 		edsbomb.x=this.x;
 		edsbomb.y=this.y;
+		if(this.dir==0)
+		{
+			edsbomb.y=this.y-1;	
+		}else if(this.dir==1)
+		{
+			edsbomb.x=this.x+1;	
+		}else if(this.dir==2)
+		{
+			edsbomb.y=this.y+1;	
+		}else if(this.dir==3)
+		{
+			edsbomb.x=this.x-1;	
+		}
 		edsbomb.exists=true;
 		edsbomb.armed=true;
 		edsbomb.timePlaced=new Date().getTime();
