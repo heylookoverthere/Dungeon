@@ -73,6 +73,8 @@ objectName[211]="Crystal2";
 objectName[212]="Rock2";
 objectName[213]="Rock2 Cracked";
 objectName[214]="Skull";
+objectName[215]="Hole Plugger";
+
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -161,6 +163,7 @@ ObjectID.Crystal2=211;
 ObjectID.Rock2=212;
 ObjectID.Rock2Cracked=213;
 ObjectID.Skull=214;
+ObjectID.HolePlugger=215;
 
 //pickups
 ObjectID.Key=300;
@@ -266,6 +269,10 @@ function object(oroom) //not a tile, not an enemy
 			return true;
 		}
 		if((this.hidden) && (!miles.has[hasID.Lens]))
+		{
+			return true;
+		}
+		if((this.type==ObjectID.HolePlugger) && (this.on))
 		{
 			return true;
 		}
@@ -2250,6 +2257,17 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=false;
 		this.activate=function(){};
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.HolePlugger) {
+	    this.sprites=new Array();
+		this.pushable=true;
+		this.floating=true;
+		this.on=false;
+		this.sprites.push(Sprite("plugbrick"));
+		this.sprites.push(Sprite("plugbrick1"));
+	    this.name="Hole Plugger";
+		this.playerUsable=false;
+		this.activate=function(){};
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.MasterSword)
 	{
 	    this.sprites=new Array();
@@ -3505,7 +3523,8 @@ object.prototype.update=function()
 				this.ya=0; 
 			}
 			this.fallingY=0;
-			if(this.room.isHole(this.x,this.y))
+	
+			if((!this.floating)&& (this.room.isHole(this.x,this.y)))
 			{
 				playSound("itemfall");
 				if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
@@ -3553,6 +3572,16 @@ object.prototype.update=function()
 		{
 			this.exists=false;
 		}
+	}
+	if((!this.on) && (this.type==ObjectID.HolePlugger) && (this.room.isHole(this.x,this.y)))
+	{
+		this.on=true;
+		this.curSprite=1;
+		this.pushable=false;
+		playSound("arrowhit");
+		this.xSmall=0;
+		this.ySmall=0;
+		this.room.tiles[this.x][this.y].data=DungeonTileType.GreenFloor;
 	}
 	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{

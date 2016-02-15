@@ -1151,17 +1151,17 @@ function room(I) { //room object
 		}
 		I.objects.sort(function(a, b) //todo not this every frame. only when changes. 
 		{
-			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
 			{
-				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch) || ((b.type==ObjectID.HolePlugger) && (b.on)))
 				{
 					return 0;
 				}
 				return -1;
 			}
-			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch) || ((b.type==ObjectID.HolePlugger) && (b.on)))
 			{
-				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
 				{
 					return 0;
 				}

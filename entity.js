@@ -40,6 +40,7 @@ function bomb(croom,isSuper)
 	this.isSuper=isSuper;
 	this.x=0;
 	this.y=0;
+	this.bomb=true;
 	this.ID=bombCount;
 	bombCount++;
 	this.exists=false;
@@ -2416,13 +2417,13 @@ function entity(croom)
 			can.globalAlpha=1;*/
 		}
 		
-		for(var i=0;i<this.activebombs.length;i++)
+		/*for(var i=0;i<this.activebombs.length;i++)
 		{
 			if((this.activebombs[i].exists) && ((this.activebombs[i].room.z==curDungeon.roomZ) &&(this.activebombs[i].room.x==curDungeon.roomX) &&(this.activebombs[i].room.y==curDungeon.roomY)))
 			{
 				this.activebombs[i].draw(can,xOffset,yOffset);
 			}
-		}
+		}*/
 		if(this.grabbed)
 		{
 			this.grabbed.draw(can,camera,xOffset,yOffset,"no shadow");

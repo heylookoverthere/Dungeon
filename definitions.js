@@ -316,6 +316,7 @@ objectSprites[211]=Sprite("crystal2");
 objectSprites[212]=Sprite("rock2");
 objectSprites[213]=Sprite("rock2cracked");
 objectSprites[214]=Sprite("skull");
+objectSprites[215]=Sprite("plugbrick");
 //pickups
 objectSprites[300]=Sprite("key");
 objectSprites[301]=Sprite("triforce");

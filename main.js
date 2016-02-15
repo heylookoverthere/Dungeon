@@ -2886,19 +2886,23 @@ function mainDraw() {
 		{
 			allentities.push(entities[p]);
 		}
+		for(var p=0;p<curDungeon.curRoom().bombs.length;p++)
+		{
+			allentities.push(curDungeon.curRoom().bombs[p]);
+		}
 		allentities.sort(function(a, b) //todo not this every frame. only when changes. 
 		{
-			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
 			{
-				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on)))
 				{
 					return 0;
 				}
 				return -1;
 			}
-			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on)))
 			{
-				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
 				{
 					return 0;
 				}
@@ -2921,6 +2925,9 @@ function mainDraw() {
 				if(allentities[i].entity)
 				{
 					allentities[i].draw(canvas);//.sprites[entities[i].dir].draw(canvas,entities[i].x*32+xOffset,entities[i].y*32+yOffset-14);
+				}else if(allentities[i].bomb)
+				{
+					allentities[i].draw(canvas,xOffset,yOffset);
 				}else
 				{
 					allentities[i].draw(canvas,camera,xOffset,yOffset);
