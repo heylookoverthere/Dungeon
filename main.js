@@ -2876,13 +2876,35 @@ function mainDraw() {
 	}
 	if(true)
 	{
-		//miles.draw(canvas,camera);
-		/*var ploj=canvas.fillStyle;
-		canvas.fillStyle="blue";
-        canvas.fillRect(miles.x*32+xOffset,miles.y*32+yOffset,32,32);
-		canvas.fillStyle=ploj*/
-		entities.sort(function(a, b) //todo not this every frame. only when changes. 
+		var allentities=new Array();
+		
+		for(var p=0;p<curDungeon.curRoom().objects.length;p++)
 		{
+			allentities.push(curDungeon.curRoom().objects[p]);
+		}
+		for(var p=0;p<entities.length;p++)
+		{
+			allentities.push(entities[p]);
+		}
+		allentities.sort(function(a, b) //todo not this every frame. only when changes. 
+		{
+			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+			{
+				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+				{
+					return 0;
+				}
+				return -1;
+			}
+			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+			{
+				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+				{
+					return 0;
+				}
+				return 1;
+			}
+			
 			if(a.y>b.y)
 			{
 				return 1;
@@ -2892,11 +2914,17 @@ function mainDraw() {
 			}
 				return 0;
 		});
-		for(var i=0;i<entities.length;i++)
+		for(var i=0;i<allentities.length;i++)
 		{
-			if((entities[i].exists) && (entities[i].room.name==curDungeon.curRoom().name)&&(entities[i].room.z==curDungeon.roomZ))
+			if((allentities[i].exists) && (allentities[i].room.name==curDungeon.curRoom().name)&&(allentities[i].room.z==curDungeon.roomZ))
 			{
-				entities[i].draw(canvas);//.sprites[entities[i].dir].draw(canvas,entities[i].x*32+xOffset,entities[i].y*32+yOffset-14);
+				if(allentities[i].entity)
+				{
+					allentities[i].draw(canvas);//.sprites[entities[i].dir].draw(canvas,entities[i].x*32+xOffset,entities[i].y*32+yOffset-14);
+				}else
+				{
+					allentities[i].draw(canvas,camera,xOffset,yOffset);
+				}
 			}
 		}
 	}

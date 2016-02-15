@@ -778,6 +778,7 @@ function entity(croom)
 	this.baseSpeed=4;
 	this.speed=4;
 	this.team=0;
+	this.entity=true;
 	this.pushing=false; 
 	this.grabbed=null;
 	this.swordDamage=10;
@@ -2428,7 +2429,7 @@ function entity(croom)
 		}
 		if(this.room.tiles[this.x][this.y].data==DungeonTileType.Grass)
 		{
-			can.globalAlpha=0;//.85;
+			can.globalAlpha=0.85;
 			if(this.dir==0)
 			{
 				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);

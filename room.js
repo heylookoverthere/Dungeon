@@ -1462,10 +1462,10 @@ function room(I) { //room object
 			return 0;
 		});*/
 		
-		for(var p=0;p<this.objects.length;p++)
+		/*for(var p=0;p<this.objects.length;p++)
 		{
 			this.objects[p].draw(can,cam,xOffset,yOffset);
-		}
+		}*/
 	  };
 	  
 	I.darkenAdj=function(can,rxOffset,ryOffset) 
