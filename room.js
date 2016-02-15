@@ -1120,7 +1120,7 @@ function room(I) { //room object
 				ffset=6;
 				mitly++;
 				higgins.setup();
-			}else if((higgins.type==ObjectID.ToggleSwitch) || (higgins.type==ObjectID.EyeSwitch))
+			}else if((higgins.type==ObjectID.ToggleSwitch) || (higgins.type==ObjectID.EyeSwitch)|| (higgins.type==ObjectID.HoldSwitch))
 			{
 				var nerp=tempstring[i+5] //number of dests
 				var plerp=i+5;
@@ -1151,6 +1151,22 @@ function room(I) { //room object
 		}
 		I.objects.sort(function(a, b) //todo not this every frame. only when changes. 
 		{
+			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+			{
+				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+				{
+					return 0;
+				}
+				return -1;
+			}
+			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch))
+			{
+				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch))
+				{
+					return 0;
+				}
+				return 1;
+			}
 			if(a.y>b.y)
 			{
 				return 1;
@@ -1159,10 +1175,10 @@ function room(I) { //room object
 				return -1;
 			}else
 			{
-				if((a.type==ObjectID.PotStand) && (b.type==ObjectID.Pot))
+				if(((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)) && ((b.type==ObjectID.Brick) || (b.type==ObjectID.Pot)))
 				{
 					return -1;
-				}else if((b.type==ObjectID.PotStand) && (a.type==ObjectID.Pot))
+				}else if(((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)) && ((a.type==ObjectID.Brick)||(a.type==ObjectID.Pot)))
 				{
 					return 1;
 				}

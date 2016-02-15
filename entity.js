@@ -1069,6 +1069,7 @@ function entity(croom)
 		edsbomb.exists=true;
 		edsbomb.armed=true;
 		edsbomb.timePlaced=new Date().getTime();
+		playSound("bombdrop");
 		this.activebombs.push(edsbomb);
 		this.room.bombs.push(edsbomb);
 	}
@@ -2529,7 +2530,7 @@ function entity(croom)
 		}
 		for(var i=0;i<this.room.objects.length;i++)
 		{
-			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand)&&(this.room.objects[i].type!=ObjectID.ToggleSwitch))
+			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy)&& (this.room.objects[i].type!=ObjectID.PotStand)&&(this.room.objects[i].type!=ObjectID.ToggleSwitch) && (this.room.objects[i].type!=ObjectID.HoldSwitch))
 			{
 				if(this.grabbed==null) 
 				{
@@ -3375,14 +3376,14 @@ function entity(croom)
 			{
 				if((this.dir==1) || (this.dir==3))
 				{
-					var mufasa=this.getFacingObject("1up");
+					//var mufasa=this.getFacingObject("1up");
 				}
 			}
 			if(!mufasa)
 			{
 				if((this.dir==0) || (this.dir==0))
 				{
-					var mufasa=this.getFacingObject("1left");
+					//var mufasa=this.getFacingObject("1left");
 				}
 			}
 			if((mufasa) &&((controller.pad) && (controller.checkUp())) || (SNESUpKey.checkDown()))

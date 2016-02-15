@@ -298,6 +298,7 @@ objectSprites[114]=Sprite("bookcasesmall");
 objectSprites[115]=Sprite("bones");
 objectSprites[116]=Sprite("spikey");
 objectSprites[117]=Sprite("eyeswitch0");
+objectSprites[118]=Sprite("switch");
 
 //obstacle
 objectSprites[200]=Sprite("bush");

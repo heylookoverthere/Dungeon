@@ -56,6 +56,7 @@ objectName[114]="Bookcase";
 objectName[115]="Bones";
 objectName[116]="Spikey thing";
 objectName[117]="Eye Switch";
+objectName[117]="Hold Switch";
 
 objectName[200]="Bush";
 objectName[201]="Peg";
@@ -142,6 +143,7 @@ ObjectID.Bookcase=114;
 ObjectID.Bones=115;
 ObjectID.SpikeyThing=116;
 ObjectID.EyeSwitch=117;
+ObjectID.HoldSwitch=118;
 
 //obstacle
 ObjectID.Bush=200;
@@ -1104,6 +1106,18 @@ object.prototype.setup=function(id,par)
 			miles.giveItem(this);
 			this.exists=false;
 		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.HoldSwitch) {
+		this.sprites=new Array();
+		this.sprites.push( Sprite("switch"));
+		this.sprites.push( Sprite("switchpressed"));
+		this.name="Hold Switch";
+		this.alwaysWalkable=true;
+		this.activateEdit=function(){
+			editor.mode=editModes.SwitchLink
+			editor.linkingFrom=this;
+		}
+		this.activate=function(){}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.ToggleSwitch) {
 		this.sprites=new Array();
@@ -3544,6 +3558,95 @@ object.prototype.update=function()
 	{
 		this.flame.update();
 	}
+	if(this.type==ObjectID.HoldSwitch) 
+	{
+		var ison=false;
+		for(var i=0;i<entities.length;i++)
+		{
+			if((entities[i].room.z==this.room.z) && (entities[i].room.x==this.room.x) && (entities[i].room.y==this.room.y))
+			{
+				if((entities[i].x==this.x) && (entities[i].y==this.y) && (entities[i].fallingY<5))
+				{
+					ison=true;
+				}
+			}
+		}
+		
+		//todo objects!
+		for(var i=0;i<this.room.objects.length;i++)
+		{
+				if((this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y) && (this.room.objects[i].fallingY<5) && (this.room.objects[i].ID!=this.ID))
+				{
+					ison=true;
+				}
+		}
+		
+		if((this.on) && (!ison))
+		{
+			playSound("switch");
+			this.on=false;
+			this.curSprite=0;
+			for(var i=0;i<this.dest.length;i++){
+				this.dest[i].activate();
+				if(this.dest[i].room.z<this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from below");
+					playSound("switchhit");
+				}else if(this.dest[i].room.z>this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from above");
+					playSound("switchhit");
+				}else
+				{
+					if(this.dest[i].room.x<this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the west");
+					}else if(this.dest[i].room.x>this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the east");
+					}else if(this.dest[i].room.y<this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the north");
+					}else if(this.dest[i].room.y>this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the south");
+					}
+				}
+			}
+		}else if((!this.on) && (ison))
+		{
+			playSound("switch");
+			this.on=true;
+			this.curSprite=1;
+			for(var i=0;i<this.dest.length;i++){
+				this.dest[i].activate();
+				if(this.dest[i].room.z<this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from below");
+					playSound("switchhit");
+				}else if(this.dest[i].room.z>this.room.z)
+				{
+					bConsoleBox.log("You hear a sound from above");
+					playSound("switchhit");
+				}else
+				{
+					if(this.dest[i].room.x<this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the west");
+					}else if(this.dest[i].room.x>this.room.x)
+					{
+						bConsoleBox.log("You hear a sound from the east");
+					}else if(this.dest[i].room.y<this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the north");
+					}else if(this.dest[i].room.y>this.room.y)
+					{
+						bConsoleBox.log("You hear a sound from the south");
+					}
+				}
+			}
+		}
+	}
 	if(((this.type==ObjectID.Warp) ||(this.type==ObjectID.Triforce) ) && (this.active))
 	{
 		this.ani++;
@@ -3890,7 +3993,7 @@ object.prototype.stringify=function()
 	{
 		tempstring+=";";
 		tempstring+=this.on;
-	}else if ((this.type==ObjectID.ToggleSwitch) || (this.type==ObjectID.EyeSwitch))
+	}else if ((this.type==ObjectID.ToggleSwitch) || (this.type==ObjectID.HoldSwitch)|| (this.type==ObjectID.EyeSwitch))
 	{
 		tempstring+=";";
 		tempstring+=this.dest.length;
