@@ -40,7 +40,7 @@ editCursor.prototype.cycleLoot=function(up)
 		}else if((this.lootType>300) && (this.lootType<400))
 		{
 			this.lootType=400;
-		}else if((this.lootType>23) && (this.lootType<100))
+		}else if((this.lootType>27) && (this.lootType<100))
 		{
 			this.lootType=300;
 		}
@@ -58,7 +58,7 @@ editCursor.prototype.cycleLoot=function(up)
 			this.lootType=300;
 		}else if(this.lootType==299)
 		{
-			this.lootType=23;
+			this.lootType=27;
 		}
 	}
 }
@@ -383,7 +383,7 @@ editCursor.prototype.cycleObjects=function(up)
 		}else if((this.objectType>118) && (this.objectType<200))
 		{
 			this.objectType=200;
-		}else if((this.objectType>22) && (this.objectType<100))
+		}else if((this.objectType>27) && (this.objectType<100))
 		{
 			this.objectType=100;
 		}
@@ -407,7 +407,7 @@ editCursor.prototype.cycleObjects=function(up)
 			this.objectType=118;
 		}else if(this.objectType==99)
 		{
-			this.objectType=22;
+			this.objectType=27;
 		}
 		
 	}

@@ -277,7 +277,11 @@ objectSprites[19]=Sprite("shield");
 objectSprites[20]=Sprite("bettershield");
 objectSprites[21]=Sprite("bestshield");
 objectSprites[22]=Sprite("magicboomarang");
-objectSprites[23]=Sprite("rumham");
+objectSprites[23]=Sprite("somaria");
+objectSprites[24]=Sprite("cape");
+objectSprites[25]=Sprite("firerod");
+objectSprites[26]=Sprite("icerod");
+objectSprites[27]=Sprite("rumham");
 
 //furniture
 objectSprites[100]=Sprite("lamp");
@@ -796,6 +800,8 @@ TileType.Forest=3;
 TileType.Road=8;
 TileType.Bridge=18;
 TileType.Sand=9;
+
+var frozen_dur=5000;
 
 var numDoorTypes=6;
 

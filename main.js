@@ -1917,9 +1917,17 @@ function inventoryDraw() {
 	canvas.fillStyle="white";
 	canvas.fillRect(xFset-8,yFset-28,558,754);
 	canvas.fillRect(xFset+556,yFset+200,128,250);
+	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
+	{
+		canvas.fillRect(xFset+556,yFset+460,128,70);
+	}
 	canvas.fillStyle="blue";
 	canvas.fillRect(xFset-4,yFset-24,548,744);
 	canvas.fillRect(xFset+560,yFset+204,120,240);
+	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
+	{
+		canvas.fillRect(xFset+560,yFset+464,120,60);
+	}
 	canvas.font = "20pt Calibri";
 	canvas.fillStyle="white";
 	canvas.fillText("Inventory ",xFset+200,yFset+20-6);
@@ -2020,7 +2028,33 @@ function inventoryDraw() {
 		shinex.type=ObjectID.Poo;
 		shinex.setup();
 		thelist.push(shinex);
-	}if(miles.has[hasID.Map])
+	}if(miles.hasItem(ObjectID.Cane))
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Cane;
+		shinex.setup();
+		thelist.push(shinex);
+	}
+	if(miles.hasItem(ObjectID.Cape))
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.Cape;
+		shinex.setup();
+		thelist.push(shinex);
+	}if(miles.hasItem(ObjectID.FireRod))
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.FireRod;
+		shinex.setup();
+		thelist.push(shinex);
+	}
+	if(miles.hasItem(ObjectID.IceRod))
+	{
+		var shinex=new object();
+		shinex.type=ObjectID.IceRod;
+		shinex.setup();
+		thelist.push(shinex);
+	}/*if(miles.has[hasID.Map])
 	{
 		var shinex=new object();
 		shinex.type=ObjectID.Map;
@@ -2033,7 +2067,7 @@ function inventoryDraw() {
 		shinex.type=ObjectID.Compass;
 		shinex.setup();
 		thelist.push(shinex);
-	}
+	}*/
 	
 	for(var i=0;i<thelist.length;i++)
 	{
@@ -2072,16 +2106,16 @@ function inventoryDraw() {
 		}
 	}
 
-	objectSprites[ObjectID.Gold].draw(canvas,xFset+120,yFset+670);
+	objectSprites[ObjectID.Gold].draw(canvas,607,19);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.money+"/"+miles.wallet,xFset+152,yFset+695);
+		canvas.fillText("x"+miles.money+"/"+miles.wallet,637,42);
 		canvas.font = "20pt Calibri";
 	
 	if(miles.shells>0)
 	{
-		objectSprites[ObjectID.Shell].draw(canvas,xFset+320,yFset+670);
+		objectSprites[ObjectID.Shell].draw(canvas,607,53);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.shells,xFset+352,yFset+695);
+		canvas.fillText("x"+miles.shells,637,75);
 		canvas.font = "20pt Calibri";
 	}
 
@@ -2119,6 +2153,15 @@ function inventoryDraw() {
 		}else if(miles.has[hasID.Sword])
 		{
 			objectSprites[ObjectID.Sword].draw(canvas,xFset+632,yFset+380);
+		}
+		
+		if(miles.has[hasID.Map])
+		{
+			objectSprites[ObjectID.Map].draw(canvas,xFset+590,yFset+476);
+		}
+		if(miles.has[hasID.Compass])
+		{
+			objectSprites[ObjectID.Compass].draw(canvas,xFset+632,yFset+476);
 		}
 	
 	//canvas.fillText("14) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+400-6);
@@ -3924,7 +3967,7 @@ function mainUpdate()
 				//console.log("L trigger")
 				miles.cycleEquipped(true,false);
 			}
-			if((!miles.holding) && (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))))
+			if((!miles.holding) && (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
 			{
 				if(controller.checkUp())
 				{
@@ -4101,7 +4144,7 @@ function mainUpdate()
 				//console.log("L")
 				miles.cycleEquipped(true,true);
 			}
-			if((!miles.holding) && (!miles.dashing))
+			if((!miles.holding) && (!miles.dashing)&& (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
 			{
 				if(SNESUpKey.checkDown())
 				{

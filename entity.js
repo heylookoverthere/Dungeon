@@ -12,6 +12,7 @@ bunnyheadsprite.push(Sprite("bheaddown"));
 bunnyheadsprite.push(Sprite("bheadleft"));
 
 var halfgrasssprite=Sprite("dungeontiles/halfgrass");
+var frozenSprite=Sprite("frozen");
 
 var masterSwingSprites=new Array();
 masterSwingSprites.push(new Array());
@@ -776,6 +777,7 @@ function entity(croom)
 	this.invincible=false;
 	this.invisible=false;
 	this.RumHam=false;
+	this.frozen=0;
 	this.shaking=false;
 	this.shakingSince=0;
 	this.shakingDur=150;
@@ -2477,7 +2479,12 @@ function entity(croom)
 			}
 			can.globalAlpha=1;
 		}
-		
+		if(this.frozen)
+		{
+			can.globalAlpha=0.8;
+			frozenSprite.draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
+		}
+		can.globalAlpha=1;
 	}
 	this.goHole=function(x,y,obj)
 	{
@@ -2675,12 +2682,39 @@ function entity(croom)
 		return null;
 	}
 	
+	this.freeze=function(dur)
+	{
+		this.frozen=dur;
+		if(!dur)
+		{
+			this.frozen=5000;
+		}
+		this.frozenAt=new Date().getTime();
+		playSound("freeze");
+	}
+	
+	
+	this.unfreeze=function()
+	{
+		this.frozen=0;
+		playSound("unfreeze");
+	}
+	
 	this.update=function()
 	{
 		this.mp+=this.magicRegen;
 		if(this.mp>this.maxMp)
 		{
 			this.mp=this.maxMp;
+		}
+		//thaw
+		if(this.frozen)
+		{
+			var plopl=new Date().getTime();
+			if(plopl-this.frozenAt>this.frozen)
+			{
+				this.unfreeze();
+			}
 		}
 		if (this.RumHam)
 		{

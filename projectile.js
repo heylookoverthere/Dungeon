@@ -4,6 +4,8 @@ ProjTypes.Boomarang=1;
 ProjTypes.MagicBoomarang=2;
 ProjTypes.SwordBeam=3;
 ProjTypes.Hookshot=4;
+ProjTypes.Fireball=5;
+ProjTypes.Iceball=6;
 
 var xOffset = 150;
 var yOffset= 150;
@@ -14,6 +16,14 @@ var silverarrowsprite=Sprite("silverarrow");
 var swordbeamsprite1=Sprite("swordbeam1");
 var swordbeamsprite2=Sprite("swordbeam2");
 var swordbeamsprite3=Sprite("swordbeam3");
+
+/*var fireballsprite1=Sprite("fireball1");
+var fireballsprite2=Sprite("fireball2");
+var fireballsprite3=Sprite("fireball3");
+
+var iceballsprite1=Sprite("iceball1");
+var iceballsprite2=Sprite("iceball2");
+var iceballsprite3=Sprite("iceball3");*/
 
 var chainsprite=new Array();
 chainsprite.push(Sprite("chain1"));
@@ -92,7 +102,21 @@ projectile.prototype.setup=function(type)
 	{
 		this.sprites.push(hooksprite);
 		this.damage=0;
-	}
+	}/*else if(this.type==ProjTypes.Fireball)
+	{
+		this.sprites.push(fireballsprite1);
+		this.sprites.push(fireballsprite2);
+		this.sprites.push(fireballsprite3);
+		this.damage=10;
+		this.speed=1;
+	}else if(this.type==ProjTypes.Iceball)
+	{
+		this.sprites.push(iceballsprite1);
+		this.sprites.push(iceballsprite2);
+		this.sprites.push(iceballsprite3);
+		this.damage=10;
+		this.speed=1;
+	}*/
 
 }
 
@@ -128,7 +152,7 @@ projectile.prototype.draw=function(can)
 			}
 		}
 		this.sprites[this.curSprite].draw(can,this.x+xOffset,this.y+yOffset-14)
-	}else if((this.type==0) || (this.type==ProjTypes.SwordBeam) || (this.type==ProjTypes.Hookshot))
+	}else if((this.type==0) || (this.type==ProjTypes.SwordBeam)|| (this.type==ProjTypes.Fireball)|| (this.type==ProjTypes.Iceball) || (this.type==ProjTypes.Hookshot))
 	{
 		can.save();
 		can.translate(this.x+16+xOffset,this.y+16+yOffset);
@@ -197,6 +221,7 @@ projectile.prototype.kill=function()
 	{
 		this.player.busyrang=false;
 	}
+	//fireball start fire? 
 }
 
 projectile.prototype.update=function() //remember, this one's X,Y shoudl not be tile based!!! 

@@ -36,7 +36,11 @@ objectName[19]="Shield";
 objectName[20]="Better Shield";
 objectName[21]="Best Shield";
 objectName[22]="Magic Boomerang";
-objectName[23]="Rum Ham";
+objectName[23]="Cane of Somaria";
+objectName[24]="Magic Cape";
+objectName[25]="Fire Rod";
+objectName[26]="Ice Rod";
+objectName[27]="Rum Ham";
      
 objectName[100]="Lamp";
 objectName[101]="Sign";
@@ -124,7 +128,11 @@ ObjectID.Shield=19;
 ObjectID.BetterShield=20;
 ObjectID.BestShield=21;
 ObjectID.MagicBoomarang=22;
-ObjectID.RumHam=23;
+ObjectID.Cane=23;
+ObjectID.Cape=24;
+ObjectID.FireRod=25;
+ObjectID.IceRod=26;
+ObjectID.RumHam=27;
 
 //furniture
 ObjectID.Lamp=100;
@@ -2372,6 +2380,110 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Cane) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("somaria"));
+	    this.name="Cane of Somaria";
+		this.pickupable=true;
+		this.usable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+			if(!miles.hasItem(ObjectID.Cane))
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Cane of Somaria!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another Cane of Somaria.");
+			}
+			this.exists=false;
+			//miles.has[hasID.Cane]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Cape) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("cape"));
+	    this.name="Magic Cape";
+		this.pickupable=true;
+		this.usable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+			if(!miles.hasItem(ObjectID.Cape))
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Magic Cape!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another Magic Cape!");
+			}
+			this.exists=false;
+			//miles.has[hasID.Cane]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.FireRod) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("firerod"));
+	    this.name="Fire Rod";
+		this.pickupable=true;
+		this.usable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+			if(!miles.hasItem(ObjectID.FireRod))
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Fire Rod!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another Fire Rod.");
+			}
+			this.exists=false;
+			//miles.has[hasID.Cane]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.IceRod) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("icerod"));
+	    this.name="Ice Rod";
+		this.pickupable=true;
+		this.usable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+			if(!miles.hasItem(ObjectID.IceRod))
+			{
+				playSound("itemfanfare");
+				bConsoleBox.log("You found the Ice Rod!");
+				miles.holding=this.sprites[0];
+			}else
+			{
+				playSound("item");
+				bConsoleBox.log("You don't really need another Ice Rod.");
+			}
+			this.exists=false;
+			//miles.has[hasID.Cane]=true;
+			miles.giveItem(this,1);
+			
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Boomarang) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
@@ -2944,9 +3056,9 @@ object.prototype.setup=function(id,par)
 		this.activate=function()
 		{
 			miles.RumHam=true;
-			for(var i=0;i<21;i++)
+			for(var i=0;i<28;i++)
 			{	
-				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield))
+				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer))
 				{
 					var shinex=new object();
 					shinex.type=i;
