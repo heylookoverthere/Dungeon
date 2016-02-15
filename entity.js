@@ -770,6 +770,11 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.mp=100;
+	this.maxMp=100
+	this.magicRegen=0;
+	this.invincible=false;
+	this.invisible=false;
 	this.RumHam=false;
 	this.shaking=false;
 	this.shakingSince=0;
@@ -1943,6 +1948,7 @@ function entity(croom)
 	}
 	this.hurt=function(dmg)
 	{
+		if(this.invincible) {return;}
 		if(!this.alive) {return;}
 		if(this.diving) {return;}
 		if(this.gotHurt>0) {return;}
@@ -2169,6 +2175,31 @@ function entity(croom)
 				this.projectiles[i].draw(can,xOffset,yOffset);
 			}
 		}
+		
+		if(this.invisible)
+		{
+			shadowSprite[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
+			if(this.room.tiles[this.x][this.y].data==DungeonTileType.Grass)
+			{
+				can.globalAlpha=0.85;
+				if(this.dir==0)
+				{
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+				}else if(this.dir==1)
+				{
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+				}else if(this.dir==2)
+				{
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+				}else if(this.dir==3)
+				{
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+				}
+				can.globalAlpha=1;
+			}
+			return; 
+		}
+
 		if(!this.alive)
 		{
 			if(!this.swimming)
@@ -2646,6 +2677,11 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		this.mp+=this.magicRegen;
+		if(this.mp>this.maxMp)
+		{
+			this.mp=this.maxMp;
+		}
 		if (this.RumHam)
 		{
 			var juk=this.maxArrows-this.arrows;

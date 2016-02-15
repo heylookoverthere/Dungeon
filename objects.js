@@ -3798,7 +3798,7 @@ object.prototype.update=function()
 		{
 			for(var i=0;i<entities.length;i++)
 			{
-				if((entities[i].room.z==this.room.z) && (entities[i].room.x==this.room.x) &&(entities[i].room.y==this.room.y))
+				if((entities[i].room.z==this.room.z) && (entities[i].room.x==this.room.x) &&(entities[i].room.y==this.room.y)&&(!entities[i].invisible))
 				{
 					if(entities[i].x==this.x)
 					{

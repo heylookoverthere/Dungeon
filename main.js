@@ -451,7 +451,7 @@ var buttons=new Array();
 var timy=new button();
 timy.text="Edit";
 timy.x=56;
-timy.y=127;
+timy.y=677;
 timy.height=17;
 if(MobileMode)
 {
@@ -665,7 +665,7 @@ buttons.push(timy);
 var timy=new button();
 timy.text="Exit";
 timy.x=94;
-timy.y=127;
+timy.y=677;
 timy.height=17;
 if(MobileMode)
 {
@@ -770,7 +770,7 @@ buttons.push(timy);
 var timy=new button();
 timy.text="Help";
 timy.x=18;
-timy.y=127;
+timy.y=677;
 timy.height=17;
 if(MobileMode)
 {
@@ -786,7 +786,7 @@ timy.doThings=function()
 		logControls();
 	}else
 	{
-		var blex="Click where you want to go or what you want to use. Mousewheel to select an item once you have one. Right click to use your selected item. Some items like the hammer and lantern are used automatically when you click the appropriate object. Try to find the Triforce. " 
+		var blex="Walk around with the controller or WASD. Try to find the tri-force" 
 		if(editMode)
 		{
 			if(editor.mode==editModes.Pen)
@@ -1586,9 +1586,17 @@ function drawGUI(can)
 		can.fillText("x"+miles.money,84+24,85);
 		bombsprite.draw(can,42,58);
 		can.fillText("x"+miles.bombs,42+24,85);
-		arrowsprite.draw(can,42,90);
-		can.fillText("x"+miles.arrows,42+24,117);
+		arrowsprite.draw(can,62,90);
+		can.fillText("x"+miles.arrows,62+24,117);
+		
+		can.fillStyle="white";
+		can.fillText("Magic:",2,120);
 		can.globalAlpha=0.75;
+		can.fillRect(4,128,108,14);
+		can.fillStyle="black";
+		canvas.fillRect(8,130,100,10);
+		can.fillStyle="green";
+		canvas.fillRect(8,130,miles.mp,10);
 		if(showNancyInfo)
 		{
 			/*var surd="";
