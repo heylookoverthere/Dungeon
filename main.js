@@ -3894,6 +3894,13 @@ function mainUpdate()
 						if(miles.swimming)
 						{
 							playSound("swim");
+						}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+						{
+							playSound("grasswalk");
+						}
+						if(miles.pushing)
+						{
+							playSound("push");
 						}
 					}
 				}else if(controller.checkDown())
@@ -3907,6 +3914,13 @@ function mainUpdate()
 						if(miles.swimming)
 						{
 							playSound("swim");
+						}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+						{
+							playSound("grasswalk");
+						}
+						if(miles.pushing)
+						{
+							playSound("push");
 						}
 					}
 				}else if(controller.checkLeft())
@@ -3920,6 +3934,13 @@ function mainUpdate()
 						if(miles.swimming)
 						{
 							playSound("swim");
+						}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+						{
+							playSound("grasswalk");
+						}
+						if(miles.pushing)
+						{
+							playSound("push");
 						}
 					}
 				}else if(controller.checkRight())
@@ -3933,6 +3954,13 @@ function mainUpdate()
 						if(miles.swimming)
 						{
 							playSound("swim");
+						}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+						{
+							playSound("grasswalk");
+						}
+						if(miles.pushing)
+						{
+							playSound("push");
 						}
 					}
 				}else

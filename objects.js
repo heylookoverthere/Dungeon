@@ -232,7 +232,7 @@ function object(oroom) //not a tile, not an enemy
 	this.linkDescriptions=new Array();
 	this.exists=true;
 	this.playerUsable=true;
-	this.canSwim=false;
+	this.canSwim=true;
 	this.jumping=false;
 	this.usable=false; //is an item that can be used like a bomb or a potion.
 	this.x=2;
