@@ -757,7 +757,7 @@ bomb.prototype.incMove=function()
 	}
 }
 var actionID={};
-actionID.Boomarang=0;
+actionID.Boomerang=0;
 actionID.Bow=1;
 actionID.Hookshot=2;
 actionID.Sword=3; //for holding sword out/ pegasus dash
@@ -1897,20 +1897,20 @@ function entity(croom)
 				playSound("error");
 			}
 
-		}else if(this.getEquipped(secondary)==ObjectID.Boomarang)
+		}else if(this.getEquipped(secondary)==ObjectID.Boomerang)
 		{
 			if(this.dir==0)
 			{
-				this.tossBoomarang(90);
+				this.tossBoomerang(90);
 			}else if(this.dir==1)
 			{
-				this.tossBoomarang(180);
+				this.tossBoomerang(180);
 			}else if(this.dir==2)
 			{
-				this.tossBoomarang(270);
+				this.tossBoomerang(270);
 			}else if(this.dir==3)
 			{
-				this.tossBoomarang(0);
+				this.tossBoomerang(0);
 			}
 			
 		}else if(this.getEquipped(secondary)==ObjectID.Boots)
@@ -1981,7 +1981,7 @@ function entity(croom)
 				this.removeItem(ObjectID.GreenPotion,1); 
 			}else
 			{
-				bConsoleBox.log("You are not hurt.","yellow");
+				bConsoleBox.log("You are fully charged.","yellow");
 			}
 		}else if(this.getEquipped(secondary)==ObjectID.PurplePotion)
 		{
@@ -2111,7 +2111,7 @@ function entity(croom)
 		this.swinging=true;
 		playSound("sword4");
 	}
-	this.tossBoomarang=function(ang)
+	this.tossBoomerang=function(ang)
 	{
 		if((this.swimming) ||(this.holding))
 		{
@@ -2121,7 +2121,7 @@ function entity(croom)
 		{
 			playSound("boomerang");
 			this.acting=true;
-			this.action=actionID.Boomarang;
+			this.action=actionID.Boomerang;
 			this.actfor=100; 
 			this.busyrang=true;
 			this.actStart=new Date().getTime();
@@ -2133,14 +2133,14 @@ function entity(croom)
 			poot.exists=true; 
 			poot.angle=ang;
 			poot.speed=.5;
-			if(this.has[hasID.MagicBoomarang])
+			if(this.has[hasID.MagicBoomerang])
 			{
 				poot.speed=1;
 				poot.peakTime=375;
 			}
 			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
 			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
-			if(this.has[hasID.MagicBoomarang])
+			if(this.has[hasID.MagicBoomerang])
 			{
 				poot.setup(2);
 			}else
@@ -2955,7 +2955,7 @@ function entity(croom)
 		for(var i=0;i<this.projectiles.length;i++)
 		{
 			this.projectiles[i].update();
-			if((this.projectiles[i].type==ProjTypes.Boomarang) || (this.projectiles[i].type==ProjTypes.MagicBoomarang))
+			if((this.projectiles[i].type==ProjTypes.Boomerang) || (this.projectiles[i].type==ProjTypes.MagicBoomerang))
 			{
 				if(!this.busyrang)
 				{

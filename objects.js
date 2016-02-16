@@ -115,7 +115,7 @@ ObjectID.BluePotion=6;
 ObjectID.PurplePotion=7;
 ObjectID.Shovel=8;
 ObjectID.Mirror=9;
-ObjectID.Boomarang=10;
+ObjectID.Boomerang=10;
 ObjectID.Hookshot=11;
 ObjectID.Flippers=12;
 ObjectID.Lens=13;
@@ -127,7 +127,7 @@ ObjectID.Mushroom=18;
 ObjectID.Shield=19;
 ObjectID.BetterShield=20;
 ObjectID.BestShield=21;
-ObjectID.MagicBoomarang=22;
+ObjectID.MagicBoomerang=22;
 ObjectID.Cane=23;
 ObjectID.Cape=24;
 ObjectID.FireRod=25;
@@ -232,7 +232,7 @@ function object(oroom) //not a tile, not an enemy
 	this.bombable=false;
 	this.blockArrows=false;
 	this.arrowsActivate=false;
-	this.boomarangActivate=false;
+	this.boomerangActivate=false;
 	this.swordActivate=function(){return false;};
 	this.hookable=false;
 	this.hidden=false;
@@ -765,17 +765,17 @@ object.prototype.setup=function(id,par)
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
-	}else if(this.type==ObjectID.MagicBoomarang)
+	}else if(this.type==ObjectID.MagicBoomerang)
 	{
 		this.sprites=new Array();
-		this.sprites.push(Sprite("magicboomarang"));
+		this.sprites.push(Sprite("magicboomerang"));
 		this.name="Magic Boomerang";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
 			if(this.buried){return;}
-			if(miles.has[hasID.MagicBoomarang])
+			if(miles.has[hasID.MagicBoomerang])
 			{
 				playSound("item");
 				bConsoleBox.log("You found another Magic Boomerang! You really don't need two.");
@@ -784,27 +784,31 @@ object.prototype.setup=function(id,par)
 				return;
 			}
 			playSound("itemfanfare");
-			bConsoleBox.log("You found a magic boomarang!");
-			btext="You found a magic boomarang";
+			bConsoleBox.log("You found a magic boomerang!");
+			btext="You found a magic boomerang";
 			miles.holding=this.sprites[0];
-			miles.has[hasID.MagicBoomarang]=true;
-			if(!miles.has[hasID.Boomarang])
+			miles.has[hasID.MagicBoomerang]=true;
+			if(!miles.has[hasID.Boomerang])
 			{
-				miles.has[hasID.Boomarang]=true;
+				miles.has[hasID.Boomerang]=true;
 				var shinex=new object();
 				//shinex.usable=true;
-				shinex.type=ObjectID.Boomarang;
+				shinex.type=ObjectID.Boomerang;
 				shinex.room=this.room;
 				shinex.setup();
 				miles.giveItem(shinex);
 			}
-			miles.getItem(ObjectID.Boomarang).sprites=new Array();
-			miles.getItem(ObjectID.Boomarang).sprites.push(magicboomarangsprite1);
+			var gurt=miles.getItem(ObjectID.Boomerang);
+			if(gurt)
+			{
+				gurt.sprites=new Array();
+				gurt.sprites.push(magicboomerangsprite1);
+			}
 			miles.actingSprites[0][0]=magicboomact[0];
 			miles.actingSprites[1][0]=magicboomact[1];
 			miles.actingSprites[2][0]=magicboomact[2];
 			miles.actingSprites[3][0]=magicboomact[3];
-			//objectSprites[ObjectID.Boomarang]
+			//objectSprites[ObjectID.Boomerang]
 		//	miles.shieldSprites=bestshieldSprites;
 			this.exists=false;
 		}
@@ -1690,7 +1694,7 @@ object.prototype.setup=function(id,par)
 		this.on=true;
 		this.playerUsable=false;
 		this.aniRate=3;
-		this.boomarangActivate=true;
+		this.boomerangActivate=true;
 		this.activate=function(rang)
 		{
 			if(this.on)
@@ -2099,7 +2103,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=true;
 		this.blockArrows=true;
 		this.arrowsActivate=true;
-		this.boomarangActivate=true;
+		this.boomerangActivate=true;
 		this.swordActivate=function(){return true;};
 		this.cooldown=400;
 		this.activate=function()
@@ -2131,7 +2135,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=true;
 		this.blockArrows=true;
 		this.arrowsActivate=true;
-		this.boomarangActivate=true;
+		this.boomerangActivate=true;
 		this.swordActivate=function(){return true;};
 		this.cooldown=400;
 		this.playerUsable=false;
@@ -2504,17 +2508,17 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
-	}else if (this.type==ObjectID.Boomarang) {
+	}else if (this.type==ObjectID.Boomerang) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
-		this.sprites.push(Sprite("boomarang"));
+		this.sprites.push(Sprite("boomerang"));
 	    this.name="Boomerang";
 		this.pickupable=true;
 		this.usable=true;
 		this.activate=function()
 		{
 			if(this.buried){return;}
-			if(!miles.has[hasID.Boomarang])
+			if(!miles.has[hasID.Boomerang])
 			{
 				playSound("itemfanfare");
 				bConsoleBox.log("You found the Boomerang!");
@@ -2525,7 +2529,7 @@ object.prototype.setup=function(id,par)
 				bConsoleBox.log("You don't really need another boomerang. Unless one day it doesn't come back...");
 			}
 			this.exists=false;
-			miles.has[hasID.Boomarang]=true;
+			miles.has[hasID.Boomerang]=true;
 			miles.giveItem(this,1);
 			
 		}
@@ -3076,9 +3080,9 @@ object.prototype.setup=function(id,par)
 		this.activate=function()
 		{
 			miles.RumHam=true;
-			for(var i=0;i<28;i++)
+			for(var i=0;i<27;i++)
 			{	
-				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer))
+				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer) )
 				{
 					var shinex=new object();
 					shinex.type=i;
@@ -3092,9 +3096,9 @@ object.prototype.setup=function(id,par)
 			}
 			miles.has[hasID.MasterSword]=false;
 			miles.has[hasID.BestShield]=false;
-
+			//miles.has[hasID.MagicBoomerang]=false;
 			//shinex.usable=true;
-			shinex.type=ObjectID.MagicBoomarang;
+			shinex.type=ObjectID.MagicBoomerang;
 			shinex.room=this.room;
 			shinex.setup();
 			shinex.activate();

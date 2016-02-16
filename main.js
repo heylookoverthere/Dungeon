@@ -1962,16 +1962,16 @@ function inventoryDraw() {
 		shinex.type=ObjectID.Mirror;
 		shinex.setup();
 		thelist.push(shinex);
-	}if(miles.has[hasID.MagicBoomarang])
+	}if(miles.has[hasID.MagicBoomerang])
 	{
 		var shinex=new object();
-		shinex.type=ObjectID.MagicBoomarang;
+		shinex.type=ObjectID.MagicBoomerang;
 		shinex.setup();
 		thelist.push(shinex);
-	}else if(miles.has[hasID.Boomarang])
+	}else if(miles.has[hasID.Boomerang])
 	{
 		var shinex=new object();
-		shinex.type=ObjectID.Boomarang;
+		shinex.type=ObjectID.Boomerang;
 		shinex.setup();
 		thelist.push(shinex);
 	}if(miles.has[hasID.Hookshot])
@@ -3846,20 +3846,20 @@ function mainUpdate()
 					if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
 					{
 						miles.cycleEquipped(true);
-					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Boomarang)
+					}else if(miles.inventory[miles.equippedTrack].type==ObjectID.Boomerang)
 					{
 						if(controller.checkDownRight())
 						{
-							miles.tossBoomarang(225);	
+							miles.tossBoomerang(225);	
 						}else if(controller.checkDownLeft())
 						{
-							miles.tossBoomarang(315);	
+							miles.tossBoomerang(315);	
 						}else if(controller.checkUpLeft())
 						{
-							miles.tossBoomarang(45);	
+							miles.tossBoomerang(45);	
 						}else if(controller.checkUpRight())
 						{
-							miles.tossBoomarang(135);	
+							miles.tossBoomerang(135);	
 						}else
 						{
 							miles.useItem();
@@ -3894,20 +3894,20 @@ function mainUpdate()
 					if((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.R].checkDown()))
 					{
 						miles.cycleEquipped(true,true);
-					}else if(miles.inventory[miles.equippedTrack2].type==ObjectID.Boomarang)
+					}else if(miles.inventory[miles.equippedTrack2].type==ObjectID.Boomerang)
 					{
 						if(controller.checkDownRight())
 						{
-							miles.tossBoomarang(225);	
+							miles.tossBoomerang(225);	
 						}else if(controller.checkDownLeft())
 						{
-							miles.tossBoomarang(315);	
+							miles.tossBoomerang(315);	
 						}else if(controller.checkUpLeft())
 						{
-							miles.tossBoomarang(45);	
+							miles.tossBoomerang(45);	
 						}else if(controller.checkUpRight())
 						{
-							miles.tossBoomarang(135);	
+							miles.tossBoomerang(135);	
 						}else
 						{
 							miles.useItem(true);

@@ -1,7 +1,7 @@
 var ProjTypes={}
 ProjTypes.Arrow=0;
-ProjTypes.Boomarang=1;
-ProjTypes.MagicBoomarang=2;
+ProjTypes.Boomerang=1;
+ProjTypes.MagicBoomerang=2;
 ProjTypes.SwordBeam=3;
 ProjTypes.Hookshot=4;
 ProjTypes.Fireball=5;
@@ -30,10 +30,10 @@ chainsprite.push(Sprite("chain1"));
 chainsprite.push(Sprite("chain2"));
 var hooksprite=Sprite("hook");
 
-var boomarangsprite1=Sprite("boomarang");
-var boomarangsprite2=Sprite("boomarang1");
-var magicboomarangsprite1=Sprite("magicboomarang");
-var magicboomarangsprite2=Sprite("magicboomarang1");
+var boomerangsprite1=Sprite("boomerang");
+var boomerangsprite2=Sprite("boomerang1");
+var magicboomerangsprite1=Sprite("magicboomerang");
+var magicboomerangsprite2=Sprite("magicboomerang1");
 function projectile(aPlayer)
 {
 	this.x=aPlayer.x*32+aPlayer.xSmall-16;
@@ -59,7 +59,7 @@ function projectile(aPlayer)
 	this.aniRate=6;
 	this.peakTime=750;
 	this.hitWall=false; 
-	this.boomarang=false; // will it return
+	this.boomerang=false; // will it return
 	this.returning=false;
 	this.speed=1;
 	this.sprites=new Array();
@@ -81,15 +81,15 @@ projectile.prototype.setup=function(type)
 			this.sprites.push(arrowsprite);
 			this.damage=10;
 		}
-	}else if(this.type==ProjTypes.Boomarang)
+	}else if(this.type==ProjTypes.Boomerang)
 	{
-		this.sprites.push(boomarangsprite1);
-		this.sprites.push(boomarangsprite2);
+		this.sprites.push(boomerangsprite1);
+		this.sprites.push(boomerangsprite2);
 		this.damage=5;
-	}else if(this.type==ProjTypes.MagicBoomarang)
+	}else if(this.type==ProjTypes.MagicBoomerang)
 	{
-		this.sprites.push(magicboomarangsprite1);
-		this.sprites.push(magicboomarangsprite2);
+		this.sprites.push(magicboomerangsprite1);
+		this.sprites.push(magicboomerangsprite2);
 		this.damage=10;
 	}else if(this.type==ProjTypes.SwordBeam)
 	{
@@ -300,7 +300,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 	{
 		this.aniTrack=0;
 		this.curSprite++;
-		if((this.type==ProjTypes.Boomarang) || (this.type==ProjTypes.MagicBoomarang))
+		if((this.type==ProjTypes.Boomerang) || (this.type==ProjTypes.MagicBoomerang))
 		{
 			playSound("boomerang");
 		}
@@ -354,7 +354,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				}
 			}else if((this.type==1) || (this.type==2))
 			{
-				if(this.room.objects[i].boomarangActivate)
+				if(this.room.objects[i].boomerangActivate)
 				{
 					this.room.objects[i].activate(true);
 				}
