@@ -734,7 +734,7 @@ object.prototype.setup=function(id,par)
 			playSound("itemfanfare");
 			bConsoleBox.log("You found the Pendant of Swiftness!");
 			btext="You found the Pendant of Swiftness!";
-			//todo something
+			miles.baseSpeed=6;
 			miles.holding=this.sprites[0];
 			miles.has[hasID.PendantSwiftness]=true;
 			this.exists=false;
@@ -3302,6 +3302,24 @@ object.prototype.setup=function(id,par)
 			var shinex=new object();
 			//shinex.usable=true;
 			shinex.type=ObjectID.SilverArrow;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			
+			var shinex=new object();
+			shinex.type=ObjectID.PendantPower;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			
+			var shinex=new object();
+			shinex.type=ObjectID.PendantWisdom;
+			shinex.room=this.room;
+			shinex.setup();
+			shinex.activate();
+			
+			var shinex=new object();
+			shinex.type=ObjectID.PendantSwiftness;
 			shinex.room=this.room;
 			shinex.setup();
 			shinex.activate();
