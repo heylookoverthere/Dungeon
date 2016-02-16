@@ -5,6 +5,8 @@ equippedID.Boomerang=3;
 
 var numEquippable=2;
 
+var dude_count=0;
+
 var bunnyheadsprite=new Array();
 bunnyheadsprite.push(Sprite("bheadup"));
 bunnyheadsprite.push(Sprite("bheadright"));
@@ -771,6 +773,8 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.ID=dude_count;
+	dude_count++;
 	this.mp=100;
 	this.maxMp=100
 	this.magicRegen=0;
@@ -3710,7 +3714,7 @@ function entity(croom)
 						
 		}
 		
-		if((this.AI==1) && (!this.going))
+		if((this.AI==1) && (!this.going)&& (this.alive)&& (!this.frozen))
 		{
 			//this.go(Math.floor(Math.random()*12) need function to find walkable tile.
 			

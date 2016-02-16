@@ -319,6 +319,14 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				playSound("arrowhit");
 				this.exists=false; //todo, link it to target so it moves with him stuck in him for  abit?
 			}
+			if(this.type==ProjTypes.Iceball)
+			{
+				if(entities[i].ID!=this.player.ID)
+				{
+					entities[i].freeze(3000)
+					return;
+				}
+			}
 			if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
 			{
 				if((this.player.isPlayer) && (entities[i].isPlayer))
