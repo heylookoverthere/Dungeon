@@ -2378,13 +2378,13 @@ function entity(croom)
 	
 	this.draw=function(can)
 	{
-		for(var i=0;i<this.projectiles.length;i++)
+		/*for(var i=0;i<this.projectiles.length;i++)
 		{
 			if((this.projectiles[i].room.x==curDungeon.roomX) && (this.projectiles[i].room.y==curDungeon.roomY)&&(this.projectiles[i].room.z==curDungeon.roomZ))
 			{
 				this.projectiles[i].draw(can,xOffset,yOffset);
 			}
-		}
+		}*/
 		
 		if(this.invisible)
 		{
@@ -3677,6 +3677,8 @@ function entity(croom)
 					//var mufasa=this.getFacingObject("1left");
 				}
 			}
+			if(mufasa!=null)
+			{
 			if((mufasa) &&((controller.pad) && (controller.checkUp())) || (SNESUpKey.checkDown()))
 			{
 				
@@ -3711,7 +3713,7 @@ function entity(croom)
 				}
 			}
 			
-						
+			}			
 		}
 		
 		if((this.AI==1) && (!this.going)&& (this.alive)&& (!this.frozen))

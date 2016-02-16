@@ -1884,14 +1884,14 @@ function inventoryUpdate()
 		playSound("unpause");
 	}
 	
-	if((inventorykey.check()) || ((Xbox) && (controller.Xcheck(11))) || ((!Xbox) && (controller.buttons[SNESKey.Start].check())))
+	if((inventorykey.check()) || ((Xbox) && (controller.Xcheck(11))) || ((!Xbox) && (controller.pad) && (controller.buttons[SNESKey.Start].check())))
 	{
 		mode=1;
 		playSound("unpause");
 	}
 	if(miles.has[hasID.Map])
 	{
-		if(((Xbox) && (controller.pad) && (controller.Xcheck(10))) || ((!Xbox) && (controller.buttons[SNESKey.Select].check())))
+		if(((Xbox) && (controller.pad) && (controller.Xcheck(10))) || ((!Xbox)&& (controller.pad) && (controller.buttons[SNESKey.Select].check())))
 		{
 			mode=2;
 		}
@@ -2936,6 +2936,13 @@ function mainDraw() {
 		for(var p=0;p<entities.length;p++)
 		{
 			allentities.push(entities[p]);
+			for(var i=0;i<entities[p].projectiles.length;i++)
+			{
+				if((entities[p].projectiles[i].room.x==curDungeon.roomX) && (entities[p].projectiles[i].room.y==curDungeon.roomY)&&(entities[p].projectiles[i].room.z==curDungeon.roomZ))
+				{
+					allentities.push(entities[p].projectiles[i]);
+				}
+			}
 		}
 		for(var p=0;p<curDungeon.curRoom().bombs.length;p++)
 		{
@@ -2976,7 +2983,7 @@ function mainDraw() {
 				if(allentities[i].entity)
 				{
 					allentities[i].draw(canvas);//.sprites[entities[i].dir].draw(canvas,entities[i].x*32+xOffset,entities[i].y*32+yOffset-14);
-				}else if(allentities[i].bomb)
+				}else if((allentities[i].bomb) || (allentities[i].projectile))
 				{
 					allentities[i].draw(canvas,xOffset,yOffset);
 				}else

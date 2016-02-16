@@ -4069,7 +4069,10 @@ object.prototype.update=function()
 		{
 			if((this.room.objectWillBlock(this)) || ((this.x<3)&&(this.xSmall<-4)) ||((this.x>16)&&(this.xSmall>4))|| (this.x==this.targX))
 			{
-				playSound("chink");
+				if((this.room.name==miles.room.name) && (this.room.z==miles.room.z))
+				{
+					playSound("chink");
+				}
 				this.triggeredY=false;
 				this.triggeredX=false;
 				this.returning=true;
@@ -4103,7 +4106,10 @@ object.prototype.update=function()
 		{
 			if((this.room.objectWillBlock(this))|| ((this.y<3)&&(this.ySmall<-4)) ||((this.y>11) && (this.ySmall>4)) || (this.y==this.targY))
 			{
-				playSound("chink");
+				if((this.room.name==miles.room.name) && (this.room.z==miles.room.z))
+				{
+					playSound("chink");
+				}
 				this.triggeredX=false;
 				this.triggeredY=false;
 				this.returning=true;
