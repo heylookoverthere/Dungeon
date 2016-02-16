@@ -918,7 +918,8 @@ function entity(croom)
 	this.bombs=0;
 	this.arrows=0;
 	this.wallet=250;
-	this.exists=true; 
+	this.exists=true;
+	this.capon=false; 
 	this.has=new Array();
 	this.destObj=null;
 	this.destX=0;
@@ -1040,6 +1041,18 @@ function entity(croom)
 		
 	}
 	
+	this.recharge=function(amt)
+	{
+		if(this.mp>this.maxMp-1) {return;}
+		if(amt==0){ amt=this.maxMp;}
+		//this.healAmount=amt;
+		playSound("magrefill");
+		this.mp+=amt;
+		if(this.mp>this.maxMp)
+		{
+			this.mp=this.maxMp;
+		}
+	}
 	
 	this.heal=function(amt)
 	{
@@ -1627,10 +1640,10 @@ function entity(croom)
 							theParty.add(pled);
 						}
 						return;
-					}else if(this.hasItem(ObjectID.GreenPotion))
+					}else if(this.hasItem(ObjectID.PurplePotion))
 					{
 						pled.revive();
-						this.removeItem(ObjectID.GreenPotion,1); 
+						this.removeItem(ObjectID.PurplePotion,1); 
 					}
 				}
 			}
@@ -1706,12 +1719,35 @@ function entity(croom)
 			if(pled.alive)
 			{
 				return "Talk to "+pled.name;	
-			}else if(this.hasItem(ObjectID.GreenPotion))
+			}else if(this.hasItem(ObjectID.PurplePotion))
 			{
 				return "Revive "+pled.name;
 			}
 		}
 		return null;
+	}
+	
+	this.somariaize=function()
+	{
+		this.mp-=15;
+		playSound("cane");
+		//todo //check that this is a good place. poof thing?
+		var gx=this.x;
+		var gy=this.y;
+		if(this.dir==0)
+		{
+			gy--;
+		}else if(this.dir==1)
+		{
+			gx++;
+		}else if(this.dir==2)
+		{
+			gy++;
+		}else if(this.dir==3)
+		{
+			gx--;
+		}
+		makeObject(gx,gy,this.room,ObjectID.Brick);
 	}
 	
 	this.useItem=function(secondary)
@@ -1726,6 +1762,38 @@ function entity(croom)
 		}else if(this.getEquipped(secondary)==ObjectID.Feather)
 		{
 			this.jump();
+
+		}else if(this.getEquipped(secondary)==ObjectID.Cane)
+		{
+			if(this.mp>15)
+			{
+				this.somariaize();
+			}else
+			{
+				playSound("error");
+			}
+			
+		}else if(this.getEquipped(secondary)==ObjectID.Cape)
+		{
+			if(this.capon)
+			{
+				this.capon=false;
+				playSound("capeoff")
+				this.invisible=false;
+				this.invincible=false;
+			}else if(!this.capon)
+			{
+				if(this.mp>2)
+				{
+					this.capon=true;
+					playSound("capeon")
+					this.invisible=true;
+					this.invincible=true;
+				}else
+				{
+					playSound("error");
+				}
+			}
 
 		}else if(this.getEquipped(secondary)==ObjectID.Shovel)
 		{
@@ -1754,6 +1822,56 @@ function entity(croom)
 				this.shootHook(0);
 			}
 			
+		}else if(this.getEquipped(secondary)==ObjectID.FireRod)
+		{
+			if(this.mp>5)
+			{
+				this.mp-=5;
+				//this.removeItem(ObjectID.Bow,1);
+				if(this.dir==0)
+				{
+					this.shootFire(90);
+				}else if(this.dir==1)
+				{
+					this.shootFire(180);
+				}else if(this.dir==2)
+				{
+					this.shootFire(270);
+				}else if(this.dir==3)
+				{
+					this.shootFire(0);
+				}
+			}else
+			{
+				bConsoleBox.log("Not enough magic!","yellow");
+				playSound("error");
+			}
+
+		}else if(this.getEquipped(secondary)==ObjectID.IceRod)
+		{
+			if(this.mp>5)
+			{
+				this.mp-=5;
+
+				if(this.dir==0)
+				{
+					this.shootIce(90);
+				}else if(this.dir==1)
+				{
+					this.shootIce(180);
+				}else if(this.dir==2)
+				{
+					this.shootIce(270);
+				}else if(this.dir==3)
+				{
+					this.shootIce(0);
+				}
+			}else
+			{
+				bConsoleBox.log("Not enough magic!","yellow");
+				playSound("error");
+			}
+
 		}else if(this.getEquipped(secondary)==ObjectID.Bow)
 		{
 			if(this.arrows>0)
@@ -1857,6 +1975,16 @@ function entity(croom)
 			}
 		}else if(this.getEquipped(secondary)==ObjectID.GreenPotion)
 		{
+			if(this.mp<this.maxMp)
+			{
+				this.recharge(this.maxMp);
+				this.removeItem(ObjectID.GreenPotion,1); 
+			}else
+			{
+				bConsoleBox.log("You are not hurt.","yellow");
+			}
+		}else if(this.getEquipped(secondary)==ObjectID.PurplePotion)
+		{
 			for(var i=0;i<entities.length;i++)
 			{
 				if((entities[i].room.z==curDungeon.roomZ) && (entities[i].room.x==curDungeon.roomX)&& (entities[i].room.y==curDungeon.roomY))
@@ -1864,7 +1992,7 @@ function entity(croom)
 					if((isOverTiled(entities[i],32)) && (!entities[i].isPlayer) && (!entities[i].alive))
 					{
 						entities[i].revive();
-						this.removeItem(ObjectID.GreenPotion,1); 
+						this.removeItem(ObjectID.PurplePotion,1); 
 						return false;
 					}
 				}
@@ -2073,6 +2201,82 @@ function entity(croom)
 		this.projectiles.push(poot);
 	}
 	
+	this.shootFire=function(ang)
+	{
+		playSound("firerod");
+	
+		/*this.acting=true;
+		this.action=actionID.Bow;
+		this.actfor=750;
+		this.actStart=new Date().getTime();*/
+
+		var poot=new projectile(this);
+		poot.type=ProjTypes.Fireball;
+		
+		poot.exists=true; 
+		poot.angle=ang;
+		if(ang==270) //hack
+		{
+			poot.x+=32;
+		}
+		if(ang==0)
+		{
+			poot.y+=28;
+		}
+		if(ang==225)
+		{
+			poot.x+=32;
+		}
+		if(ang==315)
+		{
+			poot.x+=32;
+			poot.y+=32;
+		}
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(poot.type);
+		this.projectiles.push(poot);
+		
+	}
+	
+	this.shootIce=function(ang)
+	{
+		playSound("icerod");
+	
+		/*this.acting=true;
+		this.action=actionID.Bow;
+		this.actfor=750;
+		this.actStart=new Date().getTime();*/
+
+		var poot=new projectile(this);
+		poot.type=ProjTypes.Iceball;
+		
+		poot.exists=true; 
+		poot.angle=ang;
+		if(ang==270) //hack
+		{
+			poot.x+=32;
+		}
+		if(ang==0)
+		{
+			poot.y+=28;
+		}
+		if(ang==225)
+		{
+			poot.x+=32;
+		}
+		if(ang==315)
+		{
+			poot.x+=32;
+			poot.y+=32;
+		}
+		poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+		poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+		poot.setup(poot.type);
+		this.projectiles.push(poot);
+		
+	}
+	
 	this.shootHook=function(ang)
 	{
 		//this.acting=true;
@@ -2186,16 +2390,16 @@ function entity(croom)
 				can.globalAlpha=0.85;
 				if(this.dir==0)
 				{
-					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 				}else if(this.dir==1)
 				{
-					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 				}else if(this.dir==2)
 				{
-					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 				}else if(this.dir==3)
 				{
-					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 				}
 				can.globalAlpha=1;
 			}
@@ -2466,16 +2670,16 @@ function entity(croom)
 			can.globalAlpha=0.85;
 			if(this.dir==0)
 			{
-				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 			}else if(this.dir==1)
 			{
-				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 			}else if(this.dir==2)
 			{
-				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 			}else if(this.dir==3)
 			{
-				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 			}
 			can.globalAlpha=1;
 		}
@@ -2702,6 +2906,17 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		if(this.capon)
+		{
+			this.mp-=0.5;
+			if(this.mp<0)
+			{
+				this.capon=false;
+				this.invincible=false;
+				this.invisible=false;
+				playSound("capeoff");
+			}
+		}
 		this.mp+=this.magicRegen;
 		if(this.mp>this.maxMp)
 		{

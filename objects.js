@@ -112,7 +112,7 @@ ObjectID.Lantern=3;
 ObjectID.Hammer=4;
 ObjectID.RedPotion=5;
 ObjectID.BluePotion=6;
-ObjectID.GreenPotion=7;
+ObjectID.PurplePotion=7;
 ObjectID.Shovel=8;
 ObjectID.Mirror=9;
 ObjectID.Boomarang=10;
@@ -909,6 +909,26 @@ object.prototype.setup=function(id,par)
 			this.exists=false;
 		}
 		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.PurplePotion)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("purplepotion"));
+		this.name="Life potion";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.usable=true;
+		this.singular=false;
+		this.activate=function()
+		{
+			playSound("itemfanfare");
+			bConsoleBox.log("You found a Life Potion!");
+			btext="You found a Life Potion!";
+			miles.giveItem(this);
+			miles.holding=this.sprites[0];
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+		
 	}else if(this.type==ObjectID.GreenPotion)
 	{
 		this.sprites=new Array();

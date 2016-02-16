@@ -17,13 +17,13 @@ var swordbeamsprite1=Sprite("swordbeam1");
 var swordbeamsprite2=Sprite("swordbeam2");
 var swordbeamsprite3=Sprite("swordbeam3");
 
-/*var fireballsprite1=Sprite("fireball1");
-var fireballsprite2=Sprite("fireball2");
-var fireballsprite3=Sprite("fireball3");
+var fireballsprite1=Sprite("fireball0");
+var fireballsprite2=Sprite("fireball1");
+var fireballsprite3=Sprite("fireball2");
 
-var iceballsprite1=Sprite("iceball1");
-var iceballsprite2=Sprite("iceball2");
-var iceballsprite3=Sprite("iceball3");*/
+var iceballsprite1=Sprite("iceball0");
+var iceballsprite2=Sprite("iceball1");
+var iceballsprite3=Sprite("iceball2");
 
 var chainsprite=new Array();
 chainsprite.push(Sprite("chain1"));
@@ -102,7 +102,7 @@ projectile.prototype.setup=function(type)
 	{
 		this.sprites.push(hooksprite);
 		this.damage=0;
-	}/*else if(this.type==ProjTypes.Fireball)
+	}else if(this.type==ProjTypes.Fireball)
 	{
 		this.sprites.push(fireballsprite1);
 		this.sprites.push(fireballsprite2);
@@ -116,7 +116,7 @@ projectile.prototype.setup=function(type)
 		this.sprites.push(iceballsprite3);
 		this.damage=10;
 		this.speed=1;
-	}*/
+	}
 
 }
 

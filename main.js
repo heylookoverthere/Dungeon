@@ -2131,9 +2131,9 @@ function inventoryDraw() {
 		canvas.font = "20pt Calibri";
 	
 
-		objectSprites[ObjectID.GreenPotion].draw(canvas,xFset+600,yFset+325);
+		objectSprites[ObjectID.PurplePotion].draw(canvas,xFset+600,yFset+325);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.getItemAmt(ObjectID.GreenPotion),xFset+632,yFset+350);
+		canvas.fillText("x"+miles.getItemAmt(ObjectID.PurplePotion),xFset+632,yFset+350);
 		canvas.font = "20pt Calibri";
 	
 		if(miles.has[hasID.BestShield])
