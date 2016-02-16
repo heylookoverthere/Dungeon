@@ -20,7 +20,7 @@ objectName[3]="Lantern";
 objectName[4]="Hammer";
 objectName[5]="Red Potion";
 objectName[6]="Blue Potion";
-objectName[7]="Green Potion";
+objectName[7]="Purple Potion";
 objectName[8]="Shovel";
 objectName[9]="Mirror";
 objectName[10]="Boomerang";
@@ -3080,9 +3080,11 @@ object.prototype.setup=function(id,par)
 		this.activate=function()
 		{
 			miles.RumHam=true;
+			miles.equippedTrack=0;
+			miles.equippedTrack2=0;
 			for(var i=0;i<27;i++)
 			{	
-				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer))
+				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer)&& (i!=ObjectID.MagicBoomerang))
 				{
 					var shinex=new object();
 					shinex.type=i;
@@ -3090,14 +3092,11 @@ object.prototype.setup=function(id,par)
 					miles.giveItem(shinex,99); 
 				}
 			}
-			for(var i=0;i<miles.has.length;i++)
-			{	
-				miles.has[i]=true;
-			}
+
 			miles.has[hasID.MasterSword]=false;
 			miles.has[hasID.BestShield]=false;
-			miles.has[hasID.Boomerang]=false;
-			miles.has[hasID.MagicBoomerang]=false;
+			//miles.has[hasID.Boomerang]=false;
+			//miles.has[hasID.MagicBoomerang]=false;
 			//shinex.usable=true;
 			
 			var shinex=new object();
@@ -3129,13 +3128,17 @@ object.prototype.setup=function(id,par)
 			shinex.room=this.room;
 			shinex.setup();
 			shinex.activate();
+			
 			miles.holding=null;
 			miles.canSwim=true;
 			miles.maxHp=280;
 			miles.heal(miles.maxHp);
 			miles.getItem(ObjectID.Bomb).sprites=new Array();
 			miles.getItem(ObjectID.Bomb).sprites.push(superbombsprite);
-	
+				for(var i=0;i<miles.has.length;i++)
+			{	
+				miles.has[i]=true;
+			}
 		}
 		//miles.has all
 		this.playerActivate=this.activate;
