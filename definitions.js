@@ -281,7 +281,8 @@ objectSprites[23]=Sprite("somaria");
 objectSprites[24]=Sprite("cape");
 objectSprites[25]=Sprite("firerod");
 objectSprites[26]=Sprite("icerod");
-objectSprites[27]=Sprite("rumham");
+objectSprites[27]=Sprite("greenpotion");
+objectSprites[28]=Sprite("rumham");
 
 //furniture
 objectSprites[100]=Sprite("lamp");
@@ -336,6 +337,9 @@ objectSprites[405]=Sprite("compass");
 objectSprites[406]=Sprite("mastersword");
 objectSprites[407]=Sprite("silverarrow");
 objectSprites[408]=Sprite("wallet");
+objectSprites[409]=Sprite("pendantred");
+objectSprites[410]=Sprite("pendantgreen");
+objectSprites[411]=Sprite("pendantblue");
 
 //drops
 objectSprites[500]=Sprite("rupee");
@@ -343,9 +347,11 @@ objectSprites[501]=Sprite("tenrupee");
 objectSprites[502]=Sprite("arrow");
 objectSprites[503]=Sprite("heartpickup");
 objectSprites[504]=Sprite("bomb1");
-objectSprites[505]=Sprite("shell");
-objectSprites[506]=Sprite("apple");
+objectSprites[505]=Sprite("magicjar");
+objectSprites[506]=Sprite("magicjarsmall");
 objectSprites[507]=Sprite("fiftyrupee");
+objectSprites[508]=Sprite("shell");
+objectSprites[509]=Sprite("apple");
 
 var nullSprite=new Sprite("blank");
 

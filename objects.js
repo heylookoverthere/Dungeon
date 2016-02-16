@@ -40,7 +40,8 @@ objectName[23]="Cane of Somaria";
 objectName[24]="Magic Cape";
 objectName[25]="Fire Rod";
 objectName[26]="Ice Rod";
-objectName[27]="Rum Ham";
+objectName[27]="Green Potion";
+objectName[28]="Rum Ham";
      
 objectName[100]="Lamp";
 objectName[101]="Sign";
@@ -92,6 +93,9 @@ objectName[405]="Compass";
 objectName[406]="Master Sword";
 objectName[407]="silver arrow";
 objectName[408]="larger wallet";
+objectName[409]="Pendant of Power";
+objectName[410]="Pendant of Wisdom";
+objectName[411]="Pendant of Swiftness";
 
 objectName[500]="a rupee";
 objectName[501]="five rupees";
@@ -132,7 +136,8 @@ ObjectID.Cane=23;
 ObjectID.Cape=24;
 ObjectID.FireRod=25;
 ObjectID.IceRod=26;
-ObjectID.RumHam=27;
+ObjectID.GreenPotion=27;
+ObjectID.RumHam=28;
 
 //furniture
 ObjectID.Lamp=100;
@@ -187,6 +192,9 @@ ObjectID.Compass=405;
 ObjectID.MasterSword=406; 
 ObjectID.SilverArrow=407;
 ObjectID.Wallet=408;
+ObjectID.PendantPower=409; 
+ObjectID.PendantWisdom=410;
+ObjectID.PendantSwiftness=411;
 
 //random drops
 ObjectID.Gold=500;
@@ -195,8 +203,10 @@ ObjectID.FiftyGold=507;
 ObjectID.Arrow=502;
 ObjectID.Heart=503;
 ObjectID.BombRefill=504;
-ObjectID.Shell=505;
-ObjectID.Apple=506; 
+ObjectID.MagicJar=505;
+ObjectID.SmallJar=506; 
+ObjectID.Shell=508;
+ObjectID.Apple=509; 
 
 
 
@@ -670,6 +680,66 @@ object.prototype.setup=function(id,par)
 			editor.mode=editModes.ChestLoot;
 			editor.lootFor=this;
 		}
+	}else if(this.type==ObjectID.PendantPower)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("pendantred"));
+		this.name="Pendant of Power";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+						
+			playSound("itemfanfare");
+			bConsoleBox.log("You found the Pendant of Power!");
+			btext="You found the Pendant of Power!";
+			miles.swordDamage*=1.5;
+			miles.holding=this.sprites[0];
+			miles.has[hasID.PendantPower]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.PendantWisdom)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("pendantgreen"));
+		this.name="Pendant of Wisdom";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+						
+			playSound("itemfanfare");
+			bConsoleBox.log("You found the Pendant of Wisdom!");
+			btext="You found the Pendant of Wisdom!";
+			miles.magicRegen+=0.05;
+			miles.holding=this.sprites[0];
+			miles.has[hasID.PendantWisdom]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.PendantSwiftness)
+	{
+		this.sprites=new Array();
+		this.sprites.push(Sprite("pendantBlue"));
+		this.name="Pendant of Swiftness";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+						
+			playSound("itemfanfare");
+			bConsoleBox.log("You found the Pendant of Swiftness!");
+			btext="You found the Pendant of Swiftness!";
+			//todo something
+			miles.holding=this.sprites[0];
+			miles.has[hasID.PendantSwiftness]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.Shield)
 	{
 		this.sprites=new Array();
@@ -1445,6 +1515,15 @@ object.prototype.setup=function(id,par)
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
 					}
+					if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
+						return;
+					}
 					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
 				}
@@ -1508,6 +1587,14 @@ object.prototype.setup=function(id,par)
 					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
 						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
@@ -1574,6 +1661,14 @@ object.prototype.setup=function(id,par)
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
+						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
@@ -1625,6 +1720,14 @@ object.prototype.setup=function(id,par)
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
+						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
@@ -1675,6 +1778,14 @@ object.prototype.setup=function(id,par)
 					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
 						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
@@ -1728,6 +1839,14 @@ object.prototype.setup=function(id,par)
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
 						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
+						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
 					makeObject(this.x,this.y,this.room,pojk);
@@ -1772,6 +1891,14 @@ object.prototype.setup=function(id,par)
 					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
 					{
 						makeObject(this.x,this.y,this.room,ObjectID.BombRefill);
+						return;
+					}if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(this.x,this.y,this.room,ObjectID.SmallJar);
 						return;
 					}
 					var pojk=500+Math.floor(Math.random()*2);
@@ -2898,6 +3025,56 @@ object.prototype.setup=function(id,par)
 			
 		}
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.MagicJar) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("magicjar"));
+	    this.name="Magic Jar";
+		this.pickupable=true;
+		this.floating=false;
+		if((!OPTIONS.DropsPersist) && (!editMode))
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
+		this.activate=function()
+		{
+			if(this.buried){return;}	
+			if(OPTIONS.OverLog)
+			{
+				bCosoleBox.log("You found a magic jar.");
+			}
+			playSound("item");
+			this.exists=false;
+			miles.recharge(30);
+			
+		}
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.SmallJar) {
+	    this.sprites=new Array();
+		this.alwaysWalkable=true;
+		this.sprites.push(Sprite("magicjarsmall"));
+	    this.name="Small Magic Jar";
+		this.pickupable=true;
+		this.floating=false;
+		if((!OPTIONS.DropsPersist) && (!editMode))
+		{
+			this.timed=true;
+			this.createdTime=new Date().getTime();
+		}
+		this.activate=function()
+		{
+			if(this.buried){return;}	
+			if(OPTIONS.OverLog)
+			{
+				bCosoleBox.log("You found a small magic jar.");
+			}
+			playSound("item");
+			this.exists=false;
+			miles.recharge(10);
+			
+		}
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Arrow) {
 	    this.sprites=new Array();
 		this.alwaysWalkable=true;
@@ -3082,7 +3259,7 @@ object.prototype.setup=function(id,par)
 			miles.RumHam=true;
 			miles.equippedTrack=0;
 			miles.equippedTrack2=0;
-			for(var i=0;i<27;i++)
+			for(var i=0;i<28;i++)
 			{	
 				if((i!=ObjectID.Glove) &&(i!=ObjectID.Lens) &&(i!=ObjectID.Flippers) &&(i!=ObjectID.Sword) &&(i!=ObjectID.MasterSword) && (i!=ObjectID.Shield) && (i!=ObjectID.BetterShield)&& (i!=ObjectID.BestShield)&& (i!=ObjectID.Hammer)&& (i!=ObjectID.MagicBoomerang))
 				{
