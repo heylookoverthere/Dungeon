@@ -2357,10 +2357,15 @@ function entity(croom)
 		if(ang==270) //hack
 		{
 			poot.x+=32;
+			poot.y+=28;
 		}
 		if(ang==0)
 		{
 			poot.y+=28;
+		}
+		if(ang==180)
+		{
+			poot.x+=28;
 		}
 		if(ang==225)
 		{
@@ -2415,7 +2420,7 @@ function entity(croom)
 					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 				}else if(this.dir==2)
 				{
-					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-12,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 				}else if(this.dir==3)
 				{
 					halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
@@ -2695,7 +2700,7 @@ function entity(croom)
 				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
 			}else if(this.dir==2)
 			{
-				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-6,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
+				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset+4-10,this.y*32+this.ySmall+yOffset+10-4-this.fallingY*2);
 			}else if(this.dir==3)
 			{
 				halfgrasssprite.draw(can,this.x*32+this.xSmall+xOffset-4-6,this.y*32+this.ySmall+yOffset+10-this.fallingY*2);
@@ -3294,6 +3299,41 @@ function entity(croom)
 						}
 					}
 				
+				}
+			}
+			if(this.room.tiles[hurtx][hurty].data==DungeonTileType.Grass)
+			{
+				playSound("curtains");
+				this.room.tiles[hurtx][hurty].data=DungeonTileType.CutGrass;
+				if(Math.random()*10>6)
+				{
+					var bmoke=3;
+					if((miles.hp<miles.maxHp) && (Math.random()*10<3))
+					{
+						makeObject(hurtx,hurty,this.room,ObjectID.Heart);
+						return;
+					}
+					if((miles.has[hasID.Bow]) && (Math.random()*10<3))
+					{
+						makeObject(hurtx,hurty,this.room,ObjectID.Arrow);
+						return;
+					}
+					if((miles.has[hasID.Bomb]) && (Math.random()*10<3))
+					{
+						makeObject(hurtx,hurty,this.room,ObjectID.BombRefill);
+						return;
+					}
+					if((miles.mp<miles.maxMp) && (Math.random()*10<3))
+					{
+						makeObject(hurtx,hurty,this.room,ObjectID.MagicJar);
+						return;
+					}else if((miles.mp<miles.maxMp) && (Math.random()*10>6))
+					{
+						makeObject(hurtx,hurty,this.room,ObjectID.SmallJar);
+						return;
+					}
+					var pojk=500+Math.floor(Math.random()*2);
+					makeObject(this.x,this.y,this.room,pojk);
 				}
 			}
 		}else if(this.poking)

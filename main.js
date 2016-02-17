@@ -1592,11 +1592,12 @@ function drawGUI(can)
 		can.fillStyle="white";
 		can.fillText("Magic:",2,120);
 		can.globalAlpha=0.75;
-		can.fillRect(4,128,108,14);
+		can.fillRect(4,128,138,14);
 		can.fillStyle="black";
-		canvas.fillRect(8,130,100,10);
+		canvas.fillRect(8,130,130,10);
 		can.fillStyle="green";
-		canvas.fillRect(8,130,miles.mp,10);
+		var percent=miles.mp/miles.maxMp*130;
+		canvas.fillRect(8,130,percent,10);
 		if(showNancyInfo)
 		{
 			/*var surd="";
