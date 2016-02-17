@@ -2185,10 +2185,15 @@ function entity(croom)
 		if(ang==270) //hack
 		{
 			poot.x+=32;
+			poot.y+=28;
 		}
 		if(ang==0)
 		{
 			poot.y+=28;
+		}
+		if(ang==180)
+		{
+			poot.x+=28;
 		}
 		if(ang==225)
 		{
@@ -2222,10 +2227,15 @@ function entity(croom)
 		if(ang==270) //hack
 		{
 			poot.x+=32;
+			poot.y+=28;
 		}
 		if(ang==0)
 		{
 			poot.y+=28;
+		}
+		if(ang==180)
+		{
+			poot.x+=28;
 		}
 		if(ang==225)
 		{
@@ -2260,10 +2270,15 @@ function entity(croom)
 		if(ang==270) //hack
 		{
 			poot.x+=32;
+			poot.y+=28;
 		}
 		if(ang==0)
 		{
 			poot.y+=28;
+		}
+		if(ang==180)
+		{
+			poot.x+=28;
 		}
 		if(ang==225)
 		{
