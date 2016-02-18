@@ -1929,24 +1929,31 @@ function entity(croom)
 			
 		}else if(this.getEquipped(secondary)==ObjectID.Mirror)
 		{
-			playSound("warp");
-			this.busyrang=false;
-			curDungeon.roomZ=curDungeon.startFloor;
-			curDungeon.roomX=curDungeon.startX;
-			curDungeon.roomY=curDungeon.startY;
-			for(var i=0;i<theParty.members.length;i++)
+			if(this.mp>49)
 			{
-				if(theParty.members[i].alive){
-					theParty.members[i].room=curDungeon.curRoom();
-					theParty.members[i].x=9;
-					theParty.members[i].y=12;
-					theParty.members[i].fallingY=0;
+				this.mp-=50;
+				playSound("warp");
+				this.busyrang=false;
+				curDungeon.roomZ=curDungeon.startFloor;
+				curDungeon.roomX=curDungeon.startX;
+				curDungeon.roomY=curDungeon.startY;
+				for(var i=0;i<theParty.members.length;i++)
+				{
+					if(theParty.members[i].alive){
+						theParty.members[i].room=curDungeon.curRoom();
+						theParty.members[i].x=9;
+						theParty.members[i].y=12;
+						theParty.members[i].fallingY=0;
+					}
 				}
-			}
-			if(OPTIONS.MirrorBreaks)
+				if(OPTIONS.MirrorBreaks)
+				{
+					this.removeItem(ObjectID.Mirror,1); 
+					//this.equippedTrack=0;
+				}
+			}else
 			{
-				this.removeItem(ObjectID.Mirror,1); 
-				//this.equippedTrack=0;
+				playSound("error");
 			}
 		}else if (this.getEquipped(secondary)==ObjectID.Poo)
 		{

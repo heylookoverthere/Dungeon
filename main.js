@@ -1913,11 +1913,12 @@ function inventoryDraw() {
 	canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
 
 	curDungeon.draw(canvas,camera);
-	var xFset=160;
+	var xFset=164;
 	var yFset=35;
 	canvas.fillStyle="white";
 	canvas.fillRect(xFset-8,yFset-28,558,754);
 	canvas.fillRect(xFset+556,yFset+200,128,250);
+	canvas.fillRect(22,yFset+200,128,250);
 	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
 	{
 		canvas.fillRect(xFset+556,yFset+460,128,70);
@@ -1925,6 +1926,7 @@ function inventoryDraw() {
 	canvas.fillStyle="blue";
 	canvas.fillRect(xFset-4,yFset-24,548,744);
 	canvas.fillRect(xFset+560,yFset+204,120,240);
+	canvas.fillRect(26,yFset+204,120,240);
 	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
 	{
 		canvas.fillRect(xFset+560,yFset+464,120,60);
@@ -2119,22 +2121,66 @@ function inventoryDraw() {
 		canvas.fillText("x"+miles.shells,637,75);
 		canvas.font = "20pt Calibri";
 	}
+		if(miles.has[hasID.PendantPower])
+		{
+			objectSprites[ObjectID.PendantPower].draw(canvas,28,yFset+210);
+			canvas.font = "10pt Calibri";
+			canvas.fillText("+sword damage",56,yFset+235);
+			canvas.font = "20pt Calibri";
+			
+		}
 
+		if(miles.has[hasID.PendantWisdom])
+		{
+		
+			objectSprites[ObjectID.PendantWisdom].draw(canvas,28,yFset+260);
+			canvas.font = "10pt Calibri";
+			canvas.fillText("Magic regen",57,yFset+285);
+			canvas.font = "20pt Calibri";
+	
+		}
+		if(miles.has[hasID.PendantSwiftness])
+		{
+			objectSprites[ObjectID.PendantSwiftness].draw(canvas,28,yFset+310);
+			canvas.font = "10pt Calibri";
+			canvas.fillText("Move faster",57,yFset+335);
+			canvas.font = "20pt Calibri";
+		}
+		if(miles.has[hasID.PendantFour])
+		{
+		
+			objectSprites[ObjectID.PendantFour].draw(canvas,28,yFset+360);
+			canvas.font = "10pt Calibri";
+			canvas.fillText("?????",57,yFset+385);
+			canvas.font = "20pt Calibri";
+	
+		}
+		if(miles.has[hasID.PendantSwiftness])
+		{
+			objectSprites[ObjectID.PendantFive].draw(canvas,28,yFset+410);
+			canvas.font = "10pt Calibri";
+			canvas.fillText("????",57,yFset+435);
+			canvas.font = "20pt Calibri";
+		}
 
-		objectSprites[ObjectID.BluePotion].draw(canvas,xFset+600,yFset+225);
+		objectSprites[ObjectID.BluePotion].draw(canvas,xFset+560,yFset+225);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.getItemAmt(ObjectID.BluePotion),xFset+632,yFset+250);
+		canvas.fillText("x"+miles.getItemAmt(ObjectID.BluePotion),xFset+592,yFset+250);
 		canvas.font = "20pt Calibri";
 
-		objectSprites[ObjectID.RedPotion].draw(canvas,xFset+600,yFset+275);
+		objectSprites[ObjectID.RedPotion].draw(canvas,xFset+560,yFset+275);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.getItemAmt(ObjectID.RedPotion),xFset+632,yFset+300);
+		canvas.fillText("x"+miles.getItemAmt(ObjectID.RedPotion),xFset+592,yFset+300);
 		canvas.font = "20pt Calibri";
 	
-
-		objectSprites[ObjectID.PurplePotion].draw(canvas,xFset+600,yFset+325);
+		objectSprites[ObjectID.GreenPotion].draw(canvas,xFset+620,yFset+225);
 		canvas.font = "12pt Calibri";
-		canvas.fillText("x"+miles.getItemAmt(ObjectID.PurplePotion),xFset+632,yFset+350);
+		canvas.fillText("x"+miles.getItemAmt(ObjectID.GreenPotion),xFset+652,yFset+250);
+		canvas.font = "20pt Calibri";
+
+		objectSprites[ObjectID.PurplePotion].draw(canvas,xFset+620,yFset+275);
+		canvas.font = "12pt Calibri";
+		canvas.fillText("x"+miles.getItemAmt(ObjectID.PurplePotion),xFset+652,yFset+300);
 		canvas.font = "20pt Calibri";
 	
 		if(miles.has[hasID.BestShield])
@@ -2951,17 +2997,17 @@ function mainDraw() {
 		}
 		allentities.sort(function(a, b) //todo not this every frame. only when changes. 
 		{
-			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
+			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on))|| ((a.type==ObjectID.Bush) ))
 			{
-				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on)))
+				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on))|| ((b.type==ObjectID.HolePlugger) ))
 				{
 					return 0;
 				}
 				return -1;
 			}
-			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on)))
+			if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on))|| ((b.type==ObjectID.HolePlugger) ))
 			{
-				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)))
+				if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on)) || ((a.type==ObjectID.HolePlugger) ))
 				{
 					return 0;
 				}
