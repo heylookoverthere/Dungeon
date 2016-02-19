@@ -48,6 +48,7 @@ function projectile(aPlayer)
 	this.width=32;
 	this.height=32;
 	this.counter=0;
+	this.count=0;//number of tiles it has moved
 	this.bombArrow=false;
 	this.exists=false;
 	this.smart=true; // tracks player on return
@@ -125,34 +126,38 @@ projectile.prototype.draw=function(can)
 	if(this.type==ProjTypes.Hookshot)
 	{
 		var mangle=this.angle;
-
+		
 		if(this.player.dir==0)
-		{
-			for(var i=this.player.y;i<(this.y-yOffset)/32;i++)
+		{	
+			for(var i=this.player.y-1;i>this.getTileY()+1;i--)
 			{
-				chainsprite[0].draw(can,this.x+xOffset,(this.player.y+i)*32+yOffset-14)
+				chainsprite[0].draw(can,this.x+xOffset+20,(i)*32+yOffset)
+				chainsprite[1].draw(can,this.x+xOffset+20,(i)*32+yOffset-16)
 			}
 		}else if(this.player.dir==2)
 		{
-			for(var i=this.player.y;i>(this.y-yOffset)/32;i--)
+			for(var i=this.player.y+1;i<this.getTileY()+1;i++)
 			{
-				chainsprite[0].draw(can,this.x+xOffset,(this.player.y+i)*32+yOffset-14)
+				chainsprite[0].draw(can,this.x+xOffset-6,(i)*32+yOffset)
+				chainsprite[1].draw(can,this.x+xOffset-6,(i)*32+yOffset-16)
 			}
 		}else if(this.player.dir==1)
 		{
-			for(var i=this.player.x;i<(this.x-xOffset)/32;i++)
+			for(var i=this.player.x+1;i<this.getTileX()+1;i++)
 			{
-				chainsprite[0].draw(can,(this.player.x+i)*32+xOffset,this.y+yOffset-14)
+				chainsprite[0].draw(can,(i)*32+xOffset,this.y+yOffset+20)
+				chainsprite[1].draw(can,(i)*32+xOffset-16,this.y+yOffset+20)
 			}
 		}else //if(mangle==0)
 		{
-			for(var i=this.player.x;i>(this.x-xOffset)/32;i--)
+			for(var i=this.player.x;i>this.getTileX()+1;i--)
 			{
-				chainsprite[0].draw(can,(this.player.x+i)*32+xOffset,this.y+yOffset-14)
+				chainsprite[0].draw(can,(i)*32+xOffset,this.y+yOffset-6)
+				chainsprite[1].draw(can,(i)*32+xOffset-16,this.y+yOffset-6)
 			}
 		}
-		this.sprites[this.curSprite].draw(can,this.x+xOffset,this.y+yOffset-14)
-	}else if((this.type==0) || (this.type==ProjTypes.SwordBeam)|| (this.type==ProjTypes.Fireball)|| (this.type==ProjTypes.Iceball) || (this.type==ProjTypes.Hookshot))
+		//this.sprites[this.curSprite].draw(can,this.x+xOffset,this.y+yOffset-14)
+	}if((this.type==0) || (this.type==ProjTypes.SwordBeam)|| (this.type==ProjTypes.Fireball)|| (this.type==ProjTypes.Iceball) || (this.type==ProjTypes.Hookshot))
 	{
 		can.save();
 		can.translate(this.x+16+xOffset,this.y+16+yOffset);
@@ -221,9 +226,27 @@ projectile.prototype.kill=function()
 	{
 		this.player.busyrang=false;
 	}
+	if(this.type==ProjTypes.Hookshot)
+	{
+		this.player.busyHook=false;
+		playSound("chink");
+		/*if(surface.hookable)
+		{
+			this.exists=true;
+			//reel in player!
+		}*/
+	}
 	//fireball start fire? 
 }
 
+projectile.prototype.getTileX=function()
+{
+	return Math.floor((this.x)/32);// * Math.pow(2, 1);//curMap.zoom-1);
+}
+projectile.prototype.getTileY=function()
+{
+	return Math.floor((this.y)/32);// * Math.pow(2, 1);//curMap.zoom-1);
+}
 projectile.prototype.update=function() //remember, this one's X,Y shoudl not be tile based!!! 
 {
 	var hoat=new Date().getTime();

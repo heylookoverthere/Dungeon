@@ -4021,7 +4021,7 @@ function mainUpdate()
 				//console.log("L trigger")
 				miles.cycleEquipped(true,false);
 			}
-			if((!miles.holding) && (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
+			if((!miles.busyHook) && (!miles.holding) && (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
 			{
 				if(controller.checkUp())
 				{
@@ -4198,7 +4198,7 @@ function mainUpdate()
 				//console.log("L")
 				miles.cycleEquipped(true,true);
 			}
-			if((!miles.holding) && (!miles.dashing)&& (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
+			if((!miles.busyHook) &&(!miles.holding) && (!miles.dashing)&& (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
 			{
 				if(SNESUpKey.checkDown())
 				{

@@ -818,6 +818,7 @@ function entity(croom)
 	this.swimming=false;
 	this.diving=false;
 	this.busyrang=false;
+	this.busyHook=false;
 	this.lastY=3;
 	this.width=32;
 	this.height=48;
@@ -1811,7 +1812,6 @@ function entity(croom)
 
 		}else if(this.getEquipped(secondary)==ObjectID.Hookshot)
 		{
-	
 			if(this.dir==0)
 			{
 				this.shootHook(90);
@@ -2310,8 +2310,13 @@ function entity(croom)
 		//this.actfor=750;
 		//this.actStart=new Date().getTime();
 
+		if(this.busyHook) {
+			playSound("error");
+			return;
+		}
+		this.busyHook=true; 
 		var poot=new projectile(this);
-
+	
 		poot.exists=true; 
 		poot.angle=ang;
 		if(ang==270) //hack
@@ -2937,6 +2942,7 @@ function entity(croom)
 	
 	this.update=function()
 	{
+		if((this.isPlayer) && (this.busyHook)) {playSound("hooking");}
 		if(this.capon)
 		{
 			this.mp-=0.5;
