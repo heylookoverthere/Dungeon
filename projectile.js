@@ -284,6 +284,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.player.y=this.getTileY()+1;
 					this.player.ySmall=0;
+					this.player.reeling=false;
 					this.returning=false;
 					this.exists=false;
 					//this.kill();
@@ -296,6 +297,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.player.y=this.getTileY()-1;
 					this.player.ySmall=0;
+					this.player.reeling=false;
 					this.returning=false;
 					this.exists=false;
 					//this.kill();
@@ -308,6 +310,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.player.x=this.getTileX()+1;
 					this.player.xSmall=0;
+					this.player.reeling=false;
 					this.returning=false;
 					this.exists=false;
 					//this.kill();
@@ -320,6 +323,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.player.x=this.getTileX();
 					this.player.xSmall=0;
+					this.player.reeling=false;
 					this.returning=false;
 					this.exists=false;
 					//this.kill();
@@ -461,6 +465,10 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 		
 					//reel in player!
 					this.returning=true;
+					if(this.exists)
+					{
+						this.player.reeling=true;	
+					}
 		
 				}else{
 					//playSound("arrowhit");

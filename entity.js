@@ -890,6 +890,7 @@ function entity(croom)
 	this.falling=false;
 	this.fallingY=0;
 	this.room=null;
+	this.reeling=false;
 	this.tracker=false;
 	this.tracking=null;
 	this.shells=0;
@@ -3115,7 +3116,7 @@ function entity(croom)
 			{
 				for(var i=0;i<this.room.stairs.length;i++)
 				{
-					if((this.room.stairs[i].x==this.x) && (this.room.stairs[i].y==this.y) &&(!this.room.stairs[i].hidden))
+					if((this.room.stairs[i].x==this.x) && (this.room.stairs[i].y==this.y) &&(!this.room.stairs[i].hidden)&& (!this.reeling))
 					{
 						if(this.room.tiles[this.x][this.y].data==DungeonTileType.UpStair)
 						{
@@ -3616,7 +3617,7 @@ function entity(croom)
 						this.ignoreHoleY=this.y;
 					}
 				}
-			}else if((this.room.isHole(this.x,this.y)) &&(!this.falling) &&(!this.jumping))
+			}else if((this.room.isHole(this.x,this.y)) &&(!this.falling) &&(!this.jumping) && (!this.reeling))
 			{
 				var dontFall=false;
 				if((this.reallyDashing) && (this.ignoreHole>0))
