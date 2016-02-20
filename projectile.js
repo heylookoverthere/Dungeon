@@ -189,6 +189,7 @@ projectile.prototype.draw=function(can)
 
 projectile.prototype.hit=function(obj)
 {
+	if(obj.projPassable) {return true;}
 	if(this.room.z!=obj.room.z)
 	{
 		return false;
@@ -201,7 +202,7 @@ projectile.prototype.hit=function(obj)
 	{
 		return false;
 	}
-	if((this.x < obj.getScreenX()+obj.width) && (this.x+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
+	if((this.x+12 < obj.getScreenX()+obj.width) && (this.x+12+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
 	{
 		return true;
 	}
@@ -392,7 +393,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 	
 	for(var i=0;i<entities.length;i++)
 	{
-		if(this.hit(entities[i]))
+		if((this.hit(entities[i])) && (entities[i].ID!=this.player.ID))
 		{
 			if(this.type==0)
 			{

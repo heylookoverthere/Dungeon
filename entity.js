@@ -59,6 +59,7 @@ function bomb(croom,isSuper)
 	this.sprites.push(Sprite("superbomb1"));
 	this.xv=0;
 	this.yv=0;
+	this.projPassable=true;
 	this.underWater=false;
 	this.xa=0;
 	this.ya=0;
