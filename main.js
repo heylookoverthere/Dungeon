@@ -2997,7 +2997,7 @@ function mainDraw() {
 		}
 		allentities.sort(function(a, b) //todo not this every frame. only when changes. 
 		{
-			if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on))|| ((a.type==ObjectID.Bush) ))
+			/*if((a.type==ObjectID.PotStand) || (a.type==ObjectID.HoldSwitch)|| (a.type==ObjectID.ToggleSwitch)|| ((a.type==ObjectID.HolePlugger) && (a.on))|| ((a.type==ObjectID.Bush) ))
 			{
 				if((b.type==ObjectID.PotStand) || (b.type==ObjectID.HoldSwitch)|| (b.type==ObjectID.ToggleSwitch)|| ((b.type==ObjectID.HolePlugger) && (b.on))|| ((b.type==ObjectID.HolePlugger) ))
 				{
@@ -3011,6 +3011,16 @@ function mainDraw() {
 				{
 					return 0;
 				}
+				return 1;
+			}*/
+			
+			if(a.drawOrder<b.drawOrder)
+			{
+				return -1;
+			}
+			
+			if(a.drawOrder>b.drawOrder)
+			{
 				return 1;
 			}
 			

@@ -943,8 +943,10 @@ function entity(croom)
 	this.going=false;
 	this.pathTrack=0;
 	this.healAmount=0;
+	this.mpHealAmount=0;
 	this.healRate=6;
 	this.healCount=0;
+	this.mpHealCount=0;
 	this.alive=true;
 	this.gotHurt=0;
 	this.deadSprites=new Array();
@@ -1071,6 +1073,19 @@ function entity(croom)
 		if(this.hp>this.maxHp-1) {return;}
 		if(amt==0){ amt=this.maxHp;}
 		this.healAmount=amt;
+		/*playSound("heal");
+		this.hp+=amt;
+		if(this.hp>this.maxHp)
+		{
+			this.hp=this.maxHp;
+		}*/
+	}
+	
+	this.mpHeal=function(amt)
+	{
+		if(this.mp>this.maxMp-1) {return;}
+		if(amt==0){ amt=this.maxMp;}
+		this.mpHealAmount=amt;
 		/*playSound("heal");
 		this.hp+=amt;
 		if(this.hp>this.maxHp)
@@ -1995,7 +2010,8 @@ function entity(croom)
 		{
 			if(this.mp<this.maxMp)
 			{
-				this.recharge(this.maxMp);
+				//this.recharge(this.maxMp);
+				this.mpHeal(this.maxMp);
 				this.removeItem(ObjectID.GreenPotion,1); 
 			}else
 			{
@@ -3456,6 +3472,27 @@ function entity(croom)
 				{
 					this.hp=this.maxHp;
 					this.healAmount=0;
+				}
+			}
+		}
+		if(this.mpHealAmount>4)
+		{
+			this.mpHealCount++;
+			if(this.mpHealCount>this.healRate)
+			{
+				this.mpHealCount=0;
+			
+				this.mpHealAmount-=5;
+				if(this.mpHealAmount<0)
+				{
+					this.mpHealAmount=0;
+				}
+				this.mp+=5;
+				playSound("magrefill");
+				if(this.mp>this.maxMp)
+				{
+					this.mp=this.maxMp;
+					this.mpHealAmount=0;
 				}
 			}
 		}
