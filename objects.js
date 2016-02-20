@@ -225,6 +225,7 @@ function object(oroom) //not a tile, not an enemy
 	this.on=false;
 	this.ctype=0;
 	this.room=oroom;
+	this.flammable=false;
 	this.hurty=false; 
 	this.singular=true;
 	this.pickupable=false;
@@ -287,6 +288,22 @@ function object(oroom) //not a tile, not an enemy
 	this.height=32;
 	this.alwaysWalkable=false;
 
+	this.ignite=function()
+	{
+		if(this.flammable)
+		{
+			this.exists=false;
+			//playSound("melt");
+		}
+		if((this.type==ObjectID.Lamp) && (!this.on))
+		{
+			this.activate();
+			//this.on=true;
+			//playSound();
+		}
+		
+	}
+	
 	this.walkable=function()
 	{
 		if(this.alwaysWalkable)
@@ -378,6 +395,7 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 object.prototype.setup=function(id,par)
 {
 	if(id) {this.type=id;}
+	//this.ignite=function() {return;};
 	if((this.room)&&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 	{
 		this.underWater=true;
@@ -435,6 +453,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activateEdit=this.activate;
 		this.activate(); //oooh that's why it's backwards. 
+		//this.ignite=this.activate();
 	}else if (this.type==ObjectID.Lamp) {
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("lamp"));
@@ -476,7 +495,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activateEdit=this.activate;
 		this.activate(); //oooh that's why it's backwards. 
-		
+		//this.ignite=this.activate();
 	}else if (this.type==ObjectID.Candle) {
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("candle"));
@@ -518,7 +537,7 @@ object.prototype.setup=function(id,par)
 		}
 		this.activateEdit=this.activate;
 		this.activate(); //oooh that's why it's backwards. 
-		
+		//this.ignite=this.activate();
 	}else if (this.type==ObjectID.Sign) {
 		this.sprites=new Array();
 		this.sprites.push( Sprite("sign"));
@@ -1416,7 +1435,7 @@ object.prototype.setup=function(id,par)
 			this.exists=false
 			playSound("shatter");
 		}
-		//this.playerActivate=this.activate;
+		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.KeyBrick) {
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
