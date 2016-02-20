@@ -189,7 +189,7 @@ projectile.prototype.draw=function(can)
 
 projectile.prototype.hit=function(obj)
 {
-	if(obj.projPassable) {return true;}
+	//if(obj.projPassable) {return true;}
 	if(this.room.z!=obj.room.z)
 	{
 		return false;
