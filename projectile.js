@@ -320,9 +320,9 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			}else if(this.player.dir==1)
 			{
 				this.player.x++; //incmove?
-				if(this.player.x>this.getTileX())
+				if(this.player.x>this.getTileX()+1)
 				{
-					this.player.x=this.getTileX();
+					this.player.x=this.getTileX()+1;
 					this.player.xSmall=0;
 					this.player.reeling=false;
 					this.returning=false;
