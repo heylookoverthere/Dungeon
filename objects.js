@@ -1262,6 +1262,9 @@ object.prototype.setup=function(id,par)
 		this.pickupable=true;
 		this.floating=false;
 		this.alwaysWalkable=true;
+		this.hookable=true;
+		this.projPassable=true;
+		this.drawOrder=1;
 		this.usable=true;
 		this.activate=function()
 		{
