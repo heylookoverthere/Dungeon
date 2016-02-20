@@ -1103,7 +1103,7 @@ function room(I) { //room object
 				higgins.setup();
 			}else if(higgins.type==ObjectID.Lamp)
 			{
-				higgins.on=!stringTrue(tempstring[i+5]);
+				higgins.on=stringTrue(tempstring[i+5]);
 				ffset=6;
 				mitly++;
 				higgins.setup();

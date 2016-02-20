@@ -71,6 +71,11 @@ function bomb(croom,isSuper)
 	this.ySmall=0;
 	this.peakXV=2;
 	this.peakYV=2;
+	this.burning=false;
+	this.ignite=function()
+	{
+		this.burning=true;
+	}
 	this.update=function()
 	{
 		if(this.fallingUp>0)

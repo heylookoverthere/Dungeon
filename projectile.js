@@ -455,6 +455,9 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 					//playSound("arrowhit");
 					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
 				}
+			}else if(this.type==ProjTypes.Fireball)
+			{
+				this.room.objects[i].ignite();
 			}else if(this.type==ProjTypes.Hookshot)
 			{
 				/*if(this.room.objects[i].arrowsActivate) //Maybe we will let people activate things with hookshot. but for now it would just confuse things.
