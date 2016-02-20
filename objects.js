@@ -234,6 +234,7 @@ function object(oroom) //not a tile, not an enemy
 	this.returning=false;
 	this.targetedX=false;
 	this.targetedY=false;
+	this.projPassable=false;
 	this.targX=0;
 	this.targY=0;
 	this.homeX=0;
@@ -402,7 +403,7 @@ object.prototype.setup=function(id,par)
 	}
 	if (this.type==ObjectID.TallLamp) {
 		this.aniRate=5;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.projPassable=false;
 	    this.sprites=new Array();
 		this.sprites.push(Sprite("talllamp"));
@@ -1394,7 +1395,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.pokable=true;
 		this.on=true;
 		this.swordActivate=function() {
@@ -1429,7 +1430,7 @@ object.prototype.setup=function(id,par)
 		this.swordActivate=function() {
 			return (miles.reallyDashing);
 		}
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.pokable=true;
 		this.sprites.push(Sprite("crystal2"));
 		this.name="stranger crystal";
@@ -1444,7 +1445,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
 		this.hookable=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.sprites.push(Sprite("keybrick"));
 		this.name="Key Block"; 
 		this.playerActivate=function()
@@ -1525,7 +1526,7 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
 		this.width=96;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.height=32;
 		this.sprites.push(Sprite("bookcase0"));
 		this.topLayer.push(Sprite("bookcase0top"));
@@ -1550,7 +1551,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.alwaysWalkable=false;
 		this.playerUsable=false;
-		this.blockArrows=true;
+		this.projPossible=false;
 		//this.height=64;
 		this.sprites.push(Sprite("statue1"));
 		this.topLayer.push(Sprite("statue1top"));
@@ -1630,7 +1631,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=false;//true;
 		this.on=true;
 		this.grababble=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.floating=false;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("skull"));
@@ -1704,7 +1705,7 @@ object.prototype.setup=function(id,par)
 		this.on=true;
 		this.floating=false;
 		this.grababble=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("rock"));
 		this.sprites.push(Sprite("shatter0"));
@@ -1775,7 +1776,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.floating=false;
 		this.sprites.push(Sprite("rock2"));
 		this.sprites.push(Sprite("shatter0"));
@@ -1834,7 +1835,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=true;
 		this.on=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.floating=false;
 		this.drawOrder=3;
 		this.sprites.push(Sprite("rock2cracked"));
@@ -1971,6 +1972,9 @@ object.prototype.setup=function(id,par)
 				bumj.setup(this.x-2,this.y-2,this.room);
 				bumj.numFrames=7;
 				bumj.type=1;
+				this.hookable=false;
+				this.projPassable=true;
+				this.drawOrder=1;
 				explosions.push(bumj);
 				this.on=false;
 				if(false)//(this.loot)
@@ -2141,7 +2145,7 @@ object.prototype.setup=function(id,par)
 		this.on=true;
 		this.hookable=false;
 		this.arrowsActivate=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.alwaysWalkable=true;
 //		console.log(this.x,this.y);
 		if(this.y==1)
@@ -2282,7 +2286,7 @@ object.prototype.setup=function(id,par)
 		if(this.on)
 		{
 			this.curSprite=0;
-			this.blockArrows=true;
+			this.projPossible=false;
 			this.projPassable=false;
 		}else
 		{
@@ -2299,7 +2303,7 @@ object.prototype.setup=function(id,par)
 			if(this.on)
 			{
 				this.curSprite=0;
-				this.blockArrows=true;
+				this.projPossible=false;
 				this.projPassable=false;
 			}else
 			{
@@ -2317,13 +2321,12 @@ object.prototype.setup=function(id,par)
 		if(this.on)
 		{
 			this.curSprite=0;
-			this.blockArrows=true;
-			this.projPassable=true;
+			this.projPossible=false;
 		}else
 		{
 			this.curSprite=1;
 			this.blockArrows=false;
-			this.projPassable=false;
+			this.projPassable=true;
 		}
 		this.sprites.push(Sprite("redblocker"));
 		this.sprites.push(Sprite("redblockerdown"));
@@ -2334,13 +2337,12 @@ object.prototype.setup=function(id,par)
 			if(this.on)
 			{
 				this.curSprite=0;
-				this.blockArrows=true;
 				this.projPassable=false;
 			}else
 			{
 				this.curSprite=1;
 				this.blockArrows=false;
-				this.projPassable=false;
+				this.projPassable=true;
 			}
 		}
 		this.activateEdit=this.activate;
@@ -2350,7 +2352,7 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("blueorb"));
 	    this.name="Blue orb";
 		this.bombable=true;
-		this.blockArrows=true;
+		this.projPossible=false;
 		this.arrowsActivate=true;
 		this.boomerangActivate=true;
 		this.swordActivate=function(){return true;};
@@ -2384,7 +2386,8 @@ object.prototype.setup=function(id,par)
 	    this.name="Red orb";
 		this.bombable=true;
 		this.hookable=false;
-		this.blockArrows=true;
+		this.projPossible=false;
+		this.projPossible=false;
 		this.arrowsActivate=true;
 		this.boomerangActivate=true;
 		this.swordActivate=function(){return true;};

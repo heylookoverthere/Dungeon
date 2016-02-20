@@ -3726,7 +3726,7 @@ function entity(croom)
 				}
 			}else if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
 			{
-				if(!this.jumping)
+				if((!this.jumping) && (!this.reeling))
 				{
 					this.swimming=true;
 				

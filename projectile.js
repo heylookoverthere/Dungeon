@@ -189,7 +189,9 @@ projectile.prototype.draw=function(can)
 
 projectile.prototype.hit=function(obj)
 {
-	//if(obj.projPassable) {return true;}
+	if(obj.projPassable) {return false;}
+	if(obj.underWater) {return false;} 
+	if(obj.buried) {return false;}
 	if(this.room.z!=obj.room.z)
 	{
 		return false;
@@ -439,7 +441,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.room.objects[i].activate();
 				}
-				if(this.room.objects[i].blockArrows)
+				if(!this.room.objects[i].projPassable) //(this.room.objects[i].blockArrows)
 				{
 					playSound("arrowhit");
 					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
@@ -450,7 +452,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 				{
 					this.room.objects[i].activate(true);
 				}
-				if(this.room.objects[i].blockArrows)
+				if(!this.room.objects[i].projPassable) //|| (this.room.objects[i].blockArrows))
 				{
 					//playSound("arrowhit");
 					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
@@ -474,7 +476,7 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 						this.player.reeling=true;	
 					}
 		
-				}else{
+				}else if(!this.room.objects[i].projPassable){
 					//playSound("arrowhit");
 					this.kill(); //todo, link it to target so it moves with him stuck in him for  abit?
 				}
