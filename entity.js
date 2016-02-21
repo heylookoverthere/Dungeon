@@ -779,6 +779,9 @@ function entity(croom)
 	this.AI=0;
 	this.x=4;
 	this.y=3;
+	this.charged=false;
+	this.chargeStart=0;
+	this.chargeTime=1000;
 	this.ID=dude_count;
 	dude_count++;
 	this.mp=100;
@@ -2963,8 +2966,26 @@ function entity(croom)
 		playSound("unfreeze");
 	}
 	
+	this.spinAttack=function()
+	{
+		console.log("spin attack");
+		playSound("spin");
+		this.charged=false;
+		this.poking=false;
+	}
+	
 	this.update=function()
 	{
+		if((this.poking) && (!this.charged))
+		{
+			var plopl=new Date().getTime();
+			if(plopl-this.chargeStart>this.chargeTime)
+			{
+				this.charged=true;
+				playSound("charge");
+			}
+	
+		}
 		if((this.isPlayer) && (this.busyHook)) {playSound("hooking");}
 		if(this.capon)
 		{

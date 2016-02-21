@@ -3840,10 +3840,18 @@ function mainUpdate()
 			{
 				if(((Xbox) && (controller.pad) && (controller.pad.buttons[0].pressed)) || ((!Xbox) && (controller.pad)&&(controller.buttons[SNESKey.B].checkDown()))  )
 				{
-					miles.poking=true;			
+					if(!miles.poking)
+					{
+						miles.poking=true;
+						miles.chargeStart=new Date().getTime();
+					}
 				}else
 				{
 					miles.poking=false;
+					if(miles.charged)
+					{
+						miles.spinAttack();
+					}
 				}
 			}else if (miles.swimming)
 			{
@@ -4182,10 +4190,18 @@ function mainUpdate()
 			{
 				if(SNESBKey.checkDown())
 				{
-					miles.poking=true;			
+					if(!miles.poking)
+					{
+						miles.poking=true;
+						miles.chargeStart=new Date().getTime();					
+					}
 				}else
 				{
 					miles.poking=false;
+					if(miles.charged)
+					{
+						miles.spinAttack();
+					}
 				}
 			}
 			if(SNESYKey.check())
