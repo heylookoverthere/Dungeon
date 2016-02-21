@@ -952,6 +952,7 @@ function entity(croom)
 	this.mpHealCount=0;
 	this.alive=true;
 	this.gotHurt=0;
+	this.drawOrder=3;
 	this.deadSprites=new Array();
 	this.deadSprites.push(Sprite("profdeath0"));
 	this.deadSprites.push(Sprite("profdeath1"));
