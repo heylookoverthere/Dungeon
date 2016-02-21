@@ -975,6 +975,12 @@ function entity(croom)
 	{
 	 //todo - the forgotten dwarf. 
 	}
+	
+	this.setup=function(dir)
+	{
+		//set up the sprites based on a directory. 
+	}
+	
 	this.kill=function()
 	{
 		if(this.lastWords)
@@ -999,6 +1005,332 @@ function entity(croom)
 	{
 		playSound("grab");
 		this.grabbed=obj;
+	}
+	
+	this.stringify=function()
+	{
+		var snard="";
+		snard+=this.dir;
+		snard+=",";
+		snard+=this.hp;
+		snard+=",";
+		snard+=this.maxHp;
+		snard+=",";
+		snard+=this.keys;
+		snard+=",";
+		snard+=this.AI;
+		snard+=",";
+		snard+=this.x;
+		snard+=",";
+		snard+=this.y;
+		snard+=",";
+		snard+=this.charged;
+		snard+=",";
+		snard+=this.chargeStart;
+		snard+=",";
+		snard+=this.chargeTime;
+		snard+=",";
+		snard+=this.ID=dude_count;
+		snard+=",";
+		snard+=this.mp;
+		snard+=",";
+		snard+=this.maxMp;
+		snard+=",";
+		snard+=this.magicRegen;
+		snard+=",";
+		snard+=this.invincible;
+		snard+=",";
+		snard+=this.invisible;
+		snard+=",";
+		snard+=this.RumHam;
+		snard+=",";
+		snard+=this.frozen;
+		snard+=",";
+		snard+=this.shaking;
+		snard+=",";
+		snard+=this.shakingSince;
+		snard+=",";
+		snard+=this.shakingDur;
+		snard+=",";
+		snard+=this.shakingRight;
+		snard+=",";
+		snard+=this.shakeTrack;
+		snard+=",";
+		snard+=this.baseSpeed;
+		snard+=",";
+		snard+=this.speed;
+		snard+=",";
+		snard+=this.team;
+		snard+=",";
+		snard+=this.entity;
+		snard+=",";
+		snard+=this.pushing;
+		snard+=",";
+		snard+=this.grabbed;
+		snard+=",";
+		snard+=this.swordDamage;
+		snard+=",";
+		snard+=this.enteredX;
+		snard+=",";
+		snard+=this.enteredY;
+		snard+=",";
+		snard+=this.partyPos;
+		snard+=",";
+		snard+=this.partyMember;
+		snard+=",";
+		snard+=this.name;
+		snard+=",";
+		snard+=this.xSmall;
+		snard+=",";
+		snard+=this.ySmall;
+		snard+=",";
+		snard+=this.lastX;
+		snard+=",";
+		snard+=this.dashing;
+		snard+=",";
+		snard+=this.reallyDashing;
+		snard+=",";
+		snard+=this.dashDelay;
+		snard+=",";
+		snard+=this.dashStart;
+		snard+=",";
+		snard+=this.dashSpeed;
+		snard+=",";
+		snard+=this.jumping;
+		snard+=",";
+		snard+=this.jumpTime;
+		snard+=",";
+		snard+=this.jumpStart;
+		snard+=",";
+		snard+=this.jumpPeaked;
+		snard+=",";
+		snard+=this.jumpSpeed;
+		snard+=",";
+		snard+=this.maxBombs;
+		snard+=",";
+		snard+=this.maxArrows;
+		snard+=",";
+		snard+=this.swimming;
+		snard+=",";
+		snard+=this.diving;
+		snard+=",";
+		snard+=this.busyrang;
+		snard+=",";
+		snard+=this.busyHook;
+		snard+=",";
+		snard+=this.lastY;
+		snard+=",";
+		snard+=this.width;
+		snard+=",";
+		snard+=this.height;
+		snard+=",";
+		snard+=this.holdBreath;
+		snard+=",";
+		snard+=this.acting;
+		snard+=",";
+		snard+=this.actfor;
+		snard+=",";
+		snard+=this.action;
+		snard+=",";
+		snard+=this.bunnyHead;
+		snard+=",";
+		snard+=this.shieldSprites;
+		snard+=",";
+		//sword?
+		snard+=this.swinging; 
+		snard+=",";
+		snard+=this.poking; 
+		snard+=",";
+		snard+=this.swingrate;
+		snard+=",";
+		snard+=this.swingtrack;
+		snard+=",";
+		snard+=this.swingcount;
+		snard+=",";
+		snard+=this.ignoreHole;
+		snard+=",";
+		snard+=this.ignoreHoleX;
+		snard+=",";
+		snard+=this.ignoreHoleY;
+		snard+=",";
+		snard+=this.animated;
+		snard+=",";
+		snard+=this.walkTrack;
+		snard+=",";
+		snard+=this.walkFrames;
+		snard+=",";
+		snard+=this.stepping;
+		snard+=",";
+		snard+=this.walkAni;
+		snard+=",";
+		snard+=this.walkAniRate;
+		return snard;
+	
+	}
+	
+	this.rebuild=function(snared)
+	{
+		/*
+		var snard =snared.split(";");
+		//figure this out. 
+		var snard =snared.split(",");
+		snard.splice(0,1);
+		this.dir=snard[0];
+		  
+		 this.hp;
+		  
+		 this.maxHp;
+		  
+		 this.keys;
+		  
+		 this.AI;
+		  
+		 this.x;
+		  
+		 this.y;
+		  
+		 this.charged;
+		  
+		 this.chargeStart;
+		  
+		 this.chargeTime;
+		  
+		 this.ID=dude_count;
+		  
+		 this.mp;
+		  
+		 this.maxMp;
+		  
+		 this.magicRegen;
+		  
+		 this.invincible;
+		  
+		 this.invisible;
+		  
+		 this.RumHam;
+		  
+		 this.frozen;
+		  
+		 this.shaking;
+		  
+		 this.shakingSince;
+		  
+		 this.shakingDur;
+		  
+		 this.shakingRight;
+		  
+		 this.shakeTrack;
+		  
+		 this.baseSpeed;
+		  
+		 this.speed;
+		  
+		 this.team;
+		  
+		 this.entity;
+		  
+		 this.pushing;
+		  
+		 this.grabbed;
+		  
+		 this.swordDamage;
+		  
+		 this.enteredX;
+		  
+		 this.enteredY;
+		  
+		 this.partyPos;
+		  
+		 this.partyMember;
+		  
+		 this.name;
+		  
+		 this.xSmall;
+		  
+		 this.ySmall;
+		  
+		 this.lastX;
+		  
+		 this.dashing;
+		  
+		 this.reallyDashing;
+		  
+		 this.dashDelay;
+		  
+		 this.dashStart;
+		  
+		 this.dashSpeed;
+		  
+		 this.jumping;
+		  
+		 this.jumpTime;
+		  
+		 this.jumpStart;
+		  
+		 this.jumpPeaked;
+		  
+		 this.jumpSpeed;
+		  
+		 this.maxBombs;
+		  
+		 this.maxArrows;
+		  
+		 this.swimming;
+		  
+		 this.diving;
+		  
+		 this.busyrang;
+		  
+		 this.busyHook;
+		  
+		 this.lastY;
+		  
+		 this.width;
+		  
+		 this.height;
+		  
+		 this.holdBreath;
+		  
+		 this.acting;
+		  
+		 this.actfor;
+		  
+		 this.action;
+		  
+		 this.bunnyHead;
+		  
+		 this.shieldSprites;
+		  
+		//sword?
+		 this.swinging; 
+		  
+		 this.poking; 
+		  
+		 this.swingrate;
+		  
+		 this.swingtrack;
+		  
+		 this.swingcount;
+		  
+		 this.ignoreHole;
+		  
+		 this.ignoreHoleX;
+		  
+		 this.ignoreHoleY;
+		  
+		 this.animated;
+		  
+		 this.walkTrack;
+		  
+		 this.walkFrames;
+		  
+		 this.stepping;
+		  
+		 this.walkAni;
+		  
+		 this.walkAniRate;
+		return snard;
+		*/
 	}
 	
 	this.dive=function()
