@@ -1008,33 +1008,6 @@ var holeEdgeSprites=new Array()
 	holeEdgeSprites.push(Sprite("dungeontiles/holeedge3"));
 }
 
-var tileSprite=new Array(39);
-tileSprite[TileType.Grass] = Sprite("grass");
-tileSprite[TileType.Forest] = Sprite("darkgrass"); 
-tileSprite[TileType.Snow] = Sprite("snow"); 
-tileSprite[TileType.Ice] = Sprite("ice"); 
-tileSprite[TileType.IceMountains] = Sprite("icemountain");
-tileSprite[TileType.RedMountains] = Sprite("redmountain");
-tileSprite[TileType.Bridge] = Sprite("road");  
-tileSprite[TileType.Ocean] = Sprite("ocean");
-tileSprite[TileType.Ocean+1] = Sprite("ocean1");
-tileSprite[TileType.Ocean+2] = Sprite("ocean2");
-tileSprite[TileType.Ocean+3] = Sprite("ocean3");
-tileSprite[TileType.Water] = Sprite("water");
-tileSprite[TileType.Water+1] = Sprite("water");
-tileSprite[TileType.Water+2] = Sprite("water");
-tileSprite[TileType.Water+3] = Sprite("water");
-tileSprite[TileType.Lava] = Sprite("lava0");
-tileSprite[TileType.Lava+1] = Sprite("lava1");
-tileSprite[TileType.Lava+2] = Sprite("lava2");
-tileSprite[TileType.Lava+3] = Sprite("lava3");
-tileSprite[TileType.Lava+4] = Sprite("lava4");
-tileSprite[TileType.Mountains] = Sprite("stone");
-tileSprite[TileType.Hills] = Sprite("hills");
-tileSprite[TileType.Swamp] = Sprite("swamp");
-tileSprite[TileType.Plains] = Sprite("dirt");
-tileSprite[TileType.Road] = Sprite("road");
-tileSprite[TileType.Sand] = Sprite("sand");
 
 var dungeonTileSprite=new Array(69);
 dungeonTileSprite[DungeonTileType.Grass] = Sprite("dungeontiles/tallgrass");
@@ -1129,7 +1102,6 @@ tileColors[TileType.Lava] = "#FF0000";
 
 
 
-var selector2 = Sprite("newcursor");
 var titlesprite = Sprite("title");
 //var troopScreensprite = Sprite("troopsscreen");
 var RGB_THRESHOLD=5;
