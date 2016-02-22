@@ -1067,60 +1067,10 @@ var mapkey=new akey("g");
 var saveaskey=new akey("u");
 
 
-var miles= new entity();
-miles.isPlayer=true;
-miles.walkSpeed=6;
-miles.animated=true;
-miles.walkTrack=0;
-miles.walkFrames=7;
-miles.walkSprites[0].push(Sprite("linkup1"));
-miles.walkSprites[0].push(Sprite("linkup2"));
-miles.walkSprites[0].push(Sprite("linkup3"));
-miles.walkSprites[0].push(Sprite("linkup4"));
-miles.walkSprites[0].push(Sprite("linkup5"));
-miles.walkSprites[0].push(Sprite("linkup6"));
-miles.walkSprites[0].push(Sprite("linkup7"));
-miles.walkSprites[1].push(Sprite("linkright1"));
-miles.walkSprites[1].push(Sprite("linkright2"));
-miles.walkSprites[1].push(Sprite("linkright3"));
-miles.walkSprites[1].push(Sprite("linkright4"));
-miles.walkSprites[1].push(Sprite("linkright5"));
-miles.walkSprites[1].push(Sprite("linkright6"));
-miles.walkSprites[1].push(Sprite("linkright7"));
+var miles= new entity(null,true,"entities/link/");
 
-miles.walkSprites[2].push(Sprite("linkdown1"));
-miles.walkSprites[2].push(Sprite("linkdown2"));
-miles.walkSprites[2].push(Sprite("linkdown3"));
-miles.walkSprites[2].push(Sprite("linkdown4"));
-miles.walkSprites[2].push(Sprite("linkdown5"));
-miles.walkSprites[2].push(Sprite("linkdown6"));
-miles.walkSprites[2].push(Sprite("linkdown7"));
-
-miles.walkSprites[3].push(Sprite("linkleft1"));
-miles.walkSprites[3].push(Sprite("linkleft2"));
-miles.walkSprites[3].push(Sprite("linkleft3"));
-miles.walkSprites[3].push(Sprite("linkleft4"));
-miles.walkSprites[3].push(Sprite("linkleft5"));
-miles.walkSprites[3].push(Sprite("linkleft6"));
-miles.walkSprites[3].push(Sprite("linkleft7"));
-miles.sprites=new Array();
-miles.sprites.push(Sprite("linkup"));
-miles.sprites.push(Sprite("linkright"));
-miles.sprites.push(Sprite("linkdown"));
-miles.sprites.push(Sprite("linkleft"));
-miles.sprites.push(Sprite("linkholding"));
-miles.deadSprites=new Array();
-miles.deadSprites.push(Sprite("linkdead1"));
-miles.deadSprites.push(Sprite("linkdead2"));
-miles.deadSprites.push(Sprite("linkdead3"));
-miles.deadinwatersprite=Sprite("deadinwater");
-miles.swimSprites=new Array();
-miles.swimSprites.push(Sprite("swim0"));
-miles.swimSprites.push(Sprite("swim1"));
-miles.swimSprites.push(Sprite("swim2"));
-miles.swimSprites.push(Sprite("swim3"));
 miles.name="Miles";
-miles.mapSprite=Sprite("linkhead");
+
 entities.push(miles);
 theParty.add(miles);
 
@@ -1169,7 +1119,7 @@ function resetMiles()
 	}
 }
 
-var Krugman=new entity();
+var Krugman=new entity(null,false,"entities/krugman/");
 Krugman.AI=0;
 Krugman.x=3;
 Krugman.y=11;
@@ -1229,49 +1179,21 @@ Krugman.chatterBank.push("I really hope we get out of here soon. I need to refil
 Krugman.chatterBank.push("Not a lot of people know this, but I had fourteen confirmed kills in Vietnam. It's not something I talk about a lot. Mostly because I got them in the late 90's.");//, long after such pursuits had gone out of style.")
 
 Krugman.name="Krugman";
-Krugman.sprites=new Array();
-Krugman.sprites.push(Sprite("krugman0"));
-Krugman.sprites.push(Sprite("krugman1"));
-Krugman.sprites.push(Sprite("krugman2"));
-Krugman.sprites.push(Sprite("krugman3"));
-Krugman.swimSprites=new Array();
-Krugman.swimSprites.push(Sprite("krugswim0"));
-Krugman.swimSprites.push(Sprite("krugswim1"));
-Krugman.swimSprites.push(Sprite("krugswim2"));
-Krugman.swimSprites.push(Sprite("krugswim3"));
-Krugman.deadSprites=new Array();
-Krugman.deadSprites.push(Sprite("krugmandeath0"));
-Krugman.deadSprites.push(Sprite("krugmandeath1"));
-Krugman.deadSprites.push(Sprite("krugmandeath2"));
+
 Krugman.room=curDungeon.curRoom();
 entities.push(Krugman);
-Krugman.mapSprite=Sprite("krughead");
-Krugman.mapSprite=Sprite("krughead");
+
 Krugman.autoJoin=true;
 //theParty.add(Krugman);
 
-var nancy=new entity();
+var nancy=new entity(null,false,"entities/professor/");
 nancy.AI=0;
 nancy.x=5;
 nancy.y=6;
 nancy.dir=2;
 nancy.enteredX=nancy.x;
 nancy.enteredY=nancy.y;
-nancy.sprites=new Array();
-nancy.sprites.push(Sprite("oldman0"));
-nancy.sprites.push(Sprite("oldman1"));
-nancy.sprites.push(Sprite("oldman2"));
-nancy.sprites.push(Sprite("oldman3"));
-nancy.deadSprites=new Array();
-nancy.deadSprites.push(Sprite("oldmandeath0"));
-nancy.deadSprites.push(Sprite("oldmandeath1"));
-nancy.deadSprites.push(Sprite("oldmandeath2"));
-nancy.swimSprites=new Array();
-nancy.swimSprites.push(Sprite("oldmanswim0"));
-nancy.swimSprites.push(Sprite("oldmanswim1"));
-nancy.swimSprites.push(Sprite("oldmanswim2"));
-nancy.swimSprites.push(Sprite("oldmanswim3"));
-nancy.mapSprite=Sprite("oldmanhead");
+
 nancy.walkSpeed=6;
 nancy.tracking=miles;
 nancy.canSwim=true; 
@@ -1321,30 +1243,9 @@ entities.push(nancy);
 
 miles.x=9;
 miles.y=12;
-/*miles.equip(legArmorList[Math.floor(Math.random()*legArmorList.length)]);
-miles.equip(chestArmorList[Math.floor(Math.random()*chestArmorList.length)]);
-miles.gun=miles.guns[0];
-miles.torchHand=1;*/
 
-//miles.tileX=221;
-//miles.y=221*tileSize;
-
-//people.push(miles);
 miles.task="wandering aimlessly";
 
-/*var mel=new flame(lights);
-mel.x=9*32;//miles.x;
-mel.y=9*32;//miles.y;
-mel.alive=true;
-fires.push(mel);
-
-var mlel=new flame(lights);
-mlel.x=19*32;
-mlel.type=0;
-mlel.y=9*32;
-mlel.alive=true;
-fires.push(mlel);
-*/
 
 function popQuestion(question)
 {

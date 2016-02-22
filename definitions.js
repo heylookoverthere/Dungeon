@@ -118,10 +118,10 @@ bestshieldSprites.push(Sprite("bestshield2"));
 bestshieldSprites.push(Sprite("bestshield3"));
 
 var magicboomact=new Array()
-magicboomact.push(Sprite("linkupmagicbooma"));
-magicboomact.push(Sprite("linkrightmagicbooma"));
-magicboomact.push(Sprite("linkdownmagicbooma"));
-magicboomact.push(Sprite("linkleftmagicbooma"));
+magicboomact.push(Sprite("entities/link/upmagicbooma"));
+magicboomact.push(Sprite("entities/link/rightmagicbooma"));
+magicboomact.push(Sprite("entities/link/downmagicbooma"));
+magicboomact.push(Sprite("entities/link/leftmagicbooma"));
 
 var Darkness=14;
 
