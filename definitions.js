@@ -494,6 +494,9 @@ objectSprites[215].push(Sprite("plugbrick1"));
 //pickups
 objectSprites[300].push(Sprite("key"));
 objectSprites[301].push(Sprite("triforce"));
+objectSprites[301].push(Sprite("triforce1"));
+objectSprites[301].push(Sprite("triforce2"));
+objectSprites[301].push(Sprite("triforce3"));
 
 
 //upgrades
