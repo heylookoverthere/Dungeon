@@ -1481,7 +1481,7 @@ function drawGUI(can)
 	}else
 	{	can.globalAlpha=1;
 		drawHearts(miles,can);
-		objectSprites[ObjectID.Key].draw(can,-6,58);
+		objectSprites[ObjectID.Key][0].draw(can,-6,58);
 		can.fillText("x"+miles.keys,18,85);
 		moneysprite.draw(can,84,58);
 		can.fillText("x"+miles.money,84+24,85);
@@ -1556,10 +1556,10 @@ function drawGUI(can)
 				can.fillRect(812,9,32,32);
 				if(miles.has[hasID.MasterSword])
 				{
-					objectSprites[ObjectID.MasterSword].draw(can,812,8);
+					objectSprites[ObjectID.MasterSword][0].draw(can,812,8);
 				}else
 				{
-					objectSprites[ObjectID.Sword].draw(can,812,8);
+					objectSprites[ObjectID.Sword][0].draw(can,812,8);
 				}
 			}
 		}else if (Xbox)
@@ -1582,10 +1582,10 @@ function drawGUI(can)
 				can.fillRect(812,9,32,32);
 				if(miles.has[hasID.MasterSword])
 				{
-					objectSprites[ObjectID.MasterSword].draw(can,812,8);
+					objectSprites[ObjectID.MasterSword][0].draw(can,812,8);
 				}else
 				{
-					objectSprites[ObjectID.Sword].draw(can,812,8);
+					objectSprites[ObjectID.Sword][0].draw(can,812,8);
 				}
 			}
 		}else
@@ -1606,10 +1606,10 @@ function drawGUI(can)
 				can.fillRect(812,9,32,32);
 				if(miles.has[hasID.MasterSword])
 				{
-					objectSprites[ObjectID.MasterSword].draw(can,812,8);
+					objectSprites[ObjectID.MasterSword][0].draw(can,812,8);
 				}else
 				{
-					objectSprites[ObjectID.Sword].draw(can,812,8);
+					objectSprites[ObjectID.Sword][0].draw(can,812,8);
 				}
 			}
 			xboxysprite.draw(can,760,60);
@@ -1977,7 +1977,7 @@ function inventoryDraw() {
 	{
 		if(i%2==0)
 		{
-			objectSprites[thelist[i].type].draw(canvas,xFset+100,yFset+75*((i+1)/2)-6+25);
+			objectSprites[thelist[i].type][0].draw(canvas,xFset+100,yFset+75*((i+1)/2)-6+25);
 			canvas.fillText(thelist[i].name,xFset+50,yFset+75*((i+1)/2)-6+79);
 			if((thelist[i].type==ObjectID.Bomb) ||(thelist[i].type==ObjectID.SuperBomb))
 			{
@@ -1993,7 +1993,7 @@ function inventoryDraw() {
 			}
 		}else
 		{
-			objectSprites[thelist[i].type].draw(canvas,xFset+350,yFset+75*((i)/2)-6+25);
+			objectSprites[thelist[i].type][0].draw(canvas,xFset+350,yFset+75*((i)/2)-6+25);
 			canvas.fillText(thelist[i].name,xFset+300,yFset+75*((i)/2)-6+79);
 			if((thelist[i].type==ObjectID.Bomb) ||(thelist[i].type==ObjectID.SuperBomb))
 			{
@@ -2010,21 +2010,21 @@ function inventoryDraw() {
 		}
 	}
 
-	objectSprites[ObjectID.Gold].draw(canvas,607,19);
+	objectSprites[ObjectID.Gold][0].draw(canvas,607,19);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.money+"/"+miles.wallet,637,42);
 		canvas.font = "20pt Calibri";
 	
 	if(miles.shells>0)
 	{
-		objectSprites[ObjectID.Shell].draw(canvas,607,53);
+		objectSprites[ObjectID.Shell][0].draw(canvas,607,53);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.shells,637,75);
 		canvas.font = "20pt Calibri";
 	}
 		if(miles.has[hasID.PendantPower])
 		{
-			objectSprites[ObjectID.PendantPower].draw(canvas,28,yFset+210);
+			objectSprites[ObjectID.PendantPower][0].draw(canvas,28,yFset+210);
 			canvas.font = "10pt Calibri";
 			canvas.fillText("+sword damage",56,yFset+235);
 			canvas.font = "20pt Calibri";
@@ -2034,7 +2034,7 @@ function inventoryDraw() {
 		if(miles.has[hasID.PendantWisdom])
 		{
 		
-			objectSprites[ObjectID.PendantWisdom].draw(canvas,28,yFset+260);
+			objectSprites[ObjectID.PendantWisdom][0].draw(canvas,28,yFset+260);
 			canvas.font = "10pt Calibri";
 			canvas.fillText("Magic regen",57,yFset+285);
 			canvas.font = "20pt Calibri";
@@ -2042,7 +2042,7 @@ function inventoryDraw() {
 		}
 		if(miles.has[hasID.PendantSwiftness])
 		{
-			objectSprites[ObjectID.PendantSwiftness].draw(canvas,28,yFset+310);
+			objectSprites[ObjectID.PendantSwiftness][0].draw(canvas,28,yFset+310);
 			canvas.font = "10pt Calibri";
 			canvas.fillText("Move faster",57,yFset+335);
 			canvas.font = "20pt Calibri";
@@ -2050,7 +2050,7 @@ function inventoryDraw() {
 		if(miles.has[hasID.PendantFour])
 		{
 		
-			objectSprites[ObjectID.PendantFour].draw(canvas,28,yFset+360);
+			objectSprites[ObjectID.PendantFour][0].draw(canvas,28,yFset+360);
 			canvas.font = "10pt Calibri";
 			canvas.fillText("?????",57,yFset+385);
 			canvas.font = "20pt Calibri";
@@ -2058,58 +2058,58 @@ function inventoryDraw() {
 		}
 		if(miles.has[hasID.PendantSwiftness])
 		{
-			objectSprites[ObjectID.PendantFive].draw(canvas,28,yFset+410);
+			objectSprites[ObjectID.PendantFive][0].draw(canvas,28,yFset+410);
 			canvas.font = "10pt Calibri";
 			canvas.fillText("????",57,yFset+435);
 			canvas.font = "20pt Calibri";
 		}
 
-		objectSprites[ObjectID.BluePotion].draw(canvas,xFset+560,yFset+225);
+		objectSprites[ObjectID.BluePotion][0].draw(canvas,xFset+560,yFset+225);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.getItemAmt(ObjectID.BluePotion),xFset+592,yFset+250);
 		canvas.font = "20pt Calibri";
 
-		objectSprites[ObjectID.RedPotion].draw(canvas,xFset+560,yFset+275);
+		objectSprites[ObjectID.RedPotion][0].draw(canvas,xFset+560,yFset+275);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.getItemAmt(ObjectID.RedPotion),xFset+592,yFset+300);
 		canvas.font = "20pt Calibri";
 	
-		objectSprites[ObjectID.GreenPotion].draw(canvas,xFset+620,yFset+225);
+		objectSprites[ObjectID.GreenPotion][0].draw(canvas,xFset+620,yFset+225);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.getItemAmt(ObjectID.GreenPotion),xFset+652,yFset+250);
 		canvas.font = "20pt Calibri";
 
-		objectSprites[ObjectID.PurplePotion].draw(canvas,xFset+620,yFset+275);
+		objectSprites[ObjectID.PurplePotion][0].draw(canvas,xFset+620,yFset+275);
 		canvas.font = "12pt Calibri";
 		canvas.fillText("x"+miles.getItemAmt(ObjectID.PurplePotion),xFset+652,yFset+300);
 		canvas.font = "20pt Calibri";
 	
 		if(miles.has[hasID.BestShield])
 		{
-			objectSprites[ObjectID.BestShield].draw(canvas,xFset+590,yFset+380);
+			objectSprites[ObjectID.BestShield][0].draw(canvas,xFset+590,yFset+380);
 		}else if(miles.has[hasID.BetterShield])
 		{
-			objectSprites[ObjectID.BetterShield].draw(canvas,xFset+590,yFset+380);
+			objectSprites[ObjectID.BetterShield][0].draw(canvas,xFset+590,yFset+380);
 		}else if(miles.has[hasID.Shield])
 		{
-			objectSprites[ObjectID.Shield].draw(canvas,xFset+590,yFset+380);
+			objectSprites[ObjectID.Shield][0].draw(canvas,xFset+590,yFset+380);
 		}
 		
 		if(miles.has[hasID.MasterSword])
 		{
-			objectSprites[ObjectID.MasterSword].draw(canvas,xFset+632,yFset+380);
+			objectSprites[ObjectID.MasterSword][0].draw(canvas,xFset+632,yFset+380);
 		}else if(miles.has[hasID.Sword])
 		{
-			objectSprites[ObjectID.Sword].draw(canvas,xFset+632,yFset+380);
+			objectSprites[ObjectID.Sword][0].draw(canvas,xFset+632,yFset+380);
 		}
 		
 		if(miles.has[hasID.Map])
 		{
-			objectSprites[ObjectID.Map].draw(canvas,xFset+590,yFset+476);
+			objectSprites[ObjectID.Map][0].draw(canvas,xFset+590,yFset+476);
 		}
 		if(miles.has[hasID.Compass])
 		{
-			objectSprites[ObjectID.Compass].draw(canvas,xFset+632,yFset+476);
+			objectSprites[ObjectID.Compass][0].draw(canvas,xFset+632,yFset+476);
 		}
 	
 	//canvas.fillText("14) Bombs set off other bombs: "+OPTIONS.ChainingExplosions,xFset+15,yFset+400-6);
@@ -2812,9 +2812,9 @@ function mainDraw() {
 		}else if(editor.mode==editModes.Objects)
 		{
 			canvas.fillText("Selected: ",18,96);
-			if(objectSprites[editor.objectType])
+			if(objectSprites[editor.objectType][0])
 			{
-				objectSprites[editor.objectType].draw(canvas,110,73);
+				objectSprites[editor.objectType][0].draw(canvas,110,73);
 			}else
 			{
 				console.log("no sprite for "+editor.objectType);
@@ -2824,7 +2824,7 @@ function mainDraw() {
 			canvas.fillText("Selected: ",18,96);
 			if(objectSprites[editor.objectType])
 			{
-				objectSprites[editor.objectType].draw(canvas,110,73);
+				objectSprites[editor.objectType][0].draw(canvas,110,73);
 			}else
 			{
 				console.log("no sprite for "+editor.objectType);
@@ -2834,7 +2834,7 @@ function mainDraw() {
 			canvas.fillText("Selected: ",18,96);
 			if(objectSprites[editor.lootType])
 			{
-				objectSprites[editor.lootType].draw(canvas,110,73);
+				objectSprites[editor.lootType][0].draw(canvas,110,73);
 			}else
 			{
 				console.log("no sprite for "+editor.lootType);

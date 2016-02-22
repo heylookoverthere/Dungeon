@@ -5,7 +5,7 @@ var Object_Count=0;
 var Spikey_Accel=100;
 var Spikey_Vel=7;
 
-var ObjectID={};
+
 var objectName=new Array()
 
 for(var i=0;i<600;i++)
@@ -20,8 +20,8 @@ objectName[3]="Lantern";
 objectName[4]="Hammer";
 objectName[5]="Red Potion";
 objectName[6]="Blue Potion";
-objectName[7]="Purple Potion";
-objectName[8]="Shovel";
+objectName[7]="Green Potion";
+objectName[8]="Purple Potion";
 objectName[9]="Mirror";
 objectName[10]="Boomerang";
 objectName[11]="Hookshot";
@@ -40,7 +40,7 @@ objectName[23]="Cane of Somaria";
 objectName[24]="Magic Cape";
 objectName[25]="Fire Rod";
 objectName[26]="Ice Rod";
-objectName[27]="Green Potion";
+objectName[27]="Shovel";
 objectName[28]="Ocarina";
 objectName[29]="Rum Ham";
 
@@ -111,108 +111,7 @@ objectName[507]="fifty rupees";
 
 //var howManyOfEach={18,16,10,1,7,7} //use this eventually. 
 
-//tools
-ObjectID.Feather=0;
-ObjectID.Bomb=1;
-ObjectID.Bow=2;
-ObjectID.Lantern=3;
-ObjectID.Hammer=4;
-ObjectID.RedPotion=5;
-ObjectID.BluePotion=6;
-ObjectID.PurplePotion=7;
-ObjectID.Shovel=8;
-ObjectID.Mirror=9;
-ObjectID.Boomerang=10;
-ObjectID.Hookshot=11;
-ObjectID.Flippers=12;
-ObjectID.Lens=13;
-ObjectID.Boots=14;
-ObjectID.Glove=15;
-ObjectID.Poo=16;
-ObjectID.Sword=17;
-ObjectID.Mushroom=18;
-ObjectID.Shield=19;
-ObjectID.BetterShield=20;
-ObjectID.BestShield=21;
-ObjectID.MagicBoomerang=22;
-ObjectID.Cane=23;
-ObjectID.Cape=24;
-ObjectID.FireRod=25;
-ObjectID.IceRod=26;
-ObjectID.GreenPotion=27;
-ObjectID.Ocarina=28;
-ObjectID.RumHam=29;
 
-//furniture
-ObjectID.Lamp=100;
-ObjectID.Sign=101;
-ObjectID.Candle=102;
-ObjectID.TallLamp=103;
-ObjectID.ToggleSwitch=104;
-ObjectID.PotStand=105;
-ObjectID.Pot=106;
-ObjectID.Curtains=107;
-ObjectID.Warp=108;
-ObjectID.WallShield=109;
-ObjectID.Table=110;
-ObjectID.Chest=111;
-ObjectID.StumpSeat=112;
-ObjectID.Statue=113;
-ObjectID.Bookcase=114;
-ObjectID.Bones=115;
-ObjectID.SpikeyThing=116;
-ObjectID.EyeSwitch=117;
-ObjectID.HoldSwitch=118;
-
-//obstacle
-ObjectID.Bush=200;
-ObjectID.Peg=201;
-ObjectID.BlueBlocker=202;
-ObjectID.RedBlocker=203;
-ObjectID.BlueOrb=204;
-ObjectID.RedOrb=205;
-ObjectID.Spikes=206;
-ObjectID.Brick=207;
-ObjectID.KeyBrick=208;
-ObjectID.Rock=209;
-ObjectID.Crystal=210;
-ObjectID.Crystal2=211;
-ObjectID.Rock2=212;
-ObjectID.Rock2Cracked=213;
-ObjectID.Skull=214;
-ObjectID.HolePlugger=215;
-
-//pickups
-ObjectID.Key=300;
-ObjectID.Triforce=301;
-
-//upgrades/unlocks
-ObjectID.BombBag=400;
-ObjectID.Quiver=401;
-ObjectID.HeartContainer=402;
-ObjectID.SuperBomb=403; 
-ObjectID.Map=404;
-ObjectID.Compass=405;
-ObjectID.MasterSword=406; 
-ObjectID.SilverArrow=407;
-ObjectID.Wallet=408;
-ObjectID.PendantPower=409; 
-ObjectID.PendantWisdom=410;
-ObjectID.PendantSwiftness=411;
-ObjectID.PendantFour=412;
-ObjectID.PendantFive=413;
-
-//random drops
-ObjectID.Gold=500;
-ObjectID.FiveGold=501;
-ObjectID.FiftyGold=507;
-ObjectID.Arrow=502;
-ObjectID.Heart=503;
-ObjectID.BombRefill=504;
-ObjectID.MagicJar=505;
-ObjectID.SmallJar=506; 
-ObjectID.Shell=508;
-ObjectID.Apple=509; 
 
 
 
@@ -571,9 +470,11 @@ object.prototype.setup=function(id,par)
 			this.text = prompt("Enter Sign Text");
 		}
 	}else if (this.type==ObjectID.Chest) {
-		this.sprites=new Array();
-		this.sprites.push( Sprite("chest"));
-		this.sprites.push( Sprite("chestopen"));
+		//this.sprites=new Array();
+		//this.sprites.push( Sprite("chest"));
+		//this.sprites.push( Sprite("chestopen"));
+		this.sprites=objectSprites[this.type];
+		
 		this.name="Chest";
 		this.frontOnly=true;
 		//this.loot=0;
@@ -1562,6 +1463,7 @@ object.prototype.setup=function(id,par)
 		this.bombable=true;
 		this.grababble=true;
 		this.floating=false;
+		this.shatters=true;
 		this.drawOrder=4;
 		this.activateOnImpact=true;
 		this.sprites.push(Sprite("pot"));
@@ -1630,6 +1532,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.shatters=true;
 		this.grababble=true;
 		this.projPossible=false;
 		this.floating=false;
@@ -1700,13 +1603,14 @@ object.prototype.setup=function(id,par)
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Rock) {
-		this.sprites=new Array();
+		this.shatters=true;
 		this.bombable=false;//true;
 		this.on=true;
 		this.floating=false;
 		this.grababble=true;
 		this.projPossible=false;
 		this.activateOnImpact=true;
+		/*this.sprites=new Array();
 		this.sprites.push(Sprite("rock"));
 		this.sprites.push(Sprite("shatter0"));
 		this.sprites.push(Sprite("shatter1"));
@@ -1715,7 +1619,8 @@ object.prototype.setup=function(id,par)
 		this.sprites.push(Sprite("shatter4"));
 		this.sprites.push(Sprite("shatter5"));
 		this.sprites.push(Sprite("shatter6"));
-		this.sprites.push(Sprite("shatter7"));
+		this.sprites.push(Sprite("shatter7"));*/
+		this.sprites=objectSprites[this.type];
 		this.name="rock";
 		this.activate=function()
 		{
@@ -1776,6 +1681,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=false;//true;
 		this.on=true;
+		this.shatters=true;
 		this.projPossible=false;
 		this.floating=false;
 		this.sprites.push(Sprite("rock2"));
@@ -1835,6 +1741,7 @@ object.prototype.setup=function(id,par)
 		this.sprites=new Array();
 		this.bombable=true;
 		this.on=true;
+		this.shatters=true;
 		this.projPossible=false;
 		this.floating=false;
 		this.drawOrder=3;
@@ -3090,11 +2997,13 @@ object.prototype.setup=function(id,par)
 		}
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Spikes) {
-	    this.sprites=new Array();
+	    /*this.sprites=new Array();
+		this.sprites.push(Sprite("spikes"));
+		this.sprites.push(Sprite("spikeslowered"));*/
+		this.sprites=objectSprites[this.type];
 		this.alwaysWalkable=true;
 		this.on=true;
-		this.sprites.push(Sprite("spikes"));
-		this.sprites.push(Sprite("spikeslowered"));
+		
 	    this.name="Spikes";
 		this.hookable=false;
 		this.projPassable=true;
@@ -4469,7 +4378,7 @@ object.prototype.update=function()
 			//console.log(this.curTopSprite);
 		}
 	}
-	if(((this.type==ObjectID.Pot)||(this.type==ObjectID.Rock)||(this.type==ObjectID.Skull)||(this.type==ObjectID.Rock2Cracked))&&(this.curSprite>0))
+	if((this.shatters)&&(this.curSprite>0))
 	{
 		this.ani++;
 		if(this.ani>this.aniRate)
@@ -4589,7 +4498,7 @@ object.prototype.draw=function(can,cam,xOffh,yOffh,special)
 		can.globalAlpha=1;
 		if ((this.messagebox) && (this.messagebox.exists) && (this.loot>19) && (this.loot!=505) && ((this.loot<400) || (this.loot>407)) )
 		{
-			objectSprites[this.loot].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh-20+this.ySmall-this.fallingY*2);
+			objectSprites[this.loot][0].draw(can, this.x*32+xOffh+this.xSmall, this.y*32+yOffh-20+this.ySmall-this.fallingY*2);
 		}
 	}
 	can.globalAlpha=1;

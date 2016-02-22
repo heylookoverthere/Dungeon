@@ -939,6 +939,10 @@ function entity(croom,play,smatp)
 	this.sprites.push(Sprite(this.spritePath+"1"));
 	this.sprites.push(Sprite(this.spritePath+"2"));
 	this.sprites.push(Sprite(this.spritePath+"3"));
+	if(play)
+	{
+		this.sprites.push(Sprite(this.spritePath+"holding"));
+	}
 	this.swimSprites=new Array();
 	this.swimSprites.push(Sprite(this.spritePath+"swim0"));
 	this.swimSprites.push(Sprite(this.spritePath+"swim1"));
