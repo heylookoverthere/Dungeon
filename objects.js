@@ -307,11 +307,8 @@ object.prototype.setup=function(id,par)
 		this.aniRate=5;
 		this.projPossible=false;
 		this.projPassable=false;
-		this.topLayer.push(Sprite("talllamptopoff"));
-		this.topLayer.push(Sprite("talllamptop0"));
-		this.topLayer.push(Sprite("talllamptop1"));
-		this.topLayer.push(Sprite("talllamptop2"));
-		this.topLayer.push(Sprite("talllamptop3"));
+		this.curSprite=1;
+		this.topLayer=objectTopSprites[this.type];
 		this.curTopSprite=1;
 	    this.name="Tall lamp";
 		this.playerUsable=true;
@@ -1340,6 +1337,7 @@ object.prototype.setup=function(id,par)
 		this.width=96;
 		this.height=64;
 		this.name="Table";
+		this.curSprite=1;
 		this.activate=function() {};
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.StumpSeat) {
@@ -1351,9 +1349,10 @@ object.prototype.setup=function(id,par)
 		this.alwaysWalkable=false;
 		this.playerUsable=true;
 		this.width=96;
+		this.curSprite=1;
 		this.projPossible=false;
 		this.height=32;
-		this.topLayer.push(Sprite("bookcase0top"));
+		this.topLayer=objectTopSprites[this.type];
 		this.name="Bookcase";
 		this.playerActivate=function()
 		{
@@ -1376,8 +1375,9 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=false;
 		this.projPossible=false;
 		//this.height=64;
-		this.topLayer.push(Sprite("statue1top"));
+		this.topLayer=objectTopSprites[this.type];
 		this.name="Statue";
+		this.curSprite=1;
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Pot) {
 		this.bombable=true;

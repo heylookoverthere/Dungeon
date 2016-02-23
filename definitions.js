@@ -361,6 +361,21 @@ function drawHearts(p,can) {
 	
 }
 
+var objectTopSprites=new Array();
+for (var g=0;g<600;g++)
+{
+	objectTopSprites.push(new Array());
+	//objectSprites.push(null);
+}
+objectTopSprites[ObjectID.TallLamp].push(Sprite("talllamptopoff"));
+objectTopSprites[ObjectID.TallLamp].push(Sprite("talllamptop0"));
+objectTopSprites[ObjectID.TallLamp].push(Sprite("talllamptop1"));
+objectTopSprites[ObjectID.TallLamp].push(Sprite("talllamptop2"));
+objectTopSprites[ObjectID.TallLamp].push(Sprite("talllamptop3"));
+
+objectTopSprites[ObjectID.Bookcase].push(Sprite("bookcase0top"));
+
+objectTopSprites[ObjectID.Statue].push(Sprite("statue1top"));
 
 
 var objectSprites=new Array();
@@ -405,6 +420,7 @@ objectSprites[100].push(Sprite("lamp"));
 objectSprites[101].push(Sprite("sign"));;
 objectSprites[102].push(Sprite("candle"));
 objectSprites[103].push(Sprite("talllampsmall"));
+objectSprites[103].push(Sprite("talllamp"));
 objectSprites[104].push(Sprite("switch"));
 objectSprites[104].push(Sprite("switchpressed"));
 objectSprites[105].push(Sprite("potstand"));
@@ -424,11 +440,14 @@ objectSprites[ObjectID.Warp].push(Sprite("warp1"));
 objectSprites[ObjectID.Warp].push(Sprite("warp2"));
 objectSprites[109].push(Sprite("wallshield0"));
 objectSprites[110].push(Sprite("smalltable"));
+objectSprites[110].push(Sprite("table1"));
 objectSprites[111].push(Sprite("chest"));
 objectSprites[ObjectID.Chest].push(Sprite("chestopen"));
 objectSprites[112].push(Sprite("stumpseat"));
 objectSprites[113].push(Sprite("statue"));
+objectSprites[113].push(Sprite("statue1"));
 objectSprites[114].push(Sprite("bookcasesmall"));
+objectSprites[114].push(Sprite("bookcase0"));
 objectSprites[115].push(Sprite("bones"));
 objectSprites[116].push(Sprite("spikey"));
 objectSprites[117].push(Sprite("eyeswitch0"));
