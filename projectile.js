@@ -313,9 +313,9 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			}else if(this.player.dir==2)
 			{
 				this.player.y++; //incmove?
-				if(this.player.y>this.getTileY())
+				if(this.player.y>this.getTileY()-1)
 				{
-					this.player.y=this.getTileY();
+					this.player.y=this.getTileY()-1;
 					this.player.ySmall=0;
 					this.player.reeling=false;
 					this.returning=false;
@@ -339,9 +339,9 @@ projectile.prototype.update=function() //remember, this one's X,Y shoudl not be 
 			}else if(this.player.dir==1)
 			{
 				this.player.x++; //incmove?
-				if(this.player.x>this.getTileX()+1)
+				if(this.player.x>this.getTileX()-1)
 				{
-					this.player.x=this.getTileX()+1;
+					this.player.x=this.getTileX()-1;
 					this.player.xSmall=0;
 					this.player.reeling=false;
 					this.returning=false;
