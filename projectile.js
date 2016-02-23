@@ -204,9 +204,14 @@ projectile.prototype.hit=function(obj)
 	{
 		return false;
 	}
-	if((this.x+12 < obj.getScreenX()+obj.width) && (this.x+12+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
+	
+	//if((this.x+16 < obj.getScreenX()+obj.width) && (this.x+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
+	if((this.getTileX() == obj.x) && (this.getTileY()==obj.y) )
 	{
-		return true;
+		/*if((this.getTileX()!=this.player.x) || (this.getTileY()!=this.player.y))
+		{*/
+			return true;	
+		//}
 	}
 	return false;
 }

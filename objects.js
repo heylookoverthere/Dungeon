@@ -707,6 +707,7 @@ object.prototype.setup=function(id,par)
 		this.name="Shield";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
+		this.hookable=false;
 		this.activate=function()
 		{
 			if(this.buried){return;}
@@ -731,6 +732,7 @@ object.prototype.setup=function(id,par)
 	{
 		this.name="Better shield";
 		this.pickupable=true;
+		this.hookable=false;
 		this.alwaysWalkable=true;
 		this.activate=function()
 		{
@@ -769,6 +771,7 @@ object.prototype.setup=function(id,par)
 		this.name="Mirror shield";
 		this.pickupable=true;
 		this.alwaysWalkable=true;
+		this.hookable=false;
 		this.activate=function()
 		{
 			if(this.buried){return;}

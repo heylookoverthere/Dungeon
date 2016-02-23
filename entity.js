@@ -109,7 +109,7 @@ function bomb(croom,isSuper)
 
 		this.incMove();
 
-		if(this.room.isHole(this.x,this.y))
+		if((this.room.isHole(this.x,this.y)) && (this.fallingY<1))
 		{
 			playSound("itemfall");
 			if((this.room.z>0) && (curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active) && (this.room.tiles[this.x][this.y].data!=DungeonTileType.DeathHole))
