@@ -1048,6 +1048,7 @@ function entity(croom,play,smatp)
 	this.alive=true;
 	this.gotHurt=0;
 	this.drawOrder=5;
+	this.canLavaSwim=false;
 	this.deadSprites=new Array();
 	this.deadSprites.push(Sprite(this.spritePath+"death0"));
 	this.deadSprites.push(Sprite(this.spritePath+"death1"));
@@ -3402,6 +3403,25 @@ function entity(croom,play,smatp)
 		this.poking=false;
 	}
 	
+	this.fallback=function()
+	{
+		if(this.room.isSafe(this.enteredX,this.enteredY,this))
+		{
+			this.x=this.enteredX;
+			this.y=this.enteredY;
+		}else
+		{
+			//change room to last room. position to fallback? 
+			console.log("sith penis");
+			
+		}
+		this.xSmall=0;
+		this.ySmall=0;
+		this.stopDashing();
+		this.lastX=this.x;
+		this.lastY=this.y;
+	}
+	
 	this.update=function()
 	{
 		if((this.poking) && (!this.charged))
@@ -3511,8 +3531,9 @@ function entity(croom,play,smatp)
 			if((this.swimming) && (!this.has[hasID.Flippers]))
 			{
 				this.hurt(20);
-				this.x=this.enteredX;
-				this.y=this.enteredY;
+				//this.x=this.enteredX;
+				//this.y=this.enteredY;
+				this.fallback();
 			}
 		}
 		if(this.dashing)
@@ -4130,13 +4151,7 @@ function entity(croom,play,smatp)
 						//this.fallingY=0;
 						this.hurt(20);
 						//this.falling=false;
-						this.x=this.enteredX;
-						this.y=this.enteredY;
-						this.xSmall=0;
-						this.ySmall=0;
-						this.stopDashing();
-						this.lastX=this.x;
-						this.lastY=this.y;
+						this.fallback();
 						return;
 						//damage and find nearest standable point. 
 					}

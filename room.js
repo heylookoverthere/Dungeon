@@ -1308,6 +1308,23 @@ function room(I) { //room object
 		return false;
 	}
 	
+	I.isSafe=function(x,y,bob)
+	{
+		if(I.tiles[x][y].data==DungeonTileType.DeathHole)
+		{
+			return false;
+		}
+		if((I.tiles[x][y].data>19) && (I.tiles[x][y].data<25) && (!bob.canSwim))
+		{
+			return false;
+		}
+		if((I.tiles[x][y].data>24) && (I.tiles[x][y].data<28) && (!bob.canLavaSwim))
+		{
+			return false;
+		}
+		return true;
+	}
+	
 	I.drawHoleEdges=function(can,cam)
 	{
 		for (i=0;i<ROOM_WIDTH; i++)

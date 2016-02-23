@@ -1,4 +1,4 @@
-var debugInfo=false;
+var debugInfo=true;
 var editMode=false;
 var drawingPath=false;
 var bullshitHack=true; //right click to link doors

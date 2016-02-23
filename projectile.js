@@ -206,7 +206,19 @@ projectile.prototype.hit=function(obj)
 	}
 	
 	//if((this.x+16 < obj.getScreenX()+obj.width) && (this.x+this.width>obj.getScreenX()) && (this.y<obj.getScreenY()+obj.height) && (this.y+this.height>obj.getScreenY()))
-	if((this.getTileX() == obj.x) && (this.getTileY()==obj.y) )
+	if(this.player.dir==1) 
+	{
+		if((this.getTileX() == obj.x) && (this.getTileY()==obj.y-1) )
+		{
+			return true;
+		}
+	}else if(this.player.dir==0) 
+	{
+		if((this.getTileX() == obj.x-1) && (this.getTileY()==obj.y) )
+		{
+			return true;
+		}
+	}else if((this.getTileX() == obj.x) && (this.getTileY()==obj.y) )
 	{
 		/*if((this.getTileX()!=this.player.x) || (this.getTileY()!=this.player.y))
 		{*/
