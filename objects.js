@@ -2148,6 +2148,7 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+		this.playerUsable=false;
 		if(OPTIONS.TouchableOrbs)
 		{
 			this.playerUsable=true
@@ -2182,6 +2183,7 @@ object.prototype.setup=function(id,par)
 			}
 		}
 		this.playerActivate=this.activate;
+		this.playerUsable=false;
 		if(OPTIONS.TouchableOrbs)
 		{
 			this.playerUsable=true;

@@ -213,7 +213,14 @@ function bomb(croom,isSuper)
 					if((this.room.tiles[n][m].data==DungeonTileType.Unstable) || (this.room.tiles[n][m].data==DungeonTileType.ReallyUnstable))
 					{
 						blow=true;
-						this.room.tiles[n][m].data=DungeonTileType.Hole;
+						if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+						{
+							this.room.tiles[n][m].data=DungeonTileType.DeathHole;
+						}else
+						{
+							this.room.tiles[n][m].data=DungeonTileType.Hole;
+						}
+						
 					}
 					if(blow)
 					{
@@ -350,27 +357,57 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
-			this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+			{
+				this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
+			}else
+			{
+				this.room.tiles[this.x][this.y].data=DungeonTileType.Hole;
+			}
 		}
 		if((this.room.tiles[this.x+1][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x+1][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
-			this.room.tiles[this.x+1][this.y].data=DungeonTileType.Hole;
+			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+			{
+				this.room.tiles[this.x+1][this.y].data=DungeonTileType.DeathHole;
+			}else
+			{
+				this.room.tiles[this.x+1][this.y].data=DungeonTileType.Hole;
+			}
 		}
 		if((this.room.tiles[this.x-1][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x-1][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
-			this.room.tiles[this.x-1][this.y].data=DungeonTileType.Hole;
+			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+			{
+				this.room.tiles[this.x-1][this.y].data=DungeonTileType.DeathHole;
+			}else
+			{
+				this.room.tiles[this.x-1][this.y].data=DungeonTileType.Hole;
+			}
 		}
 		if((this.room.tiles[this.x][this.y+1].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y+1].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
-			this.room.tiles[this.x][this.y+1].data=DungeonTileType.Hole;
+			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+			{
+				this.room.tiles[this.x][this.y+1].data=DungeonTileType.DeathHole;
+			}else
+			{
+				this.room.tiles[this.x][this.y+1].data=DungeonTileType.Hole;
+			}
 		}
 		if((this.room.tiles[this.x][this.y-1].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y-1].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
-			this.room.tiles[this.x][this.y-1].data=DungeonTileType.Hole;
+			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
+			{
+				this.room.tiles[this.x][this.y-1].data=DungeonTileType.DeathHole;
+			}else
+			{
+				this.room.tiles[this.x][this.y-1].data=DungeonTileType.Hole;
+			}
 		}			
 		if(blow)
 		{
@@ -1010,7 +1047,7 @@ function entity(croom,play,smatp)
 	this.mpHealCount=0;
 	this.alive=true;
 	this.gotHurt=0;
-	this.drawOrder=3;
+	this.drawOrder=5;
 	this.deadSprites=new Array();
 	this.deadSprites.push(Sprite(this.spritePath+"death0"));
 	this.deadSprites.push(Sprite(this.spritePath+"death1"));
