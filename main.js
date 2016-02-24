@@ -26,6 +26,7 @@ if(checkMobile())
 if(checkXbox())
 {
 	Xbox=true;
+	customConsole=false;
 	OPTIONS.musicOn=true;
 	OPTIONS.LightingOn=false;
 	milesFree=false;
@@ -1360,20 +1361,25 @@ requestAnimationFrame = window.requestAnimationFrame ||
 var canvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
 var canvas = canvasElement.get(0).getContext("2d");
 
-var radarElement = $("<canvas width='" + MAP_WIDTH + "' height='" + MAP_HEIGHT + "'></canvas");
-var radarCanvas = radarElement.get(0).getContext("2d");
+/*var radarElement = $("<canvas width='" + MAP_WIDTH + "' height='" + MAP_HEIGHT + "'></canvas");
+var radarCanvas = radarElement.get(0).getContext("2d");*/
 
-var mapCanvasElement = $("<canvas width='" + MAP_WIDTH + "' height='" + MAP_HEIGHT + "'></canvas");
+var mapCanvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
 var mapCanvas = mapCanvasElement.get(0).getContext("2d");
 
 var concanvasElement = $("<canvas width='" + 290 + "' height='" + CANVAS_HEIGHT + "'></canvas");
 var concanvas = concanvasElement.get(0).getContext("2d");
 
-concanvasElement.css("position", "absolute").css("z-index", "2").css("top", canvasElement.position().top).css("left", CANVAS_WIDTH);
+concanvasElement.css("position", "absolute").css("z-index", "3").css("top", canvasElement.position().top).css("left", CANVAS_WIDTH);
 concanvasElement.appendTo('body');
-canvasElement.css("position", "absolute").css("z-index", "1");
+
+
+mapCanvasElement.css("position", "absolute").css("z-index", "1").css("top", canvasElement.position().top).css("left", canvasElement.position().left);
+mapCanvasElement.appendTo('body');
+
+canvasElement.css("position", "absolute").css("z-index", "2");
 canvasElement.appendTo('body');
-canvasElement.css("position", "absolute").css("z-index", "0").css("top", canvasElement.position().top).css("left", canvasElement.position().left);
+canvasElement.css("position", "absolute").css("z-index", "2").css("top", canvasElement.position().top).css("left", canvasElement.position().left);
 canvasElement.get(0).addEventListener("mousemove", mouseXY, false);
 if(MobileMode)
 {	
@@ -1813,7 +1819,11 @@ function inventoryDraw() {
 	canvas.fillStyle = "black";
 	canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
 
-	curDungeon.draw(canvas,camera);
+	if(floorDirty)
+	{
+		curDungeon.draw(mapCanvas,camera);
+		floorDirty=false;
+	}
 	var xFset=164;
 	var yFset=35;
 	canvas.fillStyle="white";
@@ -2700,8 +2710,12 @@ function mainDraw() {
 	canvas.fillRect(0,0,xOffset,CANVAS_HEIGHT);
 	canvas.fillRect(0,0,CANVAS_WIDTH,yOffset);
 	canvas.fillRect(0,629,CANVAS_WIDTH,136);
-	canvas.fillRect(791,0,107,CANVAS_HEIGHT);
-	curDungeon.draw(canvas,camera);
+	canvas.fillRect(790,0,107,CANVAS_HEIGHT);
+	if(true)//(floorDirty)
+	{
+		curDungeon.draw(canvas,camera);
+		floorDirty=false;
+	}
 	//curRoom.draw(canvas,camera);
 	//curRoom.draw(canvas,camera);
 	if(customConsole)

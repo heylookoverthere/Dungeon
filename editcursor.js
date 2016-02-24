@@ -65,6 +65,7 @@ editCursor.prototype.cycleLoot=function(up)
 
 editCursor.prototype.click=function(m,mx,my)
 {
+	floorDirty=true;
 	if(m)
 	{
 		var tx=Math.floor((mx-xOffset)/32);
