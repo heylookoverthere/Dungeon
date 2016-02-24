@@ -118,6 +118,7 @@ ObjectID.HolePlugger=215;
 ObjectID.Mine=216;
 ObjectID.Cactus=217;
 ObjectID.IceBlock=218;
+ObjectID.StairsUp=219;
 
 //pickups
 ObjectID.Key=300;
@@ -520,6 +521,7 @@ objectSprites[ObjectID.Cactus].push(Sprite("cactus"));
 objectSprites[ObjectID.Mine].push(Sprite("mine"));
 objectSprites[ObjectID.IceBlock].push(Sprite("iceblock"));
 objectSprites[ObjectID.IceBlock].push(Sprite("lavaplatform"));
+objectSprites[ObjectID.StairsUp].push(Sprite("stairsup"));
 //pickups
 objectSprites[300].push(Sprite("key"));
 objectSprites[301].push(Sprite("triforce"));

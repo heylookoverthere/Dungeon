@@ -83,6 +83,7 @@ objectName[215]="Hole Plugger";
 objectName[216]="Mine";
 objectName[217]="Cactus";
 objectName[218]="Ice Block";
+objectName[219]="Stairs";
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -2346,6 +2347,15 @@ object.prototype.setup=function(id,par)
 		this.floating=false;
 		this.drawOrder=2;
 	    this.name="Moveable brick";
+		this.playerUsable=false;
+		this.activate=function(){};
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.StairsUp) {
+	 	this.pushable=false;
+		this.floating=true;
+		this.drawOrder=0;
+	    this.name="Stairs";
+		this.alwaysWalkable=true;
 		this.playerUsable=false;
 		this.activate=function(){};
 		this.playerActivate=this.activate;

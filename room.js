@@ -69,6 +69,7 @@ function staircase(up,clone)
 	this.ctype=2;
 	this.room=null;
 	this.hidden=false;
+	this.torchActivated=false;
 	if(clone){
 		this.x=clone.x;
 		this.y=clone.y;
@@ -79,6 +80,7 @@ function staircase(up,clone)
 	{
 		playSound("secret");
 		this.hidden=!this.hidden;
+		this.torchActivated=false;
 		floorDirty=true;
 	}
 }

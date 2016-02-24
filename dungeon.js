@@ -127,6 +127,9 @@ function dungeon(path)
 						{	
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.lastRoom=miles.room;
+							miles.lastRoomX=miles.lastX;
+							miles.lastRoomY=miles.lastY;
 							miles.room=curDungeon.curRoom();
 							if(miles.grabbed)
 							{
@@ -198,6 +201,9 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.lastRoom=miles.room;
+							miles.lastRoomX=miles.lastX;
+							miles.lastRoomY=miles.lastY;
 							miles.room=curDungeon.curRoom();
 							if(miles.grabbed)
 							{
@@ -269,6 +275,9 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.lastRoom=miles.room;
+							miles.lastRoomX=miles.lastX;
+							miles.lastRoomY=miles.lastY;
 							miles.room=curDungeon.curRoom();
 							if(miles.grabbed)
 							{
@@ -343,6 +352,9 @@ function dungeon(path)
 						{
 							this.curRoom().explored=true;
 							this.curRoom().hidden=false;
+							miles.lastRoom=miles.room;
+							miles.lastRoomX=miles.lastX;
+							miles.lastRoomY=miles.lastY;
 							miles.room=curDungeon.curRoom();
 							if(miles.grabbed)
 							{
@@ -959,6 +971,9 @@ function dungeon(path)
 				if(limited)
 				{
 					playSound("stairsup");
+					miles.lastRoom=miles.room;
+					miles.lastRoomX=miles.lastX;
+					miles.lastRoomY=miles.lastY;
 					miles.room=curDungeon.curRoom();
 					if(miles.grabbed)
 					{
@@ -1006,6 +1021,9 @@ function dungeon(path)
 				if(limited)
 				{
 					playSound("stairsdown");
+					miles.lastRoom=miles.room;
+					miles.lastRoomX=miles.lastX;
+					miles.lastRoomY=miles.lastY;
 					miles.room=curDungeon.curRoom();
 					if(miles.grabbed)
 					{

@@ -958,6 +958,9 @@ function entity(croom,play,smatp)
 	this.falling=false;
 	this.fallingY=0;
 	this.room=null;
+	this.lastRoom=null;
+	this.lastRoomX=0;
+	this.lastRoomY=0;
 	this.reeling=false;
 	this.tracker=false;
 	this.tracking=null;
@@ -3471,7 +3474,14 @@ function entity(croom,play,smatp)
 		}else
 		{
 			//change room to last room. position to fallback? 
-			console.log("sith penis");
+			this.room=this.lastRoom;
+			this.x=this.lastRoomX;
+			this.y=this.lastRoomY;
+			this.xSmall=0;
+			this.YSmall=0;
+			curDungeon.roomX=this.room.x;
+			curDungeon.roomY=this.room.y;
+			curDungeon.roomZ=this.room.z;
 			
 		}
 		this.xSmall=0;
