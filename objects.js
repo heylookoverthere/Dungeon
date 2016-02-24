@@ -1297,6 +1297,27 @@ object.prototype.setup=function(id,par)
 				return false;
 			}
 		}
+	}else if (this.type==ObjectID.Mine) {
+		this.alwaysWalkable=true;
+		//this.playerUsable=true;
+		this.hookable=false;
+		this.projPossible=true;
+		this.name="Land Mine"; 
+		this.drawOrder=2;
+		this.activate=function()
+		{
+			this.exists=false;
+			//spawn bomb and detonate. 
+			var edsbomb=new bomb(this.room,false);
+			edsbomb.x=this.x;
+			edsbomb.y=this.y;
+		
+			edsbomb.exists=true;
+			edsbomb.armed=true;
+			edsbomb.timePlaced=new Date().getTime();
+			this.room.bombs.push(edsbomb);
+			edsbomb.explode();;
+		}
 	}else if (this.type==ObjectID.Bones) {
 		this.alwaysWalkable=true;
 		this.playerUsable=true;
@@ -1382,6 +1403,16 @@ object.prototype.setup=function(id,par)
 		this.topLayer=objectTopSprites[this.type];
 		this.name="Statue";
 		this.curSprite=1;
+		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.Cactus) {
+		this.alwaysWalkable=false;
+		this.playerUsable=false;
+		this.projPossible=false;
+		//this.height=64;
+		this.topLayer=objectTopSprites[this.type];
+		this.name="cactus";
+		this.curSprite=1;
+		this.hurty=true;
 		this.playerActivate=this.activate;
 	}else if (this.type==ObjectID.Pot) {
 		this.bombable=true;

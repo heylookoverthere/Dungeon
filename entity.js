@@ -4081,7 +4081,18 @@ function entity(croom,play,smatp)
 							this.room.objects[i].playerActivate();
 						}
 					}
-				}else if(this.room.objects[i].type==ObjectID.Pot)
+				}else if(this.room.objects[i].type==ObjectID.Mine)
+				{
+					
+					if(this.isPlayer)//OPTION?
+					{
+						if((!this.room.objects[i].on)&&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
+						{
+							this.room.objects[i].activate();
+						}
+					}
+				}
+				else if(this.room.objects[i].type==ObjectID.Pot)
 				{
 					
 					if(this.isPlayer)//OPTION?
