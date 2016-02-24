@@ -2696,8 +2696,11 @@ function optionsDraw() {
 function mainDraw() {
 	//SHOULDN'T
 	canvas.fillStyle = "black";
-	canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-
+	//canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+	canvas.fillRect(0,0,xOffset,CANVAS_HEIGHT);
+	canvas.fillRect(0,0,CANVAS_WIDTH,yOffset);
+	canvas.fillRect(0,629,CANVAS_WIDTH,136);
+	canvas.fillRect(791,0,107,CANVAS_HEIGHT);
 	curDungeon.draw(canvas,camera);
 	//curRoom.draw(canvas,camera);
 	//curRoom.draw(canvas,camera);

@@ -213,6 +213,7 @@ function bomb(croom,isSuper)
 					if((this.room.tiles[n][m].data==DungeonTileType.Unstable) || (this.room.tiles[n][m].data==DungeonTileType.ReallyUnstable))
 					{
 						blow=true;
+						floorDirty=true;
 						if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 						{
 							this.room.tiles[n][m].data=DungeonTileType.DeathHole;
@@ -357,6 +358,7 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
+			floorDirty=true;
 			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 			{
 				this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
@@ -368,6 +370,7 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x+1][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x+1][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
+			floorDirty=true;
 			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 			{
 				this.room.tiles[this.x+1][this.y].data=DungeonTileType.DeathHole;
@@ -379,6 +382,7 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x-1][this.y].data==DungeonTileType.Unstable) || (this.room.tiles[this.x-1][this.y].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
+			floorDirty=true;
 			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 			{
 				this.room.tiles[this.x-1][this.y].data=DungeonTileType.DeathHole;
@@ -390,6 +394,7 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x][this.y+1].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y+1].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
+			floorDirty=true;
 			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 			{
 				this.room.tiles[this.x][this.y+1].data=DungeonTileType.DeathHole;
@@ -401,6 +406,7 @@ function bomb(croom,isSuper)
 		if((this.room.tiles[this.x][this.y-1].data==DungeonTileType.Unstable) || (this.room.tiles[this.x][this.y-1].data==DungeonTileType.ReallyUnstable))
 		{
 			blow=true;
+			floorDirty=true;
 			if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 			{
 				this.room.tiles[this.x][this.y-1].data=DungeonTileType.DeathHole;
@@ -3464,8 +3470,15 @@ function entity(croom,play,smatp)
 		{
 			var juk=this.maxArrows-this.arrows;
 			var juy=this.maxBombs-this.bombs;
-			//this.giveItem(ObjectID.Bow,juy)
-			//this.giveItem(ObjectID.Bombs,juk)
+			var shinex=new object();
+			shinex.type=ObjectID.Bomb;
+			shinex.setup();
+			this.giveItem(shinex,juy)
+			
+			var shinex=new object();
+			shinex.type=ObjectID.Bow;
+			shinex.setup();
+			this.giveItem(shinex,juk)
 			this.bombs=this.maxBombs;
 			this.arrows=this.maxArrows;
 		}
@@ -3998,6 +4011,7 @@ function entity(croom,play,smatp)
 				{
 					playSound("landing");
 					playSound("cavein");
+					floorDirty=true;
 					if((this.room.z<1) || (!curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY].active))
 					{
 						this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;
@@ -4113,6 +4127,7 @@ function entity(croom,play,smatp)
 			{
 				if((this.x!=this.lastX) || (this.y!=this.lastY))
 				{
+					floorDirty=true;
 					if((this.room.z<1) || (!curDungeon.rooms[this.room.z-1][this.room.x][this.room.y].active))
 					{
 						this.room.tiles[this.x][this.y].data=DungeonTileType.DeathHole;

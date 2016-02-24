@@ -80,7 +80,8 @@ objectName[212]="Rock2";
 objectName[213]="Rock2 Cracked";
 objectName[214]="Skull";
 objectName[215]="Hole Plugger";
-
+objectName[216]="Mine";
+objectName[217]="Cactus";
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -3201,6 +3202,7 @@ object.prototype.setup=function(id,par)
 	    this.name="RUM HAM";
 		this.floating=false;
 		this.hookable=false;
+		this.pickupable=true;
 		this.projPassable=true;
 		this.drawOrder=3;
 		bConsoleBox.log("You found the Rum Ham!");
@@ -3221,6 +3223,9 @@ object.prototype.setup=function(id,par)
 				}
 			}
 
+			this.exists=false;
+			
+			
 			miles.has[hasID.MasterSword]=false;
 			miles.has[hasID.BestShield]=false;
 			//miles.has[hasID.Boomerang]=false;

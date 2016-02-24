@@ -63,6 +63,7 @@ function dungeon(path)
 	
 	this.changeRoom=function(dir,limited) 
 	{
+		floorDirty=true;
 		this.busyrang=false;
 		for(var i=0;i<miles.projectiles.length;i++)
 		{
@@ -916,6 +917,7 @@ function dungeon(path)
 	
 	this.changeFloor=function(up,limited,aplayer)
 	{
+		floorDirty=true;
 		this.busyrang=false;
 		for(var i=0;i<miles.projectiles.length;i++)
 		{
