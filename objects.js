@@ -82,6 +82,7 @@ objectName[214]="Skull";
 objectName[215]="Hole Plugger";
 objectName[216]="Mine";
 objectName[217]="Cactus";
+objectName[218]="Ice Block";
 
 objectName[300]="Small key";
 objectName[301]="Triforce";
@@ -190,7 +191,7 @@ function object(oroom) //not a tile, not an enemy
 	this.width=32;
 	this.height=32;
 	this.alwaysWalkable=false;
-
+	this.canLavaSwim=false;
 	this.ignite=function()
 	{
 		if(this.flammable)
@@ -2348,6 +2349,28 @@ object.prototype.setup=function(id,par)
 		this.playerUsable=false;
 		this.activate=function(){};
 		this.playerActivate=this.activate;
+	}else if (this.type==ObjectID.IceBlock) {
+	 	this.pushable=true;
+		this.floating=false;
+		this.drawOrder=2;
+		this.canLavaSwim=true;
+	    this.name="Ice Block";
+		this.flammable=true;
+		this.playerUsable=false;
+		this.activate=function()
+		{
+			this.curSprite=1;
+			this.exists=false;
+			this.xSmall=0;
+			this.ySmall=0;
+			this.room.tiles[this.x][this.y].data=DungeonTileType.FloorEighteen;
+			floorDirty=true; 
+			this.alwaysWalkable=true;
+			this.pushable=false;
+			this.drawOrder=0;
+			//playSound("sizzle");
+		};
+		this.playerActivate=function(){};
 	}else if (this.type==ObjectID.HolePlugger) {
 		this.pushable=true;
 		this.floating=true;
@@ -3795,7 +3818,7 @@ object.prototype.incMove=function()
 			}
 		}
 	}
-	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 	{
 		this.underWater=true;
 	}
@@ -3925,6 +3948,10 @@ object.prototype.update=function()
 	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{
 		this.flame.update();
+	}
+	if((this.type==ObjectID.IceBlock) && (this.room.tiles[this.x][this.y].data>23) && (this.room.tiles[this.x][this.y].data<28))
+	{
+		this.activate();
 	}
 	if(this.type==ObjectID.HoldSwitch) 
 	{

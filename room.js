@@ -840,6 +840,20 @@ function room(I) { //room object
 		{
 			return true;
 		}
+		if(((aPlayer.canLavaSwim)||(aPlayer.jumping)) && ((I.tiles[x][y].data>23) && (I.tiles[x][y].data<28)))
+		{
+			return true;
+		}/*else if((I.tiles[x][y].data>23) && (I.tiles[x][y].data<28))
+		{
+			for(var i=0;i<I.objects.length;i++)
+			{
+				if((I.objects[i].type==ObjectID.IceBlock) && (I.objects[i].x==x)&& (I.objects[i].y==y))
+				{
+					return true;
+				}
+			}
+			
+		}*/
 			//Serously wtf was I thinking with this. This is insane. 
 			if(((I.tiles[x][y].data==DungeonTileType.FloorEighteen) ||I.tiles[x][y].data==DungeonTileType.FloorFifteen)||(I.tiles[x][y].data==DungeonTileType.FloorNinteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSixteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeventeen)||(I.tiles[x][y].data==DungeonTileType.FloorTwelve) ||(I.tiles[x][y].data==DungeonTileType.FloorThirteen) ||(I.tiles[x][y].data==DungeonTileType.FloorFourteen) ||(I.tiles[x][y].data==DungeonTileType.FloorSeven) ||(I.tiles[x][y].data==DungeonTileType.FloorEight) ||(I.tiles[x][y].data==DungeonTileType.FloorNine) ||(I.tiles[x][y].data==DungeonTileType.FloorTen) ||(I.tiles[x][y].data==DungeonTileType.FloorEleven)|| (I.tiles[x][y].data==DungeonTileType.FloorFour) ||(I.tiles[x][y].data==DungeonTileType.FloorFive) ||(I.tiles[x][y].data==DungeonTileType.FloorSix) ||(I.tiles[x][y].data==DungeonTileType.FloorThree) ||(I.tiles[x][y].data==DungeonTileType.FloorTwo) ||(I.tiles[x][y].data==DungeonTileType.FloorOne) ||(I.tiles[x][y].data==DungeonTileType.GreenFloor) ||(I.tiles[x][y].data==DungeonTileType.UpStair)||(I.tiles[x][y].data==DungeonTileType.DownStair) ||(I.tiles[x][y].data==DungeonTileType.Unstable) ||(I.tiles[x][y].data==DungeonTileType.ReallyUnstable) ||(I.tiles[x][y].data==DungeonTileType.DeathHole) ||(I.tiles[x][y].data==DungeonTileType.GrassHole)||((I.tiles[x][y].data==DungeonTileType.Hole) && (!avoidHoles)) ||(I.tiles[x][y].data==DungeonTileType.Grass)||(I.tiles[x][y].data==DungeonTileType.Sand) ||(I.tiles[x][y].data==DungeonTileType.Ice)||(I.tiles[x][y].data==DungeonTileType.CutGrass))
 			{

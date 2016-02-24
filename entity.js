@@ -805,7 +805,7 @@ bomb.prototype.incMove=function()
 			//return false;
 		}
 	}
-	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 	{
 		this.underWater=true;
 	}
@@ -2212,7 +2212,60 @@ function entity(croom,play,smatp)
 		{
 			gx--;
 		}
-		makeObject(gx,gy,this.room,ObjectID.Brick);
+		var plunt=null;
+		for(var i=0;i<this.room.objects.length;i++)
+		{
+			if((this.room.objects[i].x==gx) && (this.room.objects[i].y==gy) && (this.room.objects[i].type==ObjectID.Brick))
+			{
+				plunt=this.room.objects[i];
+			}
+		}
+		if(plunt)
+		{
+			plunt.exists=false;
+			var ang=0;
+			var poot=new projectile(miles);
+			poot.type=ProjTypes.Fireball;
+			poot.exists=true; 
+			poot.angle=ang;
+			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+			poot.setup(poot.type);
+			miles.projectiles.push(poot);
+			
+			var ang=90;
+			var poot=new projectile(miles);
+			poot.type=ProjTypes.Fireball;
+			poot.exists=true; 
+			poot.angle=ang;
+			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+			poot.setup(poot.type);
+			miles.projectiles.push(poot);
+			
+			var ang=180;
+			var poot=new projectile(miles);
+			poot.type=ProjTypes.Fireball;
+			poot.exists=true; 
+			poot.angle=ang;
+			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+			poot.setup(poot.type);
+			miles.projectiles.push(poot);
+			
+			var ang=270;
+			var poot=new projectile(miles);
+			poot.type=ProjTypes.Fireball;
+			poot.exists=true; 
+			poot.angle=ang;
+			poot.xv=-Math.cos((Math.PI / 180)*Math.floor(ang));
+			poot.yv=-Math.sin((Math.PI / 180)*Math.floor(ang));
+			poot.setup(poot.type);
+			miles.projectiles.push(poot);
+		}else
+		{
+			makeObject(gx,gy,this.room,ObjectID.Brick);
+		}
 	}
 	
 	this.useItem=function(secondary)
@@ -4248,10 +4301,12 @@ function entity(croom,play,smatp)
 						this.hurt(20);
 						this.x=this.enteredX;
 						this.y=this.enteredY;
+						this.lastX=this.x;
+						this.lastY=this.y;
 					}
 					//this.room=curDungeon.rooms[curDungeon.roomZ-1][curDungeon.roomX][curDungeon.roomY];
 				}
-			}else if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+			}else if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 			{
 				if((!this.jumping) && (!this.reeling))
 				{
@@ -4260,6 +4315,19 @@ function entity(croom,play,smatp)
 				}
 			}
 		}
+		
+		if((this.room.tiles[this.x][this.y].data>23) && (this.room.tiles[this.x][this.y].data<28))
+		{
+			if((!this.jumping) && (!this.reeling) && (!this.canLavaSwim))
+			{
+				this.hurt(20);
+				this.x=this.enteredX;
+				this.y=this.enteredY;
+				this.lastX=this.x;
+				this.lastY=this.y;
+			}
+		}
+		
 		this.pushing=false;
 		if((this.isPlayer) && (!this.grabbed) && (!this.swimming) && (!this.dashing)&& (!this.poking)&& (!this.swinging))
 		{

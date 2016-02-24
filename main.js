@@ -1350,13 +1350,13 @@ requestAnimationFrame = window.requestAnimationFrame ||
                         setTimeout; 
 
 
-var canvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
+var canvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT+ "'></canvas");
 var canvas = canvasElement.get(0).getContext("2d");
 
 /*var radarElement = $("<canvas width='" + MAP_WIDTH + "' height='" + MAP_HEIGHT + "'></canvas");
 var radarCanvas = radarElement.get(0).getContext("2d");*/
 
-var mapCanvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT + "'></canvas");
+var mapCanvasElement = $("<canvas width='" + CANVAS_WIDTH + "' height='" + CANVAS_HEIGHT  + "'></canvas");
 var mapCanvas = mapCanvasElement.get(0).getContext("2d");
 
 var concanvasElement = $("<canvas width='" + 290 + "' height='" + CANVAS_HEIGHT + "'></canvas");
@@ -2708,6 +2708,7 @@ function mainDraw() {
 		curDungeon.draw(canvas,camera);
 		floorDirty=false;
 	}
+
 	//curRoom.draw(canvas,camera);
 	//curRoom.draw(canvas,camera);
 	if(customConsole)
