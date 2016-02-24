@@ -1327,15 +1327,7 @@ function popQuestion(question)
 }
 
 
-function allPoint(guy)
-{
-	for (var i=1;i<people.length;i++)
-	{
-		people[i].stopGesturing();
-		people[i].doGesture(Math.floor(Math.random()*6),50000,miles);
-		//console.log(":yar:");
-	}
-}
+
 
 //camera.center(miles);
 
@@ -1453,7 +1445,7 @@ function drawGUI(can)
 		can.fillStyle="white";
 		can.fillRect(2,2,228,68);
 		can.fillStyle="blue";
-		canvas.fillRect(6,6,221,60);
+		can.fillRect(6,6,221,60);
 		can.fillStyle="yellow";
 		can.fillText(curDungeon.name + " "+curDungeon.numRooms+" rooms",8,22);
 		can.fillText("Floor: "+curDungeon.roomZ+"/"+(curDungeon.floors-1),8,44);
@@ -1501,7 +1493,7 @@ function drawGUI(can)
 		can.globalAlpha=0.75;
 		can.fillRect(4,128,138,14);
 		can.fillStyle="black";
-		canvas.fillRect(8,130,130,10);
+		can.fillRect(8,130,130,10);
 		can.fillStyle="green";
 		var percent=miles.mp/miles.maxMp*130;
 		canvas.fillRect(8,130,percent,10);

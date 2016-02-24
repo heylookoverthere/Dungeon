@@ -3198,7 +3198,7 @@ object.prototype.setup=function(id,par)
 	}
 	else if (this.type==ObjectID.RumHam) {
 		this.alwaysWalkable=true;
-		playSound("chant");
+		
 	    this.name="RUM HAM";
 		this.floating=false;
 		this.hookable=false;
@@ -3209,6 +3209,7 @@ object.prototype.setup=function(id,par)
 		//miles.holding=this.sprites[0];
 		this.activate=function()
 		{
+			playSound("chant");
 			miles.RumHam=true;
 			miles.equippedTrack=0;
 			miles.equippedTrack2=0;

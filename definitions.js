@@ -347,7 +347,7 @@ function drawHearts(p,can) {
 	{
 		if(h<7)
 		{
-			heartsprite.draw(canvas,12+h*16+h*3, 24);
+			heartsprite.draw(can,12+h*16+h*3, 24);
 		}else
 		{
 			heartsprite.draw(can,12+(h-8)*16+h*3, 39);
@@ -356,7 +356,7 @@ function drawHearts(p,can) {
     {
 		if(h<7)
 		{
-			halfheartsprite.draw(canvas,12+h*16+h*3, 24);
+			halfheartsprite.draw(can,12+h*16+h*3, 24);
 		}else
 		{
 			halfheartsprite.draw(can,12+(h-8)*16+h*3, 39);
