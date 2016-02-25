@@ -102,6 +102,7 @@ objectName[410]="Pendant of Wisdom";
 objectName[411]="Pendant of Swiftness";
 objectName[412]="Pendant of ????";
 objectName[413]="Pendant of ????";
+objectName[414]="Pendant of ????";
 
 objectName[500]="a rupee";
 objectName[501]="five rupees";
@@ -686,6 +687,27 @@ object.prototype.setup=function(id,par)
 		}
 		this.playerActivate=this.activate;
 	}else if(this.type==ObjectID.PendantFive)
+	{
+		this.name="Pendant of ????";
+		this.pickupable=true;
+		this.alwaysWalkable=true;
+		this.hookable=false;
+		this.projPassable=true;
+		this.drawOrder=3;
+		this.activate=function()
+		{
+			if(this.buried){return;}
+						
+			playSound("itemfanfare");
+			bConsoleBox.log("You found the Pendant of ????!");
+			btext="You found the Pendant of ????!";
+			//miles.baseSpeed=6;
+			miles.holding=this.sprites[0];
+			miles.has[hasID.PendantFive]=true;
+			this.exists=false;
+		}
+		this.playerActivate=this.activate;
+	}else if(this.type==ObjectID.PendantSix)
 	{
 		this.name="Pendant of ????";
 		this.pickupable=true;

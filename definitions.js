@@ -139,6 +139,7 @@ ObjectID.PendantWisdom=410;
 ObjectID.PendantSwiftness=411;
 ObjectID.PendantFour=412;
 ObjectID.PendantFive=413;
+ObjectID.PendantSix=414;
 
 //random drops
 ObjectID.Gold=500;
@@ -545,6 +546,7 @@ objectSprites[410].push(Sprite("pendantgreen"));
 objectSprites[411].push(Sprite("pendantblue"));
 objectSprites[412].push(Sprite("pendantyellow"));
 objectSprites[413].push(Sprite("pendantpurple"));
+objectSprites[414].push(Sprite("pendantpearl"));
 //drops
 objectSprites[500].push(Sprite("rupee"));
 objectSprites[501].push(Sprite("tenrupee"));
