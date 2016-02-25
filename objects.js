@@ -281,7 +281,7 @@ object.prototype.move=function(x,y) //brings along what is needed (like the flam
 	this.xSmall=0;
 	this.ySmall=0;
 	this.underWater=false;
-	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 	{
 		this.underWater=true;
 	}
@@ -304,7 +304,7 @@ object.prototype.setup=function(id,par)
 	if(id) {this.type=id;}
 	//this.ignite=function() {return;};
 	this.sprites=objectSprites[this.type];
-	if((this.room)&&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<25))
+	if((this.room)&&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 	{
 		this.underWater=true;
 	}
@@ -2754,12 +2754,12 @@ object.prototype.setup=function(id,par)
 			if(!miles.has[hasID.Hookshot])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found the Hookshot! Don't get excited.");
+				bConsoleBox.log("You found the Hookshot! Use it to cross large gaps.");
 				miles.holding=this.sprites[0];
 			}else
 			{
 				playSound("item");
-				bConsoleBox.log("You don't really need another useless hookshot.");
+				bConsoleBox.log("You don't really need another hookshot.");
 			}
 			this.exists=false;
 			miles.has[hasID.Hookshot]=true;
@@ -2780,7 +2780,7 @@ object.prototype.setup=function(id,par)
 			if(!miles.hasItem[ObjectID.Ocarina])
 			{
 				playSound("itemfanfare");
-				bConsoleBox.log("You found an Ocarina!");
+				bConsoleBox.log("You found an Ocarina! Play it to reset any room.");
 				miles.holding=this.sprites[0];
 			}else
 			{
@@ -3861,9 +3861,14 @@ object.prototype.incMove=function()
 			}
 		}
 	}
-	if((this.fallingY<1) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
+	if((this.fallingY<1) && (!this.floating) &&(this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
 	{
 		this.underWater=true;
+	}
+	if((this.fallingY<1) && (!this.floating)&& (this.type!=ObjectID.IceBlock) &&(this.room.tiles[this.x][this.y].data>23) && (this.room.tiles[this.x][this.y].data<28))
+	{
+		this.exists=false;
+		playSound("burn");
 	}
 	if(this.flame)
 	{
@@ -3930,7 +3935,7 @@ object.prototype.update=function()
 		}
 		if(this.fallingY<1)
 		{
-			if(this.type!=ObjectID.SpikeyThing)
+			if((this.type!=ObjectID.SpikeyThing) && (this.type!=ObjectID.Cactus))
 			{
 				this.hurty=false;
 			}
@@ -4007,6 +4012,11 @@ object.prototype.update=function()
 		this.ySmall=0;
 		this.drawOrder=0;
 		this.room.tiles[this.x][this.y].data=DungeonTileType.GreenFloor;
+	}
+	if((this.fallingY<1) && (!this.floating)&& (this.type!=ObjectID.IceBlock) &&(this.room.tiles[this.x][this.y].data>23) && (this.room.tiles[this.x][this.y].data<28))
+	{
+		this.exists=false;
+		playSound("burn");
 	}
 	if(((this.type==ObjectID.Lamp) || (this.type==ObjectID.TallLamp))&&(this.on))
 	{

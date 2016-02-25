@@ -1342,7 +1342,7 @@ function room(I) { //room object
 		{
 			return false;
 		}
-		if((I.tiles[x][y].data>19) && (I.tiles[x][y].data<25) && (!bob.canSwim))
+		if((I.tiles[x][y].data>19) && (I.tiles[x][y].data<24) && (!bob.canSwim))
 		{
 			return false;
 		}

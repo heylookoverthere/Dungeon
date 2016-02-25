@@ -826,6 +826,9 @@ function entity(croom,play,smatp)
 	{
 		smatp="entities/professor/";
 	}
+	this.playingSince=0;
+	this.playingTime=500;
+	this.playingFlute=false;
 	this.spritePath=smatp;
 	this.hp=100;
 	this.maxHp=100;
@@ -870,9 +873,9 @@ function entity(croom,play,smatp)
 	this.reallyDashing=false;
 	this.dashDelay=1000;
 	this.dashStart=0;
-	this.dashSpeed=8;
+	this.dashSpeed=12;
 	this.jumping=false;
-	this.jumpTime=300;
+	this.jumpTime=175;
 	this.jumpStart=0;
 	this.jumpPeaked=false;
 	this.jumpSpeed=2;
@@ -2283,6 +2286,17 @@ function entity(croom,play,smatp)
 		{
 			this.placeBomb();
 			this.removeItem(ObjectID.Bomb,1);
+		}else if(this.getEquipped(secondary)==ObjectID.Ocarina)
+		{
+			playSound("flute");
+			this.room.load("dungeons/"+curDungeon.name+"/floor"+curDungeon.roomZ+"/");
+			this.room.loadObjects("dungeons/"+curDungeon.name+"/floor"+curDungeon.roomZ+"/");
+			this.playingFlue=true;
+			this.playingSince=new Date().getTime();
+			this.x=this.enteredX;
+			this.y=this.enteredY;
+			this.xSmall=0;
+			this.ySmall=0;
 		}else if(this.getEquipped(secondary)==ObjectID.Feather)
 		{
 			this.jump();
@@ -3496,6 +3510,14 @@ function entity(croom,play,smatp)
 	
 	this.update=function()
 	{
+		if(this.playingFlute)
+		{
+			var plopl=new Date().getTime();
+			if(plopl-this.playingSince>this.fluteTime)
+			{
+				this.playingFlue=false;
+			}
+		}
 		if((this.poking) && (!this.charged))
 		{
 			var plopl=new Date().getTime();
@@ -4352,6 +4374,8 @@ function entity(croom,play,smatp)
 				this.hurt(20);
 				this.x=this.enteredX;
 				this.y=this.enteredY;
+				this.stopDashing();
+				
 				this.lastX=this.x;
 				this.lastY=this.y;
 			}
