@@ -3701,6 +3701,16 @@ function entity(croom,play,smatp)
 						}
 					}
 				}
+				for(var i=0;i<this.room.objects.length;i++)
+				{
+					if((this.room.objects[i].type==ObjectID.StairsUp) && (this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y) &&(!this.room.objects[i].hidden)&& (!this.reeling))
+					{
+						this.lastX=this.x;
+						this.lastY=this.y;
+						curDungeon.changeFloor(true,true,this);
+						break;
+					}
+				}
 			}
 			for(var i=0;i<this.room.exits.length;i++)
 			{

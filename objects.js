@@ -143,6 +143,7 @@ function object(oroom) //not a tile, not an enemy
 	this.targY=0;
 	this.homeX=0;
 	this.homeY=0;
+	this.torchActivate=false;
 	this.pushable=false;
 	this.floating=true; 
 	this.persistTime=30;
@@ -3874,7 +3875,27 @@ object.prototype.update=function()
 	}else if(this.fallingY>0)
 	{
 		this.fallingY-=4;
-		
+		if((this.type==ObjectID.StairsUp) && (this.hidden)&& (this.torchActivate))
+		{
+			var numyl=0;
+			var numisl=0;
+			for(var i=0;i<this.room.objects.length;i++)
+			{
+				
+				if((this.room.objects[i].type==ObjectID.Lamp) || (this.room.objects[i].type==ObjectID.TallLamp) || (this.room.objects[i].type==ObjectID.Candle))
+				{
+					numyl++;
+					if(this.room.objects[i].on)
+					{
+						numisl++;
+					}
+				}
+			}
+			if(numisl>numyl-1)
+			{
+				this.activate();
+			}
+		}
 		if(this.fallingY<1)
 		{
 			if(this.type!=ObjectID.SpikeyThing)
