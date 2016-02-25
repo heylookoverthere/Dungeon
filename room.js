@@ -944,13 +944,13 @@ function room(I) { //room object
 		});  
 		
 	}
-	I.loadObjects=function(path)
+	I.loadObjects=function(path,ignoreChests)
 	{
 		
 		var smuth=path+I.name+".obj";
 		$.get(smuth, function(data) 
 		{ 
-			I.buildLoadedObjects("whatever",data); 
+			I.buildLoadedObjects("whatever",data,ignoreChests); 
 			bConsoleBox.log("Loaded "+smuth); 
 			
 		});  
@@ -1099,14 +1099,30 @@ function room(I) { //room object
 		I.buildMapFromLoadedTiles(name, hempstring);
     };
 	
-	I.buildLoadedObjects = function(name, hempstring) {
+	I.buildLoadedObjects = function(name, hempstring, ignoreChests) {
 		tempstring=hempstring.split(";");
-		I.objects=new Array(); //get first bit of data, that's the number of objects. then loop that many times loading each objects x,y,type
-		var numo =Math.floor(tempstring[0]);
+		if(ignoreChests)
+		{
+			var snood=new Array();
+			for(var i=0;i<I.objects.length;i++)
+			{
+				if(I.objects[i].type==ObjectID.Chest)
+				{
+					snood.push(I.objects[i]);
+				}
+			}
+		}
+		I.objects=new Array(); 
+		if(ignoreChests)
+		{
+			I.objects=snood;
+		}
+		var numo =Math.floor(tempstring[0]);//get first bit of data, that's the number of objects. then loop that many times loading each objects x,y,type
 		var ffset=5;
 		var mitly=0;
 		for(var i=1;i<numo*5+mitly;i+=ffset)
 		{
+			var chestFlag=false;
 			ffset=5;
 			var higgins=new object(I);
 			higgins.x=Math.floor(tempstring[i]);
@@ -1125,10 +1141,21 @@ function room(I) { //room object
 				higgins.setup(ObjectID.Sign,higgins.text);
 			}else if(higgins.type==ObjectID.Chest)
 			{
-				higgins.loot=Math.floor(tempstring[i+5]);
-				ffset=6;
-				mitly++;
-				higgins.setup();
+				if(!ignoreChests)
+				{
+					higgins.loot=Math.floor(tempstring[i+5]);
+					ffset=6;
+					mitly++;
+					higgins.setup();
+				}else
+				{
+					higgins.loot=Math.floor(tempstring[i+5]);
+					ffset=6;
+					mitly++;
+					higgins.setup();
+					chestFlag=true;
+				}
+				
 			}else if(higgins.type==ObjectID.Lamp)
 			{
 				higgins.on=!stringTrue(tempstring[i+5]);
@@ -1174,8 +1201,13 @@ function room(I) { //room object
 			{
 				higgins.setup();
 			}
+			if((ignoreChests) && (chestFlag))
+			{
 			
-			I.objects.push(higgins);
+			}else
+			{
+				I.objects.push(higgins);
+			}
 		}
 		I.objects.sort(function(a, b) //todo not this every frame. only when changes. 
 		{

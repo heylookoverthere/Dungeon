@@ -2290,7 +2290,7 @@ function entity(croom,play,smatp)
 		{
 			playSound("flute");
 			this.room.load("dungeons/"+curDungeon.name+"/floor"+curDungeon.roomZ+"/");
-			this.room.loadObjects("dungeons/"+curDungeon.name+"/floor"+curDungeon.roomZ+"/");
+			this.room.loadObjects("dungeons/"+curDungeon.name+"/floor"+curDungeon.roomZ+"/",true);
 			this.playingFlue=true;
 			this.playingSince=new Date().getTime();
 			this.x=this.enteredX;
