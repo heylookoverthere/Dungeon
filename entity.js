@@ -3708,10 +3708,13 @@ function entity(croom,play,smatp)
 				{
 					if((this.room.objects[i].type==ObjectID.StairsUp) && (this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y) &&(!this.room.objects[i].hidden)&& (!this.reeling))
 					{
-						this.lastX=this.x;
-						this.lastY=this.y;
-						curDungeon.changeFloor(true,true,this);
-						break;
+						if((this.lastX!=this.x) || (this.lastY!=this.y))
+						{
+							this.lastX=this.x;
+							this.lastY=this.y;
+							curDungeon.changeFloor(true,true,this);
+							break;
+						}
 					}
 				}
 			}
@@ -4295,6 +4298,9 @@ function entity(croom,play,smatp)
 							this.lastY=this.y;
 						}else 
 						{
+							this.lastRoom=this.room;
+							this.lastRoomX=this.lastX;
+							this.lastRoomY=this.lastY;
 							if(this.isPlayer)
 							{
 									curDungeon.roomZ--;

@@ -1080,6 +1080,7 @@ function resetMiles()
 {
 	gameOver=false;
 	miles.alive=true;
+	miles.RumHam=false;
 	miles.equippedTrack=0;
 	miles.equippedTrack2=0;
 	miles.dashing=false;
@@ -4146,6 +4147,13 @@ function mainUpdate()
 					if(miles.swimming)
 					{
 						playSound("swim");
+					}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+					{
+						playSound("grasswalk");
+					}
+					if(miles.pushing)
+					{
+						playSound("push");
 					}
 				}else if(SNESDownKey.checkDown())
 				{
@@ -4156,6 +4164,13 @@ function mainUpdate()
 					if(miles.swimming)
 					{
 						playSound("swim");
+					}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+					{
+						playSound("grasswalk");
+					}
+					if(miles.pushing)
+					{
+						playSound("push");
 					}
 				}else if(SNESLeftKey.checkDown())
 				{
@@ -4166,6 +4181,13 @@ function mainUpdate()
 					if(miles.swimming)
 					{
 						playSound("swim");
+					}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+					{
+						playSound("grasswalk");
+					}
+					if(miles.pushing)
+					{
+						playSound("push");
 					}
 				}else if(SNESRightKey.checkDown())
 				{
@@ -4176,6 +4198,13 @@ function mainUpdate()
 					if(miles.swimming)
 					{
 						playSound("swim");
+					}else if(miles.room.tiles[miles.x][miles.y].data==DungeonTileType.Grass)
+					{
+						playSound("grasswalk");
+					}
+					if(miles.pushing)
+					{
+						playSound("push");
 					}
 				}else
 				{
