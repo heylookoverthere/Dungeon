@@ -1821,7 +1821,7 @@ function inventoryDraw() {
 	canvas.fillStyle="white";
 	canvas.fillRect(xFset-8,yFset-28,558,754);
 	canvas.fillRect(xFset+556,yFset+200,128,250);
-	canvas.fillRect(22,yFset+200,128,250);
+	canvas.fillRect(22,yFset+170,128,280);
 	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
 	{
 		canvas.fillRect(xFset+556,yFset+460,128,70);
@@ -1829,7 +1829,7 @@ function inventoryDraw() {
 	canvas.fillStyle="blue";
 	canvas.fillRect(xFset-4,yFset-24,548,744);
 	canvas.fillRect(xFset+560,yFset+204,120,240);
-	canvas.fillRect(26,yFset+204,120,240);
+	canvas.fillRect(26,yFset+174,120,270);
 	if((miles.has[hasID.Map]) || (miles.has[hasID.Compass]))
 	{
 		canvas.fillRect(xFset+560,yFset+464,120,60);
