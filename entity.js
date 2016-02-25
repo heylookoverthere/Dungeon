@@ -125,6 +125,9 @@ function bomb(croom,isSuper)
 		if((millip-this.timePlaced>this.fuse*1000) && (this.armed))
 		{
 			this.explode();
+		}else if (this.armed)
+		{
+			playSound("fuse");
 		}
 	}
 

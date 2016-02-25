@@ -199,7 +199,7 @@ function object(oroom) //not a tile, not an enemy
 		if(this.flammable)
 		{
 			this.exists=false;
-			//playSound("melt");
+			playSound("icemelt");
 		}
 		if((this.type==ObjectID.Lamp) && (!this.on))
 		{
@@ -1719,12 +1719,21 @@ object.prototype.setup=function(id,par)
 		this.drawOrder=4;
 		this.aniRate=3;
 		this.boomerangActivate=true;
+		this.ignite=function()
+		{
+			playSound("burn");
+			this.curSprite=1;
+			this.on=false;
+			this.drawOrder=1;
+			this.hookable-false;
+			
+		}
 		this.activate=function(rang)
 		{
 			if(this.on)
 			{
 				playSound("curtains");
-				this.curSprite=1;
+				
 				//this.aniRate=3;
 				var bumj= new explosionEffect(this.room);
 				bumj.setup(this.x-2,this.y-2,this.room);
@@ -2379,7 +2388,8 @@ object.prototype.setup=function(id,par)
 			this.alwaysWalkable=true;
 			this.pushable=false;
 			this.drawOrder=0;
-			//playSound("sizzle");
+			playSound("sizzle");
+			playSound("icemelt");
 		};
 		this.playerActivate=function(){};
 	}else if (this.type==ObjectID.HolePlugger) {
