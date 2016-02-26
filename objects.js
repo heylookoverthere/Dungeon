@@ -2108,6 +2108,8 @@ object.prototype.setup=function(id,par)
 		}
 		this.activate=function()
 		{
+			if(!this.on) {return;}
+			
 			this.on=false;
 			playSound("hammerpost");
 			if(this.on)

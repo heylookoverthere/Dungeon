@@ -2140,7 +2140,7 @@ function entity(croom,play,smatp)
 		gled=this.getFacingObject();
 		if((gled) && (gled.fallingY<1) &&(!this.swimming))
 		{
-			if((gled.type==ObjectID.Peg) && (this.has[hasID.Hammer]))
+			if((gled.type==ObjectID.Peg) && (this.has[hasID.Hammer]) && (gled.on))
 			{
 				return "Hammer peg";
 			}
