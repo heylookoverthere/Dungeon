@@ -241,6 +241,7 @@ projectile.prototype.kill=function()
 		bep.armed=true;
 		bep.timePlaced=new Date().getTime();
 		this.player.activebombs.push(bep);
+		bep.explode();
 	}
 	if((this.type==1) || (this.type==2))
 	{

@@ -1842,7 +1842,7 @@ function dungeon(path)
 							if(this.rooms[zzTop][i][k].hasVisibleDoor(2))
 							{
 								can.fillStyle="white";
-								canv.fillRect(xFset+size*i+size/2,yFset+size*k+size,4,2);
+								can.fillRect(xFset+size*i+size/2,yFset+size*k+size,4,2);
 							}
 							if(this.rooms[zzTop][i][k].hasVisibleDoor(1))
 							{

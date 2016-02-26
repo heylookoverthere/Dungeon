@@ -67,6 +67,7 @@ function bomb(croom,isSuper)
 	this.xa=0;
 	this.ya=0;
 	this.decel=0.000;
+	this.floating=false;
 	this.friction=0.05;
 	this.fallingY=0;
 	this.fallingUp=0;
@@ -4185,7 +4186,7 @@ function entity(croom,play,smatp)
 				}else if(this.room.objects[i].type==ObjectID.Mine)
 				{
 					
-					if(this.isPlayer)//OPTION?
+					if((this.isPlayer) && (!this.invisible))//OPTION?
 					{
 						if((!this.room.objects[i].on)&&(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 						{
@@ -4405,10 +4406,16 @@ function entity(croom,play,smatp)
 			if((mufasa) &&((controller.pad) && (controller.checkUp())) || (SNESUpKey.checkDown()))
 			{
 				
-				if((this.ySmall<-7) && (mufasa.pushable) && (mufasa.y=this.y-1)) 
+				if((this.ySmall<-7) && (mufasa.pushable) && (mufasa.y=this.y-1) ) 
 				{	
 					this.pushing=true;
-					mufasa.slide(0);
+					if(mufasa.canMove(0))
+					{
+						mufasa.slide(0);
+					}else
+					{
+						mufasa.ySmall=0;
+					}
 				}
 			}else if((mufasa) &&((controller.pad) && (controller.checkRight())) || (SNESRightKey.checkDown()))
 			{
@@ -4416,7 +4423,13 @@ function entity(croom,play,smatp)
 				if((this.xSmall>7) && (mufasa.pushable) && (mufasa.x=this.x+1)) 
 				{	
 					this.pushing=true;
-					mufasa.slide(1);
+					if(mufasa.canMove(1))
+					{
+						mufasa.slide(1);
+					}else
+					{
+						mufasa.xSmall=0;
+					}
 				}
 			}else if((mufasa) &&((controller.pad) && (controller.checkDown())) || (SNESDownKey.checkDown()))
 			{
@@ -4424,7 +4437,13 @@ function entity(croom,play,smatp)
 				if((this.ySmall>7) && (mufasa.pushable) && (mufasa.y=this.y+1)) 
 				{	
 					this.pushing=true;
-					mufasa.slide(2);
+					if(mufasa.canMove(2))
+					{
+						mufasa.slide(2);
+					}else
+					{
+						mufasa.ySmall=0;
+					}
 				}
 			}else if((mufasa) &&((controller.pad) && (controller.checkLeft())) || (SNESLeftKey.checkDown()))
 			{
@@ -4432,7 +4451,13 @@ function entity(croom,play,smatp)
 				if((this.xSmall<-7) && (mufasa.pushable) && (mufasa.x=this.x-1)) 
 				{	
 					this.pushing=true;
-					mufasa.slide(3);
+					if (mufasa.canMove(3))
+					{
+						mufasa.slide(3);
+					}else
+					{
+						mufasa.xSmall=0;
+					}
 				}
 			}
 			

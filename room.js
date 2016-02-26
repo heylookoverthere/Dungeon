@@ -1416,7 +1416,11 @@ function room(I) { //room object
 	
 	
     I.draw = function(can,cam) {
-		if(!this.active){return;}
+		if(!this.active){
+			can.fillStyle = "black"; 
+			can.fillRect(xOffset, yOffset,640 ,480);
+			return;
+		}
 		//if(!mapDirty) {return;}
 		//var cam={tileX:0,tileY:0,width:20,height:15};
 		var poopx=cam.tileX+cam.width;//*Math.pow(2, I.zoom-1);
