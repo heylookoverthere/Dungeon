@@ -8,6 +8,8 @@ var countIndex=0;
 var bulbsprite=Sprite("bulb");
 var bulboffsprite=Sprite("bulboff");
 
+var chickensprite=Sprite("entities/cucco/0");
+
 document.getElementById("mainSong").addEventListener('ended', function() { //loops music
 	this.currentTime = 0;
 	this.play();
@@ -1071,6 +1073,7 @@ var saveaskey=new akey("u");
 var miles= new entity(null,true,"entities/link/");
 
 miles.name="Miles";
+miles.team=0;
 
 entities.push(miles);
 theParty.add(miles);
@@ -1184,7 +1187,7 @@ Krugman.name="Krugman";
 
 Krugman.room=curDungeon.curRoom();
 entities.push(Krugman);
-
+Krugman.team=0;
 Krugman.autoJoin=true;
 //theParty.add(Krugman);
 
@@ -1193,6 +1196,7 @@ nancy.AI=0;
 nancy.x=5;
 nancy.y=6;
 nancy.dir=2;
+nancy.team=0;
 nancy.enteredX=nancy.x;
 nancy.enteredY=nancy.y;
 
@@ -2788,6 +2792,8 @@ function mainDraw() {
 			canvas.fillText("Object mode",18,120);
 		}else if(editor.mode==editModes.BuriedObjects){
 			canvas.fillText("Buried object mode",18,120);
+		}else if(editor.mode==editModes.Enemies){
+			canvas.fillText("Enemy Mode",18,120);
 		}else if (editor.mode==editModes.Door)
 		{
 			canvas.fillText("Door Mode",18,120);
@@ -2850,6 +2856,11 @@ function mainDraw() {
 			{
 				console.log("no sprite for "+editor.lootType);
 			}
+		}else if(editor.mode==editModes.Enemies)
+		{
+			canvas.fillText("Selected: ",18,96);
+			chickensprite.draw(canvas,110,73);
+			
 		}else
 		{
 			canvas.fillText("Selected: ",18,96);

@@ -13,7 +13,7 @@ function editCursor()
 	this.confirmed=false;
 	this.confirmingWhat=null;
 	this.mode=1;
-	this.numModes=5;
+	this.numModes=6;
 	this.numObjectTypes=49;
 	this.numBrushTypes=72;
 	this.objectType=0;
@@ -24,6 +24,7 @@ function editCursor()
 	this.linkingFrom=null;
 	this.grabbed=null; 
 	this.warpOpen=null;
+	this.enemyType=0;
 }
 
 editCursor.prototype.cycleLoot=function(up)
@@ -270,6 +271,12 @@ editCursor.prototype.click=function(m,mx,my)
 				}
 			
 				
+			}else if(this.mode==editModes.Enemies)
+			{
+				var cuck=new entity(curDungeon.curRoom());
+				cuck.x=this.x;
+				cuck.y=this.y;
+				entities.push(cuck);
 			}else if(this.mode==editModes.Pen)
 			{
 				this.penDown=!this.penDown;
@@ -362,6 +369,19 @@ editCursor.prototype.cycleTiles=function(up)
 		{
 			this.brushType=72;
 		}
+	}
+}
+
+editCursor.prototype.cycleEnemies=function(up)
+{
+	if(up)
+	{
+		this.enemyType++;
+		if(this.enemyType>0) {this.enemyType=0;}
+	}else
+	{
+		this.enemyType--;
+		if(this.enemyType<0) {this.enemyType=0;}
 	}
 }
 

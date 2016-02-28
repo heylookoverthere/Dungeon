@@ -573,6 +573,7 @@ editModes.Fill=2;
 editModes.Door=3;
 editModes.Objects=4;
 editModes.BuriedObjects=5;
+editModes.Enemies=6;
 editModes.SwitchLink=9;
 editModes.ChestLoot=10;
 

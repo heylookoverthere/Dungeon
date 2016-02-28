@@ -825,16 +825,21 @@ function entity(croom,play,smatp)
 	this.dir=0;
 	if(smatp==null)
 	{
-		smatp="entities/professor/";
+		smatp="entities/cucco/";
 	}
 	this.playingSince=0;
 	this.playingTime=500;
 	this.playingFlute=false;
 	this.spritePath=smatp;
-	this.hp=100;
-	this.maxHp=100;
+	this.hp=25;
+	this.maxHp=25;
+	if(play)
+	{
+		this.hp=100;
+		this.maxHp=100;
+	}
 	this.keys=0;
-	this.AI=0;
+	this.AI=2;
 	this.x=4;
 	this.y=3;
 	this.charged=false;
@@ -856,7 +861,7 @@ function entity(croom,play,smatp)
 	this.shakeTrack=0;
 	this.baseSpeed=4;
 	this.speed=4;
-	this.team=0;
+	this.team=1;
 	this.entity=true;
 	this.pushing=false; 
 	this.grabbed=null;
@@ -1096,14 +1101,19 @@ function entity(croom,play,smatp)
 	
 	this.kill=function()
 	{
-		if(this.lastWords)
+		if(this.AI==1)
 		{
-			this.say(this.lastWords);
+		
+			if(this.lastWords)
+			{
+				this.say(this.lastWords);
+			}
+			bConsoleBox.log(this.name+" has died.");
+			//if(this.isPlayer)
+			playSound("playerdying");
+			//this.exists=false;
+			this.alive=false;
 		}
-		bConsoleBox.log(this.name+" has died.");
-		//if(this.isPlayer)
-		playSound("playerdying");
-		//this.exists=false;
 		this.alive=false;
 	}
 	
@@ -4024,7 +4034,11 @@ function entity(croom,play,smatp)
 		this.swimming=false;
 		if(!this.alive)
 		{
-			if(this.deathAniTrack>1) {return;}
+			if(this.deathAniTrack>1) 
+			{
+				if(this.AI==2) {this.exists=false;}
+				return;
+			}
 			this.aniCount++;
 			if(this.aniCount>this.aniRate)
 			{
@@ -4463,8 +4477,19 @@ function entity(croom,play,smatp)
 			
 			}			
 		}
-		
-		if((this.AI==1) && (!this.going)&& (this.alive)&& (!this.frozen))
+		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z))//basic run into player to hurt him AI.
+		{
+			if((this.x!=miles.x) || (this.y!=miles.y))
+			{
+				this.go(miles.x,miles.y)
+				this.path.pop();
+			}else //if you touch the player, hurt him
+			{
+				/*miles.hurt(10);
+				playSound("cluck");
+				//knockback? */
+			}
+		}else if((this.AI==1) && (!this.going)&& (this.alive)&& (!this.frozen))
 		{
 			//this.go(Math.floor(Math.random()*12) need function to find walkable tile.
 			
@@ -4751,7 +4776,7 @@ function entity(croom,play,smatp)
 					//this.lastX=this.x;
 					//this.lastY=this.y;
 					this.path=null;
-					if((this.AI>0) && (this.tracking))
+					if((this.AI==1) && (this.tracking))
 					{
 						var bup=this.room.closestAdj(this.tracking,this,this);
 						if((bup)&&(this.x==bup.x) && (this.y==bup.y))
@@ -4769,6 +4794,14 @@ function entity(croom,play,smatp)
 								//this.textBank.splice(0,1);
 							}
 						}
+					}else if (this.AI==2)
+					{
+						miles.hurt(10);
+						playSound("cluck");
+						//knockback? 
+					}else if(this.AI==3)
+					{
+						//this.shootArrowAt(miles);
 					}
 					if((this.destObj) && ((!this.destObj.underWater) || (this.diving)))
 					{
