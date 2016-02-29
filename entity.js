@@ -7,6 +7,18 @@ var numEquippable=2;
 
 var dude_count=0;
 
+var peckingSprites=new Array();
+peckingSprites.push(Sprite("/entities/cucco/peckleft"));
+peckingSprites.push(Sprite("/entities/cucco/peckright"));
+peckingSprites.push(Sprite("/entities/cucco/peckright"));
+peckingSprites.push(Sprite("/entities/cucco/peckleft"));
+
+var goldpeckingSprites=new Array();
+goldpeckingSprites.push(Sprite("/entities/goldcucco/peckleft"));
+goldpeckingSprites.push(Sprite("/entities/goldcucco/peckright"));
+goldpeckingSprites.push(Sprite("/entities/goldcucco/peckright"));
+goldpeckingSprites.push(Sprite("/entities/goldcucco/peckleft"));
+
 var bunnyheadsprite=new Array();
 bunnyheadsprite.push(Sprite("bheadup"));
 bunnyheadsprite.push(Sprite("bheadright"));
@@ -3025,6 +3037,17 @@ function entity(croom,play,smatp)
 			}
 		}*/
 		
+						
+		if((this.type==2) && (this.pecking>0))
+		{
+			peckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
+			return;
+		}else if((this.type==3) && (this.pecking>0))
+		{
+			goldpeckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
+			return;
+		}
+		
 		if(this.invisible)
 		{
 			shadowSprite[2].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset);
@@ -3204,7 +3227,7 @@ function entity(croom,play,smatp)
 							this.shieldSprites[0].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack-4,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);
 						}
 					}
-				
+
 				
 					if(this.acting)
 					{
@@ -4580,17 +4603,21 @@ function entity(croom,play,smatp)
 			
 			}			
 		}
-		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
+		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
 		{
 			if((this.x!=miles.x) || (this.y!=miles.y))
 			{
 				this.go(miles.x,miles.y)
 				this.path.pop();
 			}
-			if(this.peckingRange(miles))
+			if(this.pecking>0)
+			{
+				this.pecking--;
+			}else if(this.peckingRange(miles))
 			{
 				miles.hurt(10);
 				playSound("cluck");
+				this.pecking=10;
 				//knockback? 
 			}
 		}else if(((this.AI==1) || ((this.AI==2) &&(this.chaseTriggered)))&& (!this.going)&& (this.alive)&& (!this.frozen)&& (!miles.invisible)&& (miles.alive))
