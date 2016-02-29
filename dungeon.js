@@ -549,7 +549,7 @@ function dungeon(path)
 				dung.saveFloor(i);
 			}
 			
-			var junpth=(entities.length-1)+";";
+			var junpth=(entities.length)+";";
 			
 			for( var i=0;i<entities.length;i++)
 			{
