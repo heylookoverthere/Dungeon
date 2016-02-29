@@ -8,7 +8,12 @@ var countIndex=0;
 var bulbsprite=Sprite("bulb");
 var bulboffsprite=Sprite("bulboff");
 
-var chickensprite=Sprite("entities/cucco/0");
+var enemySprites=new Array();
+
+enemySprites.push(null);
+enemySprites.push(null);
+enemySprites.push(Sprite("entities/cucco/0"));
+enemySprites.push(Sprite("entities/goldcucco/0"));
 
 document.getElementById("mainSong").addEventListener('ended', function() { //loops music
 	this.currentTime = 0;
@@ -1070,10 +1075,11 @@ var mapkey=new akey("g");
 var saveaskey=new akey("u");
 
 
-var miles= new entity(null,true,"entities/link/");
+var miles= new entity(null,1,"entities/link/");
 
 miles.name="Miles";
 miles.team=0;
+//miles.invincible=true;
 
 entities.push(miles);
 theParty.add(miles);
@@ -1081,6 +1087,8 @@ theParty.add(miles);
 
 function resetMiles()
 {
+	entities=new Array();
+	entities.push(miles);
 	gameOver=false;
 	miles.alive=true;
 	miles.RumHam=false;
@@ -1124,7 +1132,7 @@ function resetMiles()
 	}
 }
 
-var Krugman=new entity(null,false,"entities/krugman/");
+/*var Krugman=new entity(null,false,"entities/krugman/");
 Krugman.AI=0;
 Krugman.x=3;
 Krugman.y=11;
@@ -1244,8 +1252,9 @@ if(!OPTIONS.SafeMode)
 nancy.room=curDungeon.rooms[7][7][7];
 nancy.name="Nancy";
 
-entities.push(nancy);
+entities.push(nancy);*/
 
+var Krugman=null;
 
 miles.x=9;
 miles.y=12;
@@ -2859,7 +2868,7 @@ function mainDraw() {
 		}else if(editor.mode==editModes.Enemies)
 		{
 			canvas.fillText("Selected: ",18,96);
-			chickensprite.draw(canvas,110,73);
+			enemySprites[editor.enemyType].draw(canvas,110,73);
 			
 		}else
 		{

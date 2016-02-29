@@ -1757,6 +1757,7 @@ object.prototype.setup=function(id,par)
 				playSound("curtains");
 				
 				//this.aniRate=3;
+				this.curSprite=1;
 				var bumj= new explosionEffect(this.room);
 				bumj.setup(this.x-2,this.y-2,this.room);
 				bumj.numFrames=7;
@@ -2948,9 +2949,12 @@ object.prototype.setup=function(id,par)
 		{
 			//change music
 			//temp!
-			Krugman.textBank.push("Nice, you found a shiny triangle. We're still stuck down here you know.");
-			var hlop=function(){return true;}
-			Krugman.textConditions.push(hlop);
+			if(Krugman)
+			{
+				Krugman.textBank.push("Nice, you found a shiny triangle. We're still stuck down here you know.");
+				var hlop=function(){return true;}
+				Krugman.textConditions.push(hlop);
+			}
 			playSound("heartcontainer");
 			var now=new Date().getTime();
 			var timeTaken=now-curDungeon.timeStarted.getTime();

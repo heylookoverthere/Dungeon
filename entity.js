@@ -822,18 +822,33 @@ actionID.Sword=3; //for holding sword out/ pegasus dash
 
 function entity(croom,play,smatp)
 {
+	if(play==null)
+	{
+		play=2;
+	}
+	this.type=play;
 	this.dir=0;
 	if(smatp==null)
 	{
 		smatp="entities/cucco/";
 	}
+	if(play==3)
+	{
+		smatp="entities/goldcucco/";
+	}
 	this.playingSince=0;
 	this.playingTime=500;
 	this.playingFlute=false;
 	this.spritePath=smatp;
-	this.hp=25;
-	this.maxHp=25;
-	if(play)
+	this.hp=35;
+	this.chaseTriggered=false;
+	this.maxHp=35;
+	this.floating=true;
+	if(play==1)
+	{
+		this.hp=100;
+		this.maxHp=100;
+	}if(play==3)
 	{
 		this.hp=100;
 		this.maxHp=100;
@@ -860,7 +875,13 @@ function entity(croom,play,smatp)
 	this.shakingRight=true;
 	this.shakeTrack=0;
 	this.baseSpeed=4;
-	this.speed=4;
+	this.baseSpeed=Math.floor(Math.random()*3)+2;
+	this.speed=this.baseSpeed;
+	if(play==1)
+	{
+		this.baseSpeed=4;
+		this.speed=4;
+	}
 	this.team=1;
 	this.entity=true;
 	this.pushing=false; 
@@ -905,7 +926,7 @@ function entity(croom,play,smatp)
 	this.actingSprites.push(new Array());
 	this.actingSprites.push(new Array());
 	this.actingSprites.push(new Array());
-	if(play)
+	if(play==1)
 	{
 		this.actingSprites[0].push(Sprite("entities/link/upbooma"));
 		this.actingSprites[1].push(Sprite("entities/link/rightbooma"));
@@ -926,7 +947,7 @@ function entity(croom,play,smatp)
 	this.ignoreHoleX=0;
 	this.ignoreHoleY=0;
 	this.pokeSprites=new Array();
-	if(play)
+	if(play==1)
 	{
 		this.pokeSprites.push(Sprite("entities/link/poke0"));
 		this.pokeSprites.push(Sprite("entities/link/poke1"));
@@ -950,7 +971,7 @@ function entity(croom,play,smatp)
 	this.swingSprites.push(new Array());
 	this.swingSprites.push(new Array());
 	this.swingSprites.push(new Array());
-	if(play)
+	if(play==1)
 	{
 		for(var i=0;i<4;i++)
 		{
@@ -997,7 +1018,7 @@ function entity(croom,play,smatp)
 	this.sprites.push(Sprite(this.spritePath+"1"));
 	this.sprites.push(Sprite(this.spritePath+"2"));
 	this.sprites.push(Sprite(this.spritePath+"3"));
-	if(play)
+	if(play==1)
 	{
 		this.sprites.push(Sprite(this.spritePath+"holding"));
 	}
@@ -1007,7 +1028,39 @@ function entity(croom,play,smatp)
 	this.swimSprites.push(Sprite(this.spritePath+"swim2"));
 	this.swimSprites.push(Sprite(this.spritePath+"swim3"));
 	this.isPlayer=false;
-	if(play)
+	if(play==2)
+	{
+		this.walkSpeed=6;
+		this.animated=true;
+		this.walkTrack=0;
+		this.walkFrames=2;
+		this.walkAniRate=25;
+		this.walkSprites[0].push(Sprite("entities/cucco/up0"));
+		this.walkSprites[0].push(Sprite("entities/cucco/up1"));
+		this.walkSprites[1].push(Sprite("entities/cucco/right0"));
+		this.walkSprites[1].push(Sprite("entities/cucco/right1"));
+		this.walkSprites[2].push(Sprite("entities/cucco/down0"));
+		this.walkSprites[2].push(Sprite("entities/cucco/down1"));
+		this.walkSprites[3].push(Sprite("entities/cucco/left0"));
+		this.walkSprites[3].push(Sprite("entities/cucco/left1"));
+
+	}else if(play==3)
+	{
+		this.walkSpeed=6;
+		this.animated=true;
+		this.walkTrack=0;
+		this.walkFrames=2;
+		this.walkAniRate=25;
+		this.walkSprites[0].push(Sprite("entities/goldcucco/up0"));
+		this.walkSprites[0].push(Sprite("entities/goldcucco/up1"));
+		this.walkSprites[1].push(Sprite("entities/goldcucco/right0"));
+		this.walkSprites[1].push(Sprite("entities/goldcucco/right1"));
+		this.walkSprites[2].push(Sprite("entities/goldcucco/down0"));
+		this.walkSprites[2].push(Sprite("entities/goldcucco/down1"));
+		this.walkSprites[3].push(Sprite("entities/goldcucco/left0"));
+		this.walkSprites[3].push(Sprite("entities/goldcucco/left1"));
+
+	}else if(play==1)
 	{
 		this.isPlayer=true;
 		this.walkSpeed=6;
@@ -1135,6 +1188,18 @@ function entity(croom,play,smatp)
 		var snard="";
 		snard+=this.dir;
 		snard+=",";
+		snard+=this.type;
+		snard+=",";
+		snard+=this.room.z;
+		snard+=",";
+		snard+=this.room.x;
+		snard+=",";
+		snard+=this.room.y;
+		snard+=",";
+		snard+=this.x;
+		snard+=",";
+		snard+=this.y;
+		snard+=",";
 		snard+=this.hp;
 		snard+=",";
 		snard+=this.maxHp;
@@ -1142,10 +1207,6 @@ function entity(croom,play,smatp)
 		snard+=this.keys;
 		snard+=",";
 		snard+=this.AI;
-		snard+=",";
-		snard+=this.x;
-		snard+=",";
-		snard+=this.y;
 		snard+=",";
 		snard+=this.charged;
 		snard+=",";
@@ -2949,6 +3010,7 @@ function entity(croom,play,smatp)
 			if(this.walkTrack>this.walkFrames-1)
 			{
 				this.walkTrack=0;
+			
 			}
 		}
 	}
@@ -2989,7 +3051,7 @@ function entity(croom,play,smatp)
 
 		if(!this.alive)
 		{
-			if(!this.swimming)
+			if((!this.swimming) || (!this.isPlayer))
 			{
 				this.deadSprites[this.deathAniTrack].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2)
 			}else
@@ -3435,6 +3497,31 @@ function entity(croom,play,smatp)
 		
 	}
 	
+	this.peckingRange=function(obj)
+	{
+		if((obj.x==this.x) && (obj.y==this.y))
+		{
+			return true;
+		}
+		
+		if((obj.x==this.x+1) &&(obj.y==this.y))
+		{
+			return true;
+		}else if((obj.x==this.x-1) &&(obj.y==this.y) )
+		{
+			return true;
+		}else if((obj.x==this.x) &&(obj.y==this.y+1))
+		{
+			return true;
+		}else if((obj.x==this.x) &&(obj.y==this.y-1) )
+		{
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
 	this.getFacingBomb=function()
 	{
 		var gx=this.x;
@@ -3519,8 +3606,24 @@ function entity(croom,play,smatp)
 		this.lastY=this.y;
 	}
 	
+	this.sameRoom=function(ent)
+	{
+		if((ent.room.z==this.room.z) && (ent.room.x==this.room.x) && (ent.room.y==this.room.y))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	this.update=function()
 	{
+		if ((this.AI==2) &&(!this.chaseTriggered))
+		{
+			if(this.sameRoom(miles))
+			{
+				this.chaseTriggered=true;
+			}
+		}
 		if(this.playingFlute)
 		{
 			var plopl=new Date().getTime();
@@ -4218,7 +4321,7 @@ function entity(croom,play,smatp)
 							//this.room.objects[i].playerActivate(); // PROBLEM ONE
 						}
 					}
-				}else if((this.room.objects[i].pickupable) &&(this.closeEnoughTo(this.room.objects[i])))//(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
+				}else if((this.room.objects[i].pickupable) &&(this.isPlayer) && (this.closeEnoughTo(this.room.objects[i])))//(this.room.objects[i].x==this.x) && (this.room.objects[i].y==this.y))
 				{
 					if(!this.room.objects[i].underWater)
 					{
@@ -4477,19 +4580,20 @@ function entity(croom,play,smatp)
 			
 			}			
 		}
-		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z))//basic run into player to hurt him AI.
+		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
 		{
 			if((this.x!=miles.x) || (this.y!=miles.y))
 			{
 				this.go(miles.x,miles.y)
 				this.path.pop();
-			}else //if you touch the player, hurt him
-			{
-				/*miles.hurt(10);
-				playSound("cluck");
-				//knockback? */
 			}
-		}else if((this.AI==1) && (!this.going)&& (this.alive)&& (!this.frozen))
+			if(this.peckingRange(miles))
+			{
+				miles.hurt(10);
+				playSound("cluck");
+				//knockback? 
+			}
+		}else if(((this.AI==1) || ((this.AI==2) &&(this.chaseTriggered)))&& (!this.going)&& (this.alive)&& (!this.frozen)&& (!miles.invisible)&& (miles.alive))
 		{
 			//this.go(Math.floor(Math.random()*12) need function to find walkable tile.
 			
@@ -4575,8 +4679,14 @@ function entity(croom,play,smatp)
 						this.enteredX=this.x;
 						this.enteredY=this.y;
 					}
-					var nex=this.room.getStairs(true)
-					this.go(nex.x,nex.y);
+					var nex=this.room.getStairs(true);
+					if(nex)
+					{
+						this.go(nex.x,nex.y);
+					}else
+					{
+						console.log("this.room.getStairs(true)==null!");
+					}
 				}
 			}else //you have the right floor.
 			{
@@ -4691,7 +4801,7 @@ function entity(croom,play,smatp)
 		}
 		if(this.going)
 		{
-			
+			this.stepping=false;
 			if(this.path)//if path. length==0, you're there. do function. 
 			{
 				
@@ -4716,6 +4826,11 @@ function entity(croom,play,smatp)
 					if(this.dir==0)
 					{
 						this.ySmall-=this.speed;
+						if(this.animated)
+						{
+							this.walkAnimate();
+							this.stepping=true;
+						}
 						if(this.ySmall<-SMALL_BREAK)
 						{
 							this.lastX=this.x;
@@ -4723,11 +4838,17 @@ function entity(croom,play,smatp)
 							this.x=this.path[this.pathTrack].x;
 							this.y=this.path[this.pathTrack].y;
 							this.pathTrack++;
+							
 							this.ySmall=SMALL_BREAK;
 						}
 					}else if(this.dir==2)
 					{
 						this.ySmall+=this.speed;
+						if(this.animated)
+						{
+							this.walkAnimate();
+							this.stepping=true;
+						}
 						if(this.ySmall>SMALL_BREAK)
 						{
 							this.lastX=this.x;
@@ -4740,6 +4861,11 @@ function entity(croom,play,smatp)
 					}else if(this.dir==3)
 					{
 						this.xSmall-=this.speed;
+						if(this.animated)
+						{
+							this.walkAnimate();
+							this.stepping=true;
+						}
 						if(this.xSmall<-SMALL_BREAK)
 						{
 							this.lastX=this.x;
@@ -4752,6 +4878,11 @@ function entity(croom,play,smatp)
 					}else if(this.dir==1)
 					{
 						this.xSmall+=this.speed;
+						if(this.animated)
+						{
+							this.walkAnimate();
+							this.stepping=true;
+						}
 						if(this.xSmall>SMALL_BREAK)
 						{
 							this.lastX=this.x;
@@ -4796,8 +4927,8 @@ function entity(croom,play,smatp)
 						}
 					}else if (this.AI==2)
 					{
-						miles.hurt(10);
-						playSound("cluck");
+						//miles.hurt(10);
+						//playSound("cluck");
 						//knockback? 
 					}else if(this.AI==3)
 					{

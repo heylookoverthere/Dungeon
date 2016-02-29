@@ -150,6 +150,9 @@ function mouseWheel(e){
 					}else if(editor.mode==editModes.ChestLoot)
 					{
 						editor.cycleLoot(true);
+					}else if (editor.mode==editModes.Enemies)
+					{
+						editor.cycleEnemies(true);
 					}else
 					{
 						editor.cycleTiles(true);
@@ -169,6 +172,9 @@ function mouseWheel(e){
 					}else if(editor.mode==editModes.ChestLoot)
 					{
 						editor.cycleLoot(false);
+					}else if (editor.mode==editModes.Enemies)
+					{
+						editor.cycleEnemies(false);
 					}else
 					{
 						editor.cycleTiles(false);
@@ -785,6 +791,9 @@ function mouseClick(e) {  //represents the mouse
 			}else if((editor.mode==editModes.Objects) || (editor.mode==editModes.BuriedObjects))
 			{
 				editor.cycleObjects(true)
+			}else if (editor.mode==editModes.Enemies)
+			{
+				editor.cycleEnemies(true);
 			}else
 			{
 				editor.cycleTiles(true);

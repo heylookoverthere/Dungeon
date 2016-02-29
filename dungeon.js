@@ -536,8 +536,8 @@ function dungeon(path)
 	
 		
 		dung.lastSaved=new Date();
-		grmath="Dungeon/dungeons/"+this.name+"/main.txt";
-		bgrmath="Dungeon/dungeons/"+this.name+"/entities.txt";
+		var grmath="Dungeon/dungeons/"+this.name+"/main.txt";
+		var bgrmath="Dungeon/dungeons/"+this.name+"/entities.txt";
 		var dunpth=curVersion+","+dung.floors+","+dung.numRooms+","+dung.startFloor+","+dung.startX+","+dung.startY+","+dung.lastSaved;
 			$.post("/save/", {"data": dunpth, "path": grmath}).done(function(response) 
 			{ 
@@ -609,6 +609,7 @@ function dungeon(path)
 			dung.bestTime=data//new Date(data);
 		});
 		var crmath="dungeons/"+this.name+"/"+"main.txt";
+		
 		$.get(crmath, function(data) 
 		{ 
 			//console.log("Detected "+data+" floors"); 
@@ -631,8 +632,33 @@ function dungeon(path)
 			{
 				dung.loadFloor(i);
 			}
+			var bgrmath="dungeons/"+dung.name+"/entities.txt";
+			
+		$.get(bgrmath, function(data) 
+		{ 
+			var smarf=data.split(";");
+			var num=smarf[0];
+			//console.log(smarf);
+			
+			
+			for(var i=1;i<num;i++)
+			{
+				var garf=smarf[i].split(",");
+				var tipe= garf[1];
+				var aZ=garf[2];
+				var aX=garf[3];
+				var aY=garf[4];
+				var aroom=dung.rooms[aZ][aX][aY];
+				var clunk= new entity (aroom,tipe);
+				clunk.x=garf[5]; 
+				clunk.y=garf[6];
+				entities.push(clunk);
+			}
+		});
 			
 		}); 
+		
+		
 		
 		//dung.blank();
 
@@ -1281,7 +1307,7 @@ function dungeon(path)
 				{
 					if(entities[g].y>10)
 					{
-						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+xOffset, (entities[g].y)*32+tyOffset);
+						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+entities[g].xSmall+xOffset, (entities[g].y)*32+entities[g].ySmall+tyOffset);
 					}
 				}
 			}
@@ -1385,7 +1411,7 @@ function dungeon(path)
 				{
 					if(entities[g].y<4)
 					{
-						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+xOffset, (entities[g].y)*32+tyOffset)
+						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+entities[g].xSmall+xOffset, (entities[g].y)*32+entities[g].ySmall+tyOffset)
 					}
 				}
 			}
@@ -1503,7 +1529,7 @@ function dungeon(path)
 				{
 					if(entities[g].x>15)
 					{
-						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+txOffset, (entities[g].y)*32+yOffset)
+						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+entities[g].xSmall+txOffset, (entities[g].y)*32+entities[g].ySmall+yOffset)
 					}
 				}
 			}
@@ -1622,7 +1648,7 @@ function dungeon(path)
 				{
 					if(entities[g].x<4)
 					{
-						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+txOffset, (entities[g].y)*32+yOffset)
+						entities[g].sprites[entities[g].dir].draw(can,(entities[g].x)*32+entities[g].xSmall+txOffset, (entities[g].y)*32+entities[g].ySmall+yOffset)
 					}
 				}
 			}

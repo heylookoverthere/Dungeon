@@ -24,7 +24,7 @@ function editCursor()
 	this.linkingFrom=null;
 	this.grabbed=null; 
 	this.warpOpen=null;
-	this.enemyType=0;
+	this.enemyType=2;
 }
 
 editCursor.prototype.cycleLoot=function(up)
@@ -273,7 +273,7 @@ editCursor.prototype.click=function(m,mx,my)
 				
 			}else if(this.mode==editModes.Enemies)
 			{
-				var cuck=new entity(curDungeon.curRoom());
+				var cuck=new entity(curDungeon.curRoom(),this.enemyType);
 				cuck.x=this.x;
 				cuck.y=this.y;
 				entities.push(cuck);
@@ -377,11 +377,11 @@ editCursor.prototype.cycleEnemies=function(up)
 	if(up)
 	{
 		this.enemyType++;
-		if(this.enemyType>0) {this.enemyType=0;}
+		if(this.enemyType>3) {this.enemyType=2;}
 	}else
 	{
 		this.enemyType--;
-		if(this.enemyType<0) {this.enemyType=0;}
+		if(this.enemyType<2) {this.enemyType=3;}
 	}
 }
 
