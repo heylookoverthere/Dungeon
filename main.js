@@ -3373,7 +3373,32 @@ function mainUpdate()
 		
 		if(deletekey.check())
 		{	
-			if((editor.mode==editModes.Objects) ||(editor.mode==editModes.BuriedObjects))
+			
+			if(editor.mode==editModes.Enemies)
+			{
+				if(editor.grabbed)
+				{
+					bConsoleBox.log(editor.grabbed.name+" will be deleted. Confirm? (Y/N)","yellow");
+					editor.confirming=true;
+					editor.confirmingWhat=function()
+					{
+						for(var i=0;i<entities.length;i++)
+						{
+							if(entities[i]==editor.grabbed)
+							{
+								editor.grabbed.exists=false;
+								entities.splice(i,1);
+								i--;
+								editor.grabbed=null;
+							}
+						}
+					}
+					if(OPTIONS.confirmationPopUps)
+					{
+						popQuestion(editor.grabbed.name +" will be deleted. Confirm? (Y/N)");
+					}
+				}
+			}else if((editor.mode==editModes.Objects) ||(editor.mode==editModes.BuriedObjects))
 			{
 				if(shiftkey.checkDown())
 				{

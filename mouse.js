@@ -54,6 +54,19 @@ $(document).bind("contextmenu",function(e){
 							editor.grabbed=meg;
 						}
 					}
+				}else if(editor.mode==editModes.Enemies) 
+				{
+					if(editor.grabbed)
+					{
+						editor.grabbed=null;
+					}else
+					{
+						var meg=isOverTiledList(entities,32);
+						if(meg)
+						{
+							editor.grabbed=meg;
+						}
+					}
 				}else if(editor.mode==editModes.ChestLoot)
 				{
 					var meg=isOverTiledList(curDungeon.curRoom().objects,32);

@@ -692,6 +692,14 @@ function room(I) { //room object
 				return I.stairs[i];
 			}
 		}
+		for(var i=0;i<I.objects.length;i++)
+		{
+			if((I.objects[i].type=ObjectID.StairsUp) && (!I.objects[i].hidden))
+			{
+				return I.objects[i];
+			
+			}
+		}
 		return null;
 	};
 	

@@ -1759,7 +1759,7 @@ object.prototype.setup=function(id,par)
 				//this.aniRate=3;
 				this.curSprite=1;
 				var bumj= new explosionEffect(this.room);
-				bumj.setup(this.x-2,this.y-2,this.room);
+				bumj.setup(this.x-1,this.y-2,this.room);
 				bumj.numFrames=7;
 				bumj.type=1;
 				explosions.push(bumj);
@@ -1815,7 +1815,7 @@ object.prototype.setup=function(id,par)
 				this.curSprite=1;
 				//this.aniRate=3;
 				var bumj= new explosionEffect(this.room);
-				bumj.setup(this.x-2,this.y-2,this.room);
+				bumj.setup(this.x-1,this.y-2,this.room);
 				bumj.numFrames=7;
 				bumj.type=1;
 				this.hookable=false;

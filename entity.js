@@ -855,15 +855,21 @@ function entity(croom,play,smatp)
 	this.hp=35;
 	this.chaseTriggered=false;
 	this.maxHp=35;
-	this.floating=true;
+	this.floating=false;
+	if(play==2)
+	{
+		this.canFly=true;
+	}
 	if(play==1)
 	{
 		this.hp=100;
 		this.maxHp=100;
+		this.canFly=false;
 	}if(play==3)
 	{
 		this.hp=100;
 		this.maxHp=100;
+		this.canFly=true;
 	}
 	this.keys=0;
 	this.AI=2;
@@ -893,6 +899,7 @@ function entity(croom,play,smatp)
 	{
 		this.baseSpeed=4;
 		this.speed=4;
+		this.canFly=false;
 	}
 	this.team=1;
 	this.entity=true;
@@ -3038,11 +3045,11 @@ function entity(croom,play,smatp)
 		}*/
 		
 						
-		if((this.type==2) && (this.pecking>0))
+		if((this.type==2) && (this.pecking>0) && (this.gotHurt%2==0))
 		{
 			peckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
 			return;
-		}else if((this.type==3) && (this.pecking>0))
+		}else if((this.type==3) && (this.pecking>0)&& (this.gotHurt%2==0))
 		{
 			goldpeckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
 			return;
@@ -3638,6 +3645,21 @@ function entity(croom,play,smatp)
 		return false;
 	}
 	
+	this.move=function(x,y) //brings along what is needed (like the flame of the lamp)
+	{
+		this.x=x;
+		this.y=y;
+		this.homeX=this.x;
+		this.homeY=this.y;
+		this.xSmall=0;
+		this.ySmall=0;
+		this.underWater=false;
+		if((this.room.tiles[this.x][this.y].data>19) && (this.room.tiles[this.x][this.y].data<24))
+		{
+			this.underWater=true;
+		}
+	}
+	
 	this.update=function()
 	{
 		if ((this.AI==2) &&(!this.chaseTriggered))
@@ -3646,6 +3668,11 @@ function entity(croom,play,smatp)
 			{
 				this.chaseTriggered=true;
 			}
+		}
+		if(this.floating)
+		{
+			this.floating=false;
+			this.fallingY=0;
 		}
 		if(this.playingFlute)
 		{
@@ -4401,6 +4428,12 @@ function entity(croom,play,smatp)
 			}else if((this.room.isHole(this.x,this.y)) &&(!this.falling) &&(!this.jumping) && (!this.reeling))
 			{
 				var dontFall=false;
+				if(this.canFly)
+				{
+					dontFall=true;
+					this.floating=true;
+					this.fallingY=5;
+				}
 				if((this.reallyDashing) && (this.ignoreHole>0))
 				{
 					if((this.x==this.ignoreHoleX) && (this.y==this.ignoreHoleY))
