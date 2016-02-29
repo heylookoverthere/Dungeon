@@ -2725,7 +2725,7 @@ function entity(croom,play,smatp)
 			this.kill();
 		}else
 		{
-			this.gotHurt=60;
+			this.gotHurt=40;
 		}
 	}
 	
@@ -3045,11 +3045,11 @@ function entity(croom,play,smatp)
 		}*/
 		
 						
-		if((this.type==2) && (this.pecking>0) &&(this.alive)&& (this.gotHurt%2==0))
+		if((this.type==2) && (this.pecking>0) && (this.alive) && (!this.frozen) && (this.gotHurt%2==0))
 		{
 			peckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
 			return;
-		}else if((this.type==3) && (this.pecking>0)&&(this.alive)&& (this.gotHurt%2==0))
+		}else if((this.type==3) && (this.pecking>0) && (this.alive) && (!this.frozen) && (this.gotHurt%2==0))
 		{
 			goldpeckingSprites[this.dir].draw(can,this.x*32+this.xSmall+xOffset+this.shakeTrack,this.y*32+this.ySmall+yOffset-14-this.fallingY*2);			
 			return;
@@ -4883,7 +4883,7 @@ function entity(croom,play,smatp)
 					{
 						this.dir=0;
 					}
-					if(this.dir==0)
+					if((this.dir==0) && (!this.frozen))
 					{
 						this.ySmall-=this.speed;
 						if(this.animated)
@@ -4901,7 +4901,7 @@ function entity(croom,play,smatp)
 							
 							this.ySmall=SMALL_BREAK;
 						}
-					}else if(this.dir==2)
+					}else if((this.dir==2)&& (!this.frozen))
 					{
 						this.ySmall+=this.speed;
 						if(this.animated)
@@ -4918,7 +4918,7 @@ function entity(croom,play,smatp)
 							this.pathTrack++;
 							this.ySmall=-SMALL_BREAK;
 						}
-					}else if(this.dir==3)
+					}else if((this.dir==3) && (!this.frozen))
 					{
 						this.xSmall-=this.speed;
 						if(this.animated)
@@ -4935,7 +4935,7 @@ function entity(croom,play,smatp)
 							this.pathTrack++;
 							this.xSmall=SMALL_BREAK;
 						}
-					}else if(this.dir==1)
+					}else if((this.dir==1) && (!this.frozen))
 					{
 						this.xSmall+=this.speed;
 						if(this.animated)
