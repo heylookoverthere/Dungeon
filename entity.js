@@ -1114,9 +1114,9 @@ function entity(croom,play,smatp)
 		this.animated=true;
 		this.walkTrack=0;
 		this.walkFrames=2;
-		this.walkAniRate=25;
-		this.goalX=3;
-		this.goalY=3;
+		this.walkAniRate=5;
+		this.goalX=5;
+		this.goalY=5;
 		this.walkSprites[0].push(Sprite("entities/cucumber/up0"));
 		this.walkSprites[0].push(Sprite("entities/cucumber/up1"));
 		this.walkSprites[1].push(Sprite("entities/cucumber/right0"));
@@ -1128,7 +1128,7 @@ function entity(croom,play,smatp)
 
 	}else if(play==4)
 	{
-		this.walkSpeed=60;
+		this.walkSpeed=Math.floor(Math.random()*60);
 		this.animated=true;
 		this.walkTrack=0;
 		this.walkFrames=1;
@@ -4732,8 +4732,8 @@ function entity(croom,play,smatp)
 		{
 			if(!this.going)//((this.x==this.goalX) && (this.y==this.goalY)) //choose new dest.
 			{
-				this.goalX=Math.floor(Math.random()*18);
-				this.goalY=Math.floor(Math.random()*10);
+				this.goalX=Math.floor(Math.random()*16)+1;
+				this.goalY=Math.floor(Math.random()*10)+1;
 				this.go(this.goalX,this.goalY);
 				this.path.pop();
 			}/*else if(!this.going)
