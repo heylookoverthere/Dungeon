@@ -899,6 +899,7 @@ function entity(croom,play,smatp)
 	{
 		this.hp=100;
 		this.maxHp=100;
+		this.AI=5;
 		this.canFly=false;
 	}
 	this.x=4;
@@ -1114,6 +1115,8 @@ function entity(croom,play,smatp)
 		this.walkTrack=0;
 		this.walkFrames=2;
 		this.walkAniRate=25;
+		this.goalX=3;
+		this.goalY=3;
 		this.walkSprites[0].push(Sprite("entities/cucumber/up0"));
 		this.walkSprites[0].push(Sprite("entities/cucumber/up1"));
 		this.walkSprites[1].push(Sprite("entities/cucumber/right0"));
@@ -3727,12 +3730,16 @@ function entity(croom,play,smatp)
 	this.update=function()
 	{
 
-		if ((this.AI==2) &&(!this.chaseTriggered))
+		if ((this.AI>1) &&(!this.chaseTriggered))
 		{
 			if(this.sameRoom(miles))
 			{
 				this.chaseTriggered=true;
 			}
+		}
+		if(this.AI==5)//wander, don't chase.
+		{
+			
 		}
 		if(this.floating)
 		{
@@ -4254,7 +4261,7 @@ function entity(croom,play,smatp)
 		{
 			if(this.deathAniTrack>1) 
 			{
-				if(this.AI==2) {this.exists=false;}
+				if(this.AI>1) {this.exists=false;}
 				return;
 			}
 			this.aniCount++;
@@ -4721,6 +4728,19 @@ function entity(croom,play,smatp)
 			}else{
 				this.go(this.x-1,this.y);
 			}
+		}else if(this.AI==5) //wander. buzz on contact. //CHECK ROOM
+		{
+			if(!this.going)//((this.x==this.goalX) && (this.y==this.goalY)) //choose new dest.
+			{
+				this.goalX=Math.floor(Math.random()*18);
+				this.goalY=Math.floor(Math.random()*10);
+				this.go(this.goalX,this.goalY);
+				this.path.pop();
+			}/*else if(!this.going)
+			{
+				this.go(this.goalX,this.goalY);
+				this.path.pop();
+			}*/
 		}else if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
 		{
 			if((this.x!=miles.x) || (this.y!=miles.y))
