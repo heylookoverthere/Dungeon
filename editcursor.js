@@ -377,11 +377,11 @@ editCursor.prototype.cycleEnemies=function(up)
 	if(up)
 	{
 		this.enemyType++;
-		if(this.enemyType>3) {this.enemyType=2;}
+		if(this.enemyType>5) {this.enemyType=2;}
 	}else
 	{
 		this.enemyType--;
-		if(this.enemyType<2) {this.enemyType=3;}
+		if(this.enemyType<2) {this.enemyType=5;}
 	}
 }
 

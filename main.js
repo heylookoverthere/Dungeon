@@ -14,6 +14,8 @@ enemySprites.push(null);
 enemySprites.push(null);
 enemySprites.push(Sprite("entities/cucco/0"));
 enemySprites.push(Sprite("entities/goldcucco/0"));
+enemySprites.push(Sprite("entities/spider/0"));
+enemySprites.push(Sprite("entities/cucumber/0"));
 
 document.getElementById("mainSong").addEventListener('ended', function() { //loops music
 	this.currentTime = 0;

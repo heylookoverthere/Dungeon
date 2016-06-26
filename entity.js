@@ -451,6 +451,12 @@ function bomb(croom,isSuper)
 				}
 			}
 			
+			if((this.AI==4) && (this.jumping))
+			{
+				this.jumpSprite.draw(can,this.x*32+xoffh+this.xSmall,this.y*32+yoffh+this.ySmall-this.fallingY*2);
+				return;
+			}
+			
 			var millip= new Date().getTime();
 			var dex=0;
 			if(this.fallingY>0)
@@ -848,11 +854,20 @@ function entity(croom,play,smatp)
 	{
 		smatp="entities/goldcucco/";
 	}
+	if(play==4)
+	{
+		smatp="entities/spider/";
+	}
+	if(play==5)
+	{
+		smatp="entities/cucumber/";
+	}
 	this.playingSince=0;
 	this.playingTime=500;
 	this.playingFlute=false;
 	this.spritePath=smatp;
 	this.hp=35;
+	this.walkCount=0;
 	this.chaseTriggered=false;
 	this.maxHp=35;
 	this.floating=false;
@@ -873,6 +888,19 @@ function entity(croom,play,smatp)
 	}
 	this.keys=0;
 	this.AI=2;
+	if(play==4)
+	{
+		this.hp=40;
+		this.maxHp=40;
+		this.AI=4;
+		this.canFly=false;
+	}
+	if(play==5)//cucumber
+	{
+		this.hp=100;
+		this.maxHp=100;
+		this.canFly=false;
+	}
 	this.x=4;
 	this.y=3;
 	this.charged=false;
@@ -1078,6 +1106,39 @@ function entity(croom,play,smatp)
 		this.walkSprites[2].push(Sprite("entities/goldcucco/down1"));
 		this.walkSprites[3].push(Sprite("entities/goldcucco/left0"));
 		this.walkSprites[3].push(Sprite("entities/goldcucco/left1"));
+
+	}else if(play==5)
+	{
+		this.walkSpeed=200;
+		this.animated=true;
+		this.walkTrack=0;
+		this.walkFrames=2;
+		this.walkAniRate=25;
+		this.walkSprites[0].push(Sprite("entities/cucumber/up0"));
+		this.walkSprites[0].push(Sprite("entities/cucumber/up1"));
+		this.walkSprites[1].push(Sprite("entities/cucumber/right0"));
+		this.walkSprites[1].push(Sprite("entities/cucumber/right1"));
+		this.walkSprites[2].push(Sprite("entities/cucumber/down0"));
+		this.walkSprites[2].push(Sprite("entities/cucumber/down1"));
+		this.walkSprites[3].push(Sprite("entities/cucumber/left0"));
+		this.walkSprites[3].push(Sprite("entities/cucumber/left1"));
+
+	}else if(play==4)
+	{
+		this.walkSpeed=60;
+		this.animated=true;
+		this.walkTrack=0;
+		this.walkFrames=1;
+		this.walkAniRate=25;
+		this.jumpSprite=Sprite("entities/spider/2");
+		this.walkSprites[0].push(Sprite("entities/spider/0"));
+		this.walkSprites[0].push(Sprite("entities/spider/1"));
+		this.walkSprites[1].push(Sprite("entities/spider/0"));
+		this.walkSprites[1].push(Sprite("entities/spider/1"));
+		this.walkSprites[2].push(Sprite("entities/spider/0"));
+		this.walkSprites[2].push(Sprite("entities/spider/1"));
+		this.walkSprites[3].push(Sprite("entities/spider/0"));
+		this.walkSprites[3].push(Sprite("entities/spider/1"));
 
 	}else if(play==1)
 	{
@@ -2646,7 +2707,10 @@ function entity(croom,play,smatp)
 	{
 		if((this.jumping) || (!this.alive)) {return false;}
 		//do we even need dir? no jumping is just a status. 
-		playSound("jump");
+		if(this.isPlayer)
+		{
+			playSound("jump");
+		}
 		this.jumpStart=new Date().getTime(); 
 		this.fallingY=1;
 		this.jumping=true;
@@ -3662,6 +3726,7 @@ function entity(croom,play,smatp)
 	
 	this.update=function()
 	{
+
 		if ((this.AI==2) &&(!this.chaseTriggered))
 		{
 			if(this.sameRoom(miles))
@@ -4636,7 +4701,27 @@ function entity(croom,play,smatp)
 			
 			}			
 		}
-		if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
+	
+		if((this.AI==4) && (this.fallingY<1))//spider
+		{	
+			this.jumpTime=375; 
+			this.jumpDir=Math.floor(Math.random()*4); 
+			this.jump();
+		}else if(this.AI==4)
+		{
+			if(this.jumpDir==0)
+			{
+				this.go(this.x,this.y-1);
+			}else if(this.jumpDir==1)
+			{
+				this.go(this.x+1,this.y);
+			}else if(this.jumpDir==2)
+			{
+				this.go(this.x,this.y+1);
+			}else{
+				this.go(this.x-1,this.y);
+			}
+		}else if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
 		{
 			if((this.x!=miles.x) || (this.y!=miles.y))
 			{
@@ -4859,8 +4944,10 @@ function entity(croom,play,smatp)
 			}	
 
 		}
-		if(this.going)
+		this.walkCount++;
+		if((this.going) && (this.walkCount>this.walkSpeed))
 		{
+			this.walkCount=0;
 			this.stepping=false;
 			if(this.path)//if path. length==0, you're there. do function. 
 			{
