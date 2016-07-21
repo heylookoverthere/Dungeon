@@ -1,4 +1,4 @@
-var debugInfo=true;
+var debugInfo=false;
 var editMode=false;
 var drawingPath=false;
 var bullshitHack=true; //right click to link doors
@@ -383,7 +383,8 @@ function logControls()
 	bConsoleBox.log("Shift + Arrow/Page keys - Make or connect room in that direction");
 	bConsoleBox.log("W A S D - Move cursor");
 	bConsoleBox.log("Shift + W A S D - Remove door");
-	bConsoleBox.log("Delete - If an object is grabbed, deletes that object. Otherwise delete room");
+	bConsoleBox.log("Shift + Arrow key - create new room in that direction with doors");
+	bConsoleBox.log("Delete - In object mode, deletes that object. Otherwise delete room");
 	bConsoleBox.log("Shift + Delete - Delete floor");
 	bConsoleBox.log("Insert - Create Room");
 	bConsoleBox.log("0 - Toggle hidden room");
@@ -410,6 +411,25 @@ function logControls()
 	bConsoleBox.log("G  - Show map");
 	//bConsoleBox.log("Z - Undo");
 	bConsoleBox.log("Hit E to leave edit mode");
+}
+
+function logKeyboardControls()
+{
+
+	bConsoleBox.log("CONTROLS:","yellow");
+	bConsoleBox.log("W A S D - Move Link");
+	bConsoleBox.log("Up Arrow - Swing sword (if you have one)");
+	bConsoleBox.log("Down Arrow - Interact (open chest / pickup item / read sign etc.");
+	bConsoleBox.log("Right Arrow - Use Item 1 (if equipped)");
+	bConsoleBox.log("Left Arrow - Use Item 2 (if equipped)");
+	bConsoleBox.log("Shift - Cycle item 1");
+	bConsoleBox.log("/ - Cycle item 2");
+	bConsoleBox.log("V - Open Inventory");
+	bConsoleBox.log("G - Open Map");
+	bConsoleBox.log("M - Toggle music");
+	bConsoleBox.log("O - Options");
+
+	bConsoleBox.log("Hit E for edit mode");
 }
 
 bConsoleBox=new textbox();
@@ -446,7 +466,7 @@ bConsoleBox.y=18;
 bConsoleBox.x=18;
 bConsoleBox.lines=4;
 
-var dungname="testmap";
+var dungname="tutorial";
 
 
 
@@ -1761,7 +1781,7 @@ function menuDraw()
 function mainMenuDraw(){
 	canvas.fillStyle = "black";
 	canvas.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-	titlesprite.draw(canvas,0,0);
+	//titlesprite.draw(canvas,0,0);
 	canvas.fillStyle = "white";
 	canvas.font = "16pt Calibri";
 	//canvas.fillText("Press Enter",200,500);
@@ -2376,7 +2396,7 @@ function startGame(goolp,ploop)
 		//curDungeon.addFloor();
 	}else if(!ploop)
 	{
-		pungname=prompt("Enter name of dungeon to load","testmap");
+		pungname=prompt("Enter name of dungeon to load","tutorial");
 		if(pungname==null) {return;}
 		while (!acceptableName(pungname,true)) //doesn't exist
 		{
@@ -2461,6 +2481,7 @@ function starter()
 	
 	bConsoleBox.log("started");
 	bConsoleBox.log("Hit E for Edit Mode");
+	bConsoleBox.log("Hit H for controls");
 }
 
 
@@ -3354,7 +3375,18 @@ function mainUpdate()
 		
 		}
 	}
+	
+	if(!editMode)
+	{
+		if(letterkeys[7].check())
+		{
 		
+			//HELP
+			logKeyboardControls();
+
+		}
+	}
+	
 	if(editMode)
 	{
 		/*if(letterkeys[15].check())
@@ -3469,6 +3501,7 @@ function mainUpdate()
 					{
 						curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY]=new room();
 						curDungeon.rooms[curDungeon.roomZ][curDungeon.roomX][curDungeon.roomY].active=false;
+						curDungeon.numRooms--;
 						var bactive=false;
 						for(var i=0;i<15;i++)
 						{
@@ -3998,7 +4031,7 @@ function mainUpdate()
 				//console.log("L trigger")
 				miles.cycleEquipped(true,false);
 			}
-			if((!miles.busyHook) && (!miles.holding) && (!miles.playingFlute)&& (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
+			if((!miles.busyHook) && (!miles.holding) && (!miles.playingFlute)&& (!miles.dashing) && (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)&& (!miles.shocked)))
 			{
 				if(controller.checkUp())
 				{
@@ -4162,6 +4195,9 @@ function mainUpdate()
 						miles.spinAttack();
 					}
 				}
+			}else if (miles.swimming)
+			{
+				miles.poking=false;
 			}
 			if(SNESYKey.check())
 			{
@@ -4183,7 +4219,7 @@ function mainUpdate()
 				//console.log("L")
 				miles.cycleEquipped(true,true);
 			}
-			if((!miles.busyHook) &&(!miles.holding) && (!miles.playingFlute)&& (!miles.dashing)&& (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen)))
+			if((!miles.busyHook) &&(!miles.holding) && (!miles.playingFlute)&& (!miles.dashing)&& (!((miles.swimming) && (!miles.canSwim))&& (!miles.frozen) && (!miles.shocked)))
 			{
 				if(SNESUpKey.checkDown())
 				{
@@ -4533,6 +4569,7 @@ function mainUpdate()
 };
 
 merp();
+/*
 var tt="Indiana Jones and the Mystery of the missing title";
 var yui=Math.floor(Math.random()*10);
 if (yui==0){
@@ -4558,7 +4595,7 @@ if (yui==0){
 }else if (yui==9){
 	tt="Indiana Jones and Case of the Hepatitis C";
 }
-document.title = tt;
+document.title = tt;*/
 //curDungeon.createRoom(curDungeon.roomZ,curDungeon.roomX,curDungeon.roomY);
 
 //curDungeon.linkDoors();

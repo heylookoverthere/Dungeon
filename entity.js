@@ -2786,7 +2786,10 @@ function entity(croom,play,smatp)
 		if(this.diving) {return;}
 		if(this.gotHurt>0) {return;}
 		this.hp-=dmg;
-		playSound("playerhurt");
+		if(this.isPlayer)
+		{
+			playSound("playerhurt");
+		}
 		if (this.hp<1) 
 		{
 			this.kill();
@@ -3651,6 +3654,18 @@ function entity(croom,play,smatp)
 		return null;
 	}
 	
+	this.shock=function(dur)
+	{
+		this.shocked=dur;
+		if(!dur)
+		{
+			this.shocked=500;
+		}
+		this.shockedAt=new Date().getTime();
+		playSound("shock");
+		
+	}
+	
 	this.freeze=function(dur)
 	{
 		this.frozen=dur;
@@ -3788,6 +3803,15 @@ function entity(croom,play,smatp)
 			if(plopl-this.frozenAt>this.frozen)
 			{
 				this.unfreeze();
+			}
+		}
+		if(this.shocked)
+		{
+			var plopl=new Date().getTime();
+			if(plopl-this.shockedAt>this.shocked)
+			{
+				//this.unfreeze();
+				this.shocked=0;
 			}
 		}
 		if (this.RumHam)
@@ -4224,7 +4248,13 @@ function entity(croom,play,smatp)
 						{
 							if((this.team!=entities[i].team) || (OPTIONS.FriendlyFire))
 							{
-								entities[i].hurt(this.swordDamage/2);
+								if(entities[i].AI==5)
+								{
+									this.shock();
+								}else
+								{
+									entities[i].hurt(this.swordDamage/2);
+								}
 							}
 						}
 					}
@@ -4728,6 +4758,16 @@ function entity(croom,play,smatp)
 			}else{
 				this.go(this.x-1,this.y);
 			}
+			if(this.pecking>0)
+			{
+				this.pecking--;
+			}else if((this.peckingRange(miles)) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))
+			{
+				miles.hurt(10);
+				//playSound("cluck");
+				this.pecking=10;
+				//knockback? 
+			}
 		}else if(this.AI==5) //wander. buzz on contact. //CHECK ROOM
 		{
 			if(!this.going)//((this.x==this.goalX) && (this.y==this.goalY)) //choose new dest.
@@ -4741,6 +4781,16 @@ function entity(croom,play,smatp)
 				this.go(this.goalX,this.goalY);
 				this.path.pop();
 			}*/
+			if(this.pecking>0)
+			{
+				this.pecking--;
+			}else if((this.peckingRange(miles)) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))
+			{
+				miles.hurt(10);
+				//playSound("cluck");
+				this.pecking=10;
+				//knockback? 
+			}
 		}else if((this.AI==2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
 		{
 			if((this.x!=miles.x) || (this.y!=miles.y))
@@ -4755,6 +4805,19 @@ function entity(croom,play,smatp)
 			{
 				miles.hurt(10);
 				playSound("cluck");
+				this.pecking=10;
+				//knockback? 
+			}
+		}else if((this.AI>2) && (this.room.x==miles.room.x)&& (this.room.y==miles.room.y)&& (this.room.z==miles.room.z)&& (!this.frozen) && (!miles.invisible)&& (miles.alive))//basic run into player to hurt him AI.
+		{
+			
+			if(this.pecking>0)
+			{
+				this.pecking--;
+			}else if(this.peckingRange(miles))
+			{
+				miles.hurt(10);
+				//playSound("cluck");
 				this.pecking=10;
 				//knockback? 
 			}
@@ -4990,7 +5053,7 @@ function entity(croom,play,smatp)
 					{
 						this.dir=0;
 					}
-					if((this.dir==0) && (!this.frozen))
+					if((this.dir==0) && (!this.frozen) && (!this.shocked))
 					{
 						this.ySmall-=this.speed;
 						if(this.animated)
@@ -5008,7 +5071,7 @@ function entity(croom,play,smatp)
 							
 							this.ySmall=SMALL_BREAK;
 						}
-					}else if((this.dir==2)&& (!this.frozen))
+					}else if((this.dir==2)&& (!this.frozen) && (!this.shocked))
 					{
 						this.ySmall+=this.speed;
 						if(this.animated)
@@ -5025,7 +5088,7 @@ function entity(croom,play,smatp)
 							this.pathTrack++;
 							this.ySmall=-SMALL_BREAK;
 						}
-					}else if((this.dir==3) && (!this.frozen))
+					}else if((this.dir==3) && (!this.frozen) && (!this.shocked))
 					{
 						this.xSmall-=this.speed;
 						if(this.animated)
